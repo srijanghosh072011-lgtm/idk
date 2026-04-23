@@ -1,0 +1,815 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="{Client Name} — {City}'s trusted plumbing and HVAC experts. Licensed, insured, 24/7 emergency service with upfront pricing." />
+  <title>{Client Name} — {City} Plumbing &amp; HVAC Experts</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { 50:'#EAF2FD', 100:'#D6E6FB', 500:'#1E73E8', 700:'#0B3B8C', 900:'#0A2A6E' },
+            accent:{ 400:'#FBBF24', 500:'#F59E0B', 600:'#D97706' },
+            ink:   { 600:'#475569', 800:'#1E293B', 900:'#0F172A' },
+          },
+          fontFamily: {
+            display: ['"Plus Jakarta Sans"','ui-sans-serif','system-ui','sans-serif'],
+            sans:    ['Inter','ui-sans-serif','system-ui','sans-serif'],
+          },
+          boxShadow: {
+            soft: '0 10px 30px -10px rgba(10, 42, 110, 0.18)',
+            card: '0 4px 16px -4px rgba(10, 42, 110, 0.12)',
+            lift: '0 20px 40px -12px rgba(10, 42, 110, 0.25)',
+          },
+          backgroundImage: {
+            'hero-gradient': 'linear-gradient(135deg, #0A2A6E 0%, #0B3B8C 45%, #1E73E8 100%)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; color:#0F172A; background:#F8FAFC; }
+    h1,h2,h3,h4,h5 { font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif; letter-spacing:-0.02em; }
+    .dot-pattern { background-image: radial-gradient(rgba(255,255,255,0.12) 1px, transparent 1px); background-size: 22px 22px; }
+    details > summary { list-style: none; cursor: pointer; }
+    details > summary::-webkit-details-marker { display: none; }
+    details[open] .faq-chevron { transform: rotate(180deg); }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body class="antialiased">
+  <!--
+    TOKENS (find-and-replace to personalize):
+      {Client Name}   e.g. Blue Prairie Plumbing
+      {City}          e.g. Regina
+      {Region}        e.g. Saskatchewan
+      {Phone}         display phone,  e.g. (306) 555-0123
+      {PhoneRaw}      tel link target, e.g. 3065550123
+      {Email}         contact email,   e.g. info@example.com
+      {Address}       street address
+      {Hours}         e.g. Mon–Fri 7am–7pm · 24/7 Emergency
+      {Years}         years in business
+      {Jobs}          total jobs completed
+      {License}       license number
+  -->
+
+  <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:bg-brand-700 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg">Skip to content</a>
+
+  <!-- START: TOP UTILITY BAR -->
+  <div class="bg-brand-900 text-white text-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-10 flex items-center justify-between">
+      <a href="tel:{PhoneRaw}" class="flex items-center gap-2 hover:text-accent-400 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <span class="hidden sm:inline font-medium">Need help? Call</span>
+        <span class="font-semibold">{Phone}</span>
+      </a>
+      <div class="flex items-center gap-4">
+        <span class="hidden md:inline-flex items-center gap-1.5 text-accent-400 font-semibold">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg>
+          24/7 Emergency Service
+        </span>
+        <div class="flex items-center gap-2">
+          <a href="#" aria-label="Facebook" class="hover:text-accent-400 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99h-2.54V12h2.54V9.8c0-2.51 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 2.89h-2.33v6.99A10 10 0 0 0 22 12z"/></svg>
+          </a>
+          <a href="#" aria-label="Instagram" class="hover:text-accent-400 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END: TOP UTILITY BAR -->
+
+  <!-- START: NAV -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 py-3 flex items-center justify-between gap-6">
+      <a href="index.html" class="flex items-center gap-2.5 group" aria-label="{Client Name} home">
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-brand-700 text-white shadow-card group-hover:scale-105 transition-transform">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94z"/></svg>
+        </span>
+        <span class="font-display font-extrabold text-lg md:text-xl tracking-tight text-brand-900">{Client Name}</span>
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-1" aria-label="Primary">
+        <a href="index.html" class="px-3 py-2 text-sm font-semibold text-brand-700 hover:text-brand-900 hover:bg-brand-50 rounded-lg transition-colors">Home</a>
+        <a href="services.html" class="px-3 py-2 text-sm font-semibold text-ink-800 hover:text-brand-700 hover:bg-brand-50 rounded-lg transition-colors">Services</a>
+        <a href="about.html" class="px-3 py-2 text-sm font-semibold text-ink-800 hover:text-brand-700 hover:bg-brand-50 rounded-lg transition-colors">About</a>
+        <a href="contact.html" class="px-3 py-2 text-sm font-semibold text-ink-800 hover:text-brand-700 hover:bg-brand-50 rounded-lg transition-colors">Contact</a>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <a href="tel:{PhoneRaw}" class="hidden md:inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold text-brand-700 hover:bg-brand-50 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          {Phone}
+        </a>
+        <a href="contact.html#book" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-bold bg-accent-500 text-brand-900 hover:bg-accent-400 shadow-card hover:shadow-lift transition-all cursor-pointer">
+          Book Now
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <button type="button" data-menu-toggle aria-label="Open menu" aria-controls="mobile-menu" aria-expanded="false" class="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-lg text-brand-900 hover:bg-brand-50 transition-colors cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <!-- END: NAV -->
+
+  <!-- START: MOBILE MENU -->
+  <div id="mobile-menu" aria-hidden="true" class="fixed inset-0 z-50 lg:hidden pointer-events-none">
+    <div data-menu-close class="absolute inset-0 bg-brand-900/60 opacity-0 transition-opacity duration-200"></div>
+    <aside class="absolute right-0 top-0 h-full w-[85%] max-w-sm bg-white shadow-2xl translate-x-full transition-transform duration-300 ease-out flex flex-col">
+      <div class="flex items-center justify-between p-5 border-b border-slate-200">
+        <span class="font-display font-extrabold text-lg text-brand-900">Menu</span>
+        <button type="button" data-menu-close aria-label="Close menu" class="inline-flex items-center justify-center w-10 h-10 rounded-lg hover:bg-brand-50 cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <nav class="flex-1 p-5 space-y-1" aria-label="Mobile">
+        <a href="index.html" class="block px-4 py-3 rounded-lg text-base font-semibold text-brand-700 bg-brand-50">Home</a>
+        <a href="services.html" class="block px-4 py-3 rounded-lg text-base font-semibold text-ink-800 hover:bg-brand-50 hover:text-brand-700">Services</a>
+        <a href="about.html" class="block px-4 py-3 rounded-lg text-base font-semibold text-ink-800 hover:bg-brand-50 hover:text-brand-700">About</a>
+        <a href="contact.html" class="block px-4 py-3 rounded-lg text-base font-semibold text-ink-800 hover:bg-brand-50 hover:text-brand-700">Contact</a>
+      </nav>
+      <div class="p-5 border-t border-slate-200 space-y-2">
+        <a href="tel:{PhoneRaw}" class="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg font-semibold border-2 border-brand-700 text-brand-700 hover:bg-brand-50">Call {Phone}</a>
+        <a href="contact.html#book" class="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg font-bold bg-accent-500 text-brand-900 hover:bg-accent-400">Book Now</a>
+      </div>
+    </aside>
+  </div>
+  <!-- END: MOBILE MENU -->
+
+  <main id="main">
+
+    <!-- START: HERO -->
+    <section class="relative bg-hero-gradient text-white overflow-hidden">
+      <div class="absolute inset-0 dot-pattern opacity-60" aria-hidden="true"></div>
+      <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-brand-500/30 blur-3xl" aria-hidden="true"></div>
+      <div class="absolute -bottom-24 -left-24 w-96 h-96 rounded-full bg-accent-500/20 blur-3xl" aria-hidden="true"></div>
+
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20 lg:py-24 grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+        <div class="lg:col-span-7">
+          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs sm:text-sm font-semibold backdrop-blur">
+            <span class="w-2 h-2 rounded-full bg-accent-400 animate-pulse"></span>
+            Available 24/7 · Same-Day Service
+          </span>
+
+          <h1 class="mt-5 font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl leading-[1.05]">
+            {City}'s Trusted<br />
+            <span class="text-accent-400">Plumbing &amp; HVAC</span><br />
+            Experts.
+          </h1>
+
+          <p class="mt-5 text-lg sm:text-xl text-brand-50/90 max-w-xl">
+            Burst pipe? Broken furnace? No hot water? Our licensed technicians are on the way — with upfront pricing and a 100% satisfaction guarantee.
+          </p>
+
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="contact.html#book" class="inline-flex items-center gap-2 px-6 py-4 rounded-xl bg-accent-500 text-brand-900 font-bold text-base hover:bg-accent-400 shadow-lift transition-all cursor-pointer">
+              Book Online
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
+            <a href="tel:{PhoneRaw}" class="inline-flex items-center gap-2 px-6 py-4 rounded-xl bg-white/10 hover:bg-white/20 border border-white/25 text-white font-semibold text-base backdrop-blur transition-colors cursor-pointer">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              Call {Phone}
+            </a>
+          </div>
+
+          <div class="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 text-sm">
+            <div class="flex items-center gap-2">
+              <div class="flex text-accent-400" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+              <span class="font-semibold">4.9 / 5 on Google</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-accent-400"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              <span class="font-semibold">Licensed &amp; Insured</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-accent-400"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span class="font-semibold">{Years}+ Years Serving {City}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 relative">
+          <div class="relative rounded-3xl overflow-hidden shadow-lift ring-1 ring-white/20 rotate-1 hover:rotate-0 transition-transform duration-500">
+            <img src="https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=900&q=80" alt="Licensed plumber working on a pipe fitting" width="900" height="1100" loading="eager" class="w-full h-[420px] md:h-[520px] object-cover" />
+            <div class="absolute inset-x-0 bottom-0 p-5 bg-gradient-to-t from-brand-900/90 to-transparent">
+              <div class="flex items-center gap-3 text-white">
+                <div class="w-11 h-11 rounded-full bg-accent-500 text-brand-900 grid place-items-center font-bold">M</div>
+                <div class="text-sm">
+                  <p class="font-semibold">Mike, Master Plumber</p>
+                  <p class="text-white/70">Ticketed · Red Seal Certified</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="hidden md:flex absolute -left-6 -bottom-6 bg-white rounded-2xl shadow-lift p-4 items-center gap-3 max-w-[220px]">
+            <div class="w-12 h-12 rounded-xl bg-brand-50 text-brand-700 grid place-items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M20 6 9 17l-5-5"/></svg>
+            </div>
+            <div>
+              <p class="text-xs font-semibold text-ink-600">Jobs completed</p>
+              <p class="font-display font-extrabold text-xl text-brand-900">{Jobs}+</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 80" preserveAspectRatio="none" class="block w-full h-12 md:h-16 text-[#F8FAFC]" aria-hidden="true"><path fill="currentColor" d="M0,48L80,42.7C160,37,320,27,480,32C640,37,800,59,960,64C1120,69,1280,59,1360,53.3L1440,48L1440,80L0,80Z"/></svg>
+    </section>
+    <!-- END: HERO -->
+
+    <!-- START: TRUST STRIP -->
+    <section class="bg-[#F8FAFC] -mt-1">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
+          <li class="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-white border border-slate-200 shadow-card">
+            <span class="text-brand-700"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+            <span class="text-sm font-semibold text-ink-900">Licensed &amp; Insured</span>
+          </li>
+          <li class="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-white border border-slate-200 shadow-card">
+            <span class="text-brand-700"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+            <span class="text-sm font-semibold text-ink-900">24/7 Emergency</span>
+          </li>
+          <li class="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-white border border-slate-200 shadow-card">
+            <span class="text-brand-700"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><circle cx="12" cy="12" r="10"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 1.5-2.5 2-2.5 4"/><line x1="12" y1="17" x2="12" y2="17.01"/></svg></span>
+            <span class="text-sm font-semibold text-ink-900">Upfront Pricing</span>
+          </li>
+          <li class="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-white border border-slate-200 shadow-card">
+            <span class="text-brand-700"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M20 6 9 17l-5-5"/></svg></span>
+            <span class="text-sm font-semibold text-ink-900">Satisfaction Guaranteed</span>
+          </li>
+          <li class="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-white border border-slate-200 shadow-card col-span-2 md:col-span-3 lg:col-span-1">
+            <span class="text-brand-700"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg></span>
+            <span class="text-sm font-semibold text-ink-900">Same-Day Service</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+    <!-- END: TRUST STRIP -->
+
+    <!-- START: SERVICES GRID -->
+    <section class="bg-[#F8FAFC] py-16 md:py-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl">
+          <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-700">
+            <span class="w-8 h-0.5 bg-accent-500"></span> Our Services
+          </span>
+          <h2 class="mt-3 font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-brand-900">Full-service plumbing, heating &amp; cooling.</h2>
+          <p class="mt-4 text-lg text-ink-600">From dripping taps to whole-home HVAC installs — {Client Name} is your one-call solution across {City} and the surrounding region.</p>
+        </div>
+
+        <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+          <a href="services.html#emergency" class="group bg-white rounded-2xl p-6 border border-slate-200 hover:border-brand-500 hover:shadow-lift transition-all cursor-pointer">
+            <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brand-50 text-brand-700 group-hover:bg-brand-700 group-hover:text-white transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg>
+            </span>
+            <h3 class="mt-5 font-display font-bold text-lg text-brand-900">Emergency Plumbing</h3>
+            <p class="mt-2 text-sm text-ink-600">Burst pipes, floods, backflow — we dispatch fast, day or night.</p>
+            <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-700 group-hover:gap-2 transition-all">Learn more <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          </a>
+
+          <a href="services.html#drains" class="group bg-white rounded-2xl p-6 border border-slate-200 hover:border-brand-500 hover:shadow-lift transition-all cursor-pointer">
+            <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brand-50 text-brand-700 group-hover:bg-brand-700 group-hover:text-white transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M12 2s5 5.5 5 10a5 5 0 0 1-10 0c0-4.5 5-10 5-10z"/></svg>
+            </span>
+            <h3 class="mt-5 font-display font-bold text-lg text-brand-900">Blocked Drains</h3>
+            <p class="mt-2 text-sm text-ink-600">Hydro-jetting, camera inspection, root removal — clear drains, fast.</p>
+            <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-700 group-hover:gap-2 transition-all">Learn more <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          </a>
+
+          <a href="services.html#hotwater" class="group bg-white rounded-2xl p-6 border border-slate-200 hover:border-brand-500 hover:shadow-lift transition-all cursor-pointer">
+            <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brand-50 text-brand-700 group-hover:bg-brand-700 group-hover:text-white transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M8 22h8"/><path d="M12 11v11"/><path d="M5 4h14l-1 7H6z"/><path d="M9 4V2h6v2"/></svg>
+            </span>
+            <h3 class="mt-5 font-display font-bold text-lg text-brand-900">Hot Water Systems</h3>
+            <p class="mt-2 text-sm text-ink-600">Tank &amp; tankless water heaters — repair, replace, install.</p>
+            <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-700 group-hover:gap-2 transition-all">Learn more <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          </a>
+
+          <a href="services.html#gas" class="group bg-white rounded-2xl p-6 border border-slate-200 hover:border-brand-500 hover:shadow-lift transition-all cursor-pointer">
+            <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brand-50 text-brand-700 group-hover:bg-brand-700 group-hover:text-white transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+            </span>
+            <h3 class="mt-5 font-display font-bold text-lg text-brand-900">Gas Fitting</h3>
+            <p class="mt-2 text-sm text-ink-600">Certified gas line installs, leak detection &amp; appliance hook-ups.</p>
+            <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-700 group-hover:gap-2 transition-all">Learn more <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          </a>
+
+          <a href="services.html#furnace" class="group bg-white rounded-2xl p-6 border border-slate-200 hover:border-brand-500 hover:shadow-lift transition-all cursor-pointer">
+            <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brand-50 text-brand-700 group-hover:bg-brand-700 group-hover:text-white transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="4" y1="10" x2="20" y2="10"/><circle cx="8" cy="6" r="1"/><circle cx="12" cy="6" r="1"/><path d="M9 15h6"/><path d="M9 19h6"/></svg>
+            </span>
+            <h3 class="mt-5 font-display font-bold text-lg text-brand-900">Furnaces</h3>
+            <p class="mt-2 text-sm text-ink-600">High-efficiency furnace repair &amp; installation. SaskEnergy rebates.</p>
+            <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-700 group-hover:gap-2 transition-all">Learn more <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          </a>
+
+          <a href="services.html#ac" class="group bg-white rounded-2xl p-6 border border-slate-200 hover:border-brand-500 hover:shadow-lift transition-all cursor-pointer">
+            <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brand-50 text-brand-700 group-hover:bg-brand-700 group-hover:text-white transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M12 2v20"/><path d="M4.93 4.93l14.14 14.14"/><path d="M19.07 4.93 4.93 19.07"/><path d="M2 12h20"/></svg>
+            </span>
+            <h3 class="mt-5 font-display font-bold text-lg text-brand-900">Air Conditioning</h3>
+            <p class="mt-2 text-sm text-ink-600">AC repair, install &amp; maintenance. Central and ductless systems.</p>
+            <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-700 group-hover:gap-2 transition-all">Learn more <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          </a>
+
+          <a href="services.html#heatpumps" class="group bg-white rounded-2xl p-6 border border-slate-200 hover:border-brand-500 hover:shadow-lift transition-all cursor-pointer">
+            <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brand-50 text-brand-700 group-hover:bg-brand-700 group-hover:text-white transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="3" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="21"/><line x1="3" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="21" y2="12"/></svg>
+            </span>
+            <h3 class="mt-5 font-display font-bold text-lg text-brand-900">Heat Pumps &amp; Ductless</h3>
+            <p class="mt-2 text-sm text-ink-600">Energy-efficient heating &amp; cooling in one unit. Zoned comfort.</p>
+            <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-700 group-hover:gap-2 transition-all">Learn more <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          </a>
+
+          <a href="services.html#softeners" class="group bg-white rounded-2xl p-6 border border-slate-200 hover:border-brand-500 hover:shadow-lift transition-all cursor-pointer">
+            <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brand-50 text-brand-700 group-hover:bg-brand-700 group-hover:text-white transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M12 2v6"/><path d="M7 8a5 5 0 0 0 10 0"/><path d="M5 22h14l-2-10H7z"/></svg>
+            </span>
+            <h3 class="mt-5 font-display font-bold text-lg text-brand-900">Water Softeners</h3>
+            <p class="mt-2 text-sm text-ink-600">Cleaner, softer water for your whole home. Treatment systems &amp; filters.</p>
+            <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-700 group-hover:gap-2 transition-all">Learn more <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          </a>
+
+        </div>
+
+        <div class="mt-10 text-center">
+          <a href="services.html" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-brand-700 text-brand-700 font-bold hover:bg-brand-700 hover:text-white transition-colors cursor-pointer">
+            View All Services
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+    <!-- END: SERVICES GRID -->
+
+    <!-- START: WHY CHOOSE US -->
+    <section class="bg-white py-16 md:py-24 relative overflow-hidden">
+      <div class="absolute top-0 right-0 w-[520px] h-[520px] rounded-full bg-brand-50 blur-3xl opacity-70" aria-hidden="true"></div>
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-10 items-center">
+
+        <div class="lg:col-span-5">
+          <div class="relative">
+            <div class="rounded-3xl overflow-hidden shadow-lift">
+              <img src="https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=800&q=80" alt="HVAC technician inspecting a home furnace" width="800" height="900" loading="lazy" class="w-full h-[460px] object-cover" />
+            </div>
+            <div class="absolute -right-4 -bottom-6 bg-white rounded-2xl shadow-lift p-5 flex items-center gap-4 max-w-[260px]">
+              <div class="flex -space-x-2">
+                <div class="w-10 h-10 rounded-full bg-brand-500 ring-2 ring-white grid place-items-center text-white text-xs font-bold">AB</div>
+                <div class="w-10 h-10 rounded-full bg-brand-700 ring-2 ring-white grid place-items-center text-white text-xs font-bold">CD</div>
+                <div class="w-10 h-10 rounded-full bg-accent-500 ring-2 ring-white grid place-items-center text-brand-900 text-xs font-bold">EF</div>
+              </div>
+              <div>
+                <p class="font-display font-extrabold text-xl text-brand-900">{Jobs}+</p>
+                <p class="text-xs text-ink-600 font-semibold">Happy customers</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7">
+          <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-700">
+            <span class="w-8 h-0.5 bg-accent-500"></span> Why {Client Name}
+          </span>
+          <h2 class="mt-3 font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-brand-900">No surprises. Just reliable work, done right.</h2>
+          <p class="mt-4 text-lg text-ink-600 max-w-xl">We've spent {Years}+ years earning a reputation as {City}'s most-recommended plumbing &amp; HVAC team. Here's what keeps our customers calling back.</p>
+
+          <ul class="mt-8 grid sm:grid-cols-2 gap-5">
+            <li class="flex gap-4">
+              <span class="shrink-0 w-12 h-12 rounded-xl bg-brand-700 text-white grid place-items-center shadow-card">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              </span>
+              <div>
+                <h3 class="font-display font-bold text-lg text-brand-900">Licensed Technicians</h3>
+                <p class="mt-1 text-sm text-ink-600">Red-Seal-ticketed pros. Fully insured, background-checked, uniformed.</p>
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <span class="shrink-0 w-12 h-12 rounded-xl bg-brand-700 text-white grid place-items-center shadow-card">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </span>
+              <div>
+                <h3 class="font-display font-bold text-lg text-brand-900">Upfront Pricing</h3>
+                <p class="mt-1 text-sm text-ink-600">You approve the quote before we start. No surprise add-ons, ever.</p>
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <span class="shrink-0 w-12 h-12 rounded-xl bg-brand-700 text-white grid place-items-center shadow-card">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </span>
+              <div>
+                <h3 class="font-display font-bold text-lg text-brand-900">Fast Response</h3>
+                <p class="mt-1 text-sm text-ink-600">Same-day bookings and 24/7 emergency dispatch across {City}.</p>
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <span class="shrink-0 w-12 h-12 rounded-xl bg-brand-700 text-white grid place-items-center shadow-card">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M20 6 9 17l-5-5"/></svg>
+              </span>
+              <div>
+                <h3 class="font-display font-bold text-lg text-brand-900">100% Guarantee</h3>
+                <p class="mt-1 text-sm text-ink-600">If you're not satisfied with the job, we'll make it right — period.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+    <!-- END: WHY CHOOSE US -->
+
+    <!-- START: HOW IT WORKS -->
+    <section class="bg-brand-50 py-16 md:py-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto">
+          <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-700">
+            <span class="w-8 h-0.5 bg-accent-500"></span> How It Works <span class="w-8 h-0.5 bg-accent-500"></span>
+          </span>
+          <h2 class="mt-3 font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-brand-900">Fixed in three easy steps.</h2>
+          <p class="mt-4 text-lg text-ink-600">From first call to final flush — we keep it simple.</p>
+        </div>
+
+        <ol class="mt-12 grid md:grid-cols-3 gap-6 relative">
+          <li class="relative bg-white rounded-2xl p-8 shadow-card hover:shadow-lift transition-shadow">
+            <div class="flex items-center gap-4">
+              <span class="font-display font-extrabold text-5xl text-brand-50">01</span>
+              <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brand-700 text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </span>
+            </div>
+            <h3 class="mt-4 font-display font-bold text-xl text-brand-900">Book online or call</h3>
+            <p class="mt-2 text-sm text-ink-600">Tell us what's wrong. We'll book a time that suits you — same day if urgent.</p>
+          </li>
+          <li class="relative bg-white rounded-2xl p-8 shadow-card hover:shadow-lift transition-shadow">
+            <div class="flex items-center gap-4">
+              <span class="font-display font-extrabold text-5xl text-brand-50">02</span>
+              <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brand-700 text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              </span>
+            </div>
+            <h3 class="mt-4 font-display font-bold text-xl text-brand-900">Diagnose &amp; quote</h3>
+            <p class="mt-2 text-sm text-ink-600">Our tech inspects, explains the options, and gives you a flat price up-front.</p>
+          </li>
+          <li class="relative bg-white rounded-2xl p-8 shadow-card hover:shadow-lift transition-shadow">
+            <div class="flex items-center gap-4">
+              <span class="font-display font-extrabold text-5xl text-brand-50">03</span>
+              <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-accent-500 text-brand-900">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M20 6 9 17l-5-5"/></svg>
+              </span>
+            </div>
+            <h3 class="mt-4 font-display font-bold text-xl text-brand-900">Fixed &amp; guaranteed</h3>
+            <p class="mt-2 text-sm text-ink-600">We do the work, clean up, and back it with a satisfaction guarantee.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+    <!-- END: HOW IT WORKS -->
+
+    <!-- START: REVIEWS -->
+    <section class="bg-white py-16 md:py-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+          <div class="max-w-2xl">
+            <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-700">
+              <span class="w-8 h-0.5 bg-accent-500"></span> Reviews
+            </span>
+            <h2 class="mt-3 font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-brand-900">Rated 4.9 / 5 by locals.</h2>
+            <p class="mt-4 text-lg text-ink-600">Real reviews from real {City} customers. Nothing makes us prouder.</p>
+          </div>
+          <div class="flex items-center gap-3 bg-brand-50 border border-brand-100 rounded-2xl p-4">
+            <div class="flex text-accent-500" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <div class="text-sm">
+              <p class="font-bold text-brand-900">4.9 average</p>
+              <p class="text-ink-600">Based on 400+ Google reviews</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-10 grid md:grid-cols-3 gap-6">
+          <figure class="bg-brand-50 rounded-2xl p-6 border border-brand-100 hover:shadow-card transition-shadow">
+            <div class="flex text-accent-500" aria-label="5 out of 5 stars">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <blockquote class="mt-4 text-ink-900">
+              <p>"Called at 10pm on a Sunday with a leaking pipe — a tech was here in under an hour. Fair price, super friendly, and they cleaned up after themselves. Hard to find service like this anymore."</p>
+            </blockquote>
+            <figcaption class="mt-5 flex items-center gap-3">
+              <div class="w-11 h-11 rounded-full bg-brand-700 text-white grid place-items-center font-bold">SJ</div>
+              <div>
+                <p class="font-semibold text-brand-900 text-sm">Sarah J.</p>
+                <p class="text-xs text-ink-600">{City} · Emergency Plumbing</p>
+              </div>
+            </figcaption>
+          </figure>
+
+          <figure class="bg-brand-50 rounded-2xl p-6 border border-brand-100 hover:shadow-card transition-shadow">
+            <div class="flex text-accent-500" aria-label="5 out of 5 stars">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <blockquote class="mt-4 text-ink-900">
+              <p>"{Client Name} replaced our old furnace with a high-efficiency unit. They walked us through the rebate paperwork and finished the install in one day. House has never been warmer."</p>
+            </blockquote>
+            <figcaption class="mt-5 flex items-center gap-3">
+              <div class="w-11 h-11 rounded-full bg-accent-500 text-brand-900 grid place-items-center font-bold">DM</div>
+              <div>
+                <p class="font-semibold text-brand-900 text-sm">Dave M.</p>
+                <p class="text-xs text-ink-600">White City · Furnace Install</p>
+              </div>
+            </figcaption>
+          </figure>
+
+          <figure class="bg-brand-50 rounded-2xl p-6 border border-brand-100 hover:shadow-card transition-shadow">
+            <div class="flex text-accent-500" aria-label="5 out of 5 stars">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <blockquote class="mt-4 text-ink-900">
+              <p>"Blocked drain on a holiday weekend — they picked up, came out, fixed it, and charged a fair rate. Professional, honest, and genuinely nice people. We've used them three times now."</p>
+            </blockquote>
+            <figcaption class="mt-5 flex items-center gap-3">
+              <div class="w-11 h-11 rounded-full bg-brand-500 text-white grid place-items-center font-bold">RK</div>
+              <div>
+                <p class="font-semibold text-brand-900 text-sm">Raj K.</p>
+                <p class="text-xs text-ink-600">Emerald Park · Drain Cleaning</p>
+              </div>
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="mt-10 flex flex-wrap justify-center gap-3">
+          <a href="#" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl border-2 border-brand-700 text-brand-700 font-bold hover:bg-brand-700 hover:text-white transition-colors cursor-pointer">Read More Reviews</a>
+          <a href="#" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-accent-500 text-brand-900 font-bold hover:bg-accent-400 transition-colors cursor-pointer">Leave a Review</a>
+        </div>
+      </div>
+    </section>
+    <!-- END: REVIEWS -->
+
+    <!-- START: SERVICE AREA -->
+    <section class="bg-[#F8FAFC] py-16 md:py-20 border-y border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-10 items-center">
+        <div class="lg:col-span-5">
+          <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-700">
+            <span class="w-8 h-0.5 bg-accent-500"></span> Service Area
+          </span>
+          <h2 class="mt-3 font-display font-extrabold text-3xl sm:text-4xl text-brand-900">Proudly serving {City} &amp; surrounding areas.</h2>
+          <p class="mt-4 text-ink-600">We're local. Our trucks are just down the road — which means faster arrival times and better rates than out-of-town competitors.</p>
+          <a href="contact.html" class="mt-6 inline-flex items-center gap-2 text-brand-700 font-bold hover:gap-3 transition-all">Check your suburb <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+        </div>
+        <div class="lg:col-span-7">
+          <ul class="flex flex-wrap gap-2">
+            <li><span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white border border-slate-200 text-sm font-semibold text-brand-900 hover:border-brand-500 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-brand-500"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>{City}</span></li>
+            <li><span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white border border-slate-200 text-sm font-semibold text-ink-900 hover:border-brand-500 transition-colors">Grand Coulee</span></li>
+            <li><span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white border border-slate-200 text-sm font-semibold text-ink-900 hover:border-brand-500 transition-colors">Lumsden</span></li>
+            <li><span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white border border-slate-200 text-sm font-semibold text-ink-900 hover:border-brand-500 transition-colors">Pense</span></li>
+            <li><span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white border border-slate-200 text-sm font-semibold text-ink-900 hover:border-brand-500 transition-colors">White City</span></li>
+            <li><span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white border border-slate-200 text-sm font-semibold text-ink-900 hover:border-brand-500 transition-colors">Emerald Park</span></li>
+            <li><span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white border border-slate-200 text-sm font-semibold text-ink-900 hover:border-brand-500 transition-colors">Pilot Butte</span></li>
+            <li><span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white border border-slate-200 text-sm font-semibold text-ink-900 hover:border-brand-500 transition-colors">Regina Beach</span></li>
+            <li><span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white border border-slate-200 text-sm font-semibold text-ink-900 hover:border-brand-500 transition-colors">Vibank</span></li>
+            <li><span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white border border-slate-200 text-sm font-semibold text-ink-900 hover:border-brand-500 transition-colors">Kronau</span></li>
+            <li><span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white border border-slate-200 text-sm font-semibold text-ink-900 hover:border-brand-500 transition-colors">Lajord</span></li>
+            <li><span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white border border-slate-200 text-sm font-semibold text-ink-900 hover:border-brand-500 transition-colors">Sedley</span></li>
+            <li><span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white border border-slate-200 text-sm font-semibold text-ink-900 hover:border-brand-500 transition-colors">Fort Qu'Appelle</span></li>
+            <li><span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white border border-slate-200 text-sm font-semibold text-ink-900 hover:border-brand-500 transition-colors">Richardson</span></li>
+            <li><span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-brand-700 text-white text-sm font-semibold">+ more</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <!-- END: SERVICE AREA -->
+
+    <!-- START: GUARANTEE BANNER -->
+    <section class="bg-brand-900 text-white py-16 md:py-20 relative overflow-hidden">
+      <div class="absolute inset-0 dot-pattern opacity-40" aria-hidden="true"></div>
+      <div class="absolute top-1/2 -left-32 -translate-y-1/2 w-96 h-96 rounded-full bg-brand-500/30 blur-3xl" aria-hidden="true"></div>
+      <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-[auto_1fr] gap-8 items-center">
+        <div class="shrink-0 mx-auto md:mx-0">
+          <div class="w-32 h-32 rounded-full bg-accent-500 text-brand-900 grid place-items-center shadow-lift ring-8 ring-accent-500/20">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="w-16 h-16"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+        </div>
+        <div class="text-center md:text-left">
+          <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-accent-400">Our Promise</span>
+          <h2 class="mt-3 font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl">100% Satisfaction Guarantee</h2>
+          <p class="mt-4 text-lg text-brand-50/90 max-w-2xl">If you're not happy with the work, we'll come back and make it right — no charge, no argument. That's our word to every customer, every job.</p>
+          <div class="mt-6 flex flex-wrap gap-3 justify-center md:justify-start">
+            <a href="contact.html#book" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-accent-500 text-brand-900 font-bold hover:bg-accent-400 shadow-lift transition-all cursor-pointer">Book Your Service</a>
+            <a href="tel:{PhoneRaw}" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-white/30 text-white font-semibold hover:bg-white/10 transition-colors cursor-pointer">Call {Phone}</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- END: GUARANTEE BANNER -->
+
+    <!-- START: FAQ -->
+    <section class="bg-white py-16 md:py-24">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-700">
+            <span class="w-8 h-0.5 bg-accent-500"></span> FAQ <span class="w-8 h-0.5 bg-accent-500"></span>
+          </span>
+          <h2 class="mt-3 font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-brand-900">Questions we hear often.</h2>
+        </div>
+
+        <div class="mt-10 space-y-3">
+          <details class="group bg-[#F8FAFC] border border-slate-200 rounded-2xl p-5 open:shadow-card transition-shadow">
+            <summary class="flex items-center justify-between gap-4 font-display font-bold text-base sm:text-lg text-brand-900">
+              <span>Do you offer emergency service after hours?</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="faq-chevron w-5 h-5 shrink-0 text-brand-700 transition-transform"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <p class="mt-3 text-ink-600">Yes — we're on call 24/7, 365 days a year. Burst pipes, no heat, gas smells — we dispatch a licensed tech any time of day, any day of the year. Call {Phone} and we'll confirm an ETA immediately.</p>
+          </details>
+          <details class="group bg-[#F8FAFC] border border-slate-200 rounded-2xl p-5 open:shadow-card transition-shadow">
+            <summary class="flex items-center justify-between gap-4 font-display font-bold text-base sm:text-lg text-brand-900">
+              <span>Are your prices upfront? Any hidden fees?</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="faq-chevron w-5 h-5 shrink-0 text-brand-700 transition-transform"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <p class="mt-3 text-ink-600">We quote flat-rate pricing before any work starts. You see the number, you approve it, and that's what you pay — even if the job takes longer than expected.</p>
+          </details>
+          <details class="group bg-[#F8FAFC] border border-slate-200 rounded-2xl p-5 open:shadow-card transition-shadow">
+            <summary class="flex items-center justify-between gap-4 font-display font-bold text-base sm:text-lg text-brand-900">
+              <span>Do you work with SaskEnergy rebates &amp; financing?</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="faq-chevron w-5 h-5 shrink-0 text-brand-700 transition-transform"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <p class="mt-3 text-ink-600">Yes. We help our customers claim available rebates on qualifying high-efficiency furnaces and heat pumps, and we offer monthly financing for installs through trusted partners.</p>
+          </details>
+          <details class="group bg-[#F8FAFC] border border-slate-200 rounded-2xl p-5 open:shadow-card transition-shadow">
+            <summary class="flex items-center justify-between gap-4 font-display font-bold text-base sm:text-lg text-brand-900">
+              <span>How long does a typical furnace install take?</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="faq-chevron w-5 h-5 shrink-0 text-brand-700 transition-transform"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <p class="mt-3 text-ink-600">Most residential furnace replacements are completed in a single day — typically 4–8 hours depending on your home. We'll confirm the timeline during the free on-site quote.</p>
+          </details>
+          <details class="group bg-[#F8FAFC] border border-slate-200 rounded-2xl p-5 open:shadow-card transition-shadow">
+            <summary class="flex items-center justify-between gap-4 font-display font-bold text-base sm:text-lg text-brand-900">
+              <span>Do you service commercial properties?</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="faq-chevron w-5 h-5 shrink-0 text-brand-700 transition-transform"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <p class="mt-3 text-ink-600">Absolutely. We handle commercial plumbing, heating, and cooling for offices, restaurants, retail, and new builds. Ask about our maintenance contracts for predictable pricing.</p>
+          </details>
+          <details class="group bg-[#F8FAFC] border border-slate-200 rounded-2xl p-5 open:shadow-card transition-shadow">
+            <summary class="flex items-center justify-between gap-4 font-display font-bold text-base sm:text-lg text-brand-900">
+              <span>Is my quote free?</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="faq-chevron w-5 h-5 shrink-0 text-brand-700 transition-transform"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <p class="mt-3 text-ink-600">Yes — quotes on new installations (furnaces, ACs, water heaters, etc.) are always free and no-obligation. Diagnostic service calls have a small flat fee that's waived if you proceed with the recommended repair.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+    <!-- END: FAQ -->
+
+    <!-- START: FINAL CTA -->
+    <section class="bg-accent-500 text-brand-900 py-14 md:py-16 relative overflow-hidden">
+      <div class="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-accent-400/60 blur-3xl" aria-hidden="true"></div>
+      <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between gap-6 text-center lg:text-left">
+        <div>
+          <h2 class="font-display font-extrabold text-3xl sm:text-4xl">Got an emergency? We're on the way.</h2>
+          <p class="mt-2 text-lg font-medium">Call now for fast, fair, guaranteed service in {City} and beyond.</p>
+        </div>
+        <div class="flex flex-wrap gap-3 justify-center">
+          <a href="tel:{PhoneRaw}" class="inline-flex items-center gap-2 px-6 py-4 rounded-xl bg-brand-900 text-white font-bold hover:bg-brand-700 shadow-lift transition-colors cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Call {Phone}
+          </a>
+          <a href="contact.html#book" class="inline-flex items-center gap-2 px-6 py-4 rounded-xl bg-white text-brand-900 font-bold hover:bg-brand-50 shadow-lift transition-colors cursor-pointer">
+            Book Online
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+    <!-- END: FINAL CTA -->
+
+  </main>
+
+  <!-- START: FOOTER -->
+  <footer class="bg-brand-900 text-brand-50/90 pt-14 pb-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-12 gap-10">
+        <div class="md:col-span-4">
+          <a href="index.html" class="flex items-center gap-2.5" aria-label="{Client Name} home">
+            <span class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-accent-500 text-brand-900 shadow-card">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94z"/></svg>
+            </span>
+            <span class="font-display font-extrabold text-lg text-white">{Client Name}</span>
+          </a>
+          <p class="mt-4 text-sm max-w-sm">Licensed plumbing, heating &amp; cooling professionals serving {City} and surrounding {Region}. Residential &amp; commercial. All work guaranteed.</p>
+          <p class="mt-4 text-xs text-brand-50/60">License # {License}</p>
+          <div class="mt-5 flex items-center gap-3">
+            <a href="#" aria-label="Facebook" class="w-10 h-10 rounded-full bg-white/10 hover:bg-accent-500 hover:text-brand-900 grid place-items-center transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99h-2.54V12h2.54V9.8c0-2.51 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 2.89h-2.33v6.99A10 10 0 0 0 22 12z"/></svg>
+            </a>
+            <a href="#" aria-label="Instagram" class="w-10 h-10 rounded-full bg-white/10 hover:bg-accent-500 hover:text-brand-900 grid place-items-center transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+            </a>
+            <a href="#" aria-label="Google Reviews" class="w-10 h-10 rounded-full bg-white/10 hover:bg-accent-500 hover:text-brand-900 grid place-items-center transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="md:col-span-3">
+          <h3 class="font-display font-bold text-white text-sm uppercase tracking-widest">Services</h3>
+          <ul class="mt-4 space-y-2 text-sm">
+            <li><a href="services.html#emergency" class="hover:text-accent-400 transition-colors">Emergency Plumbing</a></li>
+            <li><a href="services.html#drains" class="hover:text-accent-400 transition-colors">Blocked Drains</a></li>
+            <li><a href="services.html#hotwater" class="hover:text-accent-400 transition-colors">Hot Water Systems</a></li>
+            <li><a href="services.html#gas" class="hover:text-accent-400 transition-colors">Gas Fitting</a></li>
+            <li><a href="services.html#furnace" class="hover:text-accent-400 transition-colors">Furnaces</a></li>
+            <li><a href="services.html#ac" class="hover:text-accent-400 transition-colors">Air Conditioning</a></li>
+            <li><a href="services.html#heatpumps" class="hover:text-accent-400 transition-colors">Heat Pumps</a></li>
+            <li><a href="services.html#softeners" class="hover:text-accent-400 transition-colors">Water Softeners</a></li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-3">
+          <h3 class="font-display font-bold text-white text-sm uppercase tracking-widest">Contact</h3>
+          <ul class="mt-4 space-y-3 text-sm">
+            <li class="flex items-start gap-2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mt-0.5 text-accent-400 shrink-0"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><a href="tel:{PhoneRaw}" class="hover:text-accent-400 transition-colors">{Phone}</a></li>
+            <li class="flex items-start gap-2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mt-0.5 text-accent-400 shrink-0"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg><a href="mailto:{Email}" class="hover:text-accent-400 transition-colors break-all">{Email}</a></li>
+            <li class="flex items-start gap-2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mt-0.5 text-accent-400 shrink-0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span>{Address}</span></li>
+            <li class="flex items-start gap-2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mt-0.5 text-accent-400 shrink-0"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>{Hours}</span></li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-2">
+          <h3 class="font-display font-bold text-white text-sm uppercase tracking-widest">Quick</h3>
+          <ul class="mt-4 space-y-2 text-sm">
+            <li><a href="index.html" class="hover:text-accent-400 transition-colors">Home</a></li>
+            <li><a href="services.html" class="hover:text-accent-400 transition-colors">Services</a></li>
+            <li><a href="about.html" class="hover:text-accent-400 transition-colors">About</a></li>
+            <li><a href="contact.html" class="hover:text-accent-400 transition-colors">Contact</a></li>
+            <li><a href="contact.html#book" class="hover:text-accent-400 transition-colors">Book Now</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-brand-50/60">
+        <p>&copy; <span id="year">2025</span> {Client Name}. All rights reserved.</p>
+        <p>Licensed &amp; insured in {Region}. <a href="#" class="hover:text-accent-400">Privacy</a> · <a href="#" class="hover:text-accent-400">Terms</a></p>
+      </div>
+    </div>
+  </footer>
+  <!-- END: FOOTER -->
+
+  <script>
+    // Mobile menu
+    (function(){
+      var panel = document.getElementById('mobile-menu');
+      if(!panel) return;
+      var aside = panel.querySelector('aside');
+      var scrim = panel.querySelector('[data-menu-close]');
+      function setOpen(open){
+        panel.classList.toggle('pointer-events-auto', open);
+        panel.setAttribute('aria-hidden', open ? 'false' : 'true');
+        aside.classList.toggle('translate-x-full', !open);
+        aside.classList.toggle('translate-x-0', open);
+        scrim.classList.toggle('opacity-100', open);
+        scrim.classList.toggle('opacity-0', !open);
+        document.documentElement.classList.toggle('overflow-hidden', open);
+        var toggles = document.querySelectorAll('[data-menu-toggle]');
+        toggles.forEach(function(t){ t.setAttribute('aria-expanded', open ? 'true' : 'false'); });
+      }
+      document.addEventListener('click', function(e){
+        if(e.target.closest('[data-menu-toggle]')){ setOpen(true); }
+        else if(e.target.closest('[data-menu-close]')){ setOpen(false); }
+      });
+      document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape') setOpen(false);
+      });
+    })();
+    // Current year
+    var y = document.getElementById('year'); if(y) y.textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
