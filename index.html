@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="adidas F50 — the fastest boot ever made. Worn by legends. Built for speed." />
+  <title>F50 — Faster Than Ever</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Top ticker -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker__track">
+      <span>F50 // FASTER THAN EVER</span>
+      <span aria-hidden="true">●</span>
+      <span>SINCE 2004</span>
+      <span aria-hidden="true">●</span>
+      <span>BUILT FOR SPEED</span>
+      <span aria-hidden="true">●</span>
+      <span>WORN BY LEGENDS</span>
+      <span aria-hidden="true">●</span>
+      <span>F50 // FASTER THAN EVER</span>
+      <span aria-hidden="true">●</span>
+      <span>SINCE 2004</span>
+      <span aria-hidden="true">●</span>
+      <span>BUILT FOR SPEED</span>
+      <span aria-hidden="true">●</span>
+      <span>WORN BY LEGENDS</span>
+      <span aria-hidden="true">●</span>
+    </div>
+  </div>
+
+  <!-- Header / Nav -->
+  <header class="nav" id="nav">
+    <a class="nav__brand" href="#" aria-label="F50 home">
+      <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 12h6l3-9 4 18 3-9h2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <span class="nav__wordmark">F50</span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#tech">Tech</a>
+      <a href="#players">Legends</a>
+      <a href="#heritage">Heritage</a>
+      <a href="#buy">Shop</a>
+    </nav>
+    <a href="#buy" class="btn btn--primary nav__cta">
+      <span>Buy now</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M5 12h14M13 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </a>
+  </header>
+
+  <main id="main">
+    <!-- HERO -->
+    <section class="hero" aria-labelledby="hero-title">
+      <!-- Spinning boot in background -->
+      <div class="hero__stage" aria-hidden="true">
+        <div class="hero__glow"></div>
+        <div class="hero__ring hero__ring--1"></div>
+        <div class="hero__ring hero__ring--2"></div>
+        <div class="hero__ring hero__ring--3"></div>
+
+        <div class="hero__spin-wrap">
+          <div class="hero__spinner">
+            <!-- Detailed F50 boot SVG silhouette -->
+            <svg class="boot" viewBox="0 0 600 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <linearGradient id="bootGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#1a1a1a" />
+                  <stop offset="50%" stop-color="#0a0a0a" />
+                  <stop offset="100%" stop-color="#000" />
+                </linearGradient>
+                <linearGradient id="stripeGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#C8FF00" />
+                  <stop offset="100%" stop-color="#74FF1A" />
+                </linearGradient>
+                <radialGradient id="accentGlow" cx="0.5" cy="0.5" r="0.5">
+                  <stop offset="0%" stop-color="#C8FF00" stop-opacity="0.6" />
+                  <stop offset="100%" stop-color="#C8FF00" stop-opacity="0" />
+                </radialGradient>
+              </defs>
+
+              <!-- shadow under boot -->
+              <ellipse cx="300" cy="320" rx="220" ry="14" fill="#000" opacity="0.6" />
+
+              <!-- main boot upper -->
+              <path d="M 70 250
+                       C 60 220, 80 200, 110 195
+                       L 200 180
+                       C 230 175, 260 165, 290 150
+                       L 380 110
+                       C 430 90, 490 95, 530 130
+                       C 555 150, 555 180, 540 210
+                       C 525 235, 500 245, 470 250
+                       L 110 270
+                       C 85 270, 75 265, 70 250 Z"
+                    fill="url(#bootGrad)" stroke="#2a2a2a" stroke-width="1.5" />
+
+              <!-- sole / outsole -->
+              <path d="M 65 252
+                       L 475 252
+                       C 500 252, 520 258, 530 268
+                       C 538 276, 528 285, 510 287
+                       L 100 290
+                       C 80 290, 65 280, 65 268 Z"
+                    fill="#0a0a0a" stroke="#1a1a1a" stroke-width="1" />
+
+              <!-- studs -->
+              <circle cx="120" cy="284" r="4" fill="#C8FF00" />
+              <circle cx="180" cy="286" r="4" fill="#C8FF00" />
+              <circle cx="250" cy="287" r="4" fill="#C8FF00" />
+              <circle cx="320" cy="287" r="4" fill="#C8FF00" />
+              <circle cx="390" cy="286" r="4" fill="#C8FF00" />
+              <circle cx="450" cy="284" r="4" fill="#C8FF00" />
+
+              <!-- 3 stripes (Adidas signature) -->
+              <path d="M 250 200 L 230 248 L 248 248 L 268 200 Z" fill="url(#stripeGrad)" />
+              <path d="M 290 195 L 270 246 L 288 246 L 308 195 Z" fill="url(#stripeGrad)" />
+              <path d="M 330 188 L 310 244 L 328 244 L 348 188 Z" fill="url(#stripeGrad)" />
+
+              <!-- F50 wordmark on boot -->
+              <text x="420" y="180" font-family="Anton, sans-serif" font-size="38" fill="#C8FF00" letter-spacing="1">F50</text>
+
+              <!-- highlight sheen -->
+              <path d="M 110 200
+                       C 200 180, 320 150, 450 130
+                       C 470 130, 470 145, 450 148
+                       C 320 168, 200 195, 120 215
+                       C 105 218, 100 205, 110 200 Z"
+                    fill="#fff" opacity="0.05" />
+
+              <!-- collar / heel -->
+              <path d="M 70 250
+                       C 55 240, 50 220, 60 200
+                       C 75 175, 95 175, 110 195
+                       Z" fill="#111" stroke="#2a2a2a" stroke-width="1" />
+
+              <!-- glow behind -->
+              <circle cx="300" cy="200" r="180" fill="url(#accentGlow)" opacity="0.6" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__content">
+        <div class="hero__eyebrow">
+          <span class="dot"></span>
+          <span>F50 / Spring '26</span>
+        </div>
+        <h1 class="hero__title" id="hero-title">
+          Faster
+          <span class="serif italic">than</span>
+          ever<span class="period">.</span>
+        </h1>
+        <p class="hero__lead">
+          The lightest F50 we've ever built. <em>Engineered</em> for the players who decide
+          matches in milliseconds.
+        </p>
+        <div class="hero__actions">
+          <a href="#buy" class="btn btn--primary">
+            <span>Shop F50</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M5 12h14M13 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+          <a href="#tech" class="btn btn--ghost">
+            <span>Explore the tech</span>
+          </a>
+        </div>
+
+        <div class="hero__meta" aria-label="key stats">
+          <div>
+            <div class="hero__meta-num">125<span>g</span></div>
+            <div class="hero__meta-lbl">Total weight</div>
+          </div>
+          <div>
+            <div class="hero__meta-num">0.04<span>s</span></div>
+            <div class="hero__meta-lbl">Avg lace-up</div>
+          </div>
+          <div>
+            <div class="hero__meta-num">36<span>km/h</span></div>
+            <div class="hero__meta-lbl">Top sprint</div>
+          </div>
+        </div>
+      </div>
+
+      <a href="#tech" class="hero__scroll" aria-label="Scroll to next section">
+        <span>Scroll</span>
+        <svg width="14" height="34" viewBox="0 0 14 34" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M7 1v30M1 25l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
+    </section>
+
+    <!-- INTRO STATEMENT -->
+    <section class="statement" aria-labelledby="statement-title">
+      <p class="statement__index">— 01 / Manifesto</p>
+      <h2 class="statement__text" id="statement-title">
+        Every gram <span class="serif italic">stripped.</span>
+        Every stitch <span class="serif italic">measured.</span>
+        Every <span class="accent">millisecond</span> earned on the touchline.
+      </h2>
+    </section>
+
+    <!-- TECH FEATURES -->
+    <section class="tech" id="tech" aria-labelledby="tech-title">
+      <header class="section-head">
+        <p class="section-head__index">— 02 / Engineered</p>
+        <h2 id="tech-title" class="section-head__title">
+          Built <span class="serif italic">to win</span> the next step.
+        </h2>
+      </header>
+
+      <ol class="tech__list">
+        <li class="tech__item">
+          <span class="tech__num">01</span>
+          <h3 class="tech__name">SprintFrame 2.0</h3>
+          <p class="tech__desc">
+            A re-engineered carbon-injected outsole that locks the heel and
+            launches the forefoot. 18% more torsional stiffness. Zero
+            wasted energy.
+          </p>
+        </li>
+        <li class="tech__item">
+          <span class="tech__num">02</span>
+          <h3 class="tech__name">FiberSkin Upper</h3>
+          <p class="tech__desc">
+            A single-layer, ultralight synthetic moulded to the foot.
+            Water-shedding, abrasion-resistant, and barely there at 38 grams.
+          </p>
+        </li>
+        <li class="tech__item">
+          <span class="tech__num">03</span>
+          <h3 class="tech__name">Speedstud System</h3>
+          <p class="tech__desc">
+            Asymmetric forefoot studs paired with conical heel studs. Bite into
+            the turn, release on the sprint.
+          </p>
+        </li>
+        <li class="tech__item">
+          <span class="tech__num">04</span>
+          <h3 class="tech__name">125g Total</h3>
+          <p class="tech__desc">
+            The lightest F50 in two decades. Lighter than a smartphone.
+            Heavier in consequence.
+          </p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ICONIC PLAYERS -->
+    <section class="players" id="players" aria-labelledby="players-title">
+      <header class="section-head">
+        <p class="section-head__index">— 03 / Legends</p>
+        <h2 id="players-title" class="section-head__title">
+          Worn by the players <span class="serif italic">who changed the game.</span>
+        </h2>
+      </header>
+
+      <div class="players__grid">
+        <article class="player">
+          <div class="player__num">01</div>
+          <div class="player__visual" aria-hidden="true">
+            <div class="player__silhouette" data-letter="LM"></div>
+          </div>
+          <h3 class="player__name">Lionel Messi</h3>
+          <p class="player__era">2008 — 2015</p>
+          <p class="player__quote">
+            <span class="serif italic">"It feels like I'm not wearing anything."</span>
+          </p>
+          <p class="player__bio">
+            Wore the F50 adiZero through the most prolific stretch of his career —
+            including the 2009/10 La Liga title and his record-breaking 91-goal
+            calendar year in 2012.
+          </p>
+        </article>
+
+        <article class="player">
+          <div class="player__num">02</div>
+          <div class="player__visual" aria-hidden="true">
+            <div class="player__silhouette" data-letter="KM"></div>
+          </div>
+          <h3 class="player__name">Kylian Mbappé</h3>
+          <p class="player__era">2017 — present</p>
+          <p class="player__quote">
+            <span class="serif italic">"Speed is a decision."</span>
+          </p>
+          <p class="player__bio">
+            Has clocked one of the fastest sprints ever recorded in a World Cup
+            final wearing the F50 — 36 km/h, 2022, against Argentina.
+          </p>
+        </article>
+
+        <article class="player">
+          <div class="player__num">03</div>
+          <div class="player__visual" aria-hidden="true">
+            <div class="player__silhouette" data-letter="ZZ"></div>
+          </div>
+          <h3 class="player__name">Zinedine Zidane</h3>
+          <p class="player__era">2004 — 2006</p>
+          <p class="player__quote">
+            <span class="serif italic">"A boot you forget you are wearing."</span>
+          </p>
+          <p class="player__bio">
+            Laced the original F50.6 — the boot that introduced the laceless,
+            sock-style upper to the world stage.
+          </p>
+        </article>
+
+        <article class="player">
+          <div class="player__num">04</div>
+          <div class="player__visual" aria-hidden="true">
+            <div class="player__silhouette" data-letter="DB"></div>
+          </div>
+          <h3 class="player__name">David Beckham</h3>
+          <p class="player__era">2005 — 2008</p>
+          <p class="player__quote">
+            <span class="serif italic">"The ball does what you tell it."</span>
+          </p>
+          <p class="player__bio">
+            Ran out for England, Real Madrid and LA Galaxy in F50 colourways
+            so iconic they still resell for four figures.
+          </p>
+        </article>
+
+        <article class="player">
+          <div class="player__num">05</div>
+          <div class="player__visual" aria-hidden="true">
+            <div class="player__silhouette" data-letter="TH"></div>
+          </div>
+          <h3 class="player__name">Thierry Henry</h3>
+          <p class="player__era">2004 — 2010</p>
+          <p class="player__quote">
+            <span class="serif italic">"Built like the pitch was made for it."</span>
+          </p>
+          <p class="player__bio">
+            The face of the launch generation. Henry's '04 Arsenal "Invincibles"
+            campaign and France appearances cemented the F50 in football's DNA.
+          </p>
+        </article>
+
+        <article class="player">
+          <div class="player__num">06</div>
+          <div class="player__visual" aria-hidden="true">
+            <div class="player__silhouette" data-letter="JB"></div>
+          </div>
+          <h3 class="player__name">Jude Bellingham</h3>
+          <p class="player__era">2024 — present</p>
+          <p class="player__quote">
+            <span class="serif italic">"Light, sharp, ruthless."</span>
+          </p>
+          <p class="player__bio">
+            The new generation. Real Madrid's record signing took the modern F50
+            into a debut Champions League and La Liga double.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- HERITAGE -->
+    <section class="heritage" id="heritage" aria-labelledby="heritage-title">
+      <header class="section-head">
+        <p class="section-head__index">— 04 / Heritage</p>
+        <h2 id="heritage-title" class="section-head__title">
+          Twenty years of <span class="serif italic">faster.</span>
+        </h2>
+      </header>
+
+      <ol class="timeline">
+        <li class="timeline__item">
+          <div class="timeline__year">2004</div>
+          <div class="timeline__title">F50.6 Tunit</div>
+          <p>The original. Modular interchangeable studs, a sock-fit upper. The boot that started it all.</p>
+        </li>
+        <li class="timeline__item">
+          <div class="timeline__year">2010</div>
+          <div class="timeline__title">F50 adiZero Prime</div>
+          <p>Sub-165g. The lightest boot ever produced at the time. Worn through the 2010 World Cup.</p>
+        </li>
+        <li class="timeline__item">
+          <div class="timeline__year">2014</div>
+          <div class="timeline__title">F50 Messi Mirosar10</div>
+          <p>Solar gold. Argentina home. The boot of a generational World Cup final run.</p>
+        </li>
+        <li class="timeline__item">
+          <div class="timeline__year">2024</div>
+          <div class="timeline__title">F50 Reborn</div>
+          <p>Two decades after launch — the silhouette returns, lighter and faster than the original.</p>
+        </li>
+        <li class="timeline__item is-current">
+          <div class="timeline__year">2026</div>
+          <div class="timeline__title">F50 — This One</div>
+          <p>125 grams. SprintFrame 2.0. The fastest F50 ever made.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- CTA / BUY -->
+    <section class="cta" id="buy" aria-labelledby="cta-title">
+      <p class="section-head__index light">— 05 / Get yours</p>
+      <h2 class="cta__title" id="cta-title">
+        Lace up. <span class="serif italic">Outrun</span> everyone.
+      </h2>
+      <p class="cta__lead">Available in three signature colourways. Limited first drop.</p>
+
+      <div class="cta__row">
+        <a href="#" class="btn btn--primary btn--large">
+          <span>Shop F50 — $275</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M5 12h14M13 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+        <a href="#" class="btn btn--ghost btn--large">Find a stockist</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="foot__row">
+      <div class="foot__brand">
+        <span class="foot__wordmark">F50</span>
+        <p>Faster than ever. Since 2004.</p>
+      </div>
+      <nav class="foot__cols" aria-label="Footer">
+        <div>
+          <h4>Product</h4>
+          <a href="#tech">Tech</a>
+          <a href="#heritage">Heritage</a>
+          <a href="#buy">Shop</a>
+        </div>
+        <div>
+          <h4>Players</h4>
+          <a href="#players">Roster</a>
+          <a href="#">Stories</a>
+          <a href="#">Press</a>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <a href="#">About</a>
+          <a href="#">Sustainability</a>
+          <a href="#">Careers</a>
+        </div>
+      </nav>
+    </div>
+    <div class="foot__bottom">
+      <span>© 2026 adidas. All rights reserved.</span>
+      <span>Concept showcase · Not an official adidas page.</span>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
