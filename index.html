@@ -14,19 +14,19 @@
     theme: {
       extend: {
         fontFamily: {
-          display: ['Archivo', 'system-ui', 'sans-serif'],
-          sans: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+          display: ["Archivo", "system-ui", "sans-serif"],
+          sans: ["\"Space Grotesk\"", "system-ui", "sans-serif"],
         },
         colors: {
-          ink: '#0A0A0A',
-          muted: '#525252',
-          line: '#E5E5E5',
-          paper: '#FAFAFA',
-          accent: '#2563EB',
-          accentSoft: '#EFF4FF',
+          ink: "#0A0A0A",
+          muted: "#525252",
+          line: "#E5E5E5",
+          paper: "#FAFAFA",
+          accent: "#2563EB",
+          accentSoft: "#EFF4FF",
         },
         letterSpacing: {
-          tightest: '-0.05em',
+          tightest: "-0.05em",
         },
       },
     },
@@ -39,203 +39,822 @@
     background: #ffffff;
     color: #0A0A0A;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   .font-display { font-family: 'Archivo', system-ui, sans-serif; }
+
+  /* Reveal-on-scroll */
   .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
   .reveal.in { opacity: 1; transform: translateY(0); }
+
+  /* Marquee */
   @keyframes scroll-x { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   .marquee-track { display: flex; width: max-content; animation: scroll-x 38s linear infinite; }
   .marquee-track:hover { animation-play-state: paused; }
-  @keyframes blob { 0%, 100% { transform: translate(0,0) scale(1); } 33% { transform: translate(30px,-20px) scale(1.05); } 66% { transform: translate(-20px,20px) scale(0.95); } }
+
+  /* Animated gradient blob */
+  @keyframes blob {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -20px) scale(1.05); }
+    66% { transform: translate(-20px, 20px) scale(0.95); }
+  }
   .blob { animation: blob 14s ease-in-out infinite; filter: blur(80px); }
-  .draw-line::after { content: ''; position: absolute; left: 0; bottom: 0.06em; height: 0.12em; width: 100%; background: #2563EB; transform: scaleX(0); transform-origin: left; transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+
+  /* Underline draw */
+  .draw-line::after {
+    content: ''; position: absolute; left: 0; bottom: 0.06em;
+    height: 0.12em; width: 100%; background: #2563EB;
+    transform: scaleX(0); transform-origin: left; transition: transform .8s cubic-bezier(.2,.7,.2,1);
+  }
   .draw-line.in::after { transform: scaleX(1); }
+
+  /* Pipe SVG decorative pulse */
+  @keyframes drip {
+    0% { transform: translateY(-6px); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: translateY(20px); opacity: 0; }
+  }
+  .drip { animation: drip 2.6s ease-in-out infinite; }
+
+  /* Card hover */
   .card-hover { transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease, border-color .35s ease; }
   .card-hover:hover { transform: translateY(-4px); border-color: #0A0A0A; box-shadow: 0 30px 60px -30px rgba(0,0,0,.18); }
+
+  /* Button shine */
   .btn-primary { position: relative; overflow: hidden; }
-  .btn-primary::before { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.25) 50%, transparent 70%); transform: translateX(-120%); transition: transform .9s ease; }
+  .btn-primary::before {
+    content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.25) 50%, transparent 70%);
+    transform: translateX(-120%); transition: transform .9s ease;
+  }
   .btn-primary:hover::before { transform: translateX(120%); }
-  .cursor-dot { position: fixed; top: 0; left: 0; width: 14px; height: 14px; border-radius: 9999px; background: #2563EB; pointer-events: none; mix-blend-mode: multiply; transform: translate(-50%,-50%) scale(1); transition: transform .25s ease, opacity .25s ease; z-index: 90; opacity: .85; }
-  .cursor-dot.hover { transform: translate(-50%,-50%) scale(2.6); opacity: .35; }
+
+  /* Cursor follower */
+  .cursor-dot { position: fixed; top: 0; left: 0; width: 14px; height: 14px; border-radius: 9999px; background: #2563EB; pointer-events: none; mix-blend-mode: multiply; transform: translate(-50%, -50%) scale(1); transition: transform .25s ease, opacity .25s ease; z-index: 90; opacity: .85; }
+  .cursor-dot.hover { transform: translate(-50%, -50%) scale(2.6); opacity: .35; }
   @media (max-width: 1024px) { .cursor-dot { display: none; } }
+
+  /* Accordion */
   details > summary { list-style: none; cursor: pointer; }
   details > summary::-webkit-details-marker { display: none; }
   details[open] .acc-icon { transform: rotate(45deg); }
   .acc-icon { transition: transform .3s ease; }
-  @media (prefers-reduced-motion: reduce) { .marquee-track, .blob { animation: none !important; } .reveal { opacity: 1; transform: none; transition: none; } }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track, .blob, .drip { animation: none !important; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* Selection */
   ::selection { background: #0A0A0A; color: #fff; }
-  a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid #2563EB; outline-offset: 3px; border-radius: 6px; }
+
+  /* Focus */
+  a:focus-visible, button:focus-visible, summary:focus-visible {
+    outline: 2px solid #2563EB; outline-offset: 3px; border-radius: 6px;
+  }
+
+  /* Hide scrollbar on hero ticker */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { scrollbar-width: none; }
 </style>
 </head>
 <body class="overflow-x-hidden">
+
+<!-- Cursor dot -->
 <div id="cursor" class="cursor-dot hidden lg:block" aria-hidden="true"></div>
+
+<!-- Floating Nav -->
 <header class="fixed top-4 left-4 right-4 z-50">
-  <nav class="mx-auto max-w-7xl flex items-center justify-between rounded-full border border-[#E5E5E5] bg-white/85 backdrop-blur px-5 py-3 shadow-[0_10px_40px_-25px_rgba(0,0,0,0.25)]">
+  <nav class="mx-auto max-w-7xl flex items-center justify-between rounded-full border border-line bg-white/85 backdrop-blur px-5 py-3 shadow-[0_10px_40px_-25px_rgba(0,0,0,0.25)]">
     <a href="#top" class="flex items-center gap-2 group" aria-label="PipeCraft Studio home">
-      <span class="grid place-items-center w-8 h-8 rounded-full bg-[#0A0A0A] text-white">
-        <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h7"/><path d="M13 12h7"/><circle cx="12" cy="12" r="2"/></svg>
+      <span class="grid place-items-center w-8 h-8 rounded-full bg-ink text-white">
+        <!-- pipe/wrench mark -->
+        <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 12h7"/><path d="M13 12h7"/><circle cx="12" cy="12" r="2"/>
+        </svg>
       </span>
-      <span style="font-family:Archivo,system-ui,sans-serif" class="font-extrabold tracking-tight text-[#0A0A0A] text-lg">PipeCraft<span class="text-[#2563EB]">.</span></span>
+      <span class="font-display font-extrabold tracking-tight text-ink text-lg">PipeCraft<span class="text-accent">.</span></span>
     </a>
-    <div class="hidden md:flex items-center gap-8 text-sm text-[#0A0A0A]/80">
-      <a href="#services" class="hover:text-[#0A0A0A] transition-colors">Services</a>
-      <a href="#process" class="hover:text-[#0A0A0A] transition-colors">Process</a>
-      <a href="#work" class="hover:text-[#0A0A0A] transition-colors">Work</a>
-      <a href="#about" class="hover:text-[#0A0A0A] transition-colors">About</a>
-      <a href="#faq" class="hover:text-[#0A0A0A] transition-colors">FAQ</a>
+    <div class="hidden md:flex items-center gap-8 text-sm text-ink/80">
+      <a href="#services" class="hover:text-ink transition-colors">Services</a>
+      <a href="#process" class="hover:text-ink transition-colors">Process</a>
+      <a href="#work" class="hover:text-ink transition-colors">Work</a>
+      <a href="#about" class="hover:text-ink transition-colors">About</a>
+      <a href="#faq" class="hover:text-ink transition-colors">FAQ</a>
     </div>
-    <a href="#contact" class="cursor-pointer btn-primary inline-flex items-center gap-2 rounded-full bg-[#0A0A0A] text-white text-sm font-medium px-4 py-2 hover:bg-[#2563EB] transition-colors">Book a call <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+    <a href="#contact" class="cursor-pointer btn-primary inline-flex items-center gap-2 rounded-full bg-ink text-white text-sm font-medium px-4 py-2 hover:bg-accent transition-colors">
+      Book a call
+      <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </a>
   </nav>
 </header>
+
 <main id="top">
+
+  <!-- Hero -->
   <section class="relative pt-36 md:pt-44 pb-24 md:pb-32">
+    <!-- Background glow -->
     <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-      <div class="blob absolute -top-32 -left-32 w-[520px] h-[520px] rounded-full bg-[#EFF4FF]"></div>
-      <div class="blob absolute top-40 -right-40 w-[480px] h-[480px] rounded-full bg-[#F5F1EA]" style="animation-delay:-7s"></div>
-      <svg class="absolute inset-0 w-full h-full opacity-[0.06]" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><pattern id="grid" width="56" height="56" patternUnits="userSpaceOnUse"><path d="M 56 0 L 0 0 0 56" fill="none" stroke="#0A0A0A" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(#grid)"/></svg>
+      <div class="blob absolute -top-32 -left-32 w-[520px] h-[520px] rounded-full bg-accentSoft"></div>
+      <div class="blob absolute top-40 -right-40 w-[480px] h-[480px] rounded-full bg-[#F5F1EA]" style="animation-delay: -7s;"></div>
+      <!-- Grid -->
+      <svg class="absolute inset-0 w-full h-full opacity-[0.06]" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <pattern id="grid" width="56" height="56" patternUnits="userSpaceOnUse">
+            <path d="M 56 0 L 0 0 0 56" fill="none" stroke="#0A0A0A" stroke-width="1"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)" />
+      </svg>
     </div>
+
     <div class="mx-auto max-w-7xl px-6">
-      <div class="reveal flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#525252] mb-7"><span class="inline-block w-2 h-2 rounded-full bg-[#2563EB] animate-pulse"></span>Independent design studio · Booking Q3</div>
-      <h1 class="reveal font-display text-[#0A0A0A] font-black tracking-[-0.05em] leading-[0.92] text-[12vw] md:text-[8.4vw] lg:text-[7.6vw] max-w-[15ch]" style="font-family:Archivo,system-ui,sans-serif">Websites that <span class="relative inline-block draw-line">turn drips</span> into <span class="italic font-semibold text-[#2563EB]">deals.</span></h1>
+      <div class="reveal flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-muted mb-7">
+        <span class="inline-block w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+        Independent design studio · Booking Q3
+      </div>
+
+      <h1 class="reveal font-display text-ink font-black tracking-tightest leading-[0.92] text-[12vw] md:text-[8.4vw] lg:text-[7.6vw] max-w-[15ch]">
+        Websites that
+        <span class="relative inline-block draw-line">turn drips</span>
+        into <span class="italic font-semibold text-accent">deals.</span>
+      </h1>
+
       <div class="mt-10 grid md:grid-cols-12 gap-8 items-end">
-        <p class="reveal md:col-span-6 text-lg md:text-xl text-[#525252] max-w-xl leading-relaxed">PipeCraft is a one-person design studio building clean, modern, conversion-tuned websites for plumbing and home service businesses. No bloated templates. No agency markup. Just sharp design that books more jobs.</p>
+        <p class="reveal md:col-span-6 text-lg md:text-xl text-muted max-w-xl leading-relaxed">
+          PipeCraft is a one-person design studio building clean, modern, conversion-tuned websites for plumbing and home service businesses. No bloated templates. No agency markup. Just sharp design that books more jobs.
+        </p>
         <div class="reveal md:col-span-6 flex flex-col sm:flex-row gap-3 md:justify-end">
-          <a href="#contact" class="btn-primary cursor-pointer inline-flex items-center justify-center gap-2 rounded-full bg-[#0A0A0A] text-white px-6 py-4 font-medium hover:bg-[#2563EB] transition-colors">Start your project <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-          <a href="#work" class="cursor-pointer inline-flex items-center justify-center gap-2 rounded-full border border-[#E5E5E5] bg-white px-6 py-4 font-medium hover:border-[#0A0A0A] transition-colors">See recent work</a>
+          <a href="#contact" class="btn-primary cursor-pointer inline-flex items-center justify-center gap-2 rounded-full bg-ink text-white px-6 py-4 font-medium hover:bg-accent transition-colors">
+            Start your project
+            <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <a href="#work" class="cursor-pointer inline-flex items-center justify-center gap-2 rounded-full border border-line bg-white px-6 py-4 font-medium hover:border-ink transition-colors">
+            See recent work
+          </a>
         </div>
       </div>
-      <div class="reveal mt-20 grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10 border-t border-[#E5E5E5] pt-10">
-        <div><div style="font-family:Archivo,system-ui,sans-serif" class="text-4xl md:text-5xl font-black tracking-tight">12<span class="text-[#2563EB]">+</span></div><div class="text-sm text-[#525252] mt-1">Plumbing sites shipped</div></div>
-        <div><div style="font-family:Archivo,system-ui,sans-serif" class="text-4xl md:text-5xl font-black tracking-tight">2.4<span class="text-[#2563EB]">×</span></div><div class="text-sm text-[#525252] mt-1">Avg. lead lift after launch</div></div>
-        <div><div style="font-family:Archivo,system-ui,sans-serif" class="text-4xl md:text-5xl font-black tracking-tight">14<span class="text-[#2563EB]">d</span></div><div class="text-sm text-[#525252] mt-1">From kickoff to launch</div></div>
-        <div><div style="font-family:Archivo,system-ui,sans-serif" class="text-4xl md:text-5xl font-black tracking-tight">100<span class="text-[#2563EB]">%</span></div><div class="text-sm text-[#525252] mt-1">Built solo, by hand</div></div>
+
+      <!-- Hero stats -->
+      <div class="reveal mt-20 grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10 border-t border-line pt-10">
+        <div>
+          <div class="font-display text-4xl md:text-5xl font-black tracking-tight">12<span class="text-accent">+</span></div>
+          <div class="text-sm text-muted mt-1">Plumbing sites shipped</div>
+        </div>
+        <div>
+          <div class="font-display text-4xl md:text-5xl font-black tracking-tight">2.4<span class="text-accent">×</span></div>
+          <div class="text-sm text-muted mt-1">Avg. lead lift after launch</div>
+        </div>
+        <div>
+          <div class="font-display text-4xl md:text-5xl font-black tracking-tight">14<span class="text-accent">d</span></div>
+          <div class="text-sm text-muted mt-1">From kickoff to launch</div>
+        </div>
+        <div>
+          <div class="font-display text-4xl md:text-5xl font-black tracking-tight">100<span class="text-accent">%</span></div>
+          <div class="text-sm text-muted mt-1">Built solo, by hand</div>
+        </div>
       </div>
     </div>
   </section>
-  <section aria-label="Capabilities" class="border-y border-[#E5E5E5] bg-[#FAFAFA] py-6 overflow-hidden">
-    <div class="marquee-track text-[#0A0A0A]/80">
-      <div style="font-family:Archivo,system-ui,sans-serif" class="flex items-center gap-12 px-6 text-2xl md:text-4xl font-extrabold tracking-[-0.05em] whitespace-nowrap">
-        <span>Emergency Plumbers</span><span class="text-[#2563EB]">◆</span><span>Drain Cleaning Pros</span><span class="text-[#2563EB]">◆</span><span>Water Heater Specialists</span><span class="text-[#2563EB]">◆</span><span>Leak Detection</span><span class="text-[#2563EB]">◆</span><span>Commercial Plumbing</span><span class="text-[#2563EB]">◆</span><span>HVAC &amp; Home Services</span><span class="text-[#2563EB]">◆</span>
+
+  <!-- Marquee -->
+  <section aria-label="Capabilities" class="border-y border-line bg-paper py-6 overflow-hidden">
+    <div class="marquee-track text-ink/80">
+      <!-- Two copies for seamless loop -->
+      <div class="flex items-center gap-12 px-6 font-display text-2xl md:text-4xl font-extrabold tracking-tightest whitespace-nowrap">
+        <span>Emergency Plumbers</span><span class="text-accent">◆</span>
+        <span>Drain Cleaning Pros</span><span class="text-accent">◆</span>
+        <span>Water Heater Specialists</span><span class="text-accent">◆</span>
+        <span>Leak Detection</span><span class="text-accent">◆</span>
+        <span>Commercial Plumbing</span><span class="text-accent">◆</span>
+        <span>HVAC &amp; Home Services</span><span class="text-accent">◆</span>
       </div>
-      <div aria-hidden="true" style="font-family:Archivo,system-ui,sans-serif" class="flex items-center gap-12 px-6 text-2xl md:text-4xl font-extrabold tracking-[-0.05em] whitespace-nowrap">
-        <span>Emergency Plumbers</span><span class="text-[#2563EB]">◆</span><span>Drain Cleaning Pros</span><span class="text-[#2563EB]">◆</span><span>Water Heater Specialists</span><span class="text-[#2563EB]">◆</span><span>Leak Detection</span><span class="text-[#2563EB]">◆</span><span>Commercial Plumbing</span><span class="text-[#2563EB]">◆</span><span>HVAC &amp; Home Services</span><span class="text-[#2563EB]">◆</span>
+      <div class="flex items-center gap-12 px-6 font-display text-2xl md:text-4xl font-extrabold tracking-tightest whitespace-nowrap" aria-hidden="true">
+        <span>Emergency Plumbers</span><span class="text-accent">◆</span>
+        <span>Drain Cleaning Pros</span><span class="text-accent">◆</span>
+        <span>Water Heater Specialists</span><span class="text-accent">◆</span>
+        <span>Leak Detection</span><span class="text-accent">◆</span>
+        <span>Commercial Plumbing</span><span class="text-accent">◆</span>
+        <span>HVAC &amp; Home Services</span><span class="text-accent">◆</span>
       </div>
     </div>
   </section>
-  <section id="services" class="py-24 md:py-32 border-t border-[#E5E5E5]">
+
+  <!-- Intro / Manifesto -->
+  <section class="py-28 md:py-36">
+    <div class="mx-auto max-w-7xl px-6 grid md:grid-cols-12 gap-10">
+      <div class="md:col-span-4 reveal">
+        <div class="text-xs uppercase tracking-[0.25em] text-muted mb-5">[ 01 — The pitch ]</div>
+        <h2 class="font-display text-3xl md:text-4xl font-black tracking-tight leading-[1.05]">
+          Most plumbing sites look like they were built in 2009.
+        </h2>
+      </div>
+      <div class="md:col-span-7 md:col-start-6 reveal">
+        <p class="text-xl md:text-2xl leading-snug text-ink">
+          Stock photos. Cluttered menus. A "Free Quote" form buried under three folds. Meanwhile your trucks are spotless, your team is licensed, and your reviews are five stars. <span class="text-muted">PipeCraft closes that gap — a website that looks as professional as the work you actually do, and turns visitors into booked jobs.</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services" class="py-24 md:py-32 border-t border-line">
     <div class="mx-auto max-w-7xl px-6">
       <div class="flex items-end justify-between gap-6 mb-16 reveal">
-        <div><div class="text-xs uppercase tracking-[0.25em] text-[#525252] mb-4">[ 02 — Services ]</div><h2 style="font-family:Archivo,system-ui,sans-serif" class="text-4xl md:text-6xl font-black tracking-[-0.05em] leading-[0.95] max-w-3xl">One thing, done <span class="italic font-medium text-[#2563EB]">extremely</span> well.</h2></div>
-        <div class="hidden md:block text-sm text-[#525252] max-w-sm">We build websites. That's it — for now. No SEO retainers, no bloated bundles. Tight scope, sharp output.</div>
+        <div>
+          <div class="text-xs uppercase tracking-[0.25em] text-muted mb-4">[ 02 — Services ]</div>
+          <h2 class="font-display text-4xl md:text-6xl font-black tracking-tightest leading-[0.95] max-w-3xl">
+            One thing, done <span class="italic font-medium text-accent">extremely</span> well.
+          </h2>
+        </div>
+        <div class="hidden md:block text-sm text-muted max-w-sm">
+          We build websites. That's it — for now. No SEO retainers, no bloated bundles. Tight scope, sharp output.
+        </div>
       </div>
+
       <div class="grid md:grid-cols-2 gap-5">
-        <article class="reveal card-hover relative md:row-span-2 rounded-3xl border border-[#E5E5E5] bg-[#FAFAFA] p-8 md:p-10 flex flex-col justify-between min-h-[420px] overflow-hidden">
-          <div class="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-[#EFF4FF] blob" aria-hidden="true"></div>
-          <div class="relative"><div class="flex items-center gap-3 text-xs uppercase tracking-[0.2em] text-[#525252]"><span class="w-2 h-2 rounded-full bg-[#2563EB]"></span>Flagship</div><h3 style="font-family:Archivo,system-ui,sans-serif" class="text-3xl md:text-5xl font-black tracking-tight mt-6 leading-[1] max-w-[14ch]">Custom plumbing websites.</h3><p class="mt-5 text-[#525252] text-lg max-w-md">A bespoke 5–8 page site designed and hand-coded around your service area, your trucks, and your offers. Mobile-first. Fast. Built to convert calls.</p></div>
-          <div class="relative mt-10 flex flex-wrap gap-2"><span class="text-xs px-3 py-1.5 rounded-full bg-white border border-[#E5E5E5]">Strategy &amp; copy direction</span><span class="text-xs px-3 py-1.5 rounded-full bg-white border border-[#E5E5E5]">Custom UI design</span><span class="text-xs px-3 py-1.5 rounded-full bg-white border border-[#E5E5E5]">Hand-coded build</span><span class="text-xs px-3 py-1.5 rounded-full bg-white border border-[#E5E5E5]">On-page SEO</span><span class="text-xs px-3 py-1.5 rounded-full bg-white border border-[#E5E5E5]">Lead form &amp; click-to-call</span></div>
-          <div class="relative mt-8 flex items-end justify-between"><div><div class="text-xs uppercase tracking-[0.2em] text-[#525252]">From</div><div style="font-family:Archivo,system-ui,sans-serif" class="text-3xl font-black tracking-tight">$2,400</div></div><a href="#contact" class="cursor-pointer inline-flex items-center gap-2 text-sm font-medium hover:text-[#2563EB] transition-colors">Get a quote <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></a></div>
+        <!-- Primary card -->
+        <article class="reveal card-hover relative md:row-span-2 rounded-3xl border border-line bg-paper p-8 md:p-10 flex flex-col justify-between min-h-[420px] overflow-hidden">
+          <div class="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-accentSoft blob" aria-hidden="true"></div>
+          <div class="relative">
+            <div class="flex items-center gap-3 text-xs uppercase tracking-[0.2em] text-muted">
+              <span class="w-2 h-2 rounded-full bg-accent"></span> Flagship
+            </div>
+            <h3 class="font-display text-3xl md:text-5xl font-black tracking-tight mt-6 leading-[1] max-w-[14ch]">
+              Custom plumbing websites.
+            </h3>
+            <p class="mt-5 text-muted text-lg max-w-md">
+              A bespoke 5–8 page site designed and hand-coded around your service area, your trucks, and your offers. Mobile-first. Fast. Built to convert calls.
+            </p>
+          </div>
+          <div class="relative mt-10 flex flex-wrap gap-2">
+            <span class="text-xs px-3 py-1.5 rounded-full bg-white border border-line">Strategy &amp; copy direction</span>
+            <span class="text-xs px-3 py-1.5 rounded-full bg-white border border-line">Custom UI design</span>
+            <span class="text-xs px-3 py-1.5 rounded-full bg-white border border-line">Hand-coded build</span>
+            <span class="text-xs px-3 py-1.5 rounded-full bg-white border border-line">On-page SEO</span>
+            <span class="text-xs px-3 py-1.5 rounded-full bg-white border border-line">Lead form &amp; click-to-call</span>
+          </div>
+          <div class="relative mt-8 flex items-end justify-between">
+            <div>
+              <div class="text-xs uppercase tracking-[0.2em] text-muted">From</div>
+              <div class="font-display text-3xl font-black tracking-tight">$2,400</div>
+            </div>
+            <a href="#contact" class="cursor-pointer inline-flex items-center gap-2 text-sm font-medium hover:text-accent transition-colors">
+              Get a quote
+              <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+            </a>
+          </div>
         </article>
-        <article class="reveal card-hover rounded-3xl border border-[#E5E5E5] bg-white p-8 flex flex-col"><div class="flex items-center justify-between"><div class="grid place-items-center w-11 h-11 rounded-xl bg-[#EFF4FF] text-[#2563EB]"><svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l3-9 4 18 3-9h4"/></svg></div><span class="text-xs uppercase tracking-[0.2em] text-[#525252]">02</span></div><h3 style="font-family:Archivo,system-ui,sans-serif" class="text-2xl font-extrabold tracking-tight mt-6">Landing pages that book.</h3><p class="text-[#525252] mt-3 leading-relaxed">Single-purpose pages for emergency calls, water heater installs, or seasonal promos — wired into your Google Ads.</p></article>
-        <article class="reveal card-hover rounded-3xl border border-[#E5E5E5] bg-white p-8 flex flex-col"><div class="flex items-center justify-between"><div class="grid place-items-center w-11 h-11 rounded-xl bg-[#EFF4FF] text-[#2563EB]"><svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg></div><span class="text-xs uppercase tracking-[0.2em] text-[#525252]">03</span></div><h3 style="font-family:Archivo,system-ui,sans-serif" class="text-2xl font-extrabold tracking-tight mt-6">Site refreshes &amp; rebuilds.</h3><p class="text-[#525252] mt-3 leading-relaxed">Have a site that just needs to look modern? I'll redesign and rebuild it without losing your rankings.</p></article>
+
+        <!-- Secondary cards -->
+        <article class="reveal card-hover rounded-3xl border border-line bg-white p-8 flex flex-col">
+          <div class="flex items-center justify-between">
+            <div class="grid place-items-center w-11 h-11 rounded-xl bg-accentSoft text-accent">
+              <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l3-9 4 18 3-9h4"/></svg>
+            </div>
+            <span class="text-xs uppercase tracking-[0.2em] text-muted">02</span>
+          </div>
+          <h3 class="font-display text-2xl font-extrabold tracking-tight mt-6">Landing pages that book.</h3>
+          <p class="text-muted mt-3 leading-relaxed">Single-purpose pages for emergency calls, water heater installs, or seasonal promos — wired into your Google Ads.</p>
+        </article>
+
+        <article class="reveal card-hover rounded-3xl border border-line bg-white p-8 flex flex-col">
+          <div class="flex items-center justify-between">
+            <div class="grid place-items-center w-11 h-11 rounded-xl bg-accentSoft text-accent">
+              <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
+            </div>
+            <span class="text-xs uppercase tracking-[0.2em] text-muted">03</span>
+          </div>
+          <h3 class="font-display text-2xl font-extrabold tracking-tight mt-6">Site refreshes &amp; rebuilds.</h3>
+          <p class="text-muted mt-3 leading-relaxed">Have a site that just needs to look modern? I'll redesign and rebuild it without losing your rankings.</p>
+        </article>
       </div>
     </div>
   </section>
-  <section id="process" class="py-24 md:py-32 bg-[#FAFAFA] border-y border-[#E5E5E5]">
+
+  <!-- Process -->
+  <section id="process" class="py-24 md:py-32 bg-paper border-y border-line">
     <div class="mx-auto max-w-7xl px-6">
-      <div class="reveal mb-14"><div class="text-xs uppercase tracking-[0.25em] text-[#525252] mb-4">[ 03 — Process ]</div><h2 style="font-family:Archivo,system-ui,sans-serif" class="text-4xl md:text-6xl font-black tracking-[-0.05em] leading-[0.95] max-w-3xl">Two weeks. Four steps. <span class="italic font-medium text-[#2563EB]">Zero</span> fluff.</h2></div>
-      <ol class="grid md:grid-cols-4 gap-px bg-[#E5E5E5] border border-[#E5E5E5] rounded-3xl overflow-hidden">
-        <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 min-h-[280px]"><div style="font-family:Archivo,system-ui,sans-serif" class="text-6xl md:text-7xl font-black text-[#2563EB] leading-none">01</div><h3 style="font-family:Archivo,system-ui,sans-serif" class="text-xl font-extrabold tracking-tight">Discover</h3><p class="text-[#525252] leading-relaxed">A 30-min call. We map your services, service area, and the calls you want more of.</p><span class="mt-auto text-xs uppercase tracking-[0.2em] text-[#525252]">Day 1</span></li>
-        <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 min-h-[280px]"><div style="font-family:Archivo,system-ui,sans-serif" class="text-6xl md:text-7xl font-black text-[#2563EB] leading-none">02</div><h3 style="font-family:Archivo,system-ui,sans-serif" class="text-xl font-extrabold tracking-tight">Design</h3><p class="text-[#525252] leading-relaxed">High-fidelity mockups of every page, reviewed in Figma. Two rounds of revisions.</p><span class="mt-auto text-xs uppercase tracking-[0.2em] text-[#525252]">Day 2 – 6</span></li>
-        <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 min-h-[280px]"><div style="font-family:Archivo,system-ui,sans-serif" class="text-6xl md:text-7xl font-black text-[#2563EB] leading-none">03</div><h3 style="font-family:Archivo,system-ui,sans-serif" class="text-xl font-extrabold tracking-tight">Build</h3><p class="text-[#525252] leading-relaxed">Hand-coded with Tailwind. 95+ Lighthouse. Fully responsive. Click-to-call wired in.</p><span class="mt-auto text-xs uppercase tracking-[0.2em] text-[#525252]">Day 7 – 12</span></li>
-        <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 min-h-[280px]"><div style="font-family:Archivo,system-ui,sans-serif" class="text-6xl md:text-7xl font-black text-[#2563EB] leading-none">04</div><h3 style="font-family:Archivo,system-ui,sans-serif" class="text-xl font-extrabold tracking-tight">Launch</h3><p class="text-[#525252] leading-relaxed">DNS, analytics, lead routing. Plus a 30-day post-launch tweak window — on me.</p><span class="mt-auto text-xs uppercase tracking-[0.2em] text-[#525252]">Day 13 – 14</span></li>
+      <div class="reveal mb-14">
+        <div class="text-xs uppercase tracking-[0.25em] text-muted mb-4">[ 03 — Process ]</div>
+        <h2 class="font-display text-4xl md:text-6xl font-black tracking-tightest leading-[0.95] max-w-3xl">
+          Two weeks. Four steps. <span class="italic font-medium text-accent">Zero</span> fluff.
+        </h2>
+      </div>
+
+      <ol class="grid md:grid-cols-4 gap-px bg-line border border-line rounded-3xl overflow-hidden">
+        <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 min-h-[280px]">
+          <div class="font-display text-6xl md:text-7xl font-black text-accent leading-none">01</div>
+          <h3 class="font-display text-xl font-extrabold tracking-tight">Discover</h3>
+          <p class="text-muted leading-relaxed">A 30-min call. We map your services, service area, and the calls you want more of.</p>
+          <span class="mt-auto text-xs uppercase tracking-[0.2em] text-muted">Day 1</span>
+        </li>
+        <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 min-h-[280px]">
+          <div class="font-display text-6xl md:text-7xl font-black text-accent leading-none">02</div>
+          <h3 class="font-display text-xl font-extrabold tracking-tight">Design</h3>
+          <p class="text-muted leading-relaxed">High-fidelity mockups of every page, reviewed in Figma. Two rounds of revisions.</p>
+          <span class="mt-auto text-xs uppercase tracking-[0.2em] text-muted">Day 2 – 6</span>
+        </li>
+        <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 min-h-[280px]">
+          <div class="font-display text-6xl md:text-7xl font-black text-accent leading-none">03</div>
+          <h3 class="font-display text-xl font-extrabold tracking-tight">Build</h3>
+          <p class="text-muted leading-relaxed">Hand-coded with Tailwind. 95+ Lighthouse. Fully responsive. Click-to-call wired in.</p>
+          <span class="mt-auto text-xs uppercase tracking-[0.2em] text-muted">Day 7 – 12</span>
+        </li>
+        <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 min-h-[280px]">
+          <div class="font-display text-6xl md:text-7xl font-black text-accent leading-none">04</div>
+          <h3 class="font-display text-xl font-extrabold tracking-tight">Launch</h3>
+          <p class="text-muted leading-relaxed">DNS, analytics, lead routing. Plus a 30-day post-launch tweak window — on me.</p>
+          <span class="mt-auto text-xs uppercase tracking-[0.2em] text-muted">Day 13 – 14</span>
+        </li>
       </ol>
     </div>
   </section>
+
+  <!-- Work / Case studies -->
   <section id="work" class="py-24 md:py-32">
     <div class="mx-auto max-w-7xl px-6">
-      <div class="flex items-end justify-between gap-6 mb-14 reveal"><div><div class="text-xs uppercase tracking-[0.25em] text-[#525252] mb-4">[ 04 — Selected work ]</div><h2 style="font-family:Archivo,system-ui,sans-serif" class="text-4xl md:text-6xl font-black tracking-[-0.05em] leading-[0.95] max-w-3xl">Recent builds.</h2></div><a href="#contact" class="hidden md:inline-flex cursor-pointer items-center gap-2 text-sm font-medium hover:text-[#2563EB] transition-colors">Have a project? Let's talk <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></a></div>
+      <div class="flex items-end justify-between gap-6 mb-14 reveal">
+        <div>
+          <div class="text-xs uppercase tracking-[0.25em] text-muted mb-4">[ 04 — Selected work ]</div>
+          <h2 class="font-display text-4xl md:text-6xl font-black tracking-tightest leading-[0.95] max-w-3xl">
+            Recent builds.
+          </h2>
+        </div>
+        <a href="#contact" class="hidden md:inline-flex cursor-pointer items-center gap-2 text-sm font-medium hover:text-accent transition-colors">
+          Have a project? Let's talk
+          <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+      </div>
+
       <div class="grid md:grid-cols-12 gap-6">
-        <a href="#contact" class="reveal card-hover group md:col-span-7 rounded-3xl overflow-hidden border border-[#E5E5E5] bg-[#FAFAFA] relative aspect-[16/11] block">
-          <div class="absolute inset-0 grid place-items-center"><div class="w-[88%] h-[80%] rounded-2xl bg-white border border-[#E5E5E5] shadow-[0_30px_80px_-30px_rgba(0,0,0,.18)] overflow-hidden flex flex-col"><div class="flex items-center gap-1.5 px-4 py-3 border-b border-[#E5E5E5]"><span class="w-2.5 h-2.5 rounded-full bg-[#E5E5E5]"></span><span class="w-2.5 h-2.5 rounded-full bg-[#E5E5E5]"></span><span class="w-2.5 h-2.5 rounded-full bg-[#E5E5E5]"></span><span class="ml-3 text-[10px] tracking-wider text-[#525252]">aquaflow-plumbing.com</span></div><div class="flex-1 p-6 grid grid-cols-5 gap-4"><div class="col-span-3 flex flex-col justify-between"><div class="h-2 w-24 rounded bg-[#0A0A0A]/80"></div><div><div style="font-family:Archivo,system-ui,sans-serif" class="font-black text-3xl md:text-5xl tracking-[-0.05em] leading-[0.9]">24/7 emergency<br/><span class="text-[#2563EB]">plumbing.</span></div><div class="mt-3 h-2 w-3/4 rounded bg-[#E5E5E5]"></div><div class="mt-2 h-2 w-2/3 rounded bg-[#E5E5E5]"></div><div class="mt-5 inline-flex items-center gap-2 px-3 py-2 rounded-full bg-[#0A0A0A] text-white text-xs">Call now ↗</div></div></div><div class="col-span-2 rounded-xl bg-gradient-to-br from-[#EFF4FF] to-[#FAFAFA] border border-[#E5E5E5] relative overflow-hidden"><div class="absolute inset-0 grid place-items-center text-[#2563EB]"><svg viewBox="0 0 24 24" class="w-16 h-16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M12 3c4 5 6 8 6 11a6 6 0 1 1-12 0c0-3 2-6 6-11z"/></svg></div></div></div></div></div>
-          <div class="absolute bottom-5 left-5 right-5 flex items-center justify-between"><div><div style="font-family:Archivo,system-ui,sans-serif" class="text-lg font-extrabold tracking-tight">Aquaflow Plumbing</div><div class="text-xs text-[#525252]">Brand site · 7 pages · Phoenix, AZ</div></div><span class="inline-flex items-center gap-1 text-xs uppercase tracking-[0.2em] text-[#525252] group-hover:text-[#2563EB] transition-colors">View case <svg viewBox="0 0 24 24" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></span></div>
+        <!-- Case 1 -->
+        <a href="#contact" class="reveal card-hover group md:col-span-7 rounded-3xl overflow-hidden border border-line bg-paper relative aspect-[16/11] block">
+          <div class="absolute inset-0 grid place-items-center">
+            <!-- Mock browser -->
+            <div class="w-[88%] h-[80%] rounded-2xl bg-white border border-line shadow-[0_30px_80px_-30px_rgba(0,0,0,.18)] overflow-hidden flex flex-col">
+              <div class="flex items-center gap-1.5 px-4 py-3 border-b border-line">
+                <span class="w-2.5 h-2.5 rounded-full bg-line"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-line"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-line"></span>
+                <span class="ml-3 text-[10px] tracking-wider text-muted">aquaflow-plumbing.com</span>
+              </div>
+              <div class="flex-1 p-6 grid grid-cols-5 gap-4">
+                <div class="col-span-3 flex flex-col justify-between">
+                  <div class="h-2 w-24 rounded bg-ink/80"></div>
+                  <div>
+                    <div class="font-display font-black text-3xl md:text-5xl tracking-tightest leading-[0.9]">24/7 emergency<br/><span class="text-accent">plumbing.</span></div>
+                    <div class="mt-3 h-2 w-3/4 rounded bg-line"></div>
+                    <div class="mt-2 h-2 w-2/3 rounded bg-line"></div>
+                    <div class="mt-5 inline-flex items-center gap-2 px-3 py-2 rounded-full bg-ink text-white text-xs">Call now ↗</div>
+                  </div>
+                </div>
+                <div class="col-span-2 rounded-xl bg-gradient-to-br from-accentSoft to-paper border border-line relative overflow-hidden">
+                  <div class="absolute inset-0 grid place-items-center text-accent">
+                    <svg viewBox="0 0 24 24" class="w-16 h-16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                      <path d="M12 3c4 5 6 8 6 11a6 6 0 1 1-12 0c0-3 2-6 6-11z"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="absolute bottom-5 left-5 right-5 flex items-center justify-between">
+            <div>
+              <div class="font-display text-lg font-extrabold tracking-tight">Aquaflow Plumbing</div>
+              <div class="text-xs text-muted">Brand site · 7 pages · Phoenix, AZ</div>
+            </div>
+            <span class="inline-flex items-center gap-1 text-xs uppercase tracking-[0.2em] text-muted group-hover:text-accent transition-colors">
+              View case <svg viewBox="0 0 24 24" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+            </span>
+          </div>
         </a>
-        <a href="#contact" class="reveal card-hover group md:col-span-5 rounded-3xl overflow-hidden border border-[#E5E5E5] bg-[#0A0A0A] text-white relative aspect-[16/11] block">
-          <div class="absolute inset-0 p-8 flex flex-col justify-between"><div class="text-xs uppercase tracking-[0.25em] text-white/60">Landing page</div><div><div style="font-family:Archivo,system-ui,sans-serif" class="text-4xl md:text-6xl font-black tracking-[-0.05em] leading-[0.9]">Drainline<span class="text-[#2563EB]">.</span></div><div class="mt-2 text-white/60 text-sm max-w-xs">High-converting drain-cleaning landing page tied to local PPC.</div><div class="mt-6 grid grid-cols-3 gap-2 max-w-md"><div class="h-10 rounded-md bg-white/10"></div><div class="h-10 rounded-md bg-white/10"></div><div class="h-10 rounded-md bg-[#2563EB]"></div></div></div></div>
+
+        <!-- Case 2 -->
+        <a href="#contact" class="reveal card-hover group md:col-span-5 rounded-3xl overflow-hidden border border-line bg-ink text-white relative aspect-[16/11] block">
+          <div class="absolute inset-0 p-8 flex flex-col justify-between">
+            <div class="text-xs uppercase tracking-[0.25em] text-white/60">Landing page</div>
+            <div>
+              <div class="font-display text-4xl md:text-6xl font-black tracking-tightest leading-[0.9]">
+                Drainline<span class="text-accent">.</span>
+              </div>
+              <div class="mt-2 text-white/60 text-sm max-w-xs">High-converting drain-cleaning landing page tied to local PPC.</div>
+              <div class="mt-6 grid grid-cols-3 gap-2 max-w-md">
+                <div class="h-10 rounded-md bg-white/10"></div>
+                <div class="h-10 rounded-md bg-white/10"></div>
+                <div class="h-10 rounded-md bg-accent"></div>
+              </div>
+            </div>
+          </div>
         </a>
-        <a href="#contact" class="reveal card-hover group md:col-span-5 rounded-3xl overflow-hidden border border-[#E5E5E5] bg-[#FAFAFA] relative aspect-[16/11] block">
-          <div class="absolute inset-0 p-8 flex flex-col justify-between"><div class="text-xs uppercase tracking-[0.25em] text-[#525252]">Site refresh</div><div><div style="font-family:Archivo,system-ui,sans-serif" class="text-4xl md:text-5xl font-black tracking-[-0.05em] leading-[0.95]">Northgate<br/>HVAC + Plumbing</div><div class="mt-3 flex items-center gap-2"><span class="px-3 py-1.5 rounded-full bg-white border border-[#E5E5E5] text-xs">+184% leads</span><span class="px-3 py-1.5 rounded-full bg-white border border-[#E5E5E5] text-xs">98 PageSpeed</span></div></div></div>
+
+        <!-- Case 3 -->
+        <a href="#contact" class="reveal card-hover group md:col-span-5 rounded-3xl overflow-hidden border border-line bg-paper relative aspect-[16/11] block">
+          <div class="absolute inset-0 p-8 flex flex-col justify-between">
+            <div class="text-xs uppercase tracking-[0.25em] text-muted">Site refresh</div>
+            <div>
+              <div class="font-display text-4xl md:text-5xl font-black tracking-tightest leading-[0.95]">
+                Northgate<br/>HVAC + Plumbing
+              </div>
+              <div class="mt-3 flex items-center gap-2">
+                <span class="px-3 py-1.5 rounded-full bg-white border border-line text-xs">+184% leads</span>
+                <span class="px-3 py-1.5 rounded-full bg-white border border-line text-xs">98 PageSpeed</span>
+              </div>
+            </div>
+          </div>
         </a>
-        <a href="#contact" class="reveal card-hover group md:col-span-7 rounded-3xl overflow-hidden border border-[#E5E5E5] bg-white relative aspect-[16/11] block">
-          <div class="absolute inset-0 grid grid-cols-5"><div class="col-span-3 p-8 flex flex-col justify-between"><div class="text-xs uppercase tracking-[0.25em] text-[#525252]">Brand + site</div><div><div style="font-family:Archivo,system-ui,sans-serif" class="text-3xl md:text-5xl font-black tracking-[-0.05em] leading-[0.95]">Copper &amp; Co. <span class="text-[#2563EB]">Plumbing</span></div><div class="mt-3 text-[#525252] text-sm max-w-md">Boutique residential plumber site with a heritage-craft tone.</div></div></div><div class="col-span-2 relative bg-gradient-to-br from-[#F5F1EA] to-[#FAFAFA] border-l border-[#E5E5E5]"><div class="absolute inset-0 grid place-items-center"><svg viewBox="0 0 120 120" class="w-2/3 h-2/3" fill="none" stroke="#0A0A0A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="60" cy="60" r="48"/><path d="M30 60h60"/><path d="M60 30v60"/><circle cx="60" cy="60" r="6" fill="#2563EB" stroke="none"/></svg></div></div></div>
+
+        <!-- Case 4 -->
+        <a href="#contact" class="reveal card-hover group md:col-span-7 rounded-3xl overflow-hidden border border-line bg-white relative aspect-[16/11] block">
+          <div class="absolute inset-0 grid grid-cols-5">
+            <div class="col-span-3 p-8 flex flex-col justify-between">
+              <div class="text-xs uppercase tracking-[0.25em] text-muted">Brand + site</div>
+              <div>
+                <div class="font-display text-3xl md:text-5xl font-black tracking-tightest leading-[0.95]">
+                  Copper &amp; Co. <span class="text-accent">Plumbing</span>
+                </div>
+                <div class="mt-3 text-muted text-sm max-w-md">Boutique residential plumber site with a heritage-craft tone.</div>
+              </div>
+            </div>
+            <div class="col-span-2 relative bg-gradient-to-br from-[#F5F1EA] to-paper border-l border-line">
+              <div class="absolute inset-0 grid place-items-center">
+                <svg viewBox="0 0 120 120" class="w-2/3 h-2/3" fill="none" stroke="#0A0A0A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="60" cy="60" r="48"/>
+                  <path d="M30 60h60"/>
+                  <path d="M60 30v60"/>
+                  <circle cx="60" cy="60" r="6" fill="#2563EB" stroke="none"/>
+                </svg>
+              </div>
+            </div>
+          </div>
         </a>
       </div>
     </div>
   </section>
-  <section id="about" class="py-24 md:py-32 bg-[#FAFAFA] border-y border-[#E5E5E5]">
+
+  <!-- About / Founder -->
+  <section id="about" class="py-24 md:py-32 bg-paper border-y border-line">
     <div class="mx-auto max-w-7xl px-6 grid md:grid-cols-12 gap-12 items-center">
-      <div class="md:col-span-5 reveal"><div class="relative aspect-[4/5] rounded-3xl overflow-hidden border border-[#E5E5E5] bg-white"><div class="absolute inset-0 bg-gradient-to-br from-[#EFF4FF] via-white to-[#F5F1EA]"></div><svg viewBox="0 0 400 500" class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0A0A0A"/><stop offset="100%" stop-color="#262626"/></linearGradient></defs><path d="M50 500 C 60 380, 130 340, 200 340 C 270 340, 340 380, 350 500 Z" fill="url(#g1)"/><rect x="180" y="290" width="40" height="60" fill="#E5C9A8"/><circle cx="200" cy="240" r="80" fill="#F1D9B8"/><path d="M120 230 C 120 160, 180 130, 230 145 C 280 160, 280 220, 270 240 C 260 200, 230 180, 200 180 C 170 180, 140 200, 130 240 Z" fill="#0A0A0A"/><circle cx="175" cy="240" r="14" fill="none" stroke="#0A0A0A" stroke-width="3"/><circle cx="225" cy="240" r="14" fill="none" stroke="#0A0A0A" stroke-width="3"/><line x1="189" y1="240" x2="211" y2="240" stroke="#0A0A0A" stroke-width="3"/><circle cx="320" cy="430" r="34" fill="#2563EB"/><text x="320" y="437" text-anchor="middle" font-family="Archivo" font-weight="900" font-size="20" fill="#fff">PC</text></svg><div class="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs"><span class="px-3 py-1.5 rounded-full bg-white border border-[#E5E5E5]">Founder · designer · developer</span><span class="px-3 py-1.5 rounded-full bg-[#0A0A0A] text-white">Hi, I'm here ↘</span></div></div></div>
-      <div class="md:col-span-7 reveal"><div class="text-xs uppercase tracking-[0.25em] text-[#525252] mb-4">[ 05 — About ]</div><h2 style="font-family:Archivo,system-ui,sans-serif" class="text-4xl md:text-6xl font-black tracking-[-0.05em] leading-[0.95]">A studio of <span class="italic font-medium text-[#2563EB]">one</span> — and that's the point.</h2><p class="mt-6 text-lg md:text-xl text-[#525252] leading-relaxed max-w-2xl">I'm the designer, the developer, and the person you email. There's no junior handing off your project to a contractor halfway through. Every pixel and every line of code is mine. When you talk to me about your business, I'm the one building from it.</p><div class="mt-10 grid sm:grid-cols-3 gap-6 border-t border-[#E5E5E5] pt-8"><div><div style="font-family:Archivo,system-ui,sans-serif" class="text-3xl font-black tracking-tight">No</div><div class="text-sm text-[#525252] mt-1">Templates or page-builders</div></div><div><div style="font-family:Archivo,system-ui,sans-serif" class="text-3xl font-black tracking-tight">No</div><div class="text-sm text-[#525252] mt-1">Account managers in the loop</div></div><div><div style="font-family:Archivo,system-ui,sans-serif" class="text-3xl font-black tracking-tight">No</div><div class="text-sm text-[#525252] mt-1">12-month "growth retainers"</div></div></div><a href="#contact" class="cursor-pointer mt-10 inline-flex items-center gap-2 rounded-full bg-[#0A0A0A] text-white px-6 py-3 font-medium hover:bg-[#2563EB] transition-colors">Talk to me directly <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></div>
+      <div class="md:col-span-5 reveal">
+        <div class="relative aspect-[4/5] rounded-3xl overflow-hidden border border-line bg-white">
+          <!-- Stylized portrait placeholder -->
+          <div class="absolute inset-0 bg-gradient-to-br from-accentSoft via-white to-[#F5F1EA]"></div>
+          <svg viewBox="0 0 400 500" class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#0A0A0A"/>
+                <stop offset="100%" stop-color="#262626"/>
+              </linearGradient>
+            </defs>
+            <!-- shoulders/torso -->
+            <path d="M50 500 C 60 380, 130 340, 200 340 C 270 340, 340 380, 350 500 Z" fill="url(#g1)"/>
+            <!-- neck -->
+            <rect x="180" y="290" width="40" height="60" fill="#E5C9A8"/>
+            <!-- head -->
+            <circle cx="200" cy="240" r="80" fill="#F1D9B8"/>
+            <!-- hair -->
+            <path d="M120 230 C 120 160, 180 130, 230 145 C 280 160, 280 220, 270 240 C 260 200, 230 180, 200 180 C 170 180, 140 200, 130 240 Z" fill="#0A0A0A"/>
+            <!-- glasses -->
+            <circle cx="175" cy="240" r="14" fill="none" stroke="#0A0A0A" stroke-width="3"/>
+            <circle cx="225" cy="240" r="14" fill="none" stroke="#0A0A0A" stroke-width="3"/>
+            <line x1="189" y1="240" x2="211" y2="240" stroke="#0A0A0A" stroke-width="3"/>
+            <!-- accent badge -->
+            <circle cx="320" cy="430" r="34" fill="#2563EB"/>
+            <text x="320" y="437" text-anchor="middle" font-family="Archivo" font-weight="900" font-size="20" fill="#fff">PC</text>
+          </svg>
+          <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs">
+            <span class="px-3 py-1.5 rounded-full bg-white border border-line">Founder · designer · developer</span>
+            <span class="px-3 py-1.5 rounded-full bg-ink text-white">Hi, I'm here ↘</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="md:col-span-7 reveal">
+        <div class="text-xs uppercase tracking-[0.25em] text-muted mb-4">[ 05 — About ]</div>
+        <h2 class="font-display text-4xl md:text-6xl font-black tracking-tightest leading-[0.95]">
+          A studio of <span class="italic font-medium text-accent">one</span> — and that's the point.
+        </h2>
+        <p class="mt-6 text-lg md:text-xl text-muted leading-relaxed max-w-2xl">
+          I'm the designer, the developer, and the person you email. There's no junior handing off your project to a contractor halfway through. Every pixel and every line of code is mine. When you talk to me about your business, I'm the one building from it.
+        </p>
+
+        <div class="mt-10 grid sm:grid-cols-3 gap-6 border-t border-line pt-8">
+          <div>
+            <div class="font-display text-3xl font-black tracking-tight">No</div>
+            <div class="text-sm text-muted mt-1">Templates or page-builders</div>
+          </div>
+          <div>
+            <div class="font-display text-3xl font-black tracking-tight">No</div>
+            <div class="text-sm text-muted mt-1">Account managers in the loop</div>
+          </div>
+          <div>
+            <div class="font-display text-3xl font-black tracking-tight">No</div>
+            <div class="text-sm text-muted mt-1">12-month "growth retainers"</div>
+          </div>
+        </div>
+
+        <a href="#contact" class="cursor-pointer mt-10 inline-flex items-center gap-2 rounded-full bg-ink text-white px-6 py-3 font-medium hover:bg-accent transition-colors">
+          Talk to me directly
+          <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
     </div>
   </section>
+
+  <!-- Testimonials -->
   <section class="py-24 md:py-32">
     <div class="mx-auto max-w-7xl px-6">
-      <div class="reveal mb-14 max-w-3xl"><div class="text-xs uppercase tracking-[0.25em] text-[#525252] mb-4">[ 06 — Words ]</div><h2 style="font-family:Archivo,system-ui,sans-serif" class="text-4xl md:text-6xl font-black tracking-[-0.05em] leading-[0.95]">From owners who needed the phone to <span class="italic font-medium text-[#2563EB]">ring</span>.</h2></div>
+      <div class="reveal mb-14 max-w-3xl">
+        <div class="text-xs uppercase tracking-[0.25em] text-muted mb-4">[ 06 — Words ]</div>
+        <h2 class="font-display text-4xl md:text-6xl font-black tracking-tightest leading-[0.95]">
+          From owners who needed the phone to <span class="italic font-medium text-accent">ring</span>.
+        </h2>
+      </div>
+
       <div class="grid md:grid-cols-3 gap-5">
-        <figure class="reveal card-hover rounded-3xl border border-[#E5E5E5] bg-white p-8 flex flex-col"><svg viewBox="0 0 24 24" class="w-8 h-8 text-[#2563EB] mb-6" fill="currentColor" aria-hidden="true"><path d="M7 7h4v10H5V11c0-2.2 1.8-4 4-4H7zm10 0h4v10h-6V11c0-2.2 1.8-4 4-4h-2z"/></svg><blockquote class="text-lg leading-relaxed">Calls doubled in the first month. The site finally <em class="not-italic underline decoration-[#2563EB] decoration-2 underline-offset-4">looks like our trucks</em> — clean, modern, professional.</blockquote><figcaption class="mt-8 flex items-center gap-3 pt-6 border-t border-[#E5E5E5]"><div class="w-10 h-10 rounded-full bg-[#EFF4FF] grid place-items-center font-bold text-[#2563EB]">M</div><div><div class="font-medium">Marcus Reed</div><div class="text-xs text-[#525252]">Owner, Aquaflow Plumbing</div></div></figcaption></figure>
-        <figure class="reveal card-hover rounded-3xl border border-[#E5E5E5] bg-[#FAFAFA] p-8 flex flex-col"><svg viewBox="0 0 24 24" class="w-8 h-8 text-[#2563EB] mb-6" fill="currentColor" aria-hidden="true"><path d="M7 7h4v10H5V11c0-2.2 1.8-4 4-4H7zm10 0h4v10h-6V11c0-2.2 1.8-4 4-4h-2z"/></svg><blockquote class="text-lg leading-relaxed">I've been quoted $9k by agencies for the same scope. PipeCraft delivered better work in two weeks for a quarter of that.</blockquote><figcaption class="mt-8 flex items-center gap-3 pt-6 border-t border-[#E5E5E5]"><div class="w-10 h-10 rounded-full bg-[#0A0A0A] text-white grid place-items-center font-bold">D</div><div><div class="font-medium">Diana Vega</div><div class="text-xs text-[#525252]">CEO, Northgate Services</div></div></figcaption></figure>
-        <figure class="reveal card-hover rounded-3xl border border-[#E5E5E5] bg-[#0A0A0A] text-white p-8 flex flex-col"><svg viewBox="0 0 24 24" class="w-8 h-8 text-[#2563EB] mb-6" fill="currentColor" aria-hidden="true"><path d="M7 7h4v10H5V11c0-2.2 1.8-4 4-4H7zm10 0h4v10h-6V11c0-2.2 1.8-4 4-4h-2z"/></svg><blockquote class="text-lg leading-relaxed text-white/90">Direct, fast, opinionated in the right ways. I told him the brief once and he just <em class="not-italic">got</em> the trade.</blockquote><figcaption class="mt-8 flex items-center gap-3 pt-6 border-t border-white/15"><div class="w-10 h-10 rounded-full bg-[#2563EB] grid place-items-center font-bold">J</div><div><div class="font-medium">Jay Kowalski</div><div class="text-xs text-white/60">Founder, Copper &amp; Co.</div></div></figcaption></figure>
+        <figure class="reveal card-hover rounded-3xl border border-line bg-white p-8 flex flex-col">
+          <svg viewBox="0 0 24 24" class="w-8 h-8 text-accent mb-6" fill="currentColor" aria-hidden="true"><path d="M7 7h4v10H5V11c0-2.2 1.8-4 4-4H7zm10 0h4v10h-6V11c0-2.2 1.8-4 4-4h-2z"/></svg>
+          <blockquote class="text-lg leading-relaxed">
+            Calls doubled in the first month. The site finally <em class="not-italic underline decoration-accent decoration-2 underline-offset-4">looks like our trucks</em> — clean, modern, professional.
+          </blockquote>
+          <figcaption class="mt-8 flex items-center gap-3 pt-6 border-t border-line">
+            <div class="w-10 h-10 rounded-full bg-accentSoft grid place-items-center font-display font-bold text-accent">M</div>
+            <div>
+              <div class="font-medium">Marcus Reed</div>
+              <div class="text-xs text-muted">Owner, Aquaflow Plumbing</div>
+            </div>
+          </figcaption>
+        </figure>
+
+        <figure class="reveal card-hover rounded-3xl border border-line bg-paper p-8 flex flex-col">
+          <svg viewBox="0 0 24 24" class="w-8 h-8 text-accent mb-6" fill="currentColor" aria-hidden="true"><path d="M7 7h4v10H5V11c0-2.2 1.8-4 4-4H7zm10 0h4v10h-6V11c0-2.2 1.8-4 4-4h-2z"/></svg>
+          <blockquote class="text-lg leading-relaxed">
+            I've been quoted $9k by agencies for the same scope. PipeCraft delivered better work in two weeks for a quarter of that.
+          </blockquote>
+          <figcaption class="mt-8 flex items-center gap-3 pt-6 border-t border-line">
+            <div class="w-10 h-10 rounded-full bg-ink text-white grid place-items-center font-display font-bold">D</div>
+            <div>
+              <div class="font-medium">Diana Vega</div>
+              <div class="text-xs text-muted">CEO, Northgate Services</div>
+            </div>
+          </figcaption>
+        </figure>
+
+        <figure class="reveal card-hover rounded-3xl border border-line bg-ink text-white p-8 flex flex-col">
+          <svg viewBox="0 0 24 24" class="w-8 h-8 text-accent mb-6" fill="currentColor" aria-hidden="true"><path d="M7 7h4v10H5V11c0-2.2 1.8-4 4-4H7zm10 0h4v10h-6V11c0-2.2 1.8-4 4-4h-2z"/></svg>
+          <blockquote class="text-lg leading-relaxed text-white/90">
+            Direct, fast, opinionated in the right ways. I told him the brief once and he just <em class="not-italic">got</em> the trade.
+          </blockquote>
+          <figcaption class="mt-8 flex items-center gap-3 pt-6 border-t border-white/15">
+            <div class="w-10 h-10 rounded-full bg-accent grid place-items-center font-display font-bold">J</div>
+            <div>
+              <div class="font-medium">Jay Kowalski</div>
+              <div class="text-xs text-white/60">Founder, Copper &amp; Co.</div>
+            </div>
+          </figcaption>
+        </figure>
       </div>
     </div>
   </section>
+
+  <!-- Why us / Comparison -->
+  <section class="py-24 md:py-32 bg-paper border-y border-line">
+    <div class="mx-auto max-w-7xl px-6">
+      <div class="reveal max-w-3xl mb-14">
+        <div class="text-xs uppercase tracking-[0.25em] text-muted mb-4">[ 07 — Why PipeCraft ]</div>
+        <h2 class="font-display text-4xl md:text-6xl font-black tracking-tightest leading-[0.95]">
+          The agency tax, <span class="italic font-medium text-accent">cancelled</span>.
+        </h2>
+      </div>
+
+      <div class="reveal grid md:grid-cols-2 gap-px bg-line border border-line rounded-3xl overflow-hidden">
+        <div class="bg-white p-8 md:p-10">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="grid place-items-center w-10 h-10 rounded-full bg-line text-muted">
+              <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h18"/><path d="M3 12h18"/><path d="M3 17h18"/></svg>
+            </div>
+            <div class="font-display font-extrabold text-xl">Typical agency</div>
+          </div>
+          <ul class="space-y-4 text-muted">
+            <li class="flex gap-3"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-line shrink-0"></span> $8–15k starting prices</li>
+            <li class="flex gap-3"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-line shrink-0"></span> 6–12 week timelines</li>
+            <li class="flex gap-3"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-line shrink-0"></span> Generic templates with your logo dropped on top</li>
+            <li class="flex gap-3"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-line shrink-0"></span> Account managers, project managers, an offshore dev — and you</li>
+            <li class="flex gap-3"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-line shrink-0"></span> Mandatory monthly retainers</li>
+          </ul>
+        </div>
+        <div class="bg-ink text-white p-8 md:p-10 relative overflow-hidden">
+          <div aria-hidden="true" class="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-accent/20 blob"></div>
+          <div class="relative">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="grid place-items-center w-10 h-10 rounded-full bg-accent">
+                <svg viewBox="0 0 24 24" class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+              </div>
+              <div class="font-display font-extrabold text-xl">PipeCraft Studio</div>
+            </div>
+            <ul class="space-y-4 text-white/85">
+              <li class="flex gap-3"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0"></span> $2.4–4.5k flat, no surprises</li>
+              <li class="flex gap-3"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0"></span> 14-day delivery, calendar-locked</li>
+              <li class="flex gap-3"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0"></span> 100% custom design and code</li>
+              <li class="flex gap-3"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0"></span> One person. The one building it. Always.</li>
+              <li class="flex gap-3"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0"></span> Optional support — no contracts</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
   <section id="faq" class="py-24 md:py-32">
     <div class="mx-auto max-w-7xl px-6 grid md:grid-cols-12 gap-10">
-      <div class="md:col-span-4 reveal"><div class="text-xs uppercase tracking-[0.25em] text-[#525252] mb-4">[ 08 — FAQ ]</div><h2 style="font-family:Archivo,system-ui,sans-serif" class="text-4xl md:text-5xl font-black tracking-[-0.05em] leading-[0.95]">Honest answers, no fine print.</h2><p class="mt-6 text-[#525252]">Still have a question? Email me at <a class="underline decoration-[#2563EB] decoration-2 underline-offset-4 hover:text-[#0A0A0A]" href="mailto:hello@pipecraft.studio">hello@pipecraft.studio</a> and I'll reply same-day.</p></div>
-      <div class="md:col-span-8 reveal divide-y divide-[#E5E5E5] border-t border-b border-[#E5E5E5]">
-        <details class="group py-6"><summary class="flex items-center justify-between gap-6"><span style="font-family:Archivo,system-ui,sans-serif" class="text-lg md:text-xl font-bold tracking-tight">Do you only build for plumbers?</span><span class="acc-icon text-2xl text-[#525252]">+</span></summary><p class="mt-4 text-[#525252] leading-relaxed max-w-2xl">Plumbing is the core niche, but I happily build for adjacent home services — HVAC, drain, water heater, septic, restoration. The playbook transfers cleanly.</p></details>
-        <details class="group py-6"><summary class="flex items-center justify-between gap-6"><span style="font-family:Archivo,system-ui,sans-serif" class="text-lg md:text-xl font-bold tracking-tight">What's actually included in the flat price?</span><span class="acc-icon text-2xl text-[#525252]">+</span></summary><p class="mt-4 text-[#525252] leading-relaxed max-w-2xl">Strategy call, custom design in Figma (every page), hand-coded build, on-page SEO, contact + lead form, click-to-call wiring, analytics, deployment, and 30 days of free post-launch tweaks.</p></details>
-        <details class="group py-6"><summary class="flex items-center justify-between gap-6"><span style="font-family:Archivo,system-ui,sans-serif" class="text-lg md:text-xl font-bold tracking-tight">Will I be able to update the site myself?</span><span class="acc-icon text-2xl text-[#525252]">+</span></summary><p class="mt-4 text-[#525252] leading-relaxed max-w-2xl">Yes. By default I ship with a lightweight CMS (or WordPress, if you prefer) so you can edit copy, swap photos, and add service pages without touching code.</p></details>
-        <details class="group py-6"><summary class="flex items-center justify-between gap-6"><span style="font-family:Archivo,system-ui,sans-serif" class="text-lg md:text-xl font-bold tracking-tight">What if I already have a site?</span><span class="acc-icon text-2xl text-[#525252]">+</span></summary><p class="mt-4 text-[#525252] leading-relaxed max-w-2xl">A redesign + rebuild is the most common project. I migrate your content, preserve your URLs and rankings, and modernize the design and performance underneath.</p></details>
-        <details class="group py-6"><summary class="flex items-center justify-between gap-6"><span style="font-family:Archivo,system-ui,sans-serif" class="text-lg md:text-xl font-bold tracking-tight">How do I get started?</span><span class="acc-icon text-2xl text-[#525252]">+</span></summary><p class="mt-4 text-[#525252] leading-relaxed max-w-2xl">Send a quick message about your business and I'll reply within a day with a calendar link, a rough quote, and the next available start date.</p></details>
+      <div class="md:col-span-4 reveal">
+        <div class="text-xs uppercase tracking-[0.25em] text-muted mb-4">[ 08 — FAQ ]</div>
+        <h2 class="font-display text-4xl md:text-5xl font-black tracking-tightest leading-[0.95]">
+          Honest answers, no fine print.
+        </h2>
+        <p class="mt-6 text-muted">Still have a question? Email me at <a class="underline decoration-accent decoration-2 underline-offset-4 hover:text-ink" href="mailto:hello@pipecraft.studio">hello@pipecraft.studio</a> and I'll reply same-day.</p>
+      </div>
+      <div class="md:col-span-8 reveal divide-y divide-line border-t border-b border-line">
+        <details class="group py-6">
+          <summary class="flex items-center justify-between gap-6">
+            <span class="font-display text-lg md:text-xl font-bold tracking-tight">Do you only build for plumbers?</span>
+            <span class="acc-icon text-2xl text-muted">+</span>
+          </summary>
+          <p class="mt-4 text-muted leading-relaxed max-w-2xl">Plumbing is the core niche, but I happily build for adjacent home services — HVAC, drain, water heater, septic, restoration. The playbook transfers cleanly.</p>
+        </details>
+        <details class="group py-6">
+          <summary class="flex items-center justify-between gap-6">
+            <span class="font-display text-lg md:text-xl font-bold tracking-tight">What's actually included in the flat price?</span>
+            <span class="acc-icon text-2xl text-muted">+</span>
+          </summary>
+          <p class="mt-4 text-muted leading-relaxed max-w-2xl">Strategy call, custom design in Figma (every page), hand-coded build, on-page SEO, contact + lead form, click-to-call wiring, analytics, deployment, and 30 days of free post-launch tweaks.</p>
+        </details>
+        <details class="group py-6">
+          <summary class="flex items-center justify-between gap-6">
+            <span class="font-display text-lg md:text-xl font-bold tracking-tight">Will I be able to update the site myself?</span>
+            <span class="acc-icon text-2xl text-muted">+</span>
+          </summary>
+          <p class="mt-4 text-muted leading-relaxed max-w-2xl">Yes. By default I ship with a lightweight CMS (or WordPress, if you prefer) so you can edit copy, swap photos, and add service pages without touching code.</p>
+        </details>
+        <details class="group py-6">
+          <summary class="flex items-center justify-between gap-6">
+            <span class="font-display text-lg md:text-xl font-bold tracking-tight">What if I already have a site?</span>
+            <span class="acc-icon text-2xl text-muted">+</span>
+          </summary>
+          <p class="mt-4 text-muted leading-relaxed max-w-2xl">A redesign + rebuild is the most common project. I migrate your content, preserve your URLs and rankings, and modernize the design and performance underneath.</p>
+        </details>
+        <details class="group py-6">
+          <summary class="flex items-center justify-between gap-6">
+            <span class="font-display text-lg md:text-xl font-bold tracking-tight">How do I get started?</span>
+            <span class="acc-icon text-2xl text-muted">+</span>
+          </summary>
+          <p class="mt-4 text-muted leading-relaxed max-w-2xl">Send a quick message about your business and I'll reply within a day with a calendar link, a rough quote, and the next available start date.</p>
+        </details>
       </div>
     </div>
   </section>
-  <section id="contact" class="py-24 md:py-32 bg-[#0A0A0A] text-white relative overflow-hidden">
-    <div aria-hidden="true" class="absolute inset-0 -z-0 opacity-50"><div class="blob absolute -top-32 -left-20 w-[500px] h-[500px] rounded-full bg-[#2563EB]/40"></div><div class="blob absolute -bottom-40 -right-10 w-[460px] h-[460px] rounded-full bg-white/10" style="animation-delay:-6s"></div></div>
+
+  <!-- Final CTA -->
+  <section id="contact" class="py-24 md:py-32 bg-ink text-white relative overflow-hidden">
+    <div aria-hidden="true" class="absolute inset-0 -z-0 opacity-50">
+      <div class="blob absolute -top-32 -left-20 w-[500px] h-[500px] rounded-full bg-accent/40"></div>
+      <div class="blob absolute -bottom-40 -right-10 w-[460px] h-[460px] rounded-full bg-white/10" style="animation-delay: -6s;"></div>
+    </div>
     <div class="relative mx-auto max-w-7xl px-6">
-      <div class="reveal"><div class="text-xs uppercase tracking-[0.25em] text-white/60 mb-6">[ 09 — Let's build ]</div><h2 style="font-family:Archivo,system-ui,sans-serif" class="text-5xl md:text-8xl font-black tracking-[-0.05em] leading-[0.9] max-w-5xl">Ready to make your <br/>website <span class="italic font-medium text-[#2563EB]">pull its weight?</span></h2></div>
+      <div class="reveal">
+        <div class="text-xs uppercase tracking-[0.25em] text-white/60 mb-6">[ 09 — Let's build ]</div>
+        <h2 class="font-display text-5xl md:text-8xl font-black tracking-tightest leading-[0.9] max-w-5xl">
+          Ready to make your <br/>website <span class="italic font-medium text-accent">pull its weight?</span>
+        </h2>
+      </div>
+
       <div class="mt-14 grid md:grid-cols-12 gap-10 items-end reveal">
-        <div class="md:col-span-7"><p class="text-white/70 text-lg max-w-xl">Tell me about your business in a paragraph. I'll send back a same-day reply with a rough quote and a calendar link.</p><form class="mt-8 grid sm:grid-cols-2 gap-3" onsubmit="event.preventDefault();alert('Thanks — I will reply within a day.');"><label class="sr-only" for="name">Your name</label><input id="name" type="text" required placeholder="Your name" class="rounded-full bg-white/5 border border-white/15 px-5 py-4 text-white placeholder-white/40 focus:outline-none focus:border-[#2563EB] transition-colors"/><label class="sr-only" for="email">Email</label><input id="email" type="email" required placeholder="Email address" class="rounded-full bg-white/5 border border-white/15 px-5 py-4 text-white placeholder-white/40 focus:outline-none focus:border-[#2563EB] transition-colors"/><label class="sr-only" for="msg">About your business</label><textarea id="msg" rows="4" placeholder="A quick paragraph about your business and what you need." class="sm:col-span-2 rounded-3xl bg-white/5 border border-white/15 px-5 py-4 text-white placeholder-white/40 focus:outline-none focus:border-[#2563EB] transition-colors resize-none"></textarea><button type="submit" class="cursor-pointer btn-primary sm:col-span-2 inline-flex items-center justify-center gap-2 rounded-full bg-[#2563EB] text-white px-6 py-4 font-medium hover:bg-white hover:text-[#0A0A0A] transition-colors">Send the brief <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button></form></div>
-        <div class="md:col-span-5"><div class="rounded-3xl border border-white/15 p-8 bg-white/5 backdrop-blur"><div class="text-xs uppercase tracking-[0.25em] text-white/60 mb-3">Or, the fast lane</div><a href="mailto:hello@pipecraft.studio" class="font-display text-2xl md:text-3xl font-extrabold tracking-tight hover:text-[#2563EB] transition-colors block">hello@pipecraft.studio</a><a href="tel:+15555550110" class="font-display text-xl md:text-2xl font-extrabold tracking-tight hover:text-[#2563EB] transition-colors block mt-1">(555) 555 — 0110</a><div class="mt-6 pt-6 border-t border-white/10 text-sm text-white/60">Currently booking projects starting <span class="text-white">Aug 4</span>.<br/>2 slots left this quarter.</div></div></div>
+        <div class="md:col-span-7">
+          <p class="text-white/70 text-lg max-w-xl">
+            Tell me about your business in a paragraph. I'll send back a same-day reply with a rough quote and a calendar link.
+          </p>
+          <form class="mt-8 grid sm:grid-cols-2 gap-3" onsubmit="event.preventDefault(); alert('Thanks — I will reply within a day.');">
+            <label class="sr-only" for="name">Your name</label>
+            <input id="name" type="text" required placeholder="Your name" class="rounded-full bg-white/5 border border-white/15 px-5 py-4 text-white placeholder-white/40 focus:outline-none focus:border-accent transition-colors" />
+            <label class="sr-only" for="email">Email</label>
+            <input id="email" type="email" required placeholder="Email address" class="rounded-full bg-white/5 border border-white/15 px-5 py-4 text-white placeholder-white/40 focus:outline-none focus:border-accent transition-colors" />
+            <label class="sr-only" for="msg">About your business</label>
+            <textarea id="msg" rows="4" placeholder="A quick paragraph about your business and what you need." class="sm:col-span-2 rounded-3xl bg-white/5 border border-white/15 px-5 py-4 text-white placeholder-white/40 focus:outline-none focus:border-accent transition-colors resize-none"></textarea>
+            <button type="submit" class="cursor-pointer btn-primary sm:col-span-2 inline-flex items-center justify-center gap-2 rounded-full bg-accent text-white px-6 py-4 font-medium hover:bg-white hover:text-ink transition-colors">
+              Send the brief
+              <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+          </form>
+        </div>
+
+        <div class="md:col-span-5">
+          <div class="rounded-3xl border border-white/15 p-8 bg-white/5 backdrop-blur">
+            <div class="text-xs uppercase tracking-[0.25em] text-white/60 mb-3">Or, the fast lane</div>
+            <a href="mailto:hello@pipecraft.studio" class="font-display text-2xl md:text-3xl font-extrabold tracking-tight hover:text-accent transition-colors block">hello@pipecraft.studio</a>
+            <a href="tel:+15555550110" class="font-display text-xl md:text-2xl font-extrabold tracking-tight hover:text-accent transition-colors block mt-1">(555) 555 — 0110</a>
+            <div class="mt-6 pt-6 border-t border-white/10 text-sm text-white/60">
+              Currently booking projects starting <span class="text-white">Aug 4</span>.<br/>
+              2 slots left this quarter.
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 </main>
-<footer class="bg-white border-t border-[#E5E5E5]">
+
+<!-- Footer -->
+<footer class="bg-white border-t border-line">
   <div class="mx-auto max-w-7xl px-6 py-14 grid md:grid-cols-12 gap-10">
-    <div class="md:col-span-5"><a href="#top" class="flex items-center gap-2"><span class="grid place-items-center w-9 h-9 rounded-full bg-[#0A0A0A] text-white"><svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h7"/><path d="M13 12h7"/><circle cx="12" cy="12" r="2"/></svg></span><span style="font-family:Archivo,system-ui,sans-serif" class="font-black text-2xl tracking-tight">PipeCraft<span class="text-[#2563EB]">.</span></span></a><p class="mt-6 text-[#525252] max-w-sm">A one-person design studio building modern websites for plumbing and home service businesses across North America.</p></div>
-    <div class="md:col-span-2"><div class="text-xs uppercase tracking-[0.25em] text-[#525252] mb-4">Sitemap</div><ul class="space-y-2.5 text-sm"><li><a class="hover:text-[#2563EB] transition-colors" href="#services">Services</a></li><li><a class="hover:text-[#2563EB] transition-colors" href="#process">Process</a></li><li><a class="hover:text-[#2563EB] transition-colors" href="#work">Work</a></li><li><a class="hover:text-[#2563EB] transition-colors" href="#faq">FAQ</a></li></ul></div>
-    <div class="md:col-span-2"><div class="text-xs uppercase tracking-[0.25em] text-[#525252] mb-4">Reach</div><ul class="space-y-2.5 text-sm"><li><a class="hover:text-[#2563EB] transition-colors" href="mailto:hello@pipecraft.studio">Email</a></li><li><a class="hover:text-[#2563EB] transition-colors" href="#">Dribbble</a></li><li><a class="hover:text-[#2563EB] transition-colors" href="#">Instagram</a></li><li><a class="hover:text-[#2563EB] transition-colors" href="#">LinkedIn</a></li></ul></div>
-    <div class="md:col-span-3"><div class="text-xs uppercase tracking-[0.25em] text-[#525252] mb-4">Studio status</div><div class="flex items-center gap-2 text-sm"><span class="relative inline-flex w-2.5 h-2.5"><span class="absolute inset-0 rounded-full bg-[#2563EB] animate-ping opacity-50"></span><span class="relative inline-block w-2.5 h-2.5 rounded-full bg-[#2563EB]"></span></span>Available — 2 slots open this quarter</div><p class="text-sm text-[#525252] mt-3">Operating remotely · Replies within 24h on weekdays.</p></div>
+    <div class="md:col-span-5">
+      <a href="#top" class="flex items-center gap-2">
+        <span class="grid place-items-center w-9 h-9 rounded-full bg-ink text-white">
+          <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h7"/><path d="M13 12h7"/><circle cx="12" cy="12" r="2"/></svg>
+        </span>
+        <span class="font-display font-black text-2xl tracking-tight">PipeCraft<span class="text-accent">.</span></span>
+      </a>
+      <p class="mt-6 text-muted max-w-sm">A one-person design studio building modern websites for plumbing and home service businesses across North America.</p>
+    </div>
+    <div class="md:col-span-2">
+      <div class="text-xs uppercase tracking-[0.25em] text-muted mb-4">Sitemap</div>
+      <ul class="space-y-2.5 text-sm">
+        <li><a class="hover:text-accent transition-colors" href="#services">Services</a></li>
+        <li><a class="hover:text-accent transition-colors" href="#process">Process</a></li>
+        <li><a class="hover:text-accent transition-colors" href="#work">Work</a></li>
+        <li><a class="hover:text-accent transition-colors" href="#faq">FAQ</a></li>
+      </ul>
+    </div>
+    <div class="md:col-span-2">
+      <div class="text-xs uppercase tracking-[0.25em] text-muted mb-4">Reach</div>
+      <ul class="space-y-2.5 text-sm">
+        <li><a class="hover:text-accent transition-colors" href="mailto:hello@pipecraft.studio">Email</a></li>
+        <li><a class="hover:text-accent transition-colors" href="#">Dribbble</a></li>
+        <li><a class="hover:text-accent transition-colors" href="#">Instagram</a></li>
+        <li><a class="hover:text-accent transition-colors" href="#">LinkedIn</a></li>
+      </ul>
+    </div>
+    <div class="md:col-span-3">
+      <div class="text-xs uppercase tracking-[0.25em] text-muted mb-4">Studio status</div>
+      <div class="flex items-center gap-2 text-sm">
+        <span class="relative inline-flex w-2.5 h-2.5">
+          <span class="absolute inset-0 rounded-full bg-accent animate-ping opacity-50"></span>
+          <span class="relative inline-block w-2.5 h-2.5 rounded-full bg-accent"></span>
+        </span>
+        Available — 2 slots open this quarter
+      </div>
+      <p class="text-sm text-muted mt-3">Operating remotely · Replies within 24h on weekdays.</p>
+    </div>
   </div>
-  <div class="border-t border-[#E5E5E5]"><div class="mx-auto max-w-7xl px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#525252]"><div>© <span id="year"></span> PipeCraft Studio. Hand-crafted, never templated.</div><div class="flex items-center gap-5"><a href="#" class="hover:text-[#0A0A0A] transition-colors">Privacy</a><a href="#" class="hover:text-[#0A0A0A] transition-colors">Terms</a></div></div></div>
+  <div class="border-t border-line">
+    <div class="mx-auto max-w-7xl px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted">
+      <div>© <span id="year"></span> PipeCraft Studio. Hand-crafted, never templated.</div>
+      <div class="flex items-center gap-5">
+        <a href="#" class="hover:text-ink transition-colors">Privacy</a>
+        <a href="#" class="hover:text-ink transition-colors">Terms</a>
+      </div>
+    </div>
+  </div>
 </footer>
+
 <script>
+  // Year
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Reveal on scroll
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!reduced && 'IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries) => { entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
     document.querySelectorAll('.reveal, .draw-line').forEach((el) => io.observe(el));
   } else {
     document.querySelectorAll('.reveal, .draw-line').forEach((el) => el.classList.add('in'));
   }
+
+  // Cursor follower
   const cursor = document.getElementById('cursor');
   if (cursor && window.matchMedia('(pointer: fine)').matches) {
     let x = 0, y = 0, tx = 0, ty = 0;
     document.addEventListener('mousemove', (e) => { tx = e.clientX; ty = e.clientY; });
-    function tick() { x += (tx - x) * 0.18; y += (ty - y) * 0.18; cursor.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`; requestAnimationFrame(tick); }
+    function tick() {
+      x += (tx - x) * 0.18;
+      y += (ty - y) * 0.18;
+      cursor.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+      requestAnimationFrame(tick);
+    }
     tick();
-    document.querySelectorAll('a, button, summary, .card-hover').forEach((el) => { el.addEventListener('mouseenter', () => cursor.classList.add('hover')); el.addEventListener('mouseleave', () => cursor.classList.remove('hover')); });
+    document.querySelectorAll('a, button, summary, .card-hover').forEach((el) => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
   }
 </script>
+
 </body>
 </html>
