@@ -3,6 +3,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Node
+node_modules/
+
+# Local previews (generated)
+preview-*.png
+
 # OS
 .DS_Store
 Thumbs.db
