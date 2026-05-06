@@ -65,10 +65,20 @@
   }
   .btn-primary:hover::before { transform: translateX(120%); }
 
-  /* Cursor follower */
-  .cursor-dot { position: fixed; top: 0; left: 0; width: 14px; height: 14px; border-radius: 9999px; background: #2563EB; pointer-events: none; mix-blend-mode: multiply; transform: translate(-50%, -50%) scale(1); transition: transform .25s ease, opacity .25s ease; z-index: 90; opacity: .85; }
-  .cursor-dot.hover { transform: translate(-50%, -50%) scale(2.6); opacity: .35; }
-  @media (max-width: 1024px) { .cursor-dot { display: none; } }
+  /* Image tiles */
+  .img-tile { position: relative; overflow: hidden; }
+  .img-tile img { transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+  .img-tile:hover img { transform: scale(1.05); }
+  .img-tile::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.55) 100%);
+    pointer-events: none;
+  }
+
+  /* Marquee gallery */
+  @keyframes scroll-gallery { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .gallery-track { display: flex; width: max-content; animation: scroll-gallery 60s linear infinite; }
+  .gallery-track:hover { animation-play-state: paused; }
 
   /* Accordion */
   details > summary { list-style: none; cursor: pointer; }
@@ -96,9 +106,6 @@
 </style>
 </head>
 <body class="overflow-x-hidden">
-
-<!-- Cursor dot -->
-<div id="cursor" class="cursor-dot hidden lg:block" aria-hidden="true"></div>
 
 <!-- Floating Nav -->
 <header class="fixed top-4 left-4 right-4 z-50">
@@ -213,6 +220,249 @@
         <span>Leak Detection</span><span class="text-accent">◆</span>
         <span>Commercial Plumbing</span><span class="text-accent">◆</span>
         <span>HVAC &amp; Home Services</span><span class="text-accent">◆</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured work gallery (infinite scroll) -->
+  <section aria-label="Featured website mockups" class="py-20 md:py-28 overflow-hidden bg-white">
+    <div class="mx-auto max-w-7xl px-6 mb-12 reveal">
+      <div class="text-xs uppercase tracking-[0.25em] text-muted mb-4">[ Gallery — recent screens ]</div>
+      <div class="flex items-end justify-between gap-6">
+        <h2 class="font-display text-3xl md:text-5xl font-black tracking-tightest leading-[0.95] max-w-3xl">
+          A peek inside the build pile.
+        </h2>
+        <p class="hidden md:block text-sm text-muted max-w-sm">Hand-crafted homepages, service pages, and emergency landers — all built in the last quarter.</p>
+      </div>
+    </div>
+
+    <div class="gallery-track">
+      <!-- Mockup 1 - Cool Blue Plumber -->
+      <div class="shrink-0 w-[320px] md:w-[420px] mx-3 rounded-2xl overflow-hidden border border-line bg-white shadow-[0_30px_80px_-40px_rgba(0,0,0,0.25)]">
+        <div class="flex items-center gap-1.5 px-3 py-2 bg-paper border-b border-line">
+          <span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span>
+          <span class="ml-2 text-[10px] tracking-wider text-muted">bluestream-plumbing.com</span>
+        </div>
+        <div class="aspect-[4/3] bg-gradient-to-br from-[#EFF4FF] via-white to-[#DBEAFE] p-5 flex flex-col">
+          <div class="flex items-center justify-between text-[9px]">
+            <span class="font-display font-extrabold text-ink">BLUESTREAM</span>
+            <span class="px-2 py-0.5 rounded-full bg-ink text-white">CALL ↗</span>
+          </div>
+          <div class="mt-auto">
+            <div class="font-display font-black text-ink leading-[0.9] text-2xl">Plumbing,<br/>but <span class="text-accent">fast</span>.</div>
+            <div class="mt-2 h-1 w-16 bg-line rounded-full"></div>
+            <div class="mt-1 h-1 w-12 bg-line rounded-full"></div>
+            <div class="mt-3 grid grid-cols-3 gap-1.5">
+              <div class="aspect-square rounded-md bg-accent"></div>
+              <div class="aspect-square rounded-md bg-ink"></div>
+              <div class="aspect-square rounded-md bg-white border border-line"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mockup 2 - Warm Copper -->
+      <div class="shrink-0 w-[320px] md:w-[420px] mx-3 rounded-2xl overflow-hidden border border-line bg-[#0A0A0A] text-white shadow-[0_30px_80px_-40px_rgba(0,0,0,0.4)]">
+        <div class="flex items-center gap-1.5 px-3 py-2 bg-[#171717] border-b border-white/10">
+          <span class="w-2 h-2 rounded-full bg-white/20"></span><span class="w-2 h-2 rounded-full bg-white/20"></span><span class="w-2 h-2 rounded-full bg-white/20"></span>
+          <span class="ml-2 text-[10px] tracking-wider text-white/40">copper-co-plumbing.com</span>
+        </div>
+        <div class="aspect-[4/3] p-5 flex flex-col" style="background: radial-gradient(ellipse at top right, #C97B47 0%, #5A2E1B 50%, #0A0A0A 100%);">
+          <div class="text-[9px] tracking-[0.2em] uppercase text-white/70">Heritage Plumbing · Est. 1987</div>
+          <div class="mt-auto">
+            <div class="font-display font-black leading-[0.9] text-2xl">Copper <span class="italic font-light">&amp;</span> <br/>Co.</div>
+            <div class="mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white text-ink text-[10px] font-medium">Book a visit →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mockup 3 - Emergency Red -->
+      <div class="shrink-0 w-[320px] md:w-[420px] mx-3 rounded-2xl overflow-hidden border border-line bg-white shadow-[0_30px_80px_-40px_rgba(0,0,0,0.25)]">
+        <div class="flex items-center gap-1.5 px-3 py-2 bg-paper border-b border-line">
+          <span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span>
+          <span class="ml-2 text-[10px] tracking-wider text-muted">911drain.com</span>
+        </div>
+        <div class="aspect-[4/3] p-5 flex flex-col" style="background: linear-gradient(135deg, #FEF2F2 0%, #FFFFFF 60%);">
+          <div class="flex items-center justify-between text-[9px]">
+            <span class="flex items-center gap-1 font-display font-extrabold text-[#DC2626]"><span class="w-1.5 h-1.5 rounded-full bg-[#DC2626] animate-pulse"></span>911 DRAIN</span>
+            <span class="px-2 py-0.5 rounded-full bg-[#DC2626] text-white">24/7</span>
+          </div>
+          <div class="mt-auto">
+            <div class="font-display font-black leading-[0.9] text-3xl">Pipe<br/>burst?</div>
+            <div class="mt-2 text-[10px] text-muted">We're 18 min away.</div>
+            <div class="mt-3 inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-ink text-white text-[10px] font-bold">📞 (555) 911-PIPE</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mockup 4 - HVAC Green -->
+      <div class="shrink-0 w-[320px] md:w-[420px] mx-3 rounded-2xl overflow-hidden border border-line bg-white shadow-[0_30px_80px_-40px_rgba(0,0,0,0.25)]">
+        <div class="flex items-center gap-1.5 px-3 py-2 bg-paper border-b border-line">
+          <span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span>
+          <span class="ml-2 text-[10px] tracking-wider text-muted">northgate-services.com</span>
+        </div>
+        <div class="aspect-[4/3] p-5 flex flex-col bg-gradient-to-br from-[#F0FDF4] via-white to-[#D1FAE5]">
+          <div class="text-[9px] font-display font-extrabold text-[#065F46]">NORTHGATE</div>
+          <div class="mt-auto">
+            <div class="font-display font-black text-ink leading-[0.9] text-2xl">Plumbing.<br/>HVAC. <span class="text-[#059669]">Done.</span></div>
+            <div class="mt-3 grid grid-cols-2 gap-1.5">
+              <div class="rounded-md bg-white border border-line p-2">
+                <div class="text-[8px] uppercase text-muted">Plumbing</div>
+                <div class="text-[10px] font-bold text-ink">From $89</div>
+              </div>
+              <div class="rounded-md bg-[#059669] text-white p-2">
+                <div class="text-[8px] uppercase opacity-80">HVAC</div>
+                <div class="text-[10px] font-bold">From $129</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mockup 5 - Aquaflow Light -->
+      <div class="shrink-0 w-[320px] md:w-[420px] mx-3 rounded-2xl overflow-hidden border border-line bg-white shadow-[0_30px_80px_-40px_rgba(0,0,0,0.25)]">
+        <div class="flex items-center gap-1.5 px-3 py-2 bg-paper border-b border-line">
+          <span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span>
+          <span class="ml-2 text-[10px] tracking-wider text-muted">aquaflow.us</span>
+        </div>
+        <div class="aspect-[4/3] p-5 flex flex-col" style="background: linear-gradient(180deg, #FFFFFF 0%, #DBEAFE 100%);">
+          <div class="flex items-center gap-1.5">
+            <svg class="w-3 h-3 text-accent" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c4 5 6 8 6 11a6 6 0 1 1-12 0c0-3 2-6 6-11z"/></svg>
+            <span class="font-display font-extrabold text-[10px] text-ink">Aquaflow</span>
+          </div>
+          <div class="mt-auto">
+            <div class="font-display font-black text-ink leading-[0.9] text-2xl">Service that<br/><span class="italic font-medium text-accent">flows</span>.</div>
+            <div class="mt-3 flex gap-1.5">
+              <div class="px-2 py-1 rounded-full bg-white border border-line text-[8px]">★ 4.9 (412)</div>
+              <div class="px-2 py-1 rounded-full bg-ink text-white text-[8px]">Licensed</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mockup 6 - Drainline Dark -->
+      <div class="shrink-0 w-[320px] md:w-[420px] mx-3 rounded-2xl overflow-hidden border border-line bg-ink text-white shadow-[0_30px_80px_-40px_rgba(0,0,0,0.4)]">
+        <div class="flex items-center gap-1.5 px-3 py-2 bg-[#171717] border-b border-white/10">
+          <span class="w-2 h-2 rounded-full bg-white/20"></span><span class="w-2 h-2 rounded-full bg-white/20"></span><span class="w-2 h-2 rounded-full bg-white/20"></span>
+          <span class="ml-2 text-[10px] tracking-wider text-white/40">drainline.io</span>
+        </div>
+        <div class="aspect-[4/3] p-5 flex flex-col bg-gradient-to-br from-ink via-ink to-[#1E3A8A]">
+          <div class="text-[9px] tracking-[0.2em] uppercase text-white/60">Smart drain cleaning</div>
+          <div class="mt-auto">
+            <div class="font-display font-black leading-[0.9] text-3xl">Drainline<span class="text-accent">.</span></div>
+            <div class="mt-2 text-[10px] text-white/60">Camera diagnosis. Hydrojet clean. Done in one visit.</div>
+            <div class="mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent text-white text-[10px] font-medium">Get inspected →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DUPLICATE for seamless loop -->
+      <div aria-hidden="true" class="shrink-0 w-[320px] md:w-[420px] mx-3 rounded-2xl overflow-hidden border border-line bg-white shadow-[0_30px_80px_-40px_rgba(0,0,0,0.25)]">
+        <div class="flex items-center gap-1.5 px-3 py-2 bg-paper border-b border-line">
+          <span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span>
+          <span class="ml-2 text-[10px] tracking-wider text-muted">bluestream-plumbing.com</span>
+        </div>
+        <div class="aspect-[4/3] bg-gradient-to-br from-[#EFF4FF] via-white to-[#DBEAFE] p-5 flex flex-col">
+          <div class="flex items-center justify-between text-[9px]">
+            <span class="font-display font-extrabold text-ink">BLUESTREAM</span>
+            <span class="px-2 py-0.5 rounded-full bg-ink text-white">CALL ↗</span>
+          </div>
+          <div class="mt-auto">
+            <div class="font-display font-black text-ink leading-[0.9] text-2xl">Plumbing,<br/>but <span class="text-accent">fast</span>.</div>
+            <div class="mt-2 h-1 w-16 bg-line rounded-full"></div>
+            <div class="mt-1 h-1 w-12 bg-line rounded-full"></div>
+            <div class="mt-3 grid grid-cols-3 gap-1.5">
+              <div class="aspect-square rounded-md bg-accent"></div>
+              <div class="aspect-square rounded-md bg-ink"></div>
+              <div class="aspect-square rounded-md bg-white border border-line"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div aria-hidden="true" class="shrink-0 w-[320px] md:w-[420px] mx-3 rounded-2xl overflow-hidden border border-line bg-[#0A0A0A] text-white shadow-[0_30px_80px_-40px_rgba(0,0,0,0.4)]">
+        <div class="flex items-center gap-1.5 px-3 py-2 bg-[#171717] border-b border-white/10">
+          <span class="w-2 h-2 rounded-full bg-white/20"></span><span class="w-2 h-2 rounded-full bg-white/20"></span><span class="w-2 h-2 rounded-full bg-white/20"></span>
+          <span class="ml-2 text-[10px] tracking-wider text-white/40">copper-co-plumbing.com</span>
+        </div>
+        <div class="aspect-[4/3] p-5 flex flex-col" style="background: radial-gradient(ellipse at top right, #C97B47 0%, #5A2E1B 50%, #0A0A0A 100%);">
+          <div class="text-[9px] tracking-[0.2em] uppercase text-white/70">Heritage Plumbing · Est. 1987</div>
+          <div class="mt-auto">
+            <div class="font-display font-black leading-[0.9] text-2xl">Copper <span class="italic font-light">&amp;</span> <br/>Co.</div>
+            <div class="mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white text-ink text-[10px] font-medium">Book a visit →</div>
+          </div>
+        </div>
+      </div>
+      <div aria-hidden="true" class="shrink-0 w-[320px] md:w-[420px] mx-3 rounded-2xl overflow-hidden border border-line bg-white shadow-[0_30px_80px_-40px_rgba(0,0,0,0.25)]">
+        <div class="flex items-center gap-1.5 px-3 py-2 bg-paper border-b border-line">
+          <span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span>
+          <span class="ml-2 text-[10px] tracking-wider text-muted">911drain.com</span>
+        </div>
+        <div class="aspect-[4/3] p-5 flex flex-col" style="background: linear-gradient(135deg, #FEF2F2 0%, #FFFFFF 60%);">
+          <div class="flex items-center justify-between text-[9px]">
+            <span class="flex items-center gap-1 font-display font-extrabold text-[#DC2626]"><span class="w-1.5 h-1.5 rounded-full bg-[#DC2626] animate-pulse"></span>911 DRAIN</span>
+            <span class="px-2 py-0.5 rounded-full bg-[#DC2626] text-white">24/7</span>
+          </div>
+          <div class="mt-auto">
+            <div class="font-display font-black leading-[0.9] text-3xl">Pipe<br/>burst?</div>
+            <div class="mt-2 text-[10px] text-muted">We're 18 min away.</div>
+            <div class="mt-3 inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-ink text-white text-[10px] font-bold">📞 (555) 911-PIPE</div>
+          </div>
+        </div>
+      </div>
+      <div aria-hidden="true" class="shrink-0 w-[320px] md:w-[420px] mx-3 rounded-2xl overflow-hidden border border-line bg-white shadow-[0_30px_80px_-40px_rgba(0,0,0,0.25)]">
+        <div class="flex items-center gap-1.5 px-3 py-2 bg-paper border-b border-line">
+          <span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span>
+          <span class="ml-2 text-[10px] tracking-wider text-muted">northgate-services.com</span>
+        </div>
+        <div class="aspect-[4/3] p-5 flex flex-col bg-gradient-to-br from-[#F0FDF4] via-white to-[#D1FAE5]">
+          <div class="text-[9px] font-display font-extrabold text-[#065F46]">NORTHGATE</div>
+          <div class="mt-auto">
+            <div class="font-display font-black text-ink leading-[0.9] text-2xl">Plumbing.<br/>HVAC. <span class="text-[#059669]">Done.</span></div>
+            <div class="mt-3 grid grid-cols-2 gap-1.5">
+              <div class="rounded-md bg-white border border-line p-2">
+                <div class="text-[8px] uppercase text-muted">Plumbing</div>
+                <div class="text-[10px] font-bold text-ink">From $89</div>
+              </div>
+              <div class="rounded-md bg-[#059669] text-white p-2">
+                <div class="text-[8px] uppercase opacity-80">HVAC</div>
+                <div class="text-[10px] font-bold">From $129</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div aria-hidden="true" class="shrink-0 w-[320px] md:w-[420px] mx-3 rounded-2xl overflow-hidden border border-line bg-white shadow-[0_30px_80px_-40px_rgba(0,0,0,0.25)]">
+        <div class="flex items-center gap-1.5 px-3 py-2 bg-paper border-b border-line">
+          <span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span>
+          <span class="ml-2 text-[10px] tracking-wider text-muted">aquaflow.us</span>
+        </div>
+        <div class="aspect-[4/3] p-5 flex flex-col" style="background: linear-gradient(180deg, #FFFFFF 0%, #DBEAFE 100%);">
+          <div class="flex items-center gap-1.5">
+            <svg class="w-3 h-3 text-accent" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c4 5 6 8 6 11a6 6 0 1 1-12 0c0-3 2-6 6-11z"/></svg>
+            <span class="font-display font-extrabold text-[10px] text-ink">Aquaflow</span>
+          </div>
+          <div class="mt-auto">
+            <div class="font-display font-black text-ink leading-[0.9] text-2xl">Service that<br/><span class="italic font-medium text-accent">flows</span>.</div>
+            <div class="mt-3 flex gap-1.5">
+              <div class="px-2 py-1 rounded-full bg-white border border-line text-[8px]">★ 4.9 (412)</div>
+              <div class="px-2 py-1 rounded-full bg-ink text-white text-[8px]">Licensed</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div aria-hidden="true" class="shrink-0 w-[320px] md:w-[420px] mx-3 rounded-2xl overflow-hidden border border-line bg-ink text-white shadow-[0_30px_80px_-40px_rgba(0,0,0,0.4)]">
+        <div class="flex items-center gap-1.5 px-3 py-2 bg-[#171717] border-b border-white/10">
+          <span class="w-2 h-2 rounded-full bg-white/20"></span><span class="w-2 h-2 rounded-full bg-white/20"></span><span class="w-2 h-2 rounded-full bg-white/20"></span>
+          <span class="ml-2 text-[10px] tracking-wider text-white/40">drainline.io</span>
+        </div>
+        <div class="aspect-[4/3] p-5 flex flex-col bg-gradient-to-br from-ink via-ink to-[#1E3A8A]">
+          <div class="text-[9px] tracking-[0.2em] uppercase text-white/60">Smart drain cleaning</div>
+          <div class="mt-auto">
+            <div class="font-display font-black leading-[0.9] text-3xl">Drainline<span class="text-accent">.</span></div>
+            <div class="mt-2 text-[10px] text-white/60">Camera diagnosis. Hydrojet clean. Done in one visit.</div>
+            <div class="mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent text-white text-[10px] font-medium">Get inspected →</div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -348,6 +598,200 @@
     </div>
   </section>
 
+  <!-- Services we visualize -->
+  <section class="py-24 md:py-32">
+    <div class="mx-auto max-w-7xl px-6">
+      <div class="flex items-end justify-between gap-6 mb-14 reveal">
+        <div>
+          <div class="text-xs uppercase tracking-[0.25em] text-muted mb-4">[ Specialties ]</div>
+          <h2 class="font-display text-4xl md:text-6xl font-black tracking-tightest leading-[0.95] max-w-3xl">
+            From <span class="italic font-medium text-accent">kitchen sinks</span> to commercial systems.
+          </h2>
+        </div>
+        <p class="hidden md:block text-sm text-muted max-w-sm">Each service gets its own dedicated page — designed to rank, convert, and look like the work you actually do.</p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <!-- Faucet -->
+        <div class="reveal card-hover rounded-2xl border border-line bg-paper aspect-square p-5 flex flex-col justify-between overflow-hidden relative">
+          <div class="absolute -bottom-6 -right-6 w-32 h-32 rounded-full bg-accentSoft opacity-50"></div>
+          <svg class="relative w-12 h-12 text-ink" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 22 L16 14 L36 14 L36 22"/><rect x="14" y="22" width="24" height="6" rx="1.5" fill="currentColor"/><path d="M26 28 L26 38 Q26 44 32 44 L40 44"/><path d="M40 38 L48 38 L48 50 L40 50 Z" fill="#2563EB" stroke="#2563EB"/>
+          </svg>
+          <div class="relative">
+            <div class="font-display font-extrabold text-ink text-base">Faucets &amp; fixtures</div>
+            <div class="text-xs text-muted mt-1">Install · Repair · Replace</div>
+          </div>
+        </div>
+        <!-- Drain -->
+        <div class="reveal card-hover rounded-2xl border border-line bg-white aspect-square p-5 flex flex-col justify-between overflow-hidden relative">
+          <div class="absolute -top-6 -left-6 w-32 h-32 rounded-full bg-[#FEF2F2] opacity-70"></div>
+          <svg class="relative w-12 h-12 text-ink" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="32" cy="32" r="20"/><circle cx="32" cy="32" r="13"/><path d="M19 32 L45 32"/><path d="M32 19 L32 45"/><path d="M22 22 L42 42"/><path d="M42 22 L22 42"/>
+          </svg>
+          <div class="relative">
+            <div class="font-display font-extrabold text-ink text-base">Drain cleaning</div>
+            <div class="text-xs text-muted mt-1">Hydrojet · Camera · Snake</div>
+          </div>
+        </div>
+        <!-- Water Heater -->
+        <div class="reveal card-hover rounded-2xl border border-line bg-paper aspect-square p-5 flex flex-col justify-between overflow-hidden relative">
+          <div class="absolute -bottom-6 -right-6 w-32 h-32 rounded-full bg-[#FFF7ED] opacity-70"></div>
+          <svg class="relative w-12 h-12 text-ink" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="18" y="10" width="28" height="44" rx="3"/><path d="M18 22 L46 22"/><circle cx="32" cy="32" r="5" fill="#EA580C" stroke="#EA580C"/><path d="M28 42 L36 42"/><path d="M28 48 L36 48"/>
+          </svg>
+          <div class="relative">
+            <div class="font-display font-extrabold text-ink text-base">Water heaters</div>
+            <div class="text-xs text-muted mt-1">Tank · Tankless · Hybrid</div>
+          </div>
+        </div>
+        <!-- Pipes -->
+        <div class="reveal card-hover rounded-2xl border border-line bg-white aspect-square p-5 flex flex-col justify-between overflow-hidden relative">
+          <div class="absolute -top-6 -right-6 w-32 h-32 rounded-full bg-accentSoft opacity-50"></div>
+          <svg class="relative w-12 h-12 text-ink" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 24 L26 24 Q34 24 34 32 L34 56" fill="none"/><path d="M8 32 L18 32 Q26 32 26 40 L26 56" fill="none"/><circle cx="34" cy="40" r="4" fill="#2563EB" stroke="#2563EB"/><path d="M44 8 L56 8 L56 20 L44 20 Z"/><path d="M50 20 L50 32"/>
+          </svg>
+          <div class="relative">
+            <div class="font-display font-extrabold text-ink text-base">Pipe repair</div>
+            <div class="text-xs text-muted mt-1">Repipe · Burst · Leaks</div>
+          </div>
+        </div>
+        <!-- Toilet -->
+        <div class="reveal card-hover rounded-2xl border border-line bg-paper aspect-square p-5 flex flex-col justify-between overflow-hidden relative">
+          <div class="absolute -bottom-6 -left-6 w-32 h-32 rounded-full bg-[#F0FDF4] opacity-70"></div>
+          <svg class="relative w-12 h-12 text-ink" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 14 L46 14 L46 28 L42 30 L42 38 Q42 50 32 50 Q22 50 22 38 L22 30 L18 28 Z"/><path d="M22 14 L22 8 L42 8 L42 14"/><circle cx="32" cy="34" r="6" fill="#DBEAFE" stroke="#2563EB"/>
+          </svg>
+          <div class="relative">
+            <div class="font-display font-extrabold text-ink text-base">Toilets</div>
+            <div class="text-xs text-muted mt-1">Install · Clog · Rebuild</div>
+          </div>
+        </div>
+        <!-- 24/7 Emergency -->
+        <div class="reveal card-hover rounded-2xl border border-ink bg-ink text-white aspect-square p-5 flex flex-col justify-between overflow-hidden relative">
+          <div class="absolute -top-6 -right-6 w-32 h-32 rounded-full bg-accent/30"></div>
+          <svg class="relative w-12 h-12 text-accent" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="32" cy="32" r="22" fill="#1E40AF" stroke="#2563EB"/><path d="M32 18 L32 32 L42 38" stroke="#fff"/><circle cx="32" cy="32" r="2" fill="#fff" stroke="#fff"/>
+          </svg>
+          <div class="relative">
+            <div class="font-display font-extrabold text-base flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+              24/7 emergency
+            </div>
+            <div class="text-xs text-white/60 mt-1">Live phone routing</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Behind the design (Figma canvas mockup) -->
+  <section class="py-24 md:py-32 bg-ink text-white relative overflow-hidden">
+    <div aria-hidden="true" class="absolute inset-0 -z-0 opacity-40">
+      <div class="blob absolute -top-40 -left-20 w-[520px] h-[520px] rounded-full bg-accent/30"></div>
+      <div class="blob absolute -bottom-40 -right-20 w-[460px] h-[460px] rounded-full bg-white/5" style="animation-delay:-6s;"></div>
+    </div>
+    <div class="relative mx-auto max-w-7xl px-6 grid lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-5 reveal">
+        <div class="text-xs uppercase tracking-[0.25em] text-white/60 mb-5">[ Inside the studio ]</div>
+        <h2 class="font-display text-4xl md:text-6xl font-black tracking-tightest leading-[0.95]">
+          Designed in the open. <span class="italic font-medium text-accent">No black box.</span>
+        </h2>
+        <p class="mt-6 text-lg text-white/70 max-w-md leading-relaxed">
+          Every project lives in a shared Figma file you can open from day one. Watch the homepage take shape. Comment on a button. Re-arrange a section. The whole thing happens in front of you.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-2">
+          <span class="text-xs px-3 py-1.5 rounded-full bg-white/5 border border-white/15">Figma · Live link</span>
+          <span class="text-xs px-3 py-1.5 rounded-full bg-white/5 border border-white/15">Loom walkthroughs</span>
+          <span class="text-xs px-3 py-1.5 rounded-full bg-white/5 border border-white/15">Async-first</span>
+        </div>
+      </div>
+
+      <div class="lg:col-span-7 reveal">
+        <!-- Figma-style canvas mockup -->
+        <div class="rounded-2xl overflow-hidden border border-white/15 bg-[#1A1A1F] shadow-[0_50px_120px_-30px_rgba(0,0,0,0.6)]">
+          <!-- Toolbar -->
+          <div class="flex items-center gap-2 px-4 py-2.5 border-b border-white/10 bg-[#0F0F12]">
+            <div class="flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#FF5F57]"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-[#28C840]"></span>
+            </div>
+            <div class="ml-3 text-[11px] text-white/50 tracking-wider flex items-center gap-2">
+              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 L12 22 M2 12 L22 12"/></svg>
+              Pipecraft / Aquaflow Plumbing — Homepage v3
+            </div>
+            <div class="ml-auto flex items-center gap-2">
+              <span class="text-[10px] text-white/40">100%</span>
+              <span class="w-6 h-6 rounded-full bg-accent grid place-items-center text-[9px] font-bold">PC</span>
+              <span class="w-6 h-6 rounded-full bg-[#22C55E] grid place-items-center text-[9px] font-bold">M</span>
+            </div>
+          </div>
+          <!-- Canvas -->
+          <div class="grid grid-cols-12 min-h-[420px]">
+            <!-- Layers panel -->
+            <div class="col-span-3 border-r border-white/10 p-3 text-[10px] space-y-1.5 hidden md:block">
+              <div class="text-white/40 uppercase tracking-wider mb-2">Layers</div>
+              <div class="flex items-center gap-1.5 px-2 py-1 rounded bg-white/5 text-white"><span>▾</span><span>📄 Hero / Desktop</span></div>
+              <div class="flex items-center gap-1.5 pl-6 text-white/60"><span>📌</span><span>Nav</span></div>
+              <div class="flex items-center gap-1.5 pl-6 text-white/60"><span>🅰</span><span>Headline</span></div>
+              <div class="flex items-center gap-1.5 pl-6 text-accent bg-accent/10 px-2 py-1 -ml-2 rounded"><span>🟦</span><span>CTA: Start project</span></div>
+              <div class="flex items-center gap-1.5 pl-6 text-white/60"><span>🅰</span><span>Sub-copy</span></div>
+              <div class="flex items-center gap-1.5 px-2 py-1 text-white/80"><span>▸</span><span>📄 Services</span></div>
+              <div class="flex items-center gap-1.5 px-2 py-1 text-white/80"><span>▸</span><span>📄 Process</span></div>
+              <div class="flex items-center gap-1.5 px-2 py-1 text-white/80"><span>▸</span><span>📄 Footer</span></div>
+            </div>
+            <!-- Artboard -->
+            <div class="col-span-12 md:col-span-7 p-6 relative" style="background: repeating-linear-gradient(0deg, transparent 0, transparent 23px, rgba(255,255,255,0.04) 23px, rgba(255,255,255,0.04) 24px), repeating-linear-gradient(90deg, transparent 0, transparent 23px, rgba(255,255,255,0.04) 23px, rgba(255,255,255,0.04) 24px), #14141A;">
+              <!-- Selection ring -->
+              <div class="rounded-lg bg-white p-5 ring-2 ring-accent ring-offset-4 ring-offset-[#14141A] relative">
+                <div class="text-[8px] font-display font-extrabold text-ink">AQUAFLOW</div>
+                <div class="mt-3 font-display font-black text-ink text-xl leading-[0.9]">24/7 emergency<br/><span class="text-accent">plumbing.</span></div>
+                <div class="mt-3 h-1.5 w-3/4 rounded bg-line"></div>
+                <div class="mt-1 h-1.5 w-2/3 rounded bg-line"></div>
+                <div class="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-ink text-white text-[10px] font-medium">Call now ↗</div>
+                <!-- Resize handles -->
+                <span class="absolute -top-1 -left-1 w-2 h-2 bg-white border border-accent"></span>
+                <span class="absolute -top-1 -right-1 w-2 h-2 bg-white border border-accent"></span>
+                <span class="absolute -bottom-1 -left-1 w-2 h-2 bg-white border border-accent"></span>
+                <span class="absolute -bottom-1 -right-1 w-2 h-2 bg-white border border-accent"></span>
+                <!-- Dimensions -->
+                <span class="absolute -bottom-7 left-0 text-[10px] text-accent font-mono">1280 × 320</span>
+              </div>
+              <!-- Comment bubble -->
+              <div class="absolute top-4 right-4 flex items-start gap-2 max-w-[180px]">
+                <span class="w-6 h-6 rounded-full bg-[#22C55E] grid place-items-center text-[9px] font-bold text-ink">M</span>
+                <div class="bg-white text-ink text-[10px] px-3 py-2 rounded-lg rounded-tl-none leading-tight">
+                  <div class="font-bold">Marcus · Aquaflow</div>
+                  <div class="text-muted mt-0.5">Love it. Can we make the phone bigger?</div>
+                </div>
+              </div>
+            </div>
+            <!-- Right panel -->
+            <div class="col-span-12 md:col-span-2 border-l border-white/10 p-3 text-[10px] hidden md:block">
+              <div class="text-white/40 uppercase tracking-wider mb-2">Properties</div>
+              <div class="space-y-2">
+                <div>
+                  <div class="text-white/40">Fill</div>
+                  <div class="flex items-center gap-1.5 mt-1"><span class="w-3 h-3 rounded bg-ink border border-white/20"></span><span>0A0A0A</span></div>
+                </div>
+                <div>
+                  <div class="text-white/40">Text</div>
+                  <div>Archivo</div>
+                  <div class="text-white/60">Black · 14 px</div>
+                </div>
+                <div>
+                  <div class="text-white/40">Radius</div>
+                  <div>9999</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Work / Case studies -->
   <section id="work" class="py-24 md:py-32">
     <div class="mx-auto max-w-7xl px-6">
@@ -472,36 +916,115 @@
   <!-- About / Founder -->
   <section id="about" class="py-24 md:py-32 bg-paper border-y border-line">
     <div class="mx-auto max-w-7xl px-6 grid md:grid-cols-12 gap-12 items-center">
-      <div class="md:col-span-5 reveal">
+      <div class="md:col-span-5 reveal space-y-4">
+        <!-- Workspace illustration -->
         <div class="relative aspect-[4/5] rounded-3xl overflow-hidden border border-line bg-white">
-          <!-- Stylized portrait placeholder -->
-          <div class="absolute inset-0 bg-gradient-to-br from-accentSoft via-white to-[#F5F1EA]"></div>
-          <svg viewBox="0 0 400 500" class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <svg viewBox="0 0 400 500" class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
             <defs>
-              <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#EFF4FF"/>
+                <stop offset="60%" stop-color="#FFFFFF"/>
+                <stop offset="100%" stop-color="#F5F1EA"/>
+              </linearGradient>
+              <linearGradient id="torsoGrad" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stop-color="#0A0A0A"/>
-                <stop offset="100%" stop-color="#262626"/>
+                <stop offset="100%" stop-color="#1F1F1F"/>
+              </linearGradient>
+              <linearGradient id="screenGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#FFFFFF"/>
+                <stop offset="100%" stop-color="#F8FAFC"/>
               </linearGradient>
             </defs>
-            <!-- shoulders/torso -->
-            <path d="M50 500 C 60 380, 130 340, 200 340 C 270 340, 340 380, 350 500 Z" fill="url(#g1)"/>
-            <!-- neck -->
-            <rect x="180" y="290" width="40" height="60" fill="#E5C9A8"/>
-            <!-- head -->
-            <circle cx="200" cy="240" r="80" fill="#F1D9B8"/>
-            <!-- hair -->
-            <path d="M120 230 C 120 160, 180 130, 230 145 C 280 160, 280 220, 270 240 C 260 200, 230 180, 200 180 C 170 180, 140 200, 130 240 Z" fill="#0A0A0A"/>
-            <!-- glasses -->
-            <circle cx="175" cy="240" r="14" fill="none" stroke="#0A0A0A" stroke-width="3"/>
-            <circle cx="225" cy="240" r="14" fill="none" stroke="#0A0A0A" stroke-width="3"/>
-            <line x1="189" y1="240" x2="211" y2="240" stroke="#0A0A0A" stroke-width="3"/>
-            <!-- accent badge -->
-            <circle cx="320" cy="430" r="34" fill="#2563EB"/>
-            <text x="320" y="437" text-anchor="middle" font-family="Archivo" font-weight="900" font-size="20" fill="#fff">PC</text>
+            <!-- Background -->
+            <rect width="400" height="500" fill="url(#bgGrad)"/>
+            <!-- Window backdrop -->
+            <rect x="20" y="20" width="160" height="200" rx="8" fill="#FFFFFF" stroke="#E5E5E5" stroke-width="2" opacity="0.7"/>
+            <line x1="100" y1="20" x2="100" y2="220" stroke="#E5E5E5" stroke-width="1.5"/>
+            <line x1="20" y1="120" x2="180" y2="120" stroke="#E5E5E5" stroke-width="1.5"/>
+            <!-- Plant in window -->
+            <ellipse cx="155" cy="200" rx="14" ry="6" fill="#0A0A0A" opacity="0.15"/>
+            <rect x="146" y="185" width="18" height="20" rx="2" fill="#C97B47"/>
+            <path d="M155 185 Q145 165 142 145 M155 185 Q165 165 168 148 M155 185 Q150 165 152 138" stroke="#10B981" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- Coffee mug on desk -->
+            <ellipse cx="80" cy="395" rx="22" ry="6" fill="#0A0A0A" opacity="0.18"/>
+            <path d="M65 360 L65 390 Q65 395 70 395 L90 395 Q95 395 95 390 L95 360 Z" fill="#FFFFFF" stroke="#0A0A0A" stroke-width="2"/>
+            <path d="M95 368 Q105 368 105 378 Q105 388 95 388" stroke="#0A0A0A" stroke-width="2" fill="none"/>
+            <text x="80" y="380" text-anchor="middle" font-family="Archivo" font-size="9" font-weight="900" fill="#2563EB">PC</text>
+            <!-- Steam -->
+            <path d="M73 358 Q70 350 75 345" stroke="#94A3B8" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+            <path d="M82 358 Q80 350 84 343" stroke="#94A3B8" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+            <!-- Notebook -->
+            <rect x="290" y="370" width="90" height="60" rx="3" fill="#FFFFFF" stroke="#0A0A0A" stroke-width="2" transform="rotate(-8 335 400)"/>
+            <line x1="298" y1="384" x2="368" y2="378" stroke="#94A3B8" stroke-width="1.5" transform="rotate(-8 335 400)"/>
+            <line x1="298" y1="392" x2="358" y2="386" stroke="#94A3B8" stroke-width="1.5" transform="rotate(-8 335 400)"/>
+            <line x1="298" y1="400" x2="368" y2="394" stroke="#94A3B8" stroke-width="1.5" transform="rotate(-8 335 400)"/>
+            <!-- Desk surface -->
+            <path d="M0 440 L400 440 L400 500 L0 500 Z" fill="#F5F1EA"/>
+            <line x1="0" y1="440" x2="400" y2="440" stroke="#0A0A0A" stroke-width="1.5" opacity="0.2"/>
+            <!-- Laptop -->
+            <rect x="220" y="335" width="135" height="90" rx="4" fill="#0A0A0A"/>
+            <rect x="225" y="340" width="125" height="80" rx="2" fill="url(#screenGrad)"/>
+            <!-- Laptop content - tiny website mockup -->
+            <text x="232" y="354" font-family="Archivo" font-size="7" font-weight="900" fill="#0A0A0A">PIPECRAFT</text>
+            <text x="232" y="378" font-family="Archivo" font-size="14" font-weight="900" fill="#0A0A0A">Sites</text>
+            <text x="232" y="392" font-family="Archivo" font-size="14" font-weight="900" fill="#2563EB">that</text>
+            <text x="232" y="406" font-family="Archivo" font-size="14" font-weight="900" fill="#0A0A0A">flow.</text>
+            <rect x="318" y="385" width="28" height="10" rx="5" fill="#0A0A0A"/>
+            <text x="332" y="392" text-anchor="middle" font-family="Archivo" font-size="6" fill="#fff">CALL</text>
+            <!-- Laptop hinge -->
+            <rect x="218" y="424" width="139" height="3" rx="1" fill="#525252"/>
+            <!-- Person at the desk -->
+            <!-- Torso -->
+            <path d="M70 500 C 80 410, 145 380, 200 380 C 255 380, 320 410, 330 500 Z" fill="url(#torsoGrad)"/>
+            <!-- Sweater detail -->
+            <path d="M170 410 Q200 425 230 410" stroke="#525252" stroke-width="2" fill="none"/>
+            <path d="M165 430 Q200 440 235 430" stroke="#525252" stroke-width="2" fill="none"/>
+            <!-- Neck -->
+            <rect x="183" y="335" width="34" height="55" fill="#E5C9A8"/>
+            <path d="M183 380 Q200 388 217 380" fill="#D4B493"/>
+            <!-- Head -->
+            <ellipse cx="200" cy="280" rx="68" ry="72" fill="#F1D9B8"/>
+            <!-- Hair -->
+            <path d="M132 280 C 130 210, 175 175, 220 185 C 265 195, 270 240, 270 270 C 262 232, 230 215, 200 218 C 170 220, 145 240, 138 280 Z" fill="#0A0A0A"/>
+            <!-- Ears -->
+            <ellipse cx="135" cy="285" rx="7" ry="11" fill="#E5C9A8"/>
+            <ellipse cx="265" cy="285" rx="7" ry="11" fill="#E5C9A8"/>
+            <!-- Eyebrows -->
+            <path d="M165 270 Q175 266 188 270" stroke="#0A0A0A" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M212 270 Q225 266 235 270" stroke="#0A0A0A" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <!-- Glasses -->
+            <circle cx="175" cy="285" r="16" fill="#FFFFFF" fill-opacity="0.3" stroke="#0A0A0A" stroke-width="2.5"/>
+            <circle cx="225" cy="285" r="16" fill="#FFFFFF" fill-opacity="0.3" stroke="#0A0A0A" stroke-width="2.5"/>
+            <line x1="191" y1="285" x2="209" y2="285" stroke="#0A0A0A" stroke-width="2.5"/>
+            <!-- Eyes -->
+            <circle cx="175" cy="286" r="2.5" fill="#0A0A0A"/>
+            <circle cx="225" cy="286" r="2.5" fill="#0A0A0A"/>
+            <!-- Nose -->
+            <path d="M199 295 Q197 308 200 315 Q204 315 203 308" stroke="#D4B493" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <!-- Smile -->
+            <path d="M186 330 Q200 340 214 330" stroke="#0A0A0A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- Accent badge bottom right -->
+            <circle cx="345" cy="465" r="32" fill="#2563EB"/>
+            <text x="345" y="472" text-anchor="middle" font-family="Archivo" font-weight="900" font-size="18" fill="#fff">PC</text>
           </svg>
           <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs">
-            <span class="px-3 py-1.5 rounded-full bg-white border border-line">Founder · designer · developer</span>
+            <span class="px-3 py-1.5 rounded-full bg-white border border-line shadow-sm">Founder · designer · developer</span>
             <span class="px-3 py-1.5 rounded-full bg-ink text-white">Hi, I'm here ↘</span>
+          </div>
+        </div>
+        <!-- Stat strip below portrait -->
+        <div class="grid grid-cols-3 gap-3">
+          <div class="rounded-2xl bg-paper border border-line p-4 text-center">
+            <div class="font-display text-2xl font-black tracking-tight">8<span class="text-accent">+</span></div>
+            <div class="text-[10px] uppercase tracking-[0.15em] text-muted mt-1">years designing</div>
+          </div>
+          <div class="rounded-2xl bg-ink text-white p-4 text-center">
+            <div class="font-display text-2xl font-black tracking-tight">CST</div>
+            <div class="text-[10px] uppercase tracking-[0.15em] text-white/60 mt-1">Austin, TX</div>
+          </div>
+          <div class="rounded-2xl bg-paper border border-line p-4 text-center">
+            <div class="font-display text-2xl font-black tracking-tight">★ 4.9</div>
+            <div class="text-[10px] uppercase tracking-[0.15em] text-muted mt-1">client rating</div>
           </div>
         </div>
       </div>
@@ -814,23 +1337,6 @@
     document.querySelectorAll('.reveal, .draw-line').forEach((el) => el.classList.add('in'));
   }
 
-  // Cursor follower
-  const cursor = document.getElementById('cursor');
-  if (cursor && window.matchMedia('(pointer: fine)').matches) {
-    let x = 0, y = 0, tx = 0, ty = 0;
-    document.addEventListener('mousemove', (e) => { tx = e.clientX; ty = e.clientY; });
-    function tick() {
-      x += (tx - x) * 0.18;
-      y += (ty - y) * 0.18;
-      cursor.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
-      requestAnimationFrame(tick);
-    }
-    tick();
-    document.querySelectorAll('a, button, summary, .card-hover').forEach((el) => {
-      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-    });
-  }
 </script>
 
 </body>
