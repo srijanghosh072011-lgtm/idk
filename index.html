@@ -60,6 +60,21 @@
   }
   .blob { animation: blob 14s ease-in-out infinite; filter: blur(80px); }
 
+  /* Hero water drop sculpture */
+  @keyframes drop-float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-14px) rotate(1.8deg); }
+  }
+  .hero-drop { animation: drop-float 8s ease-in-out infinite; transform-origin: center; will-change: transform; filter: drop-shadow(0 30px 60px rgba(30,58,138,0.25)); }
+  @keyframes orbit-a { 0%,100% { transform: translate(0,0); } 50% { transform: translate(8px,-12px); } }
+  @keyframes orbit-b { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-10px,8px); } }
+  @keyframes orbit-c { 0%,100% { transform: translate(0,0); } 50% { transform: translate(6px,10px); } }
+  @keyframes orbit-d { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-8px,-10px); } }
+  .orbit-a { animation: orbit-a 6s ease-in-out infinite; transform-origin: center; }
+  .orbit-b { animation: orbit-b 7s ease-in-out infinite -2s; transform-origin: center; }
+  .orbit-c { animation: orbit-c 5s ease-in-out infinite -1s; transform-origin: center; }
+  .orbit-d { animation: orbit-d 8s ease-in-out infinite -3s; transform-origin: center; }
+
   /* Underline draw */
   .draw-line::after {
     content: ''; position: absolute; left: 0; bottom: 0.06em;
@@ -111,7 +126,7 @@
 
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
-    .marquee-track, .blob, .drip { animation: none !important; }
+    .marquee-track, .blob, .drip, .hero-drop, .orbit-a, .orbit-b, .orbit-c, .orbit-d, .gallery-track { animation: none !important; }
     .reveal { opacity: 1; transform: none; transition: none; }
   }
 
@@ -159,13 +174,12 @@
 <main id="top">
 
   <!-- Hero -->
-  <section class="relative pt-36 md:pt-44 pb-24 md:pb-32">
+  <section class="relative pt-32 md:pt-40 pb-20 md:pb-28 overflow-hidden">
     <!-- Background glow -->
     <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-      <div class="blob absolute -top-32 -left-32 w-[520px] h-[520px] rounded-full bg-accentSoft"></div>
-      <div class="blob absolute top-40 -right-40 w-[480px] h-[480px] rounded-full bg-[#F5F1EA]" style="animation-delay: -7s;"></div>
-      <!-- Grid -->
-      <svg class="absolute inset-0 w-full h-full opacity-[0.06]" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <div class="blob absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-accentSoft"></div>
+      <div class="blob absolute top-60 -right-40 w-[500px] h-[500px] rounded-full bg-[#F5F1EA]" style="animation-delay: -7s;"></div>
+      <svg class="absolute inset-0 w-full h-full opacity-[0.05]" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
           <pattern id="grid" width="56" height="56" patternUnits="userSpaceOnUse">
             <path d="M 56 0 L 0 0 0 56" fill="none" stroke="#0A0A0A" stroke-width="1"/>
@@ -175,21 +189,83 @@
       </svg>
     </div>
 
-    <div class="mx-auto max-w-7xl px-6">
+    <!-- Chrome water drop sculpture (sits behind type) -->
+    <div aria-hidden="true" class="pointer-events-none absolute -top-10 -right-24 w-[280px] md:top-0 md:bottom-0 md:right-0 md:left-auto md:w-[60%] lg:w-[55%] md:flex md:items-center md:justify-end md:h-auto z-0">
+      <svg class="hero-drop w-[260px] md:w-[640px] md:max-w-[640px] lg:w-[760px] lg:max-w-[760px] opacity-30 md:opacity-95" viewBox="0 0 600 760" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="chromeGrad" x1="0" y1="0" x2="0.2" y2="1">
+            <stop offset="0%" stop-color="#DBEAFE"/>
+            <stop offset="38%" stop-color="#1D4ED8"/>
+            <stop offset="50%" stop-color="#0A0A0A"/>
+            <stop offset="78%" stop-color="#1E3A8A"/>
+            <stop offset="100%" stop-color="#3B82F6"/>
+          </linearGradient>
+          <radialGradient id="topHL" cx="40%" cy="22%" r="32%">
+            <stop offset="0%" stop-color="#fff" stop-opacity="0.95"/>
+            <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="sideHL" cx="78%" cy="62%" r="22%">
+            <stop offset="0%" stop-color="#A5C7FF" stop-opacity="0.85"/>
+            <stop offset="100%" stop-color="#A5C7FF" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="rimGlow" cx="50%" cy="92%" r="50%">
+            <stop offset="0%" stop-color="#3B82F6" stop-opacity="0.55"/>
+            <stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="28"/>
+          </filter>
+        </defs>
+
+        <!-- Floor shadow -->
+        <ellipse cx="300" cy="710" rx="190" ry="20" fill="#0A0A0A" opacity="0.18" filter="url(#softShadow)"/>
+
+        <!-- Bottom rim glow -->
+        <ellipse cx="300" cy="600" rx="200" ry="160" fill="url(#rimGlow)"/>
+
+        <!-- Main drop body -->
+        <path d="M300 56 C 360 200, 470 348, 470 502 A 170 170 0 1 1 130 502 C 130 348, 240 200, 300 56 Z" fill="url(#chromeGrad)"/>
+
+        <!-- Specular streak left -->
+        <path d="M218 218 Q 178 360, 200 482" stroke="#fff" stroke-width="6" fill="none" opacity="0.50" stroke-linecap="round"/>
+        <path d="M210 250 Q 175 350, 195 460" stroke="#A5C7FF" stroke-width="2.5" fill="none" opacity="0.45" stroke-linecap="round"/>
+
+        <!-- Top highlight -->
+        <ellipse cx="270" cy="260" rx="55" ry="100" fill="url(#topHL)"/>
+
+        <!-- Side glow -->
+        <ellipse cx="420" cy="420" rx="48" ry="92" fill="url(#sideHL)"/>
+
+        <!-- Horizon reflection lines -->
+        <ellipse cx="300" cy="540" rx="160" ry="2.5" fill="#FFFFFF" opacity="0.30"/>
+        <ellipse cx="300" cy="640" rx="140" ry="5" fill="#FFFFFF" opacity="0.18"/>
+
+        <!-- Tip highlight -->
+        <ellipse cx="300" cy="80" rx="6" ry="18" fill="#fff" opacity="0.6"/>
+
+        <!-- Floating sub-drops -->
+        <circle class="orbit-a" cx="92" cy="200" r="14" fill="url(#chromeGrad)" opacity="0.75"/>
+        <circle class="orbit-b" cx="510" cy="160" r="9" fill="url(#chromeGrad)" opacity="0.55"/>
+        <circle class="orbit-c" cx="120" cy="540" r="5" fill="#2563EB" opacity="0.55"/>
+        <circle class="orbit-d" cx="500" cy="600" r="7" fill="#1E40AF" opacity="0.45"/>
+      </svg>
+    </div>
+
+    <div class="relative z-10 mx-auto max-w-7xl px-6">
       <div class="reveal flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-muted mb-7">
         <span class="inline-block w-2 h-2 rounded-full bg-accent animate-pulse"></span>
-        Independent design studio · Booking Q3
+        Independent design studio
       </div>
 
-      <h1 class="reveal font-display text-ink font-black tracking-tightest leading-[0.92] text-[12vw] md:text-[8.4vw] lg:text-[7.6vw] max-w-[15ch]">
-        Websites that
-        <span class="relative inline-block draw-line">turn drips</span>
-        into <span class="italic font-semibold text-accent">deals.</span>
+      <h1 class="reveal font-display text-ink font-black tracking-tightest leading-[0.92] text-[14vw] md:text-[10vw] lg:text-[8.8vw] max-w-[14ch]">
+        Plumbing<br/>
+        websites,<br/>
+        done <span class="italic font-semibold text-accent">properly.</span>
       </h1>
 
       <div class="mt-10 grid md:grid-cols-12 gap-8 items-end">
         <p class="reveal md:col-span-6 text-lg md:text-xl text-muted max-w-xl leading-relaxed">
-          PipeCraft is a one-person design studio building clean, modern, conversion-tuned websites for plumbing and home service businesses. No bloated templates. No agency markup. Just sharp design that books more jobs.
+          PipeCraft is a small studio designing clean, modern, conversion-tuned websites for plumbing and home-service businesses. No templates, no agency markup &mdash; just sharp design that books more jobs.
         </p>
         <div class="reveal md:col-span-6 flex flex-col sm:flex-row gap-3 md:justify-end">
           <a href="#contact" class="btn-primary cursor-pointer inline-flex items-center justify-center gap-2 rounded-full bg-ink text-white px-6 py-4 font-medium hover:bg-accent transition-colors">
@@ -197,29 +273,27 @@
             <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
           <a href="#work" class="cursor-pointer inline-flex items-center justify-center gap-2 rounded-full border border-line bg-white px-6 py-4 font-medium hover:border-ink transition-colors">
-            See recent work
+            See concept work
           </a>
         </div>
       </div>
 
-      <!-- Hero stats -->
-      <div class="reveal mt-20 grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10 border-t border-line pt-10">
-        <div>
-          <div class="font-display text-4xl md:text-5xl font-black tracking-tight">12<span class="text-accent">+</span></div>
-          <div class="text-sm text-muted mt-1">Plumbing sites shipped</div>
+      <!-- Founding studio offer (replaces fake stats) -->
+      <div class="reveal mt-14 border-t border-line pt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <span class="relative inline-flex w-2.5 h-2.5">
+            <span class="absolute inset-0 rounded-full bg-accent animate-ping opacity-50"></span>
+            <span class="relative inline-block w-2.5 h-2.5 rounded-full bg-accent"></span>
+          </span>
+          <span class="text-sm text-ink">
+            <span class="font-semibold">Founding studio.</span>
+            <span class="text-muted"> 3 launch-pricing slots open &middot; from $2,400 &middot; 14-day delivery.</span>
+          </span>
         </div>
-        <div>
-          <div class="font-display text-4xl md:text-5xl font-black tracking-tight">2.4<span class="text-accent">×</span></div>
-          <div class="text-sm text-muted mt-1">Avg. lead lift after launch</div>
-        </div>
-        <div>
-          <div class="font-display text-4xl md:text-5xl font-black tracking-tight">14<span class="text-accent">d</span></div>
-          <div class="text-sm text-muted mt-1">From kickoff to launch</div>
-        </div>
-        <div>
-          <div class="font-display text-4xl md:text-5xl font-black tracking-tight">100<span class="text-accent">%</span></div>
-          <div class="text-sm text-muted mt-1">Built solo, by hand</div>
-        </div>
+        <a href="#contact" class="text-sm font-medium text-ink hover:text-accent transition-colors inline-flex items-center gap-1.5">
+          Claim a slot
+          <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
       </div>
     </div>
   </section>
