@@ -61,12 +61,6 @@
   }
   .blob { animation: blob 14s ease-in-out infinite; filter: blur(80px); }
 
-  /* Hero water drop sculpture */
-  @keyframes drop-float {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-14px) rotate(1.8deg); }
-  }
-  .hero-drop { animation: drop-float 8s ease-in-out infinite; transform-origin: center; will-change: transform; filter: drop-shadow(0 30px 60px rgba(30,58,138,0.25)); }
   @keyframes orbit-a { 0%,100% { transform: translate(0,0); } 50% { transform: translate(8px,-12px); } }
   @keyframes orbit-b { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-10px,8px); } }
   @keyframes orbit-c { 0%,100% { transform: translate(0,0); } 50% { transform: translate(6px,10px); } }
@@ -125,28 +119,47 @@
   details[open] .acc-icon { transform: rotate(45deg); }
   .acc-icon { transition: transform .3s ease; }
 
-  /* Faucet drip */
-  @keyframes drip-fall {
-    0% { transform: translate(0, 0) scale(0.6, 0.4); opacity: 0; }
-    15% { transform: translate(0, 0) scale(0.9, 1.1); opacity: 1; }
-    25% { transform: translate(0, 0) scale(1, 1); opacity: 1; }
-    30% { transform: translate(0, 8px) scaleY(1.4); opacity: 1; }
-    70% { transform: translate(0, 220px) scaleY(1.6); opacity: 0.85; }
-    95% { transform: translate(0, 320px) scaleY(0.6); opacity: 0; }
-    100% { transform: translate(0, 320px) scaleY(0.6); opacity: 0; }
+  /* Hero faucet drips — fall into the chrome drop tip below */
+  @keyframes hero-drip-fall {
+    0% { transform: translate(0, 0) scale(0.4, 0.3); opacity: 0; }
+    8% { transform: translate(0, 0) scale(0.95, 1.15); opacity: 1; }
+    14% { transform: translate(0, 0) scale(1, 1); opacity: 1; }
+    18% { transform: translate(0, 6px) scale(0.95, 1.5); opacity: 1; }
+    65% { transform: translate(0, 90px) scaleY(2.2) scaleX(0.8); opacity: 0.95; }
+    88% { transform: translate(0, 165px) scaleY(0.9) scaleX(1.4); opacity: 0; }
+    100% { transform: translate(0, 165px) scale(0); opacity: 0; }
   }
-  .drip-anim { transform-origin: center top; animation: drip-fall 5.2s cubic-bezier(0.55, 0, 0.7, 1) infinite; }
-  .drip-1 { animation-delay: 0s; }
-  .drip-2 { animation-delay: 1.7s; }
-  .drip-3 { animation-delay: 3.4s; }
+  .hero-drip { transform-origin: center top; animation: hero-drip-fall 4.6s cubic-bezier(0.5, 0, 0.7, 1) infinite; }
+  .hero-drip-1 { animation-delay: 0s; }
+  .hero-drip-2 { animation-delay: 1.5s; }
+  .hero-drip-3 { animation-delay: 3.0s; }
 
-  /* Page-spanning water stream (right edge) */
-  #water-stream { transition: none; }
-  #stream-path { transition: stroke-dashoffset 120ms linear; }
+  /* Faucet itself bobs gently */
+  @keyframes faucet-sway { 0%,100% { transform: translateY(0); } 50% { transform: translateY(2px); } }
+  .hero-faucet { animation: faucet-sway 6s ease-in-out infinite; transform-origin: top center; }
+
+  /* Chrome drop entrance: starts small, grows to full size — like it's been collecting drips */
+  @keyframes drop-grow-in {
+    0% { transform: scale(0.3) translateY(40px); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+  }
+  /* Subtle "splash" pulse synced to drip arrival (every ~1.5s) */
+  @keyframes drop-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.012); }
+  }
+  .hero-drop {
+    animation: drop-grow-in 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s both, drop-pulse 1.5s ease-in-out 1.8s infinite;
+    transform-origin: center top;
+    will-change: transform, opacity;
+    filter: drop-shadow(0 30px 60px rgba(30,58,138,0.25));
+  }
 
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
-    .marquee-track, .blob, .drip, .hero-drop, .orbit-a, .orbit-b, .orbit-c, .orbit-d, .gallery-track, .drip-anim { animation: none !important; }
+    .marquee-track, .blob, .drip, .hero-drop, .hero-faucet, .hero-drip, .orbit-a, .orbit-b, .orbit-c, .orbit-d, .gallery-track { animation: none !important; }
+    .hero-drop { opacity: 1 !important; transform: none !important; }
     .reveal { opacity: 1; transform: none; transition: none; }
   }
 
@@ -164,75 +177,6 @@
 </style>
 </head>
 <body class="overflow-x-hidden">
-
-<!-- Wall-mount chrome faucet (page-anchored, hangs from very top, drips down to hero drop) -->
-<div aria-hidden="true" class="absolute top-0 right-2 md:right-8 lg:right-12 z-[60] pointer-events-none hidden md:block">
-  <svg class="w-16 lg:w-[72px]" viewBox="0 0 100 160" fill="none">
-    <defs>
-      <linearGradient id="chromeFaucet" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#F1F5F9"/>
-        <stop offset="35%" stop-color="#94A3B8"/>
-        <stop offset="55%" stop-color="#1F2937"/>
-        <stop offset="78%" stop-color="#475569"/>
-        <stop offset="100%" stop-color="#94A3B8"/>
-      </linearGradient>
-      <linearGradient id="chromeHL" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%" stop-color="#fff" stop-opacity="0.7"/>
-        <stop offset="50%" stop-color="#fff" stop-opacity="0"/>
-        <stop offset="100%" stop-color="#fff" stop-opacity="0.4"/>
-      </linearGradient>
-    </defs>
-    <!-- Ceiling backplate -->
-    <rect x="32" y="0" width="36" height="6" fill="#0A0A0A"/>
-    <rect x="32" y="0" width="36" height="2" fill="#475569"/>
-    <!-- Vertical stem -->
-    <rect x="42" y="6" width="16" height="38" fill="url(#chromeFaucet)"/>
-    <rect x="42" y="6" width="3" height="38" fill="url(#chromeHL)"/>
-    <!-- Round valve handle -->
-    <circle cx="50" cy="50" r="14" fill="url(#chromeFaucet)" stroke="#0A0A0A" stroke-width="1"/>
-    <circle cx="50" cy="50" r="14" fill="url(#chromeHL)" opacity="0.5"/>
-    <line x1="38" y1="50" x2="62" y2="50" stroke="#0A0A0A" stroke-width="2.4" stroke-linecap="round"/>
-    <line x1="50" y1="38" x2="50" y2="62" stroke="#0A0A0A" stroke-width="2.4" stroke-linecap="round"/>
-    <!-- Goose-neck spout -->
-    <path d="M 42 64 Q 42 86 60 86 Q 70 86 70 96 L 70 110 L 56 110 L 56 100 Q 56 96 50 96 Q 42 96 42 86 Z" fill="url(#chromeFaucet)"/>
-    <path d="M 44 66 Q 44 84 56 84" stroke="#fff" stroke-width="1.2" fill="none" opacity="0.6"/>
-    <!-- Spout tip (dark opening) -->
-    <rect x="56" y="110" width="14" height="4" fill="#0A0A0A"/>
-    <!-- 3 drops staggered -->
-    <ellipse class="drip-anim drip-1" cx="63" cy="118" rx="3.4" ry="5.2" fill="#3B82F6"/>
-    <ellipse class="drip-anim drip-2" cx="63" cy="118" rx="3.4" ry="5.2" fill="#3B82F6"/>
-    <ellipse class="drip-anim drip-3" cx="63" cy="118" rx="3.4" ry="5.2" fill="#3B82F6"/>
-  </svg>
-</div>
-
-<!-- Page-spanning water stream (right edge, draws on scroll) -->
-<svg id="water-stream"
-     class="absolute top-0 right-2 md:right-8 lg:right-12 z-0 pointer-events-none hidden md:block"
-     width="80"
-     style="height: 100%;"
-     aria-hidden="true">
-  <defs>
-    <linearGradient id="streamGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#60A5FA" stop-opacity="0.85"/>
-      <stop offset="50%" stop-color="#1E40AF" stop-opacity="0.95"/>
-      <stop offset="100%" stop-color="#2563EB" stop-opacity="0.9"/>
-    </linearGradient>
-    <filter id="streamGlow" x="-50%" y="-10%" width="200%" height="120%">
-      <feGaussianBlur stdDeviation="2.4" result="blur"/>
-      <feMerge>
-        <feMergeNode in="blur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-  </defs>
-  <path id="stream-path"
-        d="M 40 0"
-        fill="none"
-        stroke="url(#streamGrad)"
-        stroke-width="3.2"
-        stroke-linecap="round"
-        filter="url(#streamGlow)"/>
-</svg>
 
 <!-- Floating Nav -->
 <header class="fixed top-4 left-4 right-4 z-50">
@@ -278,9 +222,49 @@
       </svg>
     </div>
 
-    <!-- Chrome water drop sculpture (sits behind type) -->
-    <div aria-hidden="true" class="pointer-events-none absolute -top-10 -right-24 w-[280px] md:top-0 md:bottom-0 md:right-0 md:left-auto md:w-[60%] lg:w-[55%] md:flex md:items-center md:justify-end md:h-auto z-0">
-      <svg class="hero-drop w-[260px] md:w-[640px] md:max-w-[640px] lg:w-[760px] lg:max-w-[760px] opacity-30 md:opacity-95" viewBox="0 0 600 760" xmlns="http://www.w3.org/2000/svg">
+    <!-- Hero composition: leaky faucet drips down, drop grows below -->
+    <div aria-hidden="true" class="pointer-events-none absolute -top-6 -right-20 w-[280px] md:-top-4 md:bottom-0 md:right-0 md:left-auto md:w-[60%] lg:w-[55%] md:flex md:flex-col md:items-end md:justify-start md:h-auto z-0">
+
+      <!-- Wall-mount chrome faucet (top of composition, releases drips) -->
+      <svg class="hero-faucet relative z-10 w-[120px] md:w-[160px] lg:w-[200px] -mb-6 md:-mb-10 mr-6 md:mr-20 lg:mr-32 opacity-90 md:opacity-100" viewBox="0 0 100 180" fill="none">
+        <defs>
+          <linearGradient id="chromeFaucet" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#F1F5F9"/>
+            <stop offset="32%" stop-color="#94A3B8"/>
+            <stop offset="55%" stop-color="#1F2937"/>
+            <stop offset="78%" stop-color="#475569"/>
+            <stop offset="100%" stop-color="#94A3B8"/>
+          </linearGradient>
+          <linearGradient id="chromeFaucetHL" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#fff" stop-opacity="0.7"/>
+            <stop offset="50%" stop-color="#fff" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#fff" stop-opacity="0.4"/>
+          </linearGradient>
+        </defs>
+        <!-- Ceiling backplate -->
+        <rect x="32" y="0" width="36" height="6" fill="#0A0A0A"/>
+        <rect x="32" y="0" width="36" height="2" fill="#475569"/>
+        <!-- Vertical stem -->
+        <rect x="42" y="6" width="16" height="40" fill="url(#chromeFaucet)"/>
+        <rect x="42" y="6" width="3.5" height="40" fill="url(#chromeFaucetHL)"/>
+        <!-- Round valve handle -->
+        <circle cx="50" cy="52" r="15" fill="url(#chromeFaucet)" stroke="#0A0A0A" stroke-width="1"/>
+        <circle cx="50" cy="52" r="15" fill="url(#chromeFaucetHL)" opacity="0.5"/>
+        <line x1="38" y1="52" x2="62" y2="52" stroke="#0A0A0A" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="50" y1="40" x2="50" y2="64" stroke="#0A0A0A" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- Goose-neck spout -->
+        <path d="M 42 67 Q 42 92 60 92 Q 70 92 70 102 L 70 118 L 56 118 L 56 108 Q 56 102 50 102 Q 42 102 42 92 Z" fill="url(#chromeFaucet)"/>
+        <path d="M 44 69 Q 44 90 56 90" stroke="#fff" stroke-width="1.4" fill="none" opacity="0.6"/>
+        <!-- Spout tip (dark opening) -->
+        <rect x="56" y="118" width="14" height="4" fill="#0A0A0A"/>
+        <!-- Drip drops staggered -->
+        <ellipse class="hero-drip hero-drip-1" cx="63" cy="126" rx="3.6" ry="5.6" fill="#3B82F6"/>
+        <ellipse class="hero-drip hero-drip-2" cx="63" cy="126" rx="3.6" ry="5.6" fill="#3B82F6"/>
+        <ellipse class="hero-drip hero-drip-3" cx="63" cy="126" rx="3.6" ry="5.6" fill="#3B82F6"/>
+      </svg>
+
+      <!-- Chrome water drop sculpture (catches the drips, grows on entrance) -->
+      <svg class="hero-drop w-[260px] md:w-[640px] md:max-w-[640px] lg:w-[760px] lg:max-w-[760px] opacity-30 md:opacity-95 -mt-2" viewBox="0 0 600 760" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="chromeGrad" x1="0" y1="0" x2="0.2" y2="1">
             <stop offset="0%" stop-color="#DBEAFE"/>
@@ -1523,74 +1507,6 @@
     document.querySelectorAll('.reveal, .draw-line').forEach((el) => el.classList.add('in'));
   }
 
-  // Page-spanning water stream — draws as you scroll
-  (function setupWaterStream() {
-    if (window.innerWidth < 768) return;
-    const svg = document.getElementById('water-stream');
-    const path = document.getElementById('stream-path');
-    if (!svg || !path) return;
-
-    const W = 80;
-    let docH = 0;
-    let len = 0;
-
-    function rebuild() {
-      docH = Math.max(
-        document.documentElement.scrollHeight,
-        document.body.scrollHeight
-      );
-      svg.setAttribute('viewBox', '0 0 ' + W + ' ' + docH);
-      svg.setAttribute('height', docH);
-      svg.style.height = docH + 'px';
-
-      // Build sinusoidal-ish path through full doc height
-      const seg = 320; // distance between sway points
-      const count = Math.ceil(docH / seg);
-      const cx = W / 2;
-      let d = 'M ' + cx + ' 0';
-      for (let i = 0; i < count; i++) {
-        const yEnd = Math.min((i + 1) * seg, docH);
-        const yMid = i * seg + seg / 2;
-        const cpX = i % 2 === 0 ? W - 6 : 6;
-        d += ' Q ' + cpX + ' ' + yMid + ' ' + cx + ' ' + yEnd;
-      }
-      path.setAttribute('d', d);
-
-      len = path.getTotalLength();
-      path.style.strokeDasharray = len;
-      path.style.strokeDashoffset = len;
-    }
-
-    function update() {
-      if (!len) return;
-      const max = Math.max(docH - window.innerHeight, 1);
-      const pct = Math.min(Math.max(window.scrollY / max, 0), 1);
-      // lookahead so the stream feels alive, not chasing
-      const lookahead = (window.innerHeight * 0.65) / docH;
-      const visible = Math.min(pct + lookahead, 1);
-      path.style.strokeDashoffset = String(len * (1 - visible));
-    }
-
-    rebuild();
-    update();
-
-    let raf = null;
-    window.addEventListener('scroll', () => {
-      if (raf) return;
-      raf = requestAnimationFrame(() => { update(); raf = null; });
-    }, { passive: true });
-
-    let resizeT = null;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeT);
-      resizeT = setTimeout(() => { rebuild(); update(); }, 180);
-    });
-
-    // Re-measure after fonts/images settle (page height can change)
-    window.addEventListener('load', () => { rebuild(); update(); });
-    setTimeout(() => { rebuild(); update(); }, 800);
-    setTimeout(() => { rebuild(); update(); }, 2000);
-  })();
 
 </script>
 
