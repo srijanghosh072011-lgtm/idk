@@ -138,11 +138,9 @@
   @keyframes faucet-sway { 0%,100% { transform: translateY(0); } 50% { transform: translateY(2px); } }
   .hero-faucet { animation: faucet-sway 6s ease-in-out infinite; transform-origin: top center; }
 
-  /* Traveling chrome drop — JS-driven transform follows scroll */
+  /* Traveling chrome drop — JS handles spawn from faucet then scroll-driven travel */
   #traveler { transform-origin: center; }
   #traveler svg { filter: drop-shadow(0 30px 60px rgba(30,58,138,0.25)); }
-  @keyframes traveler-in { 0% { opacity: 0; } 100% { opacity: 1; } }
-  #traveler { animation: traveler-in 1s ease-out both; }
 
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
@@ -167,7 +165,7 @@
 <body class="overflow-x-hidden">
 
 <!-- Traveling chrome water drop — fixed in viewport, journeys through the page on scroll -->
-<div id="traveler" aria-hidden="true" class="fixed top-0 left-0 z-0 pointer-events-none hidden md:block" style="will-change: transform, opacity; transform: translate(72vw, 50vh) translate(-50%, -50%) scale(1) rotate(0deg);">
+<div id="traveler" aria-hidden="true" class="fixed top-0 left-0 z-0 pointer-events-none hidden md:block" style="will-change: transform, opacity; opacity: 0; transform: translate(87vw, 33vh) translate(-50%, -50%) scale(0) rotate(0deg);">
   <svg class="block w-[640px] lg:w-[760px] opacity-95" viewBox="0 0 600 760" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="chromeGrad" x1="0" y1="0" x2="0.2" y2="1">
@@ -266,8 +264,8 @@
     <!-- Hero composition: leaky faucet sits at top right (drop travels separately, page-level) -->
     <div aria-hidden="true" class="pointer-events-none absolute -top-6 right-2 md:-top-4 md:right-8 lg:right-16 z-0">
 
-      <!-- Wall-mount chrome faucet (releases drips that the traveling drop will catch) -->
-      <svg class="hero-faucet relative z-10 w-[120px] md:w-[160px] lg:w-[200px] opacity-90 md:opacity-100" viewBox="0 0 100 180" fill="none">
+      <!-- Wall-mount chrome faucet (the hero element — drop literally emerges from its spout) -->
+      <svg class="hero-faucet relative z-10 w-[180px] md:w-[260px] lg:w-[320px] opacity-90 md:opacity-100" viewBox="0 0 100 180" fill="none">
         <defs>
           <linearGradient id="chromeFaucet" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stop-color="#F1F5F9"/>
@@ -1489,18 +1487,17 @@
     document.querySelectorAll('.reveal, .draw-line').forEach((el) => el.classList.add('in'));
   }
 
-  // Traveling water drop — journeys through page via scroll-driven waypoints
+  // Traveling water drop — emerges from faucet, then journeys through page on scroll
   (function setupTraveler() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     if (window.innerWidth < 768) return;
     const drop = document.getElementById('traveler');
     if (!drop) return;
 
-    // Each waypoint: scroll progress (0–1), viewport x (vw), viewport y (vh), scale, rotation (deg), opacity
-    // Journey ends before the contact section — drop fades out as the visitor arrives at the offer
+    // Scroll waypoints: scroll progress (0–1), viewport x (vw), viewport y (vh), scale, rotation, opacity
     const waypoints = [
-      { p: 0.00, x: 72, y: 50, s: 1.00, r:   0, o: 1.00 }, // hero — under the faucet
-      { p: 0.10, x: 80, y: 28, s: 0.55, r: -10, o: 0.85 }, // shrinks, drifts up-right
+      { p: 0.00, x: 78, y: 64, s: 0.70, r:   0, o: 1.00 }, // hero rest — directly below faucet spout
+      { p: 0.10, x: 80, y: 28, s: 0.50, r: -10, o: 0.85 }, // shrinks, drifts up
       { p: 0.22, x: 18, y: 70, s: 0.32, r:  16, o: 0.75 }, // dives bottom-left across gallery
       { p: 0.38, x: 88, y: 22, s: 0.28, r: -22, o: 0.70 }, // top-right past process
       { p: 0.54, x: 14, y: 30, s: 0.36, r:  10, o: 0.78 }, // top-left over Figma section
@@ -1510,38 +1507,83 @@
       { p: 1.00, x: 50, y:120, s: 0.30, r:   0, o: 0.00 }, // exits below contact, faded
     ];
 
+    // Spawn keyframes (time 0–1 over SPAWN_MS): the drop is born from the faucet spout and grows into hero rest
+    // Spout sits roughly at x=87vw, y=33vh on lg viewport
+    const SPAWN_MS = 2200;
+    const spawn = [
+      { t: 0.00, x: 87, y: 33, s: 0.00, r: 0, o: 0.00 }, // hidden at spout
+      { t: 0.18, x: 87, y: 33, s: 0.06, r: 0, o: 1.00 }, // tiny drip forms at the tip
+      { t: 0.32, x: 87, y: 36, s: 0.06, r: 0, o: 1.00 }, // drip elongates, about to release
+      { t: 0.55, x: 87, y: 50, s: 0.10, r: 0, o: 1.00 }, // falling, slight stretch
+      { t: 0.78, x: 84, y: 62, s: 0.30, r: 0, o: 1.00 }, // landing — drip impacts and starts growing
+      { t: 0.92, x: 80, y: 64, s: 0.60, r: 0, o: 1.00 }, // settling
+      { t: 1.00, x: 78, y: 64, s: 0.70, r: 0, o: 1.00 }, // arrived at hero rest position (= waypoint A)
+    ];
+
     function smooth(t) { return t * t * (3 - 2 * t); }
 
-    function update() {
-      const docH = document.documentElement.scrollHeight - window.innerHeight;
-      const p = docH > 0 ? Math.min(Math.max(window.scrollY / docH, 0), 1) : 0;
-
-      // Find segment
+    function pickFrames(arr, value, key) {
       let i = 0;
-      while (i < waypoints.length - 1 && waypoints[i + 1].p < p) i++;
-      const a = waypoints[i];
-      const b = waypoints[Math.min(i + 1, waypoints.length - 1)];
-      const span = Math.max(b.p - a.p, 0.0001);
-      const t = smooth(Math.min(Math.max((p - a.p) / span, 0), 1));
+      while (i < arr.length - 1 && arr[i + 1][key] < value) i++;
+      return [arr[i], arr[Math.min(i + 1, arr.length - 1)]];
+    }
 
+    function applyFrame(a, b, t) {
       const x = a.x + (b.x - a.x) * t;
       const y = a.y + (b.y - a.y) * t;
       const s = a.s + (b.s - a.s) * t;
       const r = a.r + (b.r - a.r) * t;
       const o = a.o + (b.o - a.o) * t;
-
       drop.style.transform =
         'translate(' + x + 'vw, ' + y + 'vh) translate(-50%, -50%) scale(' + s.toFixed(3) + ') rotate(' + r.toFixed(1) + 'deg)';
       drop.style.opacity = o.toFixed(3);
     }
 
-    update();
+    function applyScroll() {
+      const docH = document.documentElement.scrollHeight - window.innerHeight;
+      const p = docH > 0 ? Math.min(Math.max(window.scrollY / docH, 0), 1) : 0;
+      const [a, b] = pickFrames(waypoints, p, 'p');
+      const span = Math.max(b.p - a.p, 0.0001);
+      const t = smooth(Math.min(Math.max((p - a.p) / span, 0), 1));
+      applyFrame(a, b, t);
+    }
+
+    // --- Spawn animation ---
+    let spawning = true;
+    const spawnStart = performance.now();
+    drop.style.opacity = '0';
+
+    function spawnTick(now) {
+      if (window.scrollY > 4) {
+        // user scrolled during spawn — abort and switch to scroll mode
+        spawning = false;
+        applyScroll();
+        return;
+      }
+      const elapsed = now - spawnStart;
+      const tt = Math.min(elapsed / SPAWN_MS, 1);
+      const [a, b] = pickFrames(spawn, tt, 't');
+      const span = Math.max(b.t - a.t, 0.0001);
+      const localT = smooth(Math.min(Math.max((tt - a.t) / span, 0), 1));
+      applyFrame(a, b, localT);
+      if (tt < 1) {
+        requestAnimationFrame(spawnTick);
+      } else {
+        spawning = false;
+      }
+    }
+    requestAnimationFrame(spawnTick);
+
+    // --- Scroll handler (only takes over once spawn ends or is aborted) ---
     let raf = null;
     window.addEventListener('scroll', () => {
+      if (spawning) return;
       if (raf) return;
-      raf = requestAnimationFrame(() => { update(); raf = null; });
+      raf = requestAnimationFrame(() => { applyScroll(); raf = null; });
     }, { passive: true });
-    window.addEventListener('resize', () => { update(); }, { passive: true });
+    window.addEventListener('resize', () => {
+      if (!spawning) applyScroll();
+    }, { passive: true });
   })();
 </script>
 
