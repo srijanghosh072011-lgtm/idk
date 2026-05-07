@@ -115,28 +115,16 @@
   @keyframes faucet-sway { 0%,100% { transform: translateY(0); } 50% { transform: translateY(2px); } }
   .hero-faucet { animation: faucet-sway 6s ease-in-out infinite; transform-origin: top center; }
 
-  /* Chrome drop entrance: starts small, grows to full size — like it's been collecting drips */
-  @keyframes drop-grow-in {
-    0% { transform: scale(0.3) translateY(40px); opacity: 0; }
-    50% { opacity: 1; }
-    100% { transform: scale(1) translateY(0); opacity: 1; }
-  }
-  /* Subtle "splash" pulse synced to drip arrival (every ~1.5s) */
-  @keyframes drop-pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.012); }
-  }
-  .hero-drop {
-    animation: drop-grow-in 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s both, drop-pulse 1.5s ease-in-out 1.8s infinite;
-    transform-origin: center top;
-    will-change: transform, opacity;
-    filter: drop-shadow(0 30px 60px rgba(30,58,138,0.25));
-  }
+  /* Traveling chrome drop — JS-driven transform follows scroll */
+  #traveler { transform-origin: center; }
+  #traveler svg { filter: drop-shadow(0 30px 60px rgba(30,58,138,0.25)); }
+  @keyframes traveler-in { 0% { opacity: 0; } 100% { opacity: 1; } }
+  #traveler { animation: traveler-in 1s ease-out both; }
 
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
-    .marquee-track, .blob, .drip, .hero-drop, .hero-faucet, .hero-drip, .orbit-a, .orbit-b, .orbit-c, .orbit-d, .gallery-track { animation: none !important; }
-    .hero-drop { opacity: 1 !important; transform: none !important; }
+    .marquee-track, .blob, .drip, .hero-faucet, .hero-drip, .orbit-a, .orbit-b, .orbit-c, .orbit-d, .gallery-track { animation: none !important; }
+    #traveler { animation: none !important; transition: none !important; }
     .reveal { opacity: 1; transform: none; transition: none; }
   }
 
@@ -154,6 +142,59 @@
 </style>
 </head>
 <body class="overflow-x-hidden">
+
+<!-- Traveling chrome water drop — fixed in viewport, journeys through the page on scroll -->
+<div id="traveler" aria-hidden="true" class="fixed top-0 left-0 z-0 pointer-events-none hidden md:block" style="will-change: transform, opacity; transform: translate(72vw, 50vh) translate(-50%, -50%) scale(1) rotate(0deg);">
+  <svg class="block w-[640px] lg:w-[760px] opacity-95" viewBox="0 0 600 760" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="chromeGrad" x1="0" y1="0" x2="0.2" y2="1">
+        <stop offset="0%" stop-color="#DBEAFE"/>
+        <stop offset="38%" stop-color="#1D4ED8"/>
+        <stop offset="50%" stop-color="#0A0A0A"/>
+        <stop offset="78%" stop-color="#1E3A8A"/>
+        <stop offset="100%" stop-color="#3B82F6"/>
+      </linearGradient>
+      <radialGradient id="topHL" cx="40%" cy="22%" r="32%">
+        <stop offset="0%" stop-color="#fff" stop-opacity="0.95"/>
+        <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="sideHL" cx="78%" cy="62%" r="22%">
+        <stop offset="0%" stop-color="#A5C7FF" stop-opacity="0.85"/>
+        <stop offset="100%" stop-color="#A5C7FF" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="rimGlow" cx="50%" cy="92%" r="50%">
+        <stop offset="0%" stop-color="#3B82F6" stop-opacity="0.55"/>
+        <stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/>
+      </radialGradient>
+      <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="28"/>
+      </filter>
+    </defs>
+
+    <!-- Floor shadow -->
+    <ellipse cx="300" cy="710" rx="190" ry="20" fill="#0A0A0A" opacity="0.18" filter="url(#softShadow)"/>
+    <!-- Bottom rim glow -->
+    <ellipse cx="300" cy="600" rx="200" ry="160" fill="url(#rimGlow)"/>
+    <!-- Main drop body -->
+    <path d="M300 56 C 360 200, 470 348, 470 502 A 170 170 0 1 1 130 502 C 130 348, 240 200, 300 56 Z" fill="url(#chromeGrad)"/>
+    <!-- Specular streaks -->
+    <path d="M218 218 Q 178 360, 200 482" stroke="#fff" stroke-width="6" fill="none" opacity="0.50" stroke-linecap="round"/>
+    <path d="M210 250 Q 175 350, 195 460" stroke="#A5C7FF" stroke-width="2.5" fill="none" opacity="0.45" stroke-linecap="round"/>
+    <!-- Highlights -->
+    <ellipse cx="270" cy="260" rx="55" ry="100" fill="url(#topHL)"/>
+    <ellipse cx="420" cy="420" rx="48" ry="92" fill="url(#sideHL)"/>
+    <!-- Reflection lines -->
+    <ellipse cx="300" cy="540" rx="160" ry="2.5" fill="#FFFFFF" opacity="0.30"/>
+    <ellipse cx="300" cy="640" rx="140" ry="5" fill="#FFFFFF" opacity="0.18"/>
+    <!-- Tip highlight -->
+    <ellipse cx="300" cy="80" rx="6" ry="18" fill="#fff" opacity="0.6"/>
+    <!-- Floating sub-drops -->
+    <circle class="orbit-a" cx="92" cy="200" r="14" fill="url(#chromeGrad)" opacity="0.75"/>
+    <circle class="orbit-b" cx="510" cy="160" r="9" fill="url(#chromeGrad)" opacity="0.55"/>
+    <circle class="orbit-c" cx="120" cy="540" r="5" fill="#2563EB" opacity="0.55"/>
+    <circle class="orbit-d" cx="500" cy="600" r="7" fill="#1E40AF" opacity="0.45"/>
+  </svg>
+</div>
 
 <!-- Floating Nav -->
 <header class="fixed top-4 left-4 right-4 z-50">
@@ -199,11 +240,11 @@
       </svg>
     </div>
 
-    <!-- Hero composition: leaky faucet drips down, drop grows below -->
-    <div aria-hidden="true" class="pointer-events-none absolute -top-6 -right-20 w-[280px] md:-top-4 md:bottom-0 md:right-0 md:left-auto md:w-[60%] lg:w-[55%] md:flex md:flex-col md:items-end md:justify-start md:h-auto z-0">
+    <!-- Hero composition: leaky faucet sits at top right (drop travels separately, page-level) -->
+    <div aria-hidden="true" class="pointer-events-none absolute -top-6 right-2 md:-top-4 md:right-8 lg:right-16 z-0">
 
-      <!-- Wall-mount chrome faucet (top of composition, releases drips) -->
-      <svg class="hero-faucet relative z-10 w-[120px] md:w-[160px] lg:w-[200px] -mb-6 md:-mb-10 mr-6 md:mr-20 lg:mr-32 opacity-90 md:opacity-100" viewBox="0 0 100 180" fill="none">
+      <!-- Wall-mount chrome faucet (releases drips that the traveling drop will catch) -->
+      <svg class="hero-faucet relative z-10 w-[120px] md:w-[160px] lg:w-[200px] opacity-90 md:opacity-100" viewBox="0 0 100 180" fill="none">
         <defs>
           <linearGradient id="chromeFaucet" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stop-color="#F1F5F9"/>
@@ -240,65 +281,6 @@
         <ellipse class="hero-drip hero-drip-3" cx="63" cy="126" rx="3.6" ry="5.6" fill="#3B82F6"/>
       </svg>
 
-      <!-- Chrome water drop sculpture (catches the drips, grows on entrance) -->
-      <svg class="hero-drop w-[260px] md:w-[640px] md:max-w-[640px] lg:w-[760px] lg:max-w-[760px] opacity-30 md:opacity-95 -mt-2" viewBox="0 0 600 760" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="chromeGrad" x1="0" y1="0" x2="0.2" y2="1">
-            <stop offset="0%" stop-color="#DBEAFE"/>
-            <stop offset="38%" stop-color="#1D4ED8"/>
-            <stop offset="50%" stop-color="#0A0A0A"/>
-            <stop offset="78%" stop-color="#1E3A8A"/>
-            <stop offset="100%" stop-color="#3B82F6"/>
-          </linearGradient>
-          <radialGradient id="topHL" cx="40%" cy="22%" r="32%">
-            <stop offset="0%" stop-color="#fff" stop-opacity="0.95"/>
-            <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
-          </radialGradient>
-          <radialGradient id="sideHL" cx="78%" cy="62%" r="22%">
-            <stop offset="0%" stop-color="#A5C7FF" stop-opacity="0.85"/>
-            <stop offset="100%" stop-color="#A5C7FF" stop-opacity="0"/>
-          </radialGradient>
-          <radialGradient id="rimGlow" cx="50%" cy="92%" r="50%">
-            <stop offset="0%" stop-color="#3B82F6" stop-opacity="0.55"/>
-            <stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/>
-          </radialGradient>
-          <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="28"/>
-          </filter>
-        </defs>
-
-        <!-- Floor shadow -->
-        <ellipse cx="300" cy="710" rx="190" ry="20" fill="#0A0A0A" opacity="0.18" filter="url(#softShadow)"/>
-
-        <!-- Bottom rim glow -->
-        <ellipse cx="300" cy="600" rx="200" ry="160" fill="url(#rimGlow)"/>
-
-        <!-- Main drop body -->
-        <path d="M300 56 C 360 200, 470 348, 470 502 A 170 170 0 1 1 130 502 C 130 348, 240 200, 300 56 Z" fill="url(#chromeGrad)"/>
-
-        <!-- Specular streak left -->
-        <path d="M218 218 Q 178 360, 200 482" stroke="#fff" stroke-width="6" fill="none" opacity="0.50" stroke-linecap="round"/>
-        <path d="M210 250 Q 175 350, 195 460" stroke="#A5C7FF" stroke-width="2.5" fill="none" opacity="0.45" stroke-linecap="round"/>
-
-        <!-- Top highlight -->
-        <ellipse cx="270" cy="260" rx="55" ry="100" fill="url(#topHL)"/>
-
-        <!-- Side glow -->
-        <ellipse cx="420" cy="420" rx="48" ry="92" fill="url(#sideHL)"/>
-
-        <!-- Horizon reflection lines -->
-        <ellipse cx="300" cy="540" rx="160" ry="2.5" fill="#FFFFFF" opacity="0.30"/>
-        <ellipse cx="300" cy="640" rx="140" ry="5" fill="#FFFFFF" opacity="0.18"/>
-
-        <!-- Tip highlight -->
-        <ellipse cx="300" cy="80" rx="6" ry="18" fill="#fff" opacity="0.6"/>
-
-        <!-- Floating sub-drops -->
-        <circle class="orbit-a" cx="92" cy="200" r="14" fill="url(#chromeGrad)" opacity="0.75"/>
-        <circle class="orbit-b" cx="510" cy="160" r="9" fill="url(#chromeGrad)" opacity="0.55"/>
-        <circle class="orbit-c" cx="120" cy="540" r="5" fill="#2563EB" opacity="0.55"/>
-        <circle class="orbit-d" cx="500" cy="600" r="7" fill="#1E40AF" opacity="0.45"/>
-      </svg>
     </div>
 
     <div class="relative z-10 mx-auto max-w-7xl px-6">
@@ -1484,7 +1466,60 @@
     document.querySelectorAll('.reveal, .draw-line').forEach((el) => el.classList.add('in'));
   }
 
+  // Traveling water drop — journeys through page via scroll-driven waypoints
+  (function setupTraveler() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.innerWidth < 768) return;
+    const drop = document.getElementById('traveler');
+    if (!drop) return;
 
+    // Each waypoint: scroll progress (0–1), viewport x (vw), viewport y (vh), scale, rotation (deg), opacity
+    // Journey ends before the contact section — drop fades out as the visitor arrives at the offer
+    const waypoints = [
+      { p: 0.00, x: 72, y: 50, s: 1.00, r:   0, o: 1.00 }, // hero — under the faucet
+      { p: 0.10, x: 80, y: 28, s: 0.55, r: -10, o: 0.85 }, // shrinks, drifts up-right
+      { p: 0.22, x: 18, y: 70, s: 0.32, r:  16, o: 0.75 }, // dives bottom-left across gallery
+      { p: 0.38, x: 88, y: 22, s: 0.28, r: -22, o: 0.70 }, // top-right past process
+      { p: 0.54, x: 14, y: 30, s: 0.36, r:  10, o: 0.78 }, // top-left over Figma section
+      { p: 0.70, x: 80, y: 70, s: 0.42, r: -14, o: 0.85 }, // bottom-right past testimonials
+      { p: 0.83, x: 30, y: 24, s: 0.50, r:   8, o: 0.85 }, // top-left over FAQ
+      { p: 0.92, x: 60, y: 90, s: 0.40, r:   0, o: 0.35 }, // descending out of FAQ
+      { p: 1.00, x: 50, y:120, s: 0.30, r:   0, o: 0.00 }, // exits below contact, faded
+    ];
+
+    function smooth(t) { return t * t * (3 - 2 * t); }
+
+    function update() {
+      const docH = document.documentElement.scrollHeight - window.innerHeight;
+      const p = docH > 0 ? Math.min(Math.max(window.scrollY / docH, 0), 1) : 0;
+
+      // Find segment
+      let i = 0;
+      while (i < waypoints.length - 1 && waypoints[i + 1].p < p) i++;
+      const a = waypoints[i];
+      const b = waypoints[Math.min(i + 1, waypoints.length - 1)];
+      const span = Math.max(b.p - a.p, 0.0001);
+      const t = smooth(Math.min(Math.max((p - a.p) / span, 0), 1));
+
+      const x = a.x + (b.x - a.x) * t;
+      const y = a.y + (b.y - a.y) * t;
+      const s = a.s + (b.s - a.s) * t;
+      const r = a.r + (b.r - a.r) * t;
+      const o = a.o + (b.o - a.o) * t;
+
+      drop.style.transform =
+        'translate(' + x + 'vw, ' + y + 'vh) translate(-50%, -50%) scale(' + s.toFixed(3) + ') rotate(' + r.toFixed(1) + 'deg)';
+      drop.style.opacity = o.toFixed(3);
+    }
+
+    update();
+    let raf = null;
+    window.addEventListener('scroll', () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => { update(); raf = null; });
+    }, { passive: true });
+    window.addEventListener('resize', () => { update(); }, { passive: true });
+  })();
 </script>
 
 </body>
