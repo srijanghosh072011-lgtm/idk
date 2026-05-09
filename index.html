@@ -210,11 +210,76 @@
 
       <!-- Photo layer — scales up centered on the falling drop -->
       <div id="hero-photo" class="absolute inset-0 will-change-transform" style="transform-origin: 50% 56%;">
-        <!-- Fallback marble gradient (always rendered first; the image covers it when loaded) -->
-        <div class="absolute inset-0 photo-fallback"
+        <!-- Fallback: marble gradient + stylized SVG faucet (rendered first; the photo covers it when loaded) -->
+        <div class="absolute inset-0 photo-fallback overflow-hidden"
              style="background:
                radial-gradient(ellipse at 50% 35%, rgba(241,245,249,0.9) 0%, rgba(232,228,222,0.6) 60%, rgba(229,223,213,0.9) 100%),
-               linear-gradient(180deg, #F5F2EE 0%, #FFFFFF 50%, #E8E4DE 100%);"></div>
+               linear-gradient(180deg, #F5F2EE 0%, #FFFFFF 50%, #E8E4DE 100%);">
+          <!-- Subtle marble veins -->
+          <svg class="absolute inset-0 w-full h-full opacity-[0.10]" preserveAspectRatio="none" viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M0 220 Q 360 180 700 250 T 1440 280" stroke="#0A0A0A" stroke-width="1.2" fill="none"/>
+            <path d="M0 380 Q 280 360 520 410 T 1100 430 T 1440 460" stroke="#0A0A0A" stroke-width="1" fill="none"/>
+            <path d="M0 600 Q 400 560 720 620 T 1440 640" stroke="#0A0A0A" stroke-width="1.2" fill="none"/>
+            <path d="M180 0 Q 220 220 380 380 T 520 720 T 600 900" stroke="#0A0A0A" stroke-width="1" fill="none"/>
+            <path d="M880 0 Q 920 200 1040 360 T 1180 700 T 1240 900" stroke="#0A0A0A" stroke-width="1" fill="none"/>
+          </svg>
+
+          <!-- Stylized chrome faucet — center, taking up the upper-mid area like the reference photo -->
+          <svg class="absolute left-1/2 -translate-x-1/2 top-[8%] h-[60%] aspect-[3/4]" viewBox="0 0 300 400" fill="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="fbChromeBody" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#E5E7EB"/>
+                <stop offset="20%" stop-color="#F1F5F9"/>
+                <stop offset="50%" stop-color="#1F2937"/>
+                <stop offset="80%" stop-color="#94A3B8"/>
+                <stop offset="100%" stop-color="#475569"/>
+              </linearGradient>
+              <linearGradient id="fbChromeHandle" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#F1F5F9"/>
+                <stop offset="50%" stop-color="#94A3B8"/>
+                <stop offset="100%" stop-color="#475569"/>
+              </linearGradient>
+              <radialGradient id="fbChromeShine" cx="35%" cy="30%" r="40%">
+                <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.85"/>
+                <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+
+            <!-- Soft sink basin underneath -->
+            <ellipse cx="150" cy="380" rx="220" ry="22" fill="#0A0A0A" opacity="0.12"/>
+
+            <!-- Left handle -->
+            <g transform="translate(40, 130)">
+              <rect x="14" y="50" width="22" height="34" rx="4" fill="url(#fbChromeHandle)"/>
+              <ellipse cx="25" cy="86" rx="22" ry="6" fill="#475569"/>
+              <rect x="22" y="0" width="6" height="56" rx="3" fill="url(#fbChromeBody)"/>
+              <rect x="10" y="-4" width="30" height="10" rx="3" fill="url(#fbChromeBody)"/>
+            </g>
+
+            <!-- Right handle (mirror) -->
+            <g transform="translate(195, 130)">
+              <rect x="14" y="50" width="22" height="34" rx="4" fill="url(#fbChromeHandle)"/>
+              <ellipse cx="25" cy="86" rx="22" ry="6" fill="#475569"/>
+              <rect x="22" y="0" width="6" height="56" rx="3" fill="url(#fbChromeBody)"/>
+              <rect x="10" y="-4" width="30" height="10" rx="3" fill="url(#fbChromeBody)"/>
+            </g>
+
+            <!-- Center spout — bulbous chrome -->
+            <ellipse cx="150" cy="220" rx="44" ry="6" fill="#475569"/>
+            <path d="M 110 100 Q 110 60 150 60 Q 190 60 190 100 L 190 200 Q 190 220 170 220 L 130 220 Q 110 220 110 200 Z"
+                  fill="url(#fbChromeBody)"/>
+            <path d="M 122 80 Q 122 70 138 70" stroke="#fff" stroke-width="3" fill="none" opacity="0.7" stroke-linecap="round"/>
+            <ellipse cx="135" cy="100" rx="14" ry="36" fill="url(#fbChromeShine)"/>
+            <!-- Spout opening (dark) -->
+            <ellipse cx="150" cy="218" rx="22" ry="3" fill="#0A0A0A"/>
+            <ellipse cx="150" cy="216" rx="14" ry="2" fill="#1F2937"/>
+          </svg>
+
+          <!-- Hint that the real photo can replace this -->
+          <div class="absolute bottom-3 right-4 text-[9px] tracking-[0.2em] uppercase text-muted/60 font-mono">
+            placeholder · drop your photo at /assets/hero-faucet.jpg
+          </div>
+        </div>
         <img src="./assets/hero-faucet.jpg"
              alt="Chrome faucet on white marble, a single water drop falling"
              class="absolute inset-0 w-full h-full object-cover"
