@@ -96,44 +96,15 @@
   details[open] .acc-icon { transform: rotate(45deg); }
   .acc-icon { transition: transform .3s ease; }
 
-  /* Live drips overlaid on the hero photo — appear at the spout, fall, fade */
-  .live-drip {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 12px;
-    height: 16px;
-    margin-left: -6px;
-    background:
-      radial-gradient(ellipse 40% 30% at 35% 22%, rgba(255,255,255,0.95), rgba(255,255,255,0) 55%),
-      radial-gradient(ellipse 70% 80% at 50% 65%, #1E40AF 0%, #1E3A8A 60%, #0F172A 100%);
-    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-    box-shadow: 0 4px 14px rgba(30, 58, 138, 0.35);
-    transform-origin: center top;
-    opacity: 0;
-  }
-  @keyframes live-drip-fall {
-    0%   { transform: translate(0,   0) scale(0.3, 0.2); opacity: 0; }
-    7%   { transform: translate(0,   0) scale(0.9, 1.1); opacity: 1; }
-    16%  { transform: translate(0,   4px) scale(1.0, 1.0); opacity: 1; }
-    22%  { transform: translate(0,  10px) scale(0.95, 1.45); opacity: 1; }
-    62%  { transform: translate(0, 110px) scaleX(0.7) scaleY(1.7); opacity: 0.92; }
-    88%  { transform: translate(0, 180px) scaleX(1.4) scaleY(0.6); opacity: 0; }
-    100% { transform: translate(0, 180px) scale(0); opacity: 0; }
-  }
-  .live-drip-1 { animation: live-drip-fall 4.4s cubic-bezier(0.5, 0, 0.7, 1) infinite 0s; }
-  .live-drip-2 { animation: live-drip-fall 4.4s cubic-bezier(0.5, 0, 0.7, 1) infinite 1.5s; }
-  .live-drip-3 { animation: live-drip-fall 4.4s cubic-bezier(0.5, 0, 0.7, 1) infinite 3.0s; }
-
   /* Hero photo + zoom mechanic */
-  #hero-photo { transform: scale(1); }
+  #hero-photo { backface-visibility: hidden; }
+  #hero-photo img { backface-visibility: hidden; transform: translateZ(0); }
   #hero-copy { transition: opacity 60ms linear; }
   #scroll-cue { transition: opacity 200ms ease; }
 
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
-    .marquee-track, .blob, .drip, .orbit-a, .orbit-b, .orbit-c, .orbit-d, .gallery-track,
-    .live-drip-1, .live-drip-2, .live-drip-3 { animation: none !important; }
+    .marquee-track, .blob, .drip, .orbit-a, .orbit-b, .orbit-c, .orbit-d, .gallery-track { animation: none !important; }
     .reveal { opacity: 1; transform: none; transition: none; }
   }
 
@@ -181,93 +152,21 @@
 <main id="top">
 
   <!-- Hero — photo-driven cinematic, scroll-zoomed into the dripping water particle -->
-  <section id="hero-act" class="relative" style="height: 220vh;">
+  <section id="hero-act" class="relative" style="height: 180vh;">
     <!-- Sticky stage stays in viewport while user scrolls through the act -->
     <div class="sticky top-0 h-screen w-full overflow-hidden">
 
       <!-- Photo layer — scales up centered on the falling drop -->
-      <div id="hero-photo" class="absolute inset-0 will-change-transform" style="transform-origin: 50% 56%;">
-        <!-- Fallback: marble gradient + stylized SVG faucet (rendered first; the photo covers it when loaded) -->
-        <div class="absolute inset-0 photo-fallback overflow-hidden"
+      <div id="hero-photo" class="absolute inset-0 will-change-transform" style="transform-origin: 50% 58%; transform: translateZ(0);">
+        <!-- Fallback gradient (covered by the photo when it loads) -->
+        <div class="absolute inset-0 photo-fallback"
              style="background:
                radial-gradient(ellipse at 50% 35%, rgba(241,245,249,0.9) 0%, rgba(232,228,222,0.6) 60%, rgba(229,223,213,0.9) 100%),
-               linear-gradient(180deg, #F5F2EE 0%, #FFFFFF 50%, #E8E4DE 100%);">
-          <!-- Subtle marble veins -->
-          <svg class="absolute inset-0 w-full h-full opacity-[0.10]" preserveAspectRatio="none" viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M0 220 Q 360 180 700 250 T 1440 280" stroke="#0A0A0A" stroke-width="1.2" fill="none"/>
-            <path d="M0 380 Q 280 360 520 410 T 1100 430 T 1440 460" stroke="#0A0A0A" stroke-width="1" fill="none"/>
-            <path d="M0 600 Q 400 560 720 620 T 1440 640" stroke="#0A0A0A" stroke-width="1.2" fill="none"/>
-            <path d="M180 0 Q 220 220 380 380 T 520 720 T 600 900" stroke="#0A0A0A" stroke-width="1" fill="none"/>
-            <path d="M880 0 Q 920 200 1040 360 T 1180 700 T 1240 900" stroke="#0A0A0A" stroke-width="1" fill="none"/>
-          </svg>
-
-          <!-- Stylized chrome faucet — center, taking up the upper-mid area like the reference photo -->
-          <svg class="absolute left-1/2 -translate-x-1/2 top-[8%] h-[60%] aspect-[3/4]" viewBox="0 0 300 400" fill="none" aria-hidden="true">
-            <defs>
-              <linearGradient id="fbChromeBody" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stop-color="#E5E7EB"/>
-                <stop offset="20%" stop-color="#F1F5F9"/>
-                <stop offset="50%" stop-color="#1F2937"/>
-                <stop offset="80%" stop-color="#94A3B8"/>
-                <stop offset="100%" stop-color="#475569"/>
-              </linearGradient>
-              <linearGradient id="fbChromeHandle" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#F1F5F9"/>
-                <stop offset="50%" stop-color="#94A3B8"/>
-                <stop offset="100%" stop-color="#475569"/>
-              </linearGradient>
-              <radialGradient id="fbChromeShine" cx="35%" cy="30%" r="40%">
-                <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.85"/>
-                <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
-              </radialGradient>
-            </defs>
-
-            <!-- Soft sink basin underneath -->
-            <ellipse cx="150" cy="380" rx="220" ry="22" fill="#0A0A0A" opacity="0.12"/>
-
-            <!-- Left handle -->
-            <g transform="translate(40, 130)">
-              <rect x="14" y="50" width="22" height="34" rx="4" fill="url(#fbChromeHandle)"/>
-              <ellipse cx="25" cy="86" rx="22" ry="6" fill="#475569"/>
-              <rect x="22" y="0" width="6" height="56" rx="3" fill="url(#fbChromeBody)"/>
-              <rect x="10" y="-4" width="30" height="10" rx="3" fill="url(#fbChromeBody)"/>
-            </g>
-
-            <!-- Right handle (mirror) -->
-            <g transform="translate(195, 130)">
-              <rect x="14" y="50" width="22" height="34" rx="4" fill="url(#fbChromeHandle)"/>
-              <ellipse cx="25" cy="86" rx="22" ry="6" fill="#475569"/>
-              <rect x="22" y="0" width="6" height="56" rx="3" fill="url(#fbChromeBody)"/>
-              <rect x="10" y="-4" width="30" height="10" rx="3" fill="url(#fbChromeBody)"/>
-            </g>
-
-            <!-- Center spout — bulbous chrome -->
-            <ellipse cx="150" cy="220" rx="44" ry="6" fill="#475569"/>
-            <path d="M 110 100 Q 110 60 150 60 Q 190 60 190 100 L 190 200 Q 190 220 170 220 L 130 220 Q 110 220 110 200 Z"
-                  fill="url(#fbChromeBody)"/>
-            <path d="M 122 80 Q 122 70 138 70" stroke="#fff" stroke-width="3" fill="none" opacity="0.7" stroke-linecap="round"/>
-            <ellipse cx="135" cy="100" rx="14" ry="36" fill="url(#fbChromeShine)"/>
-            <!-- Spout opening (dark) -->
-            <ellipse cx="150" cy="218" rx="22" ry="3" fill="#0A0A0A"/>
-            <ellipse cx="150" cy="216" rx="14" ry="2" fill="#1F2937"/>
-          </svg>
-
-          <!-- Hint that the real photo can replace this -->
-          <div class="absolute bottom-3 right-4 text-[9px] tracking-[0.2em] uppercase text-muted/60 font-mono">
-            placeholder · drop your photo at /assets/hero-faucet.jpg
-          </div>
-        </div>
+               linear-gradient(180deg, #F5F2EE 0%, #FFFFFF 50%, #E8E4DE 100%);"></div>
         <img src="./assets/hero-faucet.jpg"
              alt="Chrome faucet on white marble, a single water drop falling"
              class="absolute inset-0 w-full h-full object-cover"
              onerror="this.style.display='none';"/>
-
-        <!-- Live drips — overlay onto the spout in the photo (center, slightly above middle) -->
-        <div class="absolute" style="left: 50%; top: 41%; transform: translateX(-50%); width: 0; height: 0;">
-          <span class="live-drip live-drip-1" aria-hidden="true"></span>
-          <span class="live-drip live-drip-2" aria-hidden="true"></span>
-          <span class="live-drip live-drip-3" aria-hidden="true"></span>
-        </div>
 
         <!-- Soft bottom gradient for legibility behind copy -->
         <div class="absolute inset-x-0 bottom-0 h-2/3 pointer-events-none"
@@ -1506,11 +1405,11 @@
       //  0.55–0.95  deep zoom into the falling drop
       //  0.95–1.00  photo fades to reveal next section behind it
       const zoomT  = smooth(Math.min(Math.max((progress - 0.10) / 0.85, 0), 1));
-      const scale  = 1 + zoomT * 11;            // 1 → 12x, centered on transform-origin (50% 56%)
+      const scale  = 1 + zoomT * 5;             // 1 → 6x, centered on transform-origin (50% 58%)
       const copyT  = smooth(Math.min(Math.max((progress - 0.05) / 0.40, 0), 1));
       const fadeT  = Math.min(Math.max((progress - 0.92) / 0.08, 0), 1);
 
-      photo.style.transform = 'scale(' + scale.toFixed(3) + ')';
+      photo.style.transform = 'translateZ(0) scale(' + scale.toFixed(3) + ')';
       photo.style.opacity   = (1 - fadeT).toFixed(3);
       copy.style.opacity    = (1 - copyT).toFixed(3);
       copy.style.pointerEvents = copyT > 0.95 ? 'none' : '';
