@@ -119,12 +119,6 @@
   details[open] .acc-icon { transform: rotate(45deg); }
   .acc-icon { transition: transform .3s ease; }
 
-  /* Hero photo + zoom mechanic */
-  #hero-photo { backface-visibility: hidden; }
-  #hero-photo img { backface-visibility: hidden; transform: translateZ(0); }
-  #hero-copy { transition: opacity 60ms linear; }
-  #scroll-cue { transition: opacity 200ms ease; }
-
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
     .marquee-track, .blob, .drip, .orbit-a, .orbit-b, .orbit-c, .orbit-d, .gallery-track { animation: none !important; }
@@ -174,88 +168,65 @@
 
 <main id="top">
 
-  <!-- Hero — photo-driven cinematic, scroll-zoomed into the dripping water particle -->
-  <section id="hero-act" class="relative" style="height: 180vh;">
-    <!-- Sticky stage stays in viewport while user scrolls through the act -->
-    <div class="sticky top-0 h-screen w-full overflow-hidden">
+  <!-- Hero -->
+  <section class="relative pt-32 md:pt-40 pb-20 md:pb-28 overflow-hidden">
+    <!-- Background atmospherics (subtle, no water imagery) -->
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+      <div class="blob absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-accentSoft"></div>
+      <div class="blob absolute top-60 -right-40 w-[500px] h-[500px] rounded-full bg-[#F5F1EA]" style="animation-delay: -7s;"></div>
+      <svg class="absolute inset-0 w-full h-full opacity-[0.05]" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <pattern id="grid" width="56" height="56" patternUnits="userSpaceOnUse">
+            <path d="M 56 0 L 0 0 0 56" fill="none" stroke="#0A0A0A" stroke-width="1"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)" />
+      </svg>
+    </div>
 
-      <!-- Photo layer — scales up centered on the falling drop -->
-      <div id="hero-photo" class="absolute inset-0 will-change-transform" style="transform-origin: 50% 58%; transform: translateZ(0);">
-        <!-- Fallback gradient (covered by the photo when it loads) -->
-        <div class="absolute inset-0 photo-fallback"
-             style="background:
-               radial-gradient(ellipse at 50% 35%, rgba(241,245,249,0.9) 0%, rgba(232,228,222,0.6) 60%, rgba(229,223,213,0.9) 100%),
-               linear-gradient(180deg, #F5F2EE 0%, #FFFFFF 50%, #E8E4DE 100%);"></div>
-        <img src="./assets/hero-faucet.jpg"
-             alt="Chrome faucet on white marble, a single water drop falling"
-             class="absolute inset-0 w-full h-full object-cover"
-             onerror="this.style.display='none';"/>
-
-        <!-- Soft bottom gradient for legibility behind copy -->
-        <div class="absolute inset-x-0 bottom-0 h-2/3 pointer-events-none"
-             style="background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.35) 30%, rgba(248,250,255,0.95) 100%);"></div>
+    <div class="relative z-10 mx-auto max-w-7xl px-6">
+      <div class="reveal flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-muted mb-7">
+        <span class="inline-block w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+        Independent design studio
       </div>
 
-      <!-- Hero copy / overlay layer — fades out as the zoom progresses -->
-      <div id="hero-copy" class="absolute inset-0 z-10 will-change-opacity">
-        <div class="absolute inset-0 flex flex-col">
-          <!-- Top label -->
-          <div class="pt-32 md:pt-40 px-6 md:px-12 lg:px-20">
-            <div class="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-muted">
-              <span class="inline-block w-2 h-2 rounded-full bg-accent animate-pulse"></span>
-              Independent design studio
-            </div>
-          </div>
+      <h1 class="reveal font-display text-ink font-black tracking-tightest leading-[0.92] text-[14vw] md:text-[10vw] lg:text-[8.8vw] max-w-[14ch]">
+        Plumbing<br/>
+        websites,<br/>
+        done <span class="italic font-semibold text-accent">properly.</span>
+      </h1>
 
-          <!-- Bottom block: headline + offer + CTAs -->
-          <div class="mt-auto pb-10 md:pb-14 px-6 md:px-12 lg:px-20">
-            <div class="mx-auto max-w-7xl">
-              <h1 class="font-display text-ink font-black tracking-tightest leading-[0.92] text-[12vw] md:text-[8vw] lg:text-[7.4vw] max-w-[14ch]">
-                Plumbing<br/>
-                websites,<br/>
-                done <span class="italic font-semibold text-accent">properly.</span>
-              </h1>
-
-              <div class="mt-8 grid md:grid-cols-12 gap-6 md:gap-8 items-end">
-                <p class="md:col-span-6 text-base md:text-lg text-muted max-w-xl leading-relaxed">
-                  PipeCraft is a small studio designing clean, modern, conversion-tuned websites for plumbing and home-service businesses.
-                </p>
-                <div class="md:col-span-6 flex flex-col sm:flex-row gap-3 md:justify-end">
-                  <a href="#contact" class="btn-primary cursor-pointer inline-flex items-center justify-center gap-2 rounded-full bg-ink text-white px-6 py-3.5 font-medium hover:bg-accent transition-colors">
-                    Start your project
-                    <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                  </a>
-                  <a href="#work" class="cursor-pointer inline-flex items-center justify-center gap-2 rounded-full border border-line bg-white/80 backdrop-blur px-6 py-3.5 font-medium hover:border-ink transition-colors">
-                    See concept work
-                  </a>
-                </div>
-              </div>
-
-              <div class="mt-8 pt-5 border-t border-ink/10 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-                <div class="flex items-center gap-3">
-                  <span class="relative inline-flex w-2.5 h-2.5">
-                    <span class="absolute inset-0 rounded-full bg-accent animate-ping opacity-50"></span>
-                    <span class="relative inline-block w-2.5 h-2.5 rounded-full bg-accent"></span>
-                  </span>
-                  <span class="text-sm text-ink">
-                    <span class="font-semibold">Founding studio.</span>
-                    <span class="text-muted"> 3 launch-pricing slots open &middot; from $2,400 &middot; 14-day delivery.</span>
-                  </span>
-                </div>
-                <a href="#contact" class="text-sm font-medium text-ink hover:text-accent transition-colors inline-flex items-center gap-1.5">
-                  Claim a slot
-                  <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <!-- Scroll cue -->
-          <div id="scroll-cue" class="absolute bottom-3 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-[0.3em] text-muted flex items-center gap-2 transition-opacity">
-            <span>Scroll to dive in</span>
-            <svg class="w-3 h-3 animate-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5 V19 M5 12 L12 19 L19 12"/></svg>
-          </div>
+      <div class="mt-10 grid md:grid-cols-12 gap-8 items-end">
+        <p class="reveal md:col-span-6 text-lg md:text-xl text-muted max-w-xl leading-relaxed">
+          PipeCraft is a small studio designing clean, modern, conversion-tuned websites for plumbing and home-service businesses. No templates, no agency markup &mdash; just sharp design that books more jobs.
+        </p>
+        <div class="reveal md:col-span-6 flex flex-col sm:flex-row gap-3 md:justify-end">
+          <a href="#contact" class="btn-primary cursor-pointer inline-flex items-center justify-center gap-2 rounded-full bg-ink text-white px-6 py-4 font-medium hover:bg-accent transition-colors">
+            Start your project
+            <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <a href="#work" class="cursor-pointer inline-flex items-center justify-center gap-2 rounded-full border border-line bg-white px-6 py-4 font-medium hover:border-ink transition-colors">
+            See concept work
+          </a>
         </div>
+      </div>
+
+      <!-- Founding studio offer -->
+      <div class="reveal mt-14 border-t border-line pt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <span class="relative inline-flex w-2.5 h-2.5">
+            <span class="absolute inset-0 rounded-full bg-accent animate-ping opacity-50"></span>
+            <span class="relative inline-block w-2.5 h-2.5 rounded-full bg-accent"></span>
+          </span>
+          <span class="text-sm text-ink">
+            <span class="font-semibold">Founding studio.</span>
+            <span class="text-muted"> 3 launch-pricing slots open &middot; from $2,400 &middot; 14-day delivery.</span>
+          </span>
+        </div>
+        <a href="#contact" class="text-sm font-medium text-ink hover:text-accent transition-colors inline-flex items-center gap-1.5">
+          Claim a slot
+          <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
       </div>
     </div>
   </section>
@@ -1396,58 +1367,6 @@
     document.querySelectorAll('.reveal, .draw-line').forEach((el) => el.classList.add('in'));
   }
 
-  // Hero scroll-zoom: dive into the dripping water particle as the user scrolls
-  (function setupHeroZoom() {
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const act    = document.getElementById('hero-act');
-    const photo  = document.getElementById('hero-photo');
-    const copy   = document.getElementById('hero-copy');
-    const cue    = document.getElementById('scroll-cue');
-    if (!act || !photo || !copy) return;
-
-    function smooth(t) { return t * t * (3 - 2 * t); }
-
-    function update() {
-      const rect = act.getBoundingClientRect();
-      const actTop = rect.top + window.scrollY;
-      const actHeight = rect.height;
-      const stickDist = actHeight - window.innerHeight; // how far user can scroll while stage is sticky
-      const progress = Math.min(Math.max((window.scrollY - actTop) / Math.max(stickDist, 1), 0), 1);
-
-      if (reducedMotion) {
-        photo.style.transform = 'scale(1)';
-        photo.style.opacity = progress > 0.95 ? '0' : '1';
-        copy.style.opacity = progress > 0.4 ? '0' : '1';
-        if (cue) cue.style.opacity = progress > 0.05 ? '0' : '1';
-        return;
-      }
-
-      // Phase split:
-      //  0.00–0.10  rest (no movement, scroll cue visible)
-      //  0.10–0.55  copy fades + photo begins zooming
-      //  0.55–0.95  deep zoom into the falling drop
-      //  0.95–1.00  photo fades to reveal next section behind it
-      const zoomT  = smooth(Math.min(Math.max((progress - 0.10) / 0.85, 0), 1));
-      const scale  = 1 + zoomT * 5;             // 1 → 6x, centered on transform-origin (50% 58%)
-      const copyT  = smooth(Math.min(Math.max((progress - 0.05) / 0.40, 0), 1));
-      const fadeT  = Math.min(Math.max((progress - 0.92) / 0.08, 0), 1);
-
-      photo.style.transform = 'translateZ(0) scale(' + scale.toFixed(3) + ')';
-      photo.style.opacity   = (1 - fadeT).toFixed(3);
-      copy.style.opacity    = (1 - copyT).toFixed(3);
-      copy.style.pointerEvents = copyT > 0.95 ? 'none' : '';
-
-      if (cue) cue.style.opacity = progress > 0.04 ? '0' : '1';
-    }
-
-    update();
-    let raf = null;
-    window.addEventListener('scroll', () => {
-      if (raf) return;
-      raf = requestAnimationFrame(() => { update(); raf = null; });
-    }, { passive: true });
-    window.addEventListener('resize', update, { passive: true });
-  })();
 </script>
 
 </body>
