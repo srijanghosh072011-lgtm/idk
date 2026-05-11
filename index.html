@@ -214,17 +214,17 @@
               <span class="ml-auto text-[10px] text-white/30">🔒</span>
             </div>
 
-            <!-- Live preview iframe — scaled to fit -->
-            <div id="mockup-shell" class="relative aspect-[5/6] overflow-hidden bg-white">
+            <!-- Live preview iframe — clipped to just the hero (1440x900 viewport) -->
+            <div id="mockup-shell" class="relative aspect-[16/10] overflow-hidden bg-white">
               <iframe
                 id="mockup-iframe"
                 src="https://raw.githack.com/srijanghosh072011-lgtm/idk/e2e09068d1e60b6a7b620db1949a85e8b52a9bb5/index.html"
-                title="Plumbing site live preview"
+                title="Plumbing site live preview — hero only"
                 loading="lazy"
                 scrolling="no"
                 sandbox="allow-scripts allow-same-origin"
                 class="absolute top-0 left-0 border-0 pointer-events-none"
-                style="width: 1440px; height: 1728px; transform-origin: top left; transform: scale(0.333);">
+                style="width: 1440px; height: 900px; transform-origin: top left; transform: scale(0.333);">
               </iframe>
             </div>
           </div>
