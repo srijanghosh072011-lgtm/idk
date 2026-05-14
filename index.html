@@ -89,6 +89,8 @@
   @keyframes scroll-gallery { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   .gallery-track { display: flex; width: max-content; animation: scroll-gallery 60s linear infinite; }
   .gallery-track:hover { animation-play-state: paused; }
+  .gallery-track-rev { display: flex; width: max-content; animation: scroll-gallery 70s linear infinite reverse; }
+  .gallery-track-rev:hover { animation-play-state: paused; }
 
   /* Accordion */
   details > summary { list-style: none; cursor: pointer; }
@@ -106,7 +108,7 @@
 
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
-    .marquee-track, .blob, .drip, .orbit-a, .orbit-b, .orbit-c, .orbit-d, .gallery-track { animation: none !important; }
+    .marquee-track, .blob, .drip, .orbit-a, .orbit-b, .orbit-c, .orbit-d, .gallery-track, .gallery-track-rev { animation: none !important; }
     .reveal { opacity: 1; transform: none; transition: none; }
   }
 
@@ -969,8 +971,8 @@
     </div>
   </section>
 
-  <!-- HIDDEN: concept work cards — uncomment when real client work is ready
-  <section id="work" class="py-24 md:py-32">
+  <!-- Concept work — looping marquee -->
+  <section id="work" class="py-24 md:py-32 overflow-hidden">
     <div class="mx-auto max-w-7xl px-6">
       <div class="flex items-end justify-between gap-6 mb-14 reveal">
         <div>
@@ -978,118 +980,261 @@
           <h2 class="font-display text-4xl md:text-6xl font-black tracking-tightest leading-[0.95] max-w-3xl">
             Concept builds.
           </h2>
+          <p class="mt-6 text-muted max-w-2xl">Full website concepts — not client work yet, but the bar we build to. Hover to pause.</p>
         </div>
         <a href="#contact" class="hidden md:inline-flex cursor-pointer items-center gap-2 text-sm font-medium hover:text-accent transition-colors">
           Have a project? Let's talk
           <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
         </a>
       </div>
+    </div>
 
-      <div class="grid md:grid-cols-12 gap-6">
-        <!-- Case 1 -->
-        <a href="#contact" class="reveal card-hover group md:col-span-7 rounded-3xl overflow-hidden border border-line bg-paper relative aspect-[16/11] block">
-          <div class="absolute inset-0 grid place-items-center">
-            <!-- Mock browser -->
-            <div class="w-[88%] h-[80%] rounded-2xl bg-white border border-line shadow-[0_30px_80px_-30px_rgba(0,0,0,.18)] overflow-hidden flex flex-col">
-              <div class="flex items-center gap-1.5 px-4 py-3 border-b border-line">
-                <span class="w-2.5 h-2.5 rounded-full bg-line"></span>
-                <span class="w-2.5 h-2.5 rounded-full bg-line"></span>
-                <span class="w-2.5 h-2.5 rounded-full bg-line"></span>
-                <span class="ml-3 text-[10px] tracking-wider text-muted">aquaflow-plumbing.com</span>
+    <div class="relative">
+      <div class="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-[#F0F5FF] to-transparent z-20"></div>
+      <div class="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-[#F0F5FF] to-transparent z-20"></div>
+
+      <div class="gallery-track-rev gap-6 md:gap-8 px-6">
+        <!-- ROUND 1 -->
+
+        <!-- Concept 1: Aquaflow -->
+        <article class="shrink-0 w-[320px] md:w-[480px]">
+          <div class="rounded-2xl bg-white border border-line shadow-[0_30px_80px_-30px_rgba(0,0,0,.2)] overflow-hidden">
+            <div class="flex items-center gap-1.5 px-4 py-3 border-b border-line bg-white">
+              <span class="w-2.5 h-2.5 rounded-full bg-line"></span><span class="w-2.5 h-2.5 rounded-full bg-line"></span><span class="w-2.5 h-2.5 rounded-full bg-line"></span>
+              <span class="ml-3 text-[10px] tracking-wider text-muted">aquaflow-plumbing.com</span>
+            </div>
+            <div class="aspect-[16/10] relative bg-ink">
+              <img src="https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" class="absolute inset-0 w-full h-full object-cover opacity-55" />
+              <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-transparent"></div>
+              <div class="relative h-full p-5 md:p-7 flex flex-col justify-end text-white">
+                <div class="text-[9px] uppercase tracking-[0.22em] text-white/60 mb-2">24/7 Emergency</div>
+                <div class="font-display font-black text-2xl md:text-4xl tracking-tightest leading-[0.95]">Burst pipe? <span class="text-accent">We're on it.</span></div>
+                <div class="mt-3 inline-flex w-fit items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent text-white text-[11px] font-semibold">Call now ↗</div>
               </div>
-              <div class="flex-1 p-6 grid grid-cols-5 gap-4">
-                <div class="col-span-3 flex flex-col justify-between">
-                  <div class="h-2 w-24 rounded bg-ink/80"></div>
-                  <div>
-                    <div class="font-display font-black text-3xl md:text-5xl tracking-tightest leading-[0.9]">24/7 emergency<br/><span class="text-accent">plumbing.</span></div>
-                    <div class="mt-3 h-2 w-3/4 rounded bg-line"></div>
-                    <div class="mt-2 h-2 w-2/3 rounded bg-line"></div>
-                    <div class="mt-5 inline-flex items-center gap-2 px-3 py-2 rounded-full bg-ink text-white text-xs">Call now ↗</div>
-                  </div>
+            </div>
+          </div>
+          <div class="mt-4 px-1">
+            <div class="font-display text-base font-extrabold tracking-tight">Aquaflow Plumbing</div>
+            <div class="text-xs text-muted">Concept · Brand site</div>
+          </div>
+        </article>
+
+        <!-- Concept 2: Drainline -->
+        <article class="shrink-0 w-[320px] md:w-[480px]">
+          <div class="rounded-2xl bg-white border border-line shadow-[0_30px_80px_-30px_rgba(0,0,0,.2)] overflow-hidden">
+            <div class="flex items-center gap-1.5 px-4 py-3 border-b border-line bg-white">
+              <span class="w-2.5 h-2.5 rounded-full bg-line"></span><span class="w-2.5 h-2.5 rounded-full bg-line"></span><span class="w-2.5 h-2.5 rounded-full bg-line"></span>
+              <span class="ml-3 text-[10px] tracking-wider text-muted">drainline.co</span>
+            </div>
+            <div class="aspect-[16/10] relative bg-slate-900">
+              <img src="https://images.unsplash.com/photo-1581094271901-8022df4466f9?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" class="absolute inset-0 w-full h-full object-cover opacity-40" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/55 to-transparent"></div>
+              <div class="relative h-full p-5 md:p-7 flex flex-col justify-end text-white">
+                <div class="text-[9px] uppercase tracking-[0.22em] text-white/50 mb-2 font-mono">Drain cleaning · PPC landing</div>
+                <div class="font-display font-black text-2xl md:text-4xl tracking-tightest leading-[0.95]">Slow drain? <span class="text-blue-400">$49 flat.</span></div>
+                <div class="mt-3 grid grid-cols-3 gap-1.5 max-w-[180px]">
+                  <div class="h-7 rounded-md bg-white/10"></div><div class="h-7 rounded-md bg-white/10"></div><div class="h-7 rounded-md bg-blue-500"></div>
                 </div>
-                <div class="col-span-2 rounded-xl bg-gradient-to-br from-accentSoft to-paper border border-line relative overflow-hidden">
-                  <div class="absolute inset-0 grid place-items-center text-accent">
-                    <svg viewBox="0 0 24 24" class="w-16 h-16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
-                      <path d="M12 3c4 5 6 8 6 11a6 6 0 1 1-12 0c0-3 2-6 6-11z"/>
-                    </svg>
-                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 px-1">
+            <div class="font-display text-base font-extrabold tracking-tight">Drainline</div>
+            <div class="text-xs text-muted">Concept · Landing page</div>
+          </div>
+        </article>
+
+        <!-- Concept 3: Northgate -->
+        <article class="shrink-0 w-[320px] md:w-[480px]">
+          <div class="rounded-2xl bg-white border border-line shadow-[0_30px_80px_-30px_rgba(0,0,0,.2)] overflow-hidden">
+            <div class="flex items-center gap-1.5 px-4 py-3 border-b border-line bg-white">
+              <span class="w-2.5 h-2.5 rounded-full bg-line"></span><span class="w-2.5 h-2.5 rounded-full bg-line"></span><span class="w-2.5 h-2.5 rounded-full bg-line"></span>
+              <span class="ml-3 text-[10px] tracking-wider text-muted">northgate-hvac.com</span>
+            </div>
+            <div class="aspect-[16/10] relative bg-white">
+              <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" class="absolute inset-0 w-full h-full object-cover" />
+              <div class="absolute inset-0 bg-gradient-to-t from-white via-white/70 to-white/10"></div>
+              <div class="relative h-full p-5 md:p-7 flex flex-col justify-end text-ink">
+                <div class="text-[9px] uppercase tracking-[0.22em] text-muted mb-2">Site refresh</div>
+                <div class="font-display font-black text-2xl md:text-4xl tracking-tightest leading-[0.95]">Northgate <span class="text-accent">HVAC + Plumbing</span></div>
+                <div class="mt-3 flex gap-1.5">
+                  <span class="px-2.5 py-1 rounded-full bg-white border border-line text-[10px]">Modern</span>
+                  <span class="px-2.5 py-1 rounded-full bg-white border border-line text-[10px]">Fast &amp; clean</span>
                 </div>
               </div>
             </div>
           </div>
-          <div class="absolute bottom-5 left-5 right-5 flex items-center justify-between">
-            <div>
-              <div class="font-display text-lg font-extrabold tracking-tight">Aquaflow Plumbing</div>
-              <div class="text-xs text-muted">Concept · Brand site · 7 pages</div>
-            </div>
-            <span class="inline-flex items-center gap-1 text-xs uppercase tracking-[0.2em] text-muted group-hover:text-accent transition-colors">
-              View case <svg viewBox="0 0 24 24" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
-            </span>
+          <div class="mt-4 px-1">
+            <div class="font-display text-base font-extrabold tracking-tight">Northgate HVAC</div>
+            <div class="text-xs text-muted">Concept · Site refresh</div>
           </div>
-        </a>
+        </article>
 
-        <!-- Case 2 -->
-        <a href="#contact" class="reveal card-hover group md:col-span-5 rounded-3xl overflow-hidden border border-line bg-ink text-white relative aspect-[16/11] block">
-          <div class="absolute inset-0 p-8 flex flex-col justify-between">
-            <div class="text-xs uppercase tracking-[0.25em] text-white/60">Concept · Landing page</div>
-            <div>
-              <div class="font-display text-4xl md:text-6xl font-black tracking-tightest leading-[0.9]">
-                Drainline<span class="text-accent">.</span>
-              </div>
-              <div class="mt-2 text-white/60 text-sm max-w-xs">Drain-cleaning landing page concept, optimised for local PPC.</div>
-              <div class="mt-6 grid grid-cols-3 gap-2 max-w-md">
-                <div class="h-10 rounded-md bg-white/10"></div>
-                <div class="h-10 rounded-md bg-white/10"></div>
-                <div class="h-10 rounded-md bg-accent"></div>
+        <!-- Concept 4: Copper & Co. -->
+        <article class="shrink-0 w-[320px] md:w-[480px]">
+          <div class="rounded-2xl bg-white border border-line shadow-[0_30px_80px_-30px_rgba(0,0,0,.2)] overflow-hidden">
+            <div class="flex items-center gap-1.5 px-4 py-3 border-b border-line bg-white">
+              <span class="w-2.5 h-2.5 rounded-full bg-line"></span><span class="w-2.5 h-2.5 rounded-full bg-line"></span><span class="w-2.5 h-2.5 rounded-full bg-line"></span>
+              <span class="ml-3 text-[10px] tracking-wider text-muted">copperandco.com</span>
+            </div>
+            <div class="aspect-[16/10] relative bg-[#F5F1EA]">
+              <img src="https://images.unsplash.com/photo-1564540583246-934409427776?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" class="absolute inset-0 w-full h-full object-cover" />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#F5F1EA] via-[#F5F1EA]/70 to-[#F5F1EA]/5"></div>
+              <div class="relative h-full p-5 md:p-7 flex flex-col justify-end text-ink">
+                <div class="text-[9px] uppercase tracking-[0.22em] text-muted mb-2">Heritage · Est. 1991</div>
+                <div class="font-display font-black text-2xl md:text-4xl tracking-tightest leading-[0.95]">Copper &amp; Co. <span class="text-amber-700 italic font-medium">Plumbing</span></div>
+                <div class="mt-3 inline-flex w-fit items-center gap-1.5 text-[11px] font-semibold border-b border-ink pb-0.5">Book a visit →</div>
               </div>
             </div>
           </div>
-        </a>
+          <div class="mt-4 px-1">
+            <div class="font-display text-base font-extrabold tracking-tight">Copper &amp; Co.</div>
+            <div class="text-xs text-muted">Concept · Heritage brand + site</div>
+          </div>
+        </article>
 
-        <!-- Case 3 -->
-        <a href="#contact" class="reveal card-hover group md:col-span-5 rounded-3xl overflow-hidden border border-line bg-paper relative aspect-[16/11] block">
-          <div class="absolute inset-0 p-8 flex flex-col justify-between">
-            <div class="text-xs uppercase tracking-[0.25em] text-muted">Concept · Site refresh</div>
-            <div>
-              <div class="font-display text-4xl md:text-5xl font-black tracking-tightest leading-[0.95]">
-                Northgate<br/>HVAC + Plumbing
-              </div>
-              <div class="mt-3 flex items-center gap-2">
-                <span class="px-3 py-1.5 rounded-full bg-white border border-line text-xs">Modern redesign</span>
-                <span class="px-3 py-1.5 rounded-full bg-white border border-line text-xs">Fast &amp; clean</span>
+        <!-- Concept 5: Pure Flow -->
+        <article class="shrink-0 w-[320px] md:w-[480px]">
+          <div class="rounded-2xl bg-white border border-line shadow-[0_30px_80px_-30px_rgba(0,0,0,.2)] overflow-hidden">
+            <div class="flex items-center gap-1.5 px-4 py-3 border-b border-line bg-white">
+              <span class="w-2.5 h-2.5 rounded-full bg-line"></span><span class="w-2.5 h-2.5 rounded-full bg-line"></span><span class="w-2.5 h-2.5 rounded-full bg-line"></span>
+              <span class="ml-3 text-[10px] tracking-wider text-muted">pureflow.eco</span>
+            </div>
+            <div class="aspect-[16/10] relative bg-emerald-50">
+              <img src="https://images.unsplash.com/photo-1584622781564-1d987f7333c1?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" class="absolute inset-0 w-full h-full object-cover" />
+              <div class="absolute inset-0 bg-gradient-to-t from-emerald-50 via-emerald-50/65 to-transparent"></div>
+              <div class="relative h-full p-5 md:p-7 flex flex-col justify-end text-ink">
+                <div class="text-[9px] uppercase tracking-[0.22em] text-emerald-800/70 mb-2">Eco plumber</div>
+                <div class="font-display font-black text-2xl md:text-4xl tracking-tightest leading-[0.95]">Plumbing that <span class="text-emerald-700">respects water.</span></div>
+                <div class="mt-3 inline-flex w-fit items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-700 text-white text-[11px] font-semibold">Get an audit ↗</div>
               </div>
             </div>
           </div>
-        </a>
+          <div class="mt-4 px-1">
+            <div class="font-display text-base font-extrabold tracking-tight">Pure Flow</div>
+            <div class="text-xs text-muted">Concept · Eco plumber site</div>
+          </div>
+        </article>
 
-        <!-- Case 4 -->
-        <a href="#contact" class="reveal card-hover group md:col-span-7 rounded-3xl overflow-hidden border border-line bg-white relative aspect-[16/11] block">
-          <div class="absolute inset-0 grid grid-cols-5">
-            <div class="col-span-3 p-8 flex flex-col justify-between">
-              <div class="text-xs uppercase tracking-[0.25em] text-muted">Concept · Brand + site</div>
-              <div>
-                <div class="font-display text-3xl md:text-5xl font-black tracking-tightest leading-[0.95]">
-                  Copper &amp; Co. <span class="text-accent">Plumbing</span>
+        <!-- ROUND 2 (duplicate for seamless loop) -->
+
+        <article aria-hidden="true" class="shrink-0 w-[320px] md:w-[480px]">
+          <div class="rounded-2xl bg-white border border-line shadow-[0_30px_80px_-30px_rgba(0,0,0,.2)] overflow-hidden">
+            <div class="flex items-center gap-1.5 px-4 py-3 border-b border-line bg-white">
+              <span class="w-2.5 h-2.5 rounded-full bg-line"></span><span class="w-2.5 h-2.5 rounded-full bg-line"></span><span class="w-2.5 h-2.5 rounded-full bg-line"></span>
+              <span class="ml-3 text-[10px] tracking-wider text-muted">aquaflow-plumbing.com</span>
+            </div>
+            <div class="aspect-[16/10] relative bg-ink">
+              <img src="https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" class="absolute inset-0 w-full h-full object-cover opacity-55" />
+              <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-transparent"></div>
+              <div class="relative h-full p-5 md:p-7 flex flex-col justify-end text-white">
+                <div class="text-[9px] uppercase tracking-[0.22em] text-white/60 mb-2">24/7 Emergency</div>
+                <div class="font-display font-black text-2xl md:text-4xl tracking-tightest leading-[0.95]">Burst pipe? <span class="text-accent">We're on it.</span></div>
+                <div class="mt-3 inline-flex w-fit items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent text-white text-[11px] font-semibold">Call now ↗</div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 px-1">
+            <div class="font-display text-base font-extrabold tracking-tight">Aquaflow Plumbing</div>
+            <div class="text-xs text-muted">Concept · Brand site</div>
+          </div>
+        </article>
+
+        <article aria-hidden="true" class="shrink-0 w-[320px] md:w-[480px]">
+          <div class="rounded-2xl bg-white border border-line shadow-[0_30px_80px_-30px_rgba(0,0,0,.2)] overflow-hidden">
+            <div class="flex items-center gap-1.5 px-4 py-3 border-b border-line bg-white">
+              <span class="w-2.5 h-2.5 rounded-full bg-line"></span><span class="w-2.5 h-2.5 rounded-full bg-line"></span><span class="w-2.5 h-2.5 rounded-full bg-line"></span>
+              <span class="ml-3 text-[10px] tracking-wider text-muted">drainline.co</span>
+            </div>
+            <div class="aspect-[16/10] relative bg-slate-900">
+              <img src="https://images.unsplash.com/photo-1581094271901-8022df4466f9?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" class="absolute inset-0 w-full h-full object-cover opacity-40" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/55 to-transparent"></div>
+              <div class="relative h-full p-5 md:p-7 flex flex-col justify-end text-white">
+                <div class="text-[9px] uppercase tracking-[0.22em] text-white/50 mb-2 font-mono">Drain cleaning · PPC landing</div>
+                <div class="font-display font-black text-2xl md:text-4xl tracking-tightest leading-[0.95]">Slow drain? <span class="text-blue-400">$49 flat.</span></div>
+                <div class="mt-3 grid grid-cols-3 gap-1.5 max-w-[180px]">
+                  <div class="h-7 rounded-md bg-white/10"></div><div class="h-7 rounded-md bg-white/10"></div><div class="h-7 rounded-md bg-blue-500"></div>
                 </div>
-                <div class="mt-3 text-muted text-sm max-w-md">Boutique residential plumber site with a heritage-craft tone.</div>
-              </div>
-            </div>
-            <div class="col-span-2 relative bg-gradient-to-br from-[#F5F1EA] to-paper border-l border-line">
-              <div class="absolute inset-0 grid place-items-center">
-                <svg viewBox="0 0 120 120" class="w-2/3 h-2/3" fill="none" stroke="#0A0A0A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <circle cx="60" cy="60" r="48"/>
-                  <path d="M30 60h60"/>
-                  <path d="M60 30v60"/>
-                  <circle cx="60" cy="60" r="6" fill="#2563EB" stroke="none"/>
-                </svg>
               </div>
             </div>
           </div>
-        </a>
+          <div class="mt-4 px-1">
+            <div class="font-display text-base font-extrabold tracking-tight">Drainline</div>
+            <div class="text-xs text-muted">Concept · Landing page</div>
+          </div>
+        </article>
+
+        <article aria-hidden="true" class="shrink-0 w-[320px] md:w-[480px]">
+          <div class="rounded-2xl bg-white border border-line shadow-[0_30px_80px_-30px_rgba(0,0,0,.2)] overflow-hidden">
+            <div class="flex items-center gap-1.5 px-4 py-3 border-b border-line bg-white">
+              <span class="w-2.5 h-2.5 rounded-full bg-line"></span><span class="w-2.5 h-2.5 rounded-full bg-line"></span><span class="w-2.5 h-2.5 rounded-full bg-line"></span>
+              <span class="ml-3 text-[10px] tracking-wider text-muted">northgate-hvac.com</span>
+            </div>
+            <div class="aspect-[16/10] relative bg-white">
+              <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" class="absolute inset-0 w-full h-full object-cover" />
+              <div class="absolute inset-0 bg-gradient-to-t from-white via-white/70 to-white/10"></div>
+              <div class="relative h-full p-5 md:p-7 flex flex-col justify-end text-ink">
+                <div class="text-[9px] uppercase tracking-[0.22em] text-muted mb-2">Site refresh</div>
+                <div class="font-display font-black text-2xl md:text-4xl tracking-tightest leading-[0.95]">Northgate <span class="text-accent">HVAC + Plumbing</span></div>
+                <div class="mt-3 flex gap-1.5">
+                  <span class="px-2.5 py-1 rounded-full bg-white border border-line text-[10px]">Modern</span>
+                  <span class="px-2.5 py-1 rounded-full bg-white border border-line text-[10px]">Fast &amp; clean</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 px-1">
+            <div class="font-display text-base font-extrabold tracking-tight">Northgate HVAC</div>
+            <div class="text-xs text-muted">Concept · Site refresh</div>
+          </div>
+        </article>
+
+        <article aria-hidden="true" class="shrink-0 w-[320px] md:w-[480px]">
+          <div class="rounded-2xl bg-white border border-line shadow-[0_30px_80px_-30px_rgba(0,0,0,.2)] overflow-hidden">
+            <div class="flex items-center gap-1.5 px-4 py-3 border-b border-line bg-white">
+              <span class="w-2.5 h-2.5 rounded-full bg-line"></span><span class="w-2.5 h-2.5 rounded-full bg-line"></span><span class="w-2.5 h-2.5 rounded-full bg-line"></span>
+              <span class="ml-3 text-[10px] tracking-wider text-muted">copperandco.com</span>
+            </div>
+            <div class="aspect-[16/10] relative bg-[#F5F1EA]">
+              <img src="https://images.unsplash.com/photo-1564540583246-934409427776?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" class="absolute inset-0 w-full h-full object-cover" />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#F5F1EA] via-[#F5F1EA]/70 to-[#F5F1EA]/5"></div>
+              <div class="relative h-full p-5 md:p-7 flex flex-col justify-end text-ink">
+                <div class="text-[9px] uppercase tracking-[0.22em] text-muted mb-2">Heritage · Est. 1991</div>
+                <div class="font-display font-black text-2xl md:text-4xl tracking-tightest leading-[0.95]">Copper &amp; Co. <span class="text-amber-700 italic font-medium">Plumbing</span></div>
+                <div class="mt-3 inline-flex w-fit items-center gap-1.5 text-[11px] font-semibold border-b border-ink pb-0.5">Book a visit →</div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 px-1">
+            <div class="font-display text-base font-extrabold tracking-tight">Copper &amp; Co.</div>
+            <div class="text-xs text-muted">Concept · Heritage brand + site</div>
+          </div>
+        </article>
+
+        <article aria-hidden="true" class="shrink-0 w-[320px] md:w-[480px]">
+          <div class="rounded-2xl bg-white border border-line shadow-[0_30px_80px_-30px_rgba(0,0,0,.2)] overflow-hidden">
+            <div class="flex items-center gap-1.5 px-4 py-3 border-b border-line bg-white">
+              <span class="w-2.5 h-2.5 rounded-full bg-line"></span><span class="w-2.5 h-2.5 rounded-full bg-line"></span><span class="w-2.5 h-2.5 rounded-full bg-line"></span>
+              <span class="ml-3 text-[10px] tracking-wider text-muted">pureflow.eco</span>
+            </div>
+            <div class="aspect-[16/10] relative bg-emerald-50">
+              <img src="https://images.unsplash.com/photo-1584622781564-1d987f7333c1?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" class="absolute inset-0 w-full h-full object-cover" />
+              <div class="absolute inset-0 bg-gradient-to-t from-emerald-50 via-emerald-50/65 to-transparent"></div>
+              <div class="relative h-full p-5 md:p-7 flex flex-col justify-end text-ink">
+                <div class="text-[9px] uppercase tracking-[0.22em] text-emerald-800/70 mb-2">Eco plumber</div>
+                <div class="font-display font-black text-2xl md:text-4xl tracking-tightest leading-[0.95]">Plumbing that <span class="text-emerald-700">respects water.</span></div>
+                <div class="mt-3 inline-flex w-fit items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-700 text-white text-[11px] font-semibold">Get an audit ↗</div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 px-1">
+            <div class="font-display text-base font-extrabold tracking-tight">Pure Flow</div>
+            <div class="text-xs text-muted">Concept · Eco plumber site</div>
+          </div>
+        </article>
       </div>
     </div>
   </section>
-  END HIDDEN concept work -->
 
   <!-- What we believe / How we work -->
   <section id="about" class="py-24 md:py-32 bg-paper border-y border-line">
