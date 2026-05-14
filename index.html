@@ -14,19 +14,19 @@
     theme: {
       extend: {
         fontFamily: {
-          display: ["Archivo", "system-ui", "sans-serif"],
-          sans: ["\"Space Grotesk\"", "system-ui", "sans-serif"],
+          display: ['Archivo', 'system-ui', 'sans-serif'],
+          sans: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
         },
         colors: {
-          ink: "#0A0A0A",
-          muted: "#525252",
-          line: "#E5E5E5",
-          paper: "#FAFAFA",
-          accent: "#2563EB",
-          accentSoft: "#EFF4FF",
+          ink: '#0A0A0A',
+          muted: '#525252',
+          line: '#E5E5E5',
+          paper: '#FAFAFA',
+          accent: '#2563EB',
+          accentSoft: '#EFF4FF',
         },
         letterSpacing: {
-          tightest: "-0.05em",
+          tightest: '-0.05em',
         },
       },
     },
@@ -308,249 +308,131 @@
     </div>
   </section>
 
-  <!-- Featured work gallery (infinite scroll) -->
-  <section aria-label="Featured website mockups" class="py-20 md:py-28 overflow-hidden bg-white">
-    <div class="mx-auto max-w-7xl px-6 mb-12 reveal">
-      <div class="text-xs uppercase tracking-[0.25em] text-muted mb-4">[ Gallery — recent screens ]</div>
-      <div class="flex items-end justify-between gap-6">
+  <!-- Hero sections — sneak peek -->
+  <section aria-label="Hero section samples" class="py-20 md:py-28 overflow-hidden bg-white">
+    <div class="mx-auto max-w-7xl px-6">
+      <div class="mb-14 reveal">
+        <div class="text-xs uppercase tracking-[0.25em] text-muted mb-4">[ Hero library — sneak peek ]</div>
         <h2 class="font-display text-3xl md:text-5xl font-black tracking-tightest leading-[0.95] max-w-3xl">
-          A peek inside the build pile.
+          Hero sections we'd build for your brand.
         </h2>
-        <p class="hidden md:block text-sm text-muted max-w-sm">Design explorations showing the visual direction we bring to plumbing and home service brands.</p>
+        <p class="mt-6 text-muted max-w-2xl">Different vibes, all conversion-focused. From emergency-coded urgency to premium heritage — we calibrate the tone to match your business.</p>
       </div>
-    </div>
 
-    <div class="gallery-track">
-      <!-- Mockup 1 - Cool Blue Plumber -->
-      <div class="shrink-0 w-[320px] md:w-[420px] mx-3 rounded-2xl overflow-hidden border border-line bg-white shadow-[0_30px_80px_-40px_rgba(0,0,0,0.25)]">
-        <div class="flex items-center gap-1.5 px-3 py-2 bg-paper border-b border-line">
-          <span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span>
-          <span class="ml-2 text-[10px] tracking-wider text-muted">bluestream-plumbing.com</span>
-        </div>
-        <div class="aspect-[4/3] bg-gradient-to-br from-[#EFF4FF] via-white to-[#DBEAFE] p-5 flex flex-col">
-          <div class="flex items-center justify-between text-[9px]">
-            <span class="font-display font-extrabold text-ink">BLUESTREAM</span>
-            <span class="px-2 py-0.5 rounded-full bg-ink text-white">CALL ↗</span>
-          </div>
-          <div class="mt-auto">
-            <div class="font-display font-black text-ink leading-[0.9] text-2xl">Plumbing,<br/>but <span class="text-accent">fast</span>.</div>
-            <div class="mt-2 h-1 w-16 bg-line rounded-full"></div>
-            <div class="mt-1 h-1 w-12 bg-line rounded-full"></div>
-            <div class="mt-3 grid grid-cols-3 gap-1.5">
-              <div class="aspect-square rounded-md bg-accent"></div>
-              <div class="aspect-square rounded-md bg-ink"></div>
-              <div class="aspect-square rounded-md bg-white border border-line"></div>
+      <div class="space-y-8 md:space-y-12">
+        <!-- Hero 1: Bold Emergency -->
+        <article class="reveal group rounded-3xl overflow-hidden border border-line bg-black text-white relative aspect-video md:aspect-[16/9] flex items-center">
+          <div class="absolute inset-0 bg-gradient-to-r from-black via-transparent to-transparent z-10"></div>
+          <div class="relative z-20 max-w-2xl px-6 md:px-12 py-8 md:py-12">
+            <div class="text-xs uppercase tracking-[0.25em] text-white/60 mb-3">24/7 Emergency Plumbing</div>
+            <h3 class="font-display text-4xl md:text-6xl font-black tracking-tightest leading-[0.95] mb-4">
+              <span class="text-red-500">Pipe burst?</span> We're 10 minutes away.
+            </h3>
+            <p class="text-white/75 text-sm md:text-base max-w-md mb-8 leading-relaxed">
+              Drain backups, water heaters, slab leaks — we dispatch immediately. $0 emergency fee for service calls.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <a href="#contact" class="inline-flex items-center justify-center gap-2 rounded-full bg-red-600 text-white px-6 py-3 font-semibold hover:bg-red-700 transition-colors cursor-pointer">
+                <svg viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                Call (602) 555-0119
+              </a>
+              <span class="text-xs text-white/50 py-3">Licensed · Insured · 4.9★</span>
             </div>
           </div>
-        </div>
-      </div>
-
-      <!-- Mockup 2 - Warm Copper -->
-      <div class="shrink-0 w-[320px] md:w-[420px] mx-3 rounded-2xl overflow-hidden border border-line bg-[#0A0A0A] text-white shadow-[0_30px_80px_-40px_rgba(0,0,0,0.4)]">
-        <div class="flex items-center gap-1.5 px-3 py-2 bg-[#171717] border-b border-white/10">
-          <span class="w-2 h-2 rounded-full bg-white/20"></span><span class="w-2 h-2 rounded-full bg-white/20"></span><span class="w-2 h-2 rounded-full bg-white/20"></span>
-          <span class="ml-2 text-[10px] tracking-wider text-white/40">copper-co-plumbing.com</span>
-        </div>
-        <div class="aspect-[4/3] p-5 flex flex-col" style="background: radial-gradient(ellipse at top right, #C97B47 0%, #5A2E1B 50%, #0A0A0A 100%);">
-          <div class="text-[9px] tracking-[0.2em] uppercase text-white/70">Heritage Plumbing · Est. 1987</div>
-          <div class="mt-auto">
-            <div class="font-display font-black leading-[0.9] text-2xl">Copper <span class="italic font-light">&amp;</span> <br/>Co.</div>
-            <div class="mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white text-ink text-[10px] font-medium">Book a visit →</div>
+          <div class="absolute right-0 top-0 w-1/3 h-full opacity-20 pointer-events-none">
+            <svg viewBox="0 0 200 200" class="w-full h-full" fill="none" stroke="currentColor" stroke-width="1">
+              <rect x="20" y="40" width="160" height="140" rx="20"/><line x1="50" y1="70" x2="150" y2="70"/><line x1="50" y1="100" x2="150" y2="100"/><circle cx="60" cy="130" r="8"/><circle cx="100" cy="130" r="8"/><circle cx="140" cy="130" r="8"/>
+            </svg>
           </div>
-        </div>
-      </div>
+        </article>
 
-      <!-- Mockup 3 - Emergency Red -->
-      <div class="shrink-0 w-[320px] md:w-[420px] mx-3 rounded-2xl overflow-hidden border border-line bg-white shadow-[0_30px_80px_-40px_rgba(0,0,0,0.25)]">
-        <div class="flex items-center gap-1.5 px-3 py-2 bg-paper border-b border-line">
-          <span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span>
-          <span class="ml-2 text-[10px] tracking-wider text-muted">911drain.com</span>
-        </div>
-        <div class="aspect-[4/3] p-5 flex flex-col" style="background: linear-gradient(135deg, #FEF2F2 0%, #FFFFFF 60%);">
-          <div class="flex items-center justify-between text-[9px]">
-            <span class="flex items-center gap-1 font-display font-extrabold text-[#DC2626]"><span class="w-1.5 h-1.5 rounded-full bg-[#DC2626] animate-pulse"></span>911 DRAIN</span>
-            <span class="px-2 py-0.5 rounded-full bg-[#DC2626] text-white">24/7</span>
+        <!-- Hero 2: Premium Heritage -->
+        <article class="reveal group rounded-3xl overflow-hidden border border-line bg-gradient-to-br from-[#FAF6F1] to-white text-ink relative aspect-video md:aspect-[16/9] flex items-center">
+          <div class="absolute inset-0 opacity-5">
+            <div class="absolute top-0 right-0 w-96 h-96 bg-amber-600 rounded-full blur-3xl"></div>
           </div>
-          <div class="mt-auto">
-            <div class="font-display font-black leading-[0.9] text-3xl">Pipe<br/>burst?</div>
-            <div class="mt-2 text-[10px] text-muted">We're 18 min away.</div>
-            <div class="mt-3 inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-ink text-white text-[10px] font-bold">📞 (555) 911-PIPE</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Mockup 4 - HVAC Green -->
-      <div class="shrink-0 w-[320px] md:w-[420px] mx-3 rounded-2xl overflow-hidden border border-line bg-white shadow-[0_30px_80px_-40px_rgba(0,0,0,0.25)]">
-        <div class="flex items-center gap-1.5 px-3 py-2 bg-paper border-b border-line">
-          <span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span>
-          <span class="ml-2 text-[10px] tracking-wider text-muted">northgate-services.com</span>
-        </div>
-        <div class="aspect-[4/3] p-5 flex flex-col bg-gradient-to-br from-[#F0FDF4] via-white to-[#D1FAE5]">
-          <div class="text-[9px] font-display font-extrabold text-[#065F46]">NORTHGATE</div>
-          <div class="mt-auto">
-            <div class="font-display font-black text-ink leading-[0.9] text-2xl">Plumbing.<br/>HVAC. <span class="text-[#059669]">Done.</span></div>
-            <div class="mt-3 grid grid-cols-2 gap-1.5">
-              <div class="rounded-md bg-white border border-line p-2">
-                <div class="text-[8px] uppercase text-muted">Plumbing</div>
-                <div class="text-[10px] font-bold text-ink">From $89</div>
+          <div class="relative z-10 grid md:grid-cols-2 gap-8 w-full px-6 md:px-12 py-8 md:py-12 items-center">
+            <div>
+              <div class="text-xs uppercase tracking-[0.25em] text-muted mb-2">Since 1987</div>
+              <h3 class="font-display text-4xl md:text-5xl font-black tracking-tightest leading-[0.95] mb-4">
+                Heritage Plumbing <span class="text-amber-700">Co.</span>
+              </h3>
+              <p class="text-muted text-base leading-relaxed mb-2">
+                Three generations of residential plumbing excellence. We don't cut corners — we replace pipes.
+              </p>
+              <div class="flex gap-4 mt-6">
+                <a href="#contact" class="inline-flex items-center gap-2 text-sm font-semibold text-ink hover:text-accent transition-colors cursor-pointer">
+                  Schedule a visit
+                  <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
               </div>
-              <div class="rounded-md bg-[#059669] text-white p-2">
-                <div class="text-[8px] uppercase opacity-80">HVAC</div>
-                <div class="text-[10px] font-bold">From $129</div>
+            </div>
+            <div class="hidden md:block relative h-64">
+              <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-amber-100 to-amber-50 border border-amber-200 flex items-end justify-center p-6">
+                <svg viewBox="0 0 100 120" class="w-24 h-24 text-amber-700">
+                  <circle cx="50" cy="30" r="8" fill="currentColor"/><path d="M 50 38 L 50 70" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M 35 55 L 65 55" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M 40 70 L 60 70 L 55 110 L 45 110 Z" fill="currentColor" opacity="0.5"/>
+                </svg>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </article>
 
-      <!-- Mockup 5 - Aquaflow Light -->
-      <div class="shrink-0 w-[320px] md:w-[420px] mx-3 rounded-2xl overflow-hidden border border-line bg-white shadow-[0_30px_80px_-40px_rgba(0,0,0,0.25)]">
-        <div class="flex items-center gap-1.5 px-3 py-2 bg-paper border-b border-line">
-          <span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span>
-          <span class="ml-2 text-[10px] tracking-wider text-muted">aquaflow.us</span>
-        </div>
-        <div class="aspect-[4/3] p-5 flex flex-col" style="background: linear-gradient(180deg, #FFFFFF 0%, #DBEAFE 100%);">
-          <div class="flex items-center gap-1.5">
-            <svg class="w-3 h-3 text-accent" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c4 5 6 8 6 11a6 6 0 1 1-12 0c0-3 2-6 6-11z"/></svg>
-            <span class="font-display font-extrabold text-[10px] text-ink">Aquaflow</span>
-          </div>
-          <div class="mt-auto">
-            <div class="font-display font-black text-ink leading-[0.9] text-2xl">Service that<br/><span class="italic font-medium text-accent">flows</span>.</div>
-            <div class="mt-3 flex gap-1.5">
-              <div class="px-2 py-1 rounded-full bg-white border border-line text-[8px]">★ 4.9 (412)</div>
-              <div class="px-2 py-1 rounded-full bg-ink text-white text-[8px]">Licensed</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Mockup 6 - Drainline Dark -->
-      <div class="shrink-0 w-[320px] md:w-[420px] mx-3 rounded-2xl overflow-hidden border border-line bg-ink text-white shadow-[0_30px_80px_-40px_rgba(0,0,0,0.4)]">
-        <div class="flex items-center gap-1.5 px-3 py-2 bg-[#171717] border-b border-white/10">
-          <span class="w-2 h-2 rounded-full bg-white/20"></span><span class="w-2 h-2 rounded-full bg-white/20"></span><span class="w-2 h-2 rounded-full bg-white/20"></span>
-          <span class="ml-2 text-[10px] tracking-wider text-white/40">drainline.io</span>
-        </div>
-        <div class="aspect-[4/3] p-5 flex flex-col bg-gradient-to-br from-ink via-ink to-[#1E3A8A]">
-          <div class="text-[9px] tracking-[0.2em] uppercase text-white/60">Smart drain cleaning</div>
-          <div class="mt-auto">
-            <div class="font-display font-black leading-[0.9] text-3xl">Drainline<span class="text-accent">.</span></div>
-            <div class="mt-2 text-[10px] text-white/60">Camera diagnosis. Hydrojet clean. Done in one visit.</div>
-            <div class="mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent text-white text-[10px] font-medium">Get inspected →</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- DUPLICATE for seamless loop -->
-      <div aria-hidden="true" class="shrink-0 w-[320px] md:w-[420px] mx-3 rounded-2xl overflow-hidden border border-line bg-white shadow-[0_30px_80px_-40px_rgba(0,0,0,0.25)]">
-        <div class="flex items-center gap-1.5 px-3 py-2 bg-paper border-b border-line">
-          <span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span>
-          <span class="ml-2 text-[10px] tracking-wider text-muted">bluestream-plumbing.com</span>
-        </div>
-        <div class="aspect-[4/3] bg-gradient-to-br from-[#EFF4FF] via-white to-[#DBEAFE] p-5 flex flex-col">
-          <div class="flex items-center justify-between text-[9px]">
-            <span class="font-display font-extrabold text-ink">BLUESTREAM</span>
-            <span class="px-2 py-0.5 rounded-full bg-ink text-white">CALL ↗</span>
-          </div>
-          <div class="mt-auto">
-            <div class="font-display font-black text-ink leading-[0.9] text-2xl">Plumbing,<br/>but <span class="text-accent">fast</span>.</div>
-            <div class="mt-2 h-1 w-16 bg-line rounded-full"></div>
-            <div class="mt-1 h-1 w-12 bg-line rounded-full"></div>
-            <div class="mt-3 grid grid-cols-3 gap-1.5">
-              <div class="aspect-square rounded-md bg-accent"></div>
-              <div class="aspect-square rounded-md bg-ink"></div>
-              <div class="aspect-square rounded-md bg-white border border-line"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div aria-hidden="true" class="shrink-0 w-[320px] md:w-[420px] mx-3 rounded-2xl overflow-hidden border border-line bg-[#0A0A0A] text-white shadow-[0_30px_80px_-40px_rgba(0,0,0,0.4)]">
-        <div class="flex items-center gap-1.5 px-3 py-2 bg-[#171717] border-b border-white/10">
-          <span class="w-2 h-2 rounded-full bg-white/20"></span><span class="w-2 h-2 rounded-full bg-white/20"></span><span class="w-2 h-2 rounded-full bg-white/20"></span>
-          <span class="ml-2 text-[10px] tracking-wider text-white/40">copper-co-plumbing.com</span>
-        </div>
-        <div class="aspect-[4/3] p-5 flex flex-col" style="background: radial-gradient(ellipse at top right, #C97B47 0%, #5A2E1B 50%, #0A0A0A 100%);">
-          <div class="text-[9px] tracking-[0.2em] uppercase text-white/70">Heritage Plumbing · Est. 1987</div>
-          <div class="mt-auto">
-            <div class="font-display font-black leading-[0.9] text-2xl">Copper <span class="italic font-light">&amp;</span> <br/>Co.</div>
-            <div class="mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white text-ink text-[10px] font-medium">Book a visit →</div>
-          </div>
-        </div>
-      </div>
-      <div aria-hidden="true" class="shrink-0 w-[320px] md:w-[420px] mx-3 rounded-2xl overflow-hidden border border-line bg-white shadow-[0_30px_80px_-40px_rgba(0,0,0,0.25)]">
-        <div class="flex items-center gap-1.5 px-3 py-2 bg-paper border-b border-line">
-          <span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span>
-          <span class="ml-2 text-[10px] tracking-wider text-muted">911drain.com</span>
-        </div>
-        <div class="aspect-[4/3] p-5 flex flex-col" style="background: linear-gradient(135deg, #FEF2F2 0%, #FFFFFF 60%);">
-          <div class="flex items-center justify-between text-[9px]">
-            <span class="flex items-center gap-1 font-display font-extrabold text-[#DC2626]"><span class="w-1.5 h-1.5 rounded-full bg-[#DC2626] animate-pulse"></span>911 DRAIN</span>
-            <span class="px-2 py-0.5 rounded-full bg-[#DC2626] text-white">24/7</span>
-          </div>
-          <div class="mt-auto">
-            <div class="font-display font-black leading-[0.9] text-3xl">Pipe<br/>burst?</div>
-            <div class="mt-2 text-[10px] text-muted">We're 18 min away.</div>
-            <div class="mt-3 inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-ink text-white text-[10px] font-bold">📞 (555) 911-PIPE</div>
-          </div>
-        </div>
-      </div>
-      <div aria-hidden="true" class="shrink-0 w-[320px] md:w-[420px] mx-3 rounded-2xl overflow-hidden border border-line bg-white shadow-[0_30px_80px_-40px_rgba(0,0,0,0.25)]">
-        <div class="flex items-center gap-1.5 px-3 py-2 bg-paper border-b border-line">
-          <span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span>
-          <span class="ml-2 text-[10px] tracking-wider text-muted">northgate-services.com</span>
-        </div>
-        <div class="aspect-[4/3] p-5 flex flex-col bg-gradient-to-br from-[#F0FDF4] via-white to-[#D1FAE5]">
-          <div class="text-[9px] font-display font-extrabold text-[#065F46]">NORTHGATE</div>
-          <div class="mt-auto">
-            <div class="font-display font-black text-ink leading-[0.9] text-2xl">Plumbing.<br/>HVAC. <span class="text-[#059669]">Done.</span></div>
-            <div class="mt-3 grid grid-cols-2 gap-1.5">
-              <div class="rounded-md bg-white border border-line p-2">
-                <div class="text-[8px] uppercase text-muted">Plumbing</div>
-                <div class="text-[10px] font-bold text-ink">From $89</div>
+        <!-- Hero 3: Modern Direct -->
+        <article class="reveal group rounded-3xl overflow-hidden border border-line bg-white text-ink relative aspect-video md:aspect-[16/9] flex items-center">
+          <div class="absolute inset-0 bg-gradient-to-b from-blue-50 to-transparent z-0"></div>
+          <div class="relative z-10 w-full px-6 md:px-12 py-8 md:py-12">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+              <div>
+                <div class="text-xs uppercase tracking-[0.25em] text-muted mb-3">Modern plumbing for modern homes</div>
+                <h3 class="font-display text-4xl md:text-5xl font-black tracking-tightest leading-[0.95] mb-4">
+                  Smart plumbing. <span class="text-accent">No hassle.</span>
+                </h3>
+                <p class="text-muted text-base leading-relaxed mb-8">
+                  Same-day appointments. Upfront pricing. Online booking. We treat your home like our own.
+                </p>
+                <a href="#contact" class="inline-flex items-center justify-center gap-2 rounded-full bg-accent text-white px-6 py-3 font-semibold hover:bg-blue-700 transition-colors cursor-pointer">
+                  Book online now
+                  <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
               </div>
-              <div class="rounded-md bg-[#059669] text-white p-2">
-                <div class="text-[8px] uppercase opacity-80">HVAC</div>
-                <div class="text-[10px] font-bold">From $129</div>
+              <div class="hidden md:grid grid-cols-2 gap-4">
+                <div class="rounded-xl bg-blue-100 p-6 text-center"><div class="font-display text-2xl font-black text-accent mb-2">2h avg</div><div class="text-xs text-muted">Response time</div></div>
+                <div class="rounded-xl bg-blue-100 p-6 text-center"><div class="font-display text-2xl font-black text-accent mb-2">98%</div><div class="text-xs text-muted">Satisfaction</div></div>
+                <div class="rounded-xl bg-blue-100 p-6 text-center"><div class="font-display text-2xl font-black text-accent mb-2">$0</div><div class="text-xs text-muted">Callout fee</div></div>
+                <div class="rounded-xl bg-blue-100 p-6 text-center"><div class="font-display text-2xl font-black text-accent mb-2">24/7</div><div class="text-xs text-muted">Always ready</div></div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div aria-hidden="true" class="shrink-0 w-[320px] md:w-[420px] mx-3 rounded-2xl overflow-hidden border border-line bg-white shadow-[0_30px_80px_-40px_rgba(0,0,0,0.25)]">
-        <div class="flex items-center gap-1.5 px-3 py-2 bg-paper border-b border-line">
-          <span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span><span class="w-2 h-2 rounded-full bg-line"></span>
-          <span class="ml-2 text-[10px] tracking-wider text-muted">aquaflow.us</span>
-        </div>
-        <div class="aspect-[4/3] p-5 flex flex-col" style="background: linear-gradient(180deg, #FFFFFF 0%, #DBEAFE 100%);">
-          <div class="flex items-center gap-1.5">
-            <svg class="w-3 h-3 text-accent" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c4 5 6 8 6 11a6 6 0 1 1-12 0c0-3 2-6 6-11z"/></svg>
-            <span class="font-display font-extrabold text-[10px] text-ink">Aquaflow</span>
+        </article>
+
+        <!-- Hero 4: Industrial/Commercial -->
+        <article class="reveal group rounded-3xl overflow-hidden border border-line bg-gradient-to-br from-slate-900 to-black text-white relative aspect-video md:aspect-[16/9] flex items-center">
+          <div class="absolute inset-0 opacity-10">
+            <svg class="w-full h-full" viewBox="0 0 1200 800" preserveAspectRatio="none">
+              <line x1="0" y1="0" x2="1200" y2="0" stroke="white" stroke-width="2"/><line x1="0" y1="200" x2="1200" y2="200" stroke="white" stroke-width="1"/><line x1="0" y1="400" x2="1200" y2="400" stroke="white" stroke-width="1"/><line x1="0" y1="600" x2="1200" y2="600" stroke="white" stroke-width="1"/><line x1="0" y1="800" x2="1200" y2="800" stroke="white" stroke-width="2"/><line x1="200" y1="0" x2="200" y2="800" stroke="white" stroke-width="1"/><line x1="400" y1="0" x2="400" y2="800" stroke="white" stroke-width="1"/><line x1="600" y1="0" x2="600" y2="800" stroke="white" stroke-width="1"/>
+            </svg>
           </div>
-          <div class="mt-auto">
-            <div class="font-display font-black text-ink leading-[0.9] text-2xl">Service that<br/><span class="italic font-medium text-accent">flows</span>.</div>
-            <div class="mt-3 flex gap-1.5">
-              <div class="px-2 py-1 rounded-full bg-white border border-line text-[8px]">★ 4.9 (412)</div>
-              <div class="px-2 py-1 rounded-full bg-ink text-white text-[8px]">Licensed</div>
+          <div class="relative z-10 w-full px-6 md:px-12 py-8 md:py-12">
+            <div class="max-w-2xl">
+              <div class="text-xs uppercase tracking-[0.2em] text-white/50 mb-3 font-mono">Commercial · HVAC + Plumbing</div>
+              <h3 class="font-display text-5xl md:text-6xl font-black tracking-tightest leading-[0.95] mb-6">
+                Built for <span class="text-blue-400">uptime.</span>
+              </h3>
+              <p class="text-white/70 text-base max-w-md mb-8 leading-relaxed">
+                Multi-property plumbing & mechanical. Licensed across 4 states. Preventative maintenance that actually works.
+              </p>
+              <div class="flex flex-col sm:flex-row gap-3">
+                <a href="#contact" class="inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 text-white px-6 py-3 font-semibold hover:bg-blue-700 transition-colors cursor-pointer">
+                  Request proposal
+                  <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div aria-hidden="true" class="shrink-0 w-[320px] md:w-[420px] mx-3 rounded-2xl overflow-hidden border border-line bg-ink text-white shadow-[0_30px_80px_-40px_rgba(0,0,0,0.4)]">
-        <div class="flex items-center gap-1.5 px-3 py-2 bg-[#171717] border-b border-white/10">
-          <span class="w-2 h-2 rounded-full bg-white/20"></span><span class="w-2 h-2 rounded-full bg-white/20"></span><span class="w-2 h-2 rounded-full bg-white/20"></span>
-          <span class="ml-2 text-[10px] tracking-wider text-white/40">drainline.io</span>
-        </div>
-        <div class="aspect-[4/3] p-5 flex flex-col bg-gradient-to-br from-ink via-ink to-[#1E3A8A]">
-          <div class="text-[9px] tracking-[0.2em] uppercase text-white/60">Smart drain cleaning</div>
-          <div class="mt-auto">
-            <div class="font-display font-black leading-[0.9] text-3xl">Drainline<span class="text-accent">.</span></div>
-            <div class="mt-2 text-[10px] text-white/60">Camera diagnosis. Hydrojet clean. Done in one visit.</div>
-            <div class="mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent text-white text-[10px] font-medium">Get inspected →</div>
-          </div>
-        </div>
+        </article>
       </div>
     </div>
   </section>
-
   <!-- Intro / Manifesto -->
   <section class="py-28 md:py-36">
     <div class="mx-auto max-w-7xl px-6 grid md:grid-cols-12 gap-10">
