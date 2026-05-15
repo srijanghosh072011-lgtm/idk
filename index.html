@@ -1394,7 +1394,7 @@
           <p class="text-white/70 text-lg max-w-xl">
             Tell us about your business in a paragraph. We'll send back a same-day reply with a rough quote and a calendar link.
           </p>
-          <form class="mt-8 grid sm:grid-cols-2 gap-3" onsubmit="event.preventDefault(); alert('Thanks — we will reply within a day.');">
+          <form id="contact-form" class="mt-8 grid sm:grid-cols-2 gap-3">
             <label class="sr-only" for="name">Your name</label>
             <input id="name" type="text" required placeholder="Your name" class="rounded-full bg-white/5 border border-white/15 px-5 py-4 text-white placeholder-white/40 focus:outline-none focus:border-accent transition-colors" />
             <label class="sr-only" for="email">Email</label>
@@ -1495,6 +1495,17 @@
 <script>
   // Year
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Contact form → mailto
+  document.getElementById('contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const msg  = document.getElementById('msg').value.trim();
+    const subject = encodeURIComponent('New enquiry from ' + name);
+    const body = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\n' + msg);
+    window.location.href = 'mailto:srijan.ghosh072011@gmail.com?subject=' + subject + '&body=' + body;
+  });
 
   // Reveal on scroll
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
