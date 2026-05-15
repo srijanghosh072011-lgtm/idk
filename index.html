@@ -177,45 +177,50 @@
 
 <main id="top">
 
-  <!-- Hero — bold type + rotating word + premium plumber-site mockup -->
-  <section class="relative pt-28 md:pt-32 pb-16 md:pb-24 overflow-hidden">
+  <!-- Hero — dark premium, water-toned aurora, tilted plumber-site mockup -->
+  <section class="relative pt-32 md:pt-40 pb-20 md:pb-28 overflow-hidden bg-[#0A0F1E] text-white">
     <!-- Background atmospherics -->
-    <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-      <div class="blob absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-accentSoft"></div>
-      <div class="blob absolute top-72 -right-40 w-[500px] h-[500px] rounded-full bg-[#F5F1EA]" style="animation-delay: -7s;"></div>
-      <svg class="absolute inset-0 w-full h-full opacity-[0.05]" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0 overflow-hidden">
+      <!-- aurora glows -->
+      <div class="absolute -top-48 -left-32 w-[680px] h-[680px] rounded-full bg-accent/25 blur-[140px]"></div>
+      <div class="absolute top-24 right-[-12rem] w-[620px] h-[620px] rounded-full bg-cyan-500/20 blur-[150px]"></div>
+      <div class="absolute bottom-[-16rem] left-1/3 w-[560px] h-[560px] rounded-full bg-blue-600/15 blur-[150px]"></div>
+      <!-- grid -->
+      <svg class="absolute inset-0 w-full h-full opacity-[0.06]" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
           <pattern id="grid" width="56" height="56" patternUnits="userSpaceOnUse">
-            <path d="M 56 0 L 0 0 0 56" fill="none" stroke="#0A0A0A" stroke-width="1"/>
+            <path d="M 56 0 L 0 0 0 56" fill="none" stroke="#FFFFFF" stroke-width="1"/>
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#grid)" />
       </svg>
+      <!-- fade to light body -->
+      <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-[#F0F5FF]"></div>
     </div>
 
     <div class="relative z-10 mx-auto max-w-7xl px-6">
-      <div class="reveal flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-muted mb-8">
-        <span class="inline-block w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+      <div class="reveal inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/5 backdrop-blur px-4 py-1.5 text-[11px] uppercase tracking-[0.22em] text-white/70 mb-10">
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
         <span>Independent design studio · Plumbing &amp; home services</span>
       </div>
 
-      <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-        <!-- Left: bold headline + rotating word + description + CTAs -->
+      <div class="grid lg:grid-cols-12 gap-12 lg:gap-14 items-center">
+        <!-- Left: bold headline + description + CTAs -->
         <div class="lg:col-span-5">
-          <h1 class="reveal font-display text-ink font-black tracking-tightest leading-[0.85] text-[14vw] md:text-[8vw] lg:text-[5.8vw]">
-            <span class="block">Websites that</span>
-            <span class="block">turn calls into <span class="italic font-semibold text-accent">jobs.</span></span>
+          <h1 class="reveal font-display font-black tracking-tightest leading-[0.85] text-[14vw] md:text-[8vw] lg:text-[5.8vw]">
+            <span class="block bg-gradient-to-br from-white via-white to-white/55 bg-clip-text text-transparent">Websites that</span>
+            <span class="block">turn calls into <span class="italic font-semibold bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">jobs.</span></span>
           </h1>
 
-          <p class="reveal mt-6 text-base md:text-lg text-muted max-w-xl leading-relaxed">
+          <p class="reveal mt-7 text-base md:text-lg text-white/65 max-w-xl leading-relaxed">
             Custom-built, conversion-focused websites for plumbing and home-service businesses that actually book jobs.
           </p>
 
-          <div class="reveal mt-8 flex flex-col sm:flex-row gap-3 sm:items-center">
-            <a href="#contact" class="btn-primary cursor-pointer inline-flex items-center justify-center gap-2 rounded-full bg-accent text-white px-8 py-3.5 text-base font-semibold hover:bg-blue-700 transition-colors">
+          <div class="reveal mt-9 flex flex-col sm:flex-row gap-3 sm:items-center">
+            <a href="#contact" class="btn-primary cursor-pointer inline-flex items-center justify-center gap-2 rounded-full bg-accent text-white px-8 py-3.5 text-base font-semibold shadow-[0_10px_40px_-8px_rgba(37,99,235,0.6)] hover:bg-blue-500 transition-colors">
               Get started
             </a>
-            <a href="#process" class="cursor-pointer inline-flex items-center justify-center gap-2 text-base font-semibold text-ink hover:text-accent transition-colors">
+            <a href="#process" class="cursor-pointer inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 backdrop-blur px-7 py-3.5 text-base font-semibold text-white hover:bg-white/10 hover:border-white/35 transition-colors">
               <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
               See our process
             </a>
@@ -224,12 +229,11 @@
 
         <!-- Right: premium plumber-site mockup -->
         <div class="lg:col-span-7 reveal relative lg:ml-6">
-          <!-- Prominent glow behind mockup -->
-          <div aria-hidden="true" class="absolute -inset-8 lg:-inset-16 rounded-[50px] bg-gradient-to-br from-accent/15 via-accentSoft/10 to-[#F5F1EA]/20 -z-10 blur-3xl"></div>
-          <div aria-hidden="true" class="absolute -inset-6 lg:-inset-12 rounded-[40px] bg-gradient-to-br from-accentSoft via-white to-[#F5F1EA] -z-10 opacity-70"></div>
+          <!-- aurora glow ring behind mockup -->
+          <div aria-hidden="true" class="absolute -inset-10 lg:-inset-16 rounded-[60px] bg-gradient-to-br from-accent/40 via-cyan-400/25 to-blue-500/30 -z-10 blur-[90px]"></div>
 
           <!-- Browser mockup — iframe shows the live preview site -->
-          <div class="relative rounded-3xl overflow-hidden border border-line bg-white shadow-[0_60px_160px_-40px_rgba(0,0,0,0.4)] -rotate-6 hover:rotate-0 transition-transform duration-700 will-change-transform">
+          <div class="relative rounded-3xl overflow-hidden border border-white/10 bg-white shadow-[0_80px_180px_-40px_rgba(0,0,0,0.7)] -rotate-6 hover:rotate-0 transition-transform duration-700 will-change-transform">
             <!-- Browser chrome -->
             <div class="flex items-center gap-1.5 px-4 py-2.5 bg-[#171717] border-b border-white/10">
               <span class="w-2.5 h-2.5 rounded-full bg-white/20"></span>
@@ -258,18 +262,18 @@
       </div>
 
       <!-- Founding studio offer -->
-      <div class="reveal mt-16 lg:mt-24 border-t border-line pt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+      <div class="reveal mt-16 lg:mt-24 border-t border-white/10 pt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
         <div class="flex items-center gap-3">
           <span class="relative inline-flex w-2.5 h-2.5">
-            <span class="absolute inset-0 rounded-full bg-accent animate-ping opacity-50"></span>
-            <span class="relative inline-block w-2.5 h-2.5 rounded-full bg-accent"></span>
+            <span class="absolute inset-0 rounded-full bg-cyan-400 animate-ping opacity-50"></span>
+            <span class="relative inline-block w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
           </span>
-          <span class="text-sm text-ink">
-            <span class="font-semibold">Founding studio.</span>
-            <span class="text-muted"> Accepting first clients &middot; 14-day delivery &middot; pricing on request.</span>
+          <span class="text-sm text-white/85">
+            <span class="font-semibold text-white">Founding studio.</span>
+            <span class="text-white/55"> Accepting first clients &middot; 14-day delivery &middot; pricing on request.</span>
           </span>
         </div>
-        <a href="#contact" class="text-sm font-medium text-ink hover:text-accent transition-colors inline-flex items-center gap-1.5">
+        <a href="#contact" class="text-sm font-medium text-white/80 hover:text-cyan-300 transition-colors inline-flex items-center gap-1.5">
           Get in touch
           <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
         </a>
