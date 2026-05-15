@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+<title>Universe Sandbox — Web Edition</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<canvas id="stage"></canvas>
+
+<!-- Top bar: scenarios + time -->
+<header class="bar bar-top">
+  <div class="brand">
+    <span class="brand-dot"></span>
+    <span class="brand-title">Universe Sandbox</span>
+    <span class="brand-sub">web edition</span>
+  </div>
+
+  <div class="scenario-group">
+    <label class="lbl">Scenario</label>
+    <select id="scenarioSel" class="select"></select>
+    <button id="reloadBtn" class="btn ghost" title="Reload scenario">Reload</button>
+  </div>
+
+  <div class="time-group">
+    <button id="reverseBtn" class="btn icon" title="Reverse time">&#9664;&#9664;</button>
+    <button id="playBtn" class="btn icon primary" title="Play / Pause">&#9658;</button>
+    <button id="stepBtn" class="btn icon" title="Step one frame">&#9197;</button>
+    <div class="speed">
+      <input id="speedSlider" type="range" min="0" max="14" value="6" step="1" />
+      <span id="speedLabel" class="speed-label">1 day / s</span>
+    </div>
+  </div>
+</header>
+
+<!-- Left sidebar: tools + spawn -->
+<aside class="bar bar-left">
+  <div class="panel">
+    <div class="panel-h">Tools</div>
+    <div class="tool-grid">
+      <button class="tool active" data-tool="select" title="Select / pan (S)">
+        <svg viewBox="0 0 24 24"><path d="M5 3l14 7-6 2-2 6z"/></svg>
+        <span>Select</span>
+      </button>
+      <button class="tool" data-tool="spawn" title="Spawn (A) — drag for velocity">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+        <span>Spawn</span>
+      </button>
+      <button class="tool" data-tool="launch" title="Launch (L) — drag selected body">
+        <svg viewBox="0 0 24 24"><path d="M4 20l16-16M14 4h6v6"/></svg>
+        <span>Launch</span>
+      </button>
+      <button class="tool" data-tool="laser" title="Laser (Z) — vaporize mass">
+        <svg viewBox="0 0 24 24"><path d="M3 21L21 3M14 3h7v7"/></svg>
+        <span>Laser</span>
+      </button>
+      <button class="tool" data-tool="delete" title="Delete (X)">
+        <svg viewBox="0 0 24 24"><path d="M6 7h12M9 7V4h6v3M7 7l1 13h8l1-13"/></svg>
+        <span>Delete</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="panel" id="spawnPanel">
+    <div class="panel-h">Spawn type</div>
+    <div class="spawn-grid">
+      <button class="spawn active" data-spawn="rock"><span class="dot dot-rock"></span>Rocky planet</button>
+      <button class="spawn" data-spawn="gas"><span class="dot dot-gas"></span>Gas giant</button>
+      <button class="spawn" data-spawn="moon"><span class="dot dot-moon"></span>Moon</button>
+      <button class="spawn" data-spawn="asteroid"><span class="dot dot-ast"></span>Asteroid</button>
+      <button class="spawn" data-spawn="comet"><span class="dot dot-comet"></span>Comet</button>
+      <button class="spawn" data-spawn="star"><span class="dot dot-star"></span>Star</button>
+      <button class="spawn" data-spawn="dwarf"><span class="dot dot-dwarf"></span>Red dwarf</button>
+      <button class="spawn" data-spawn="bh"><span class="dot dot-bh"></span>Black hole</button>
+    </div>
+    <div class="spawn-hint">drag on canvas to set initial velocity</div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-h">Display</div>
+    <label class="check"><input type="checkbox" id="showTrails" checked /><span>Orbit trails</span></label>
+    <label class="check"><input type="checkbox" id="showVel" /><span>Velocity vectors</span></label>
+    <label class="check"><input type="checkbox" id="showGrav" /><span>Gravitational reach</span></label>
+    <label class="check"><input type="checkbox" id="showLabels" checked /><span>Labels</span></label>
+    <label class="check"><input type="checkbox" id="showRuler" /><span>Scale ruler</span></label>
+    <label class="check"><input type="checkbox" id="showGrid" /><span>Reference grid</span></label>
+  </div>
+
+  <div class="panel">
+    <div class="panel-h">Camera</div>
+    <button class="btn ghost wide" id="frameAllBtn">Frame all objects</button>
+    <button class="btn ghost wide" id="followBtn">Follow selection</button>
+    <button class="btn ghost wide" id="resetCamBtn">Reset view</button>
+  </div>
+</aside>
+
+<!-- Right sidebar: object inspector -->
+<aside class="bar bar-right" id="inspector">
+  <div class="panel inspect-empty" id="inspectEmpty">
+    <div class="panel-h">Inspector</div>
+    <p class="muted">Nothing selected. Click a body to edit its properties — mass, composition, atmosphere, temperature, rotation.</p>
+    <div class="kbd-list">
+      <div class="kbd-row"><kbd>S</kbd> select</div>
+      <div class="kbd-row"><kbd>A</kbd> spawn</div>
+      <div class="kbd-row"><kbd>L</kbd> launch</div>
+      <div class="kbd-row"><kbd>Z</kbd> laser</div>
+      <div class="kbd-row"><kbd>X</kbd> delete</div>
+      <div class="kbd-row"><kbd>Space</kbd> play / pause</div>
+      <div class="kbd-row"><kbd>F</kbd> frame all</div>
+      <div class="kbd-row"><kbd>wheel</kbd> zoom</div>
+      <div class="kbd-row"><kbd>right-drag</kbd> pan</div>
+    </div>
+  </div>
+
+  <div class="panel inspect-body hidden" id="inspectBody">
+    <div class="panel-h flex">
+      <span id="bodyName">Body</span>
+      <button class="btn ghost tiny" id="renameBtn">rename</button>
+    </div>
+
+    <div class="badge-row">
+      <span class="badge" id="bodyTypeBadge">planet</span>
+      <span class="badge" id="bodyStateBadge">main sequence</span>
+    </div>
+
+    <div class="stat-row"><span>Mass</span><b id="statMass">—</b></div>
+    <div class="stat-row"><span>Radius</span><b id="statRadius">—</b></div>
+    <div class="stat-row"><span>Surface temp</span><b id="statTemp">—</b></div>
+    <div class="stat-row"><span>Surface gravity</span><b id="statGrav">—</b></div>
+    <div class="stat-row"><span>Escape velocity</span><b id="statEscape">—</b></div>
+    <div class="stat-row"><span>Orbital period</span><b id="statPeriod">—</b></div>
+    <div class="stat-row"><span>Age</span><b id="statAge">—</b></div>
+
+    <div class="slider-group">
+      <label>Mass <span id="massVal"></span></label>
+      <input type="range" id="massSlider" min="-3" max="6" value="0" step="0.01" />
+      <div class="slider-sub">log₁₀ multiplier — drag to grow or shrink</div>
+    </div>
+
+    <div class="slider-group">
+      <label>Radius <span id="radiusVal"></span></label>
+      <input type="range" id="radiusSlider" min="-2" max="3" value="0" step="0.01" />
+    </div>
+
+    <div class="slider-group">
+      <label>Albedo <span id="albedoVal"></span></label>
+      <input type="range" id="albedoSlider" min="0" max="1" value="0.3" step="0.01" />
+    </div>
+
+    <div class="slider-group">
+      <label>Greenhouse <span id="ghVal"></span></label>
+      <input type="range" id="ghSlider" min="0" max="0.95" value="0.2" step="0.01" />
+      <div class="slider-sub">atmospheric CO₂ + water vapor effect</div>
+    </div>
+
+    <div class="slider-group">
+      <label>Rotation period <span id="rotVal"></span></label>
+      <input type="range" id="rotSlider" min="-2" max="3" value="0" step="0.01" />
+    </div>
+
+    <div class="comp-block">
+      <div class="comp-label">Composition</div>
+      <div class="comp-bar" id="compBar"></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn ghost" id="stopBtn">Stop motion</button>
+      <button class="btn ghost" id="circOrbitBtn">Circularize orbit</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn ghost" id="igniteBtn">Ignite as star</button>
+      <button class="btn ghost danger" id="deleteBtn">Delete</button>
+    </div>
+  </div>
+</aside>
+
+<!-- Bottom bar: stats + ghost overlay -->
+<footer class="bar bar-bottom">
+  <div class="stat-chip"><span class="lbl">Bodies</span><b id="nBodies">0</b></div>
+  <div class="stat-chip"><span class="lbl">Sim time</span><b id="simTime">0</b></div>
+  <div class="stat-chip"><span class="lbl">Zoom</span><b id="zoomLbl">—</b></div>
+  <div class="stat-chip"><span class="lbl">FPS</span><b id="fps">—</b></div>
+  <div class="stat-chip"><span class="lbl">Energy</span><b id="energy">—</b></div>
+  <div class="stat-chip"><span class="lbl">Total mass</span><b id="totalMass">—</b></div>
+  <div class="event-feed" id="eventFeed"></div>
+</footer>
+
+<!-- Floating drag preview -->
+<div id="dragHint" class="drag-hint hidden"></div>
+
+<script src="sim.js"></script>
+</body>
+</html>
