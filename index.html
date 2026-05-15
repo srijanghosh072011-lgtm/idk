@@ -70,6 +70,40 @@
   .orbit-c { animation: orbit-c 5s ease-in-out infinite -1s; transform-origin: center; }
   .orbit-d { animation: orbit-d 8s ease-in-out infinite -3s; transform-origin: center; }
 
+  /* Aurora glow field logo mark */
+  .logo-mark {
+    display: grid; place-items: center;
+    width: 2rem; height: 2rem; border-radius: 9999px;
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%);
+    color: #fff;
+    font-family: 'Archivo', system-ui, sans-serif;
+    font-size: 0.9rem; font-weight: 900; line-height: 1;
+    letter-spacing: -0.03em;
+    position: relative;
+    box-shadow: 0 0 0 0 rgba(59,130,246,0.5);
+    animation: logo-aurora 3.5s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  .logo-mark-lg {
+    width: 2.25rem; height: 2.25rem; font-size: 1rem;
+  }
+  .logo-mark::before {
+    content: '';
+    position: absolute; inset: -2px; border-radius: 9999px;
+    background: conic-gradient(from 180deg, #60a5fa, #06b6d4, #3b82f6, #818cf8, #60a5fa);
+    opacity: 0; z-index: -1;
+    animation: logo-ring 3.5s ease-in-out infinite;
+  }
+  @keyframes logo-aurora {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(59,130,246,0.5), 0 0 12px 2px rgba(96,165,250,0.25); }
+    50%       { box-shadow: 0 0 0 4px rgba(59,130,246,0), 0 0 22px 6px rgba(96,165,250,0.4); }
+  }
+  @keyframes logo-ring {
+    0%, 100% { opacity: 0; transform: scale(1); }
+    40%      { opacity: 0.6; transform: scale(1.08); }
+    80%      { opacity: 0; transform: scale(1.15); }
+  }
+
   /* Underline draw */
   .draw-line::after {
     content: ''; position: absolute; left: 0; bottom: 0.06em;
@@ -129,7 +163,7 @@
 
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
-    .marquee-track, .blob, .drip, .orbit-a, .orbit-b, .orbit-c, .orbit-d, .gallery-track { animation: none !important; }
+    .marquee-track, .blob, .drip, .orbit-a, .orbit-b, .orbit-c, .orbit-d, .gallery-track, .logo-mark, .logo-mark::before { animation: none !important; }
     .reveal { opacity: 1; transform: none; transition: none; }
   }
 
@@ -152,13 +186,7 @@
 <header class="fixed top-4 left-4 right-4 z-50">
   <nav class="mx-auto max-w-7xl flex items-center justify-between rounded-full border border-line bg-white/85 backdrop-blur px-5 py-3 shadow-[0_10px_40px_-25px_rgba(0,0,0,0.25)]">
     <a href="#top" class="flex items-center gap-2 group" aria-label="Ghosh Designs home">
-      <span class="grid place-items-center w-8 h-8 rounded-full bg-ink text-white">
-        <!-- abstract layered mark -->
-        <svg viewBox="0 0 24 24" class="w-4 h-4" aria-hidden="true">
-          <rect x="3" y="3" width="12" height="12" rx="3.5" fill="currentColor" opacity="0.5"/>
-          <rect x="9" y="9" width="12" height="12" rx="3.5" fill="currentColor"/>
-        </svg>
-      </span>
+      <span class="logo-mark" aria-hidden="true">G</span>
       <span class="font-display font-extrabold tracking-tight text-ink text-lg">Ghosh<span class="text-accent">.</span></span>
     </a>
     <div class="hidden md:flex items-center gap-8 text-sm text-ink/80">
@@ -1378,9 +1406,7 @@
   <div class="mx-auto max-w-7xl px-6 py-14 grid md:grid-cols-12 gap-10">
     <div class="md:col-span-5">
       <a href="#top" class="flex items-center gap-2">
-        <span class="grid place-items-center w-9 h-9 rounded-full bg-ink text-white">
-          <svg viewBox="0 0 24 24" class="w-4 h-4" aria-hidden="true"><rect x="3" y="3" width="12" height="12" rx="3.5" fill="currentColor" opacity="0.5"/><rect x="9" y="9" width="12" height="12" rx="3.5" fill="currentColor"/></svg>
-        </span>
+        <span class="logo-mark logo-mark-lg" aria-hidden="true">G</span>
         <span class="font-display font-black text-2xl tracking-tight">Ghosh<span class="text-accent">.</span></span>
       </a>
       <p class="mt-6 text-muted max-w-sm">A focused design studio building modern websites for plumbing and home service businesses across North America.</p>
