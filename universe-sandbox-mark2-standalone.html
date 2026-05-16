@@ -2259,7 +2259,7 @@ class World {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x020410);
 
-    this.camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.01, 1e12);
+    this.camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.0001, 1e12);
     this.camera.position.set(toScene(2 * AU), toScene(1.5 * AU), toScene(2 * AU));
     this.camera.lookAt(0, 0, 0);
 
@@ -2268,8 +2268,9 @@ class World {
     this.controls.dampingFactor = 0.08;
     this.controls.rotateSpeed = 0.65;
     this.controls.panSpeed = 0.85;
-    this.controls.zoomSpeed = 0.95;
-    this.controls.minDistance = 0.001;
+    this.controls.zoomSpeed = 1.4;
+    this.controls.zoomToCursor = true;
+    this.controls.minDistance = 0.0001;
     this.controls.maxDistance = 1e11;
     // No polar lock — orbit freely above, below, around any body.
     this.controls.minPolarAngle = 0;
@@ -2525,7 +2526,7 @@ const world = new World(canvas);
 let tool = 'select';
 let spawnKind = 'rock';
 let speedIdx = 6;
-let visualMult = 1;          // visual size multiplier (1× → 10000× via slider scaling)
+let visualMult = 5;          // visual size multiplier (1× → 10000× via slider scaling)
 let followSel = false;
 let selected = null;
 let hovered = null;
@@ -2696,6 +2697,22 @@ window.addEventListener('pointermove', (e) => {
       showDragHintForLaunch(e);
     }
   }
+});
+
+// Double-click: snap orbit focus onto the body under cursor so you can zoom right in
+canvas.addEventListener('dblclick', (e) => {
+  const hit = pickBody(e);
+  if (!hit) return;
+  const sp = bodyScenePos(hit);
+  const dist = world.camera.position.distanceTo(sp);
+  world.controls.target.copy(sp);
+  // pull camera in to ~5× body radius so it's close but not clipping
+  const r = bodyVisualRadius(hit, dist);
+  const dir = world.camera.position.clone().sub(sp).normalize();
+  world.camera.position.copy(sp).addScaledVector(dir, Math.max(r * 6, dist * 0.15));
+  world.controls.update();
+  selected = hit;
+  updateInspector();
 });
 
 window.addEventListener('pointerup', (e) => {
@@ -3361,7 +3378,7 @@ async function init() {
 
   // init size slider display
   sizeMultEl.value = 0;
-  visualMult = 1;
+  visualMult = 5;
   sizeMultVal.textContent = '1×';
 
   requestAnimationFrame(tick);
