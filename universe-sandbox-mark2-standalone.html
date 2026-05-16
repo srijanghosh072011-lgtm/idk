@@ -2259,7 +2259,7 @@ class World {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x020410);
 
-    this.camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.0001, 1e12);
+    this.camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 1e-6, 1e12);
     this.camera.position.set(toScene(2 * AU), toScene(1.5 * AU), toScene(2 * AU));
     this.camera.lookAt(0, 0, 0);
 
@@ -2270,7 +2270,7 @@ class World {
     this.controls.panSpeed = 0.85;
     this.controls.zoomSpeed = 1.4;
     this.controls.zoomToCursor = true;
-    this.controls.minDistance = 0.0001;
+    this.controls.minDistance = 0;
     this.controls.maxDistance = 1e11;
     // No polar lock — orbit freely above, below, around any body.
     this.controls.minPolarAngle = 0;
@@ -2699,6 +2699,17 @@ window.addEventListener('pointermove', (e) => {
   }
 });
 
+// Scroll: if cursor is over a body, make that body the orbit pivot BEFORE OrbitControls
+// processes the zoom. This means minDistance is measured from the planet, not from
+// wherever the old target was — so you can zoom all the way to the surface.
+canvas.addEventListener('wheel', (e) => {
+  const hit = pickBody(e);
+  if (hit) {
+    world.controls.target.copy(bodyScenePos(hit));
+    world.controls.update();
+  }
+}, { passive: true, capture: true });
+
 // Double-click: snap orbit focus onto the body under cursor so you can zoom right in
 canvas.addEventListener('dblclick', (e) => {
   const hit = pickBody(e);
@@ -2828,13 +2839,13 @@ function setSpeed(idx) {
   slider.value = speedIdx;
   document.getElementById('speedLabel').textContent = speedPresets[speedIdx].label;
   const s = speedPresets[speedIdx].s;
-  if (s < HOUR)        sim.substeps = 1;
-  else if (s < DAY)    sim.substeps = 2;
-  else if (s < 30*DAY) sim.substeps = 4;
-  else if (s < YEAR)   sim.substeps = 6;
-  else if (s < 100*YEAR) sim.substeps = 10;
-  else if (s < 1e4*YEAR) sim.substeps = 20;
-  else                 sim.substeps = 40;
+  if (s < HOUR)        sim.substeps = 2;
+  else if (s < DAY)    sim.substeps = 4;
+  else if (s < 30*DAY) sim.substeps = 8;
+  else if (s < YEAR)   sim.substeps = 16;
+  else if (s < 100*YEAR) sim.substeps = 24;
+  else if (s < 1e4*YEAR) sim.substeps = 40;
+  else                 sim.substeps = 64;
   updateRangeFill(slider);
 }
 document.getElementById('speedSlider').addEventListener('input', (e) => {
