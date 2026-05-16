@@ -1389,7 +1389,7 @@ class Simulator {
         if (omega > omegaMax) omegaMax = omega;
       }
     }
-    const nAdaptive = Math.ceil(Math.abs(dt) * omegaMax / 0.04);
+    const nAdaptive = Math.ceil(Math.abs(dt) * omegaMax / 0.08);
     let n = Math.max(this.substeps, nAdaptive);
     n = Math.min(n, 8192); // cap to prevent UI freeze on pathological configs
     const h = dt / n;
@@ -2022,46 +2022,140 @@ function stellarColor(T) {
 // ============================ Scenarios ===============================
 const scenarios = {
   solar: {
-    name: 'Solar System',
+    name: 'Solar System (full)',
     build(sim) {
-      sim.add(new Body({ name:'Sun', kind:'star', mass: M_SUN, radius: R_SUN, composition: COMP_STAR, temperature: T_SUN, textureKey:'sun' }));
-      const ecliptic = (a, vMag, inclRad = 0) => {
+      const sun = new Body({ name:'Sun', kind:'star', mass: M_SUN, radius: R_SUN, composition: COMP_STAR, temperature: T_SUN, textureKey:'sun' });
+      sim.add(sun);
+
+      // place a body on a randomized orbit around `parent` at semi-major a with speed v
+      const orbitOf = (parent, a, v, inclRad = 0) => {
         const ang = Math.random() * TAU;
-        const cx = Math.cos(ang) * a, cz = Math.sin(ang) * a;
-        const cy = (Math.random() - 0.5) * a * inclRad;
-        const vx = -Math.sin(ang) * vMag * Math.cos(inclRad);
-        const vz =  Math.cos(ang) * vMag * Math.cos(inclRad);
-        return [cx, cy, cz, vx, 0, vz];
+        return {
+          x: parent.pos.x + Math.cos(ang) * a,
+          y: parent.pos.y + (Math.random() - 0.5) * a * inclRad,
+          z: parent.pos.z + Math.sin(ang) * a,
+          vx: parent.vel.x - Math.sin(ang) * v * Math.cos(inclRad),
+          vy: parent.vel.y,
+          vz: parent.vel.z + Math.cos(ang) * v * Math.cos(inclRad),
+        };
       };
-      const planets = [
-        ['Mercury','rock', 0.055 * M_EARTH, 0.383 * R_EARTH, 0.387 * AU, 47.36e3, 0.12, 0.0,  COMP_ROCK, 0.05],
-        ['Venus',  'rock', 0.815 * M_EARTH, 0.949 * R_EARTH, 0.723 * AU, 35.02e3, 0.77, 0.85, COMP_ROCK, 0.02],
-        ['Earth',  'rock', M_EARTH,         R_EARTH,         AU,         29.78e3, 0.30, 0.25, COMP_ROCK, 0.0 ],
-        ['Mars',   'rock', 0.107 * M_EARTH, 0.532 * R_EARTH, 1.524 * AU, 24.07e3, 0.25, 0.07, COMP_ROCK, 0.03],
-        ['Jupiter','gas',  318 * M_EARTH,   11.21 * R_EARTH, 5.20 * AU,  13.07e3, 0.50, 0.0,  COMP_GAS,  0.02],
-        ['Saturn', 'gas',   95 * M_EARTH,    9.45 * R_EARTH, 9.58 * AU,   9.69e3, 0.34, 0.0,  COMP_GAS,  0.04],
-        ['Uranus', 'gas',   14.5* M_EARTH,   4.01 * R_EARTH, 19.2 * AU,   6.81e3, 0.30, 0.0,  COMP_ICE,  0.01],
-        ['Neptune','gas',   17.1* M_EARTH,   3.88 * R_EARTH, 30.1 * AU,   5.43e3, 0.30, 0.0,  COMP_ICE,  0.03],
-      ];
-      for (const [n, kind, m, r, a, v, al, gh, comp, incl] of planets) {
-        const [x, y, z, vx, vy, vz] = ecliptic(a, v, incl);
-        const p = new Body({
-          name: n, kind, mass: m, radius: r,
-          x, y, z, vx, vy, vz,
-          composition: comp, albedo: al, greenhouse: gh,
+      const add = (name, kind, mass, radius, parent, a, v, opts = {}) => {
+        const o = orbitOf(parent, a, v, opts.incl || 0);
+        const b = new Body({
+          name, kind, mass, radius, ...o,
+          composition: opts.composition || (kind === 'gas' ? COMP_GAS : kind === 'moon' ? COMP_ROCK : COMP_ROCK),
+          albedo: opts.albedo ?? 0.3,
+          greenhouse: opts.greenhouse ?? 0,
+          label: opts.label !== false,
+          trailMax: opts.trailMax,
+          textureKey: opts.textureKey,
         });
-        sim.add(p);
-        if (n === 'Earth') {
-          const moonAng = Math.random() * TAU;
-          const moonD = 384400e3;
-          const moonV = 1.022e3;
+        sim.add(b);
+        return b;
+      };
+
+      // Planets
+      const mercury = add('Mercury','rock', 0.055*M_EARTH, 0.383*R_EARTH, sun, 0.387*AU, 47.36e3, { albedo:0.12 });
+      const venus   = add('Venus',  'rock', 0.815*M_EARTH, 0.949*R_EARTH, sun, 0.723*AU, 35.02e3, { albedo:0.77, greenhouse:0.85 });
+      const earth   = add('Earth',  'rock', M_EARTH, R_EARTH, sun, AU, 29.78e3, { albedo:0.30, greenhouse:0.25 });
+      const mars    = add('Mars',   'rock', 0.107*M_EARTH, 0.532*R_EARTH, sun, 1.524*AU, 24.07e3, { albedo:0.25, greenhouse:0.07 });
+      const jupiter = add('Jupiter','gas',  318*M_EARTH, 11.21*R_EARTH, sun, 5.20*AU, 13.07e3, { composition: COMP_GAS, albedo:0.50 });
+      const saturn  = add('Saturn', 'gas',  95*M_EARTH,  9.45*R_EARTH, sun, 9.58*AU, 9.69e3,  { composition: COMP_GAS, albedo:0.34 });
+      const uranus  = add('Uranus', 'gas',  14.5*M_EARTH, 4.01*R_EARTH, sun, 19.2*AU, 6.81e3, { composition: COMP_ICE, albedo:0.30 });
+      const neptune = add('Neptune','gas',  17.1*M_EARTH, 3.88*R_EARTH, sun, 30.1*AU, 5.43e3, { composition: COMP_ICE, albedo:0.30 });
+
+      // Earth's Moon
+      add('Moon','moon', M_MOON, R_MOON, earth, 384400e3, 1.022e3, { albedo:0.12 });
+      // Mars's moons
+      add('Phobos','asteroid', 1.066e16, 11.2e3, mars, 9376e3, 2.138e3, { trailMax: 40 });
+      add('Deimos','asteroid', 1.48e15,  6.2e3,  mars, 23463e3, 1.351e3, { trailMax: 40 });
+      // Jupiter's Galileans
+      add('Io',      'moon', 8.93e22,  1821e3, jupiter, 421800e3,  17.33e3, { albedo:0.63 });
+      add('Europa',  'moon', 4.80e22,  1561e3, jupiter, 671100e3,  13.74e3, { albedo:0.67, composition: COMP_ICE });
+      add('Ganymede','moon', 1.482e23, 2634e3, jupiter, 1070400e3, 10.88e3, { albedo:0.43 });
+      add('Callisto','moon', 1.076e23, 2410e3, jupiter, 1882700e3, 8.21e3,  { albedo:0.22 });
+      // Saturn's main moons
+      add('Mimas',    'moon', 3.75e19, 198e3,  saturn, 185539e3, 14.32e3, { albedo:0.96, composition: COMP_ICE });
+      add('Enceladus','moon', 1.08e20, 252e3,  saturn, 238037e3, 12.64e3, { albedo:0.99, composition: COMP_ICE });
+      add('Rhea',     'moon', 2.31e21, 764e3,  saturn, 527108e3, 8.48e3,  { albedo:0.95, composition: COMP_ICE });
+      add('Titan',    'moon', 1.345e23,2575e3, saturn, 1221870e3,5.57e3,  { albedo:0.22, greenhouse:0.5 });
+      add('Iapetus',  'moon', 1.81e21, 735e3,  saturn, 3561300e3,3.26e3,  { albedo:0.10, composition: COMP_ICE });
+      // Uranus's moons
+      add('Miranda',  'moon', 6.59e19, 236e3,  uranus, 129390e3, 6.66e3, { composition: COMP_ICE });
+      add('Titania',  'moon', 3.42e21, 789e3,  uranus, 435910e3, 3.64e3, { composition: COMP_ICE });
+      add('Oberon',   'moon', 2.88e21, 761e3,  uranus, 583520e3, 3.15e3, { composition: COMP_ICE });
+      // Neptune's Triton
+      add('Triton',   'moon', 2.14e22, 1353e3, neptune, 354759e3, 4.39e3, { albedo:0.76, composition: COMP_ICE });
+
+      // Dwarf planets
+      add('Ceres',   'asteroid', 9.4e20,  470e3,  sun, 2.77*AU,  17.88e3, { albedo:0.09, incl: 0.18 });
+      const pluto = add('Pluto', 'rock', 1.303e22, 1188e3, sun, 39.48*AU, 4.67e3, { composition: COMP_ICE, albedo:0.49, incl: 0.30 });
+      add('Charon',  'moon', 1.586e21, 606e3,  pluto, 19591e3, 0.21e3, { composition: COMP_ICE });
+      add('Haumea',  'rock', 4.01e21,  816e3,  sun, 43.13*AU, 4.48e3, { composition: COMP_ICE, albedo:0.51, incl: 0.50 });
+      add('Makemake','rock', 3.10e21,  715e3,  sun, 45.79*AU, 4.42e3, { composition: COMP_ICE, albedo:0.81, incl: 0.50 });
+      add('Eris',    'rock', 1.66e22,  1163e3, sun, 67.78*AU, 3.43e3, { composition: COMP_ICE, albedo:0.96, incl: 0.75 });
+
+      // Main asteroid belt — 80 bodies between 2.2 and 3.3 AU
+      for (let i = 0; i < 80; i++) {
+        const a = (2.2 + Math.random() * 1.1) * AU;
+        const v = Math.sqrt(G * M_SUN / a);
+        const ang = Math.random() * TAU;
+        const y = (Math.random() - 0.5) * a * 0.04;
+        sim.add(new Body({
+          name: `Asteroid ${i+1}`, kind: 'asteroid',
+          mass: 1e16 * rand(800, 0.5), radius: rand(80e3, 2e3),
+          x: Math.cos(ang) * a, y, z: Math.sin(ang) * a,
+          vx: -Math.sin(ang) * v, vz: Math.cos(ang) * v,
+          composition: COMP_ROCK, albedo: 0.08,
+          label: false, trailMax: 20,
+        }));
+      }
+
+      // Jupiter Trojans at L4 and L5 (60° ahead of and behind Jupiter)
+      const jAng = Math.atan2(jupiter.pos.z, jupiter.pos.x);
+      for (const lead of [+1, -1]) {
+        for (let i = 0; i < 10; i++) {
+          const ang = jAng + lead * Math.PI / 3 + (Math.random() - 0.5) * 0.25;
+          const a = 5.20 * AU * rand(1.02, 0.98);
+          const v = Math.sqrt(G * M_SUN / a);
+          const y = (Math.random() - 0.5) * a * 0.05;
           sim.add(new Body({
-            name: 'Moon', kind: 'moon', mass: M_MOON, radius: R_MOON,
-            x: p.pos.x + Math.cos(moonAng) * moonD, y: p.pos.y, z: p.pos.z + Math.sin(moonAng) * moonD,
-            vx: p.vel.x - Math.sin(moonAng) * moonV, vy: 0, vz: p.vel.z + Math.cos(moonAng) * moonV,
-            composition: COMP_ROCK, albedo: 0.12,
+            name: `Trojan ${lead > 0 ? 'L4' : 'L5'} ${i+1}`, kind: 'asteroid',
+            mass: 1e16 * rand(80, 1), radius: rand(50e3, 2e3),
+            x: Math.cos(ang) * a, y, z: Math.sin(ang) * a,
+            vx: -Math.sin(ang) * v, vz: Math.cos(ang) * v,
+            composition: COMP_ROCK, albedo: 0.05,
+            label: false, trailMax: 15,
           }));
         }
+      }
+
+      // Kuiper belt — 40 icy bodies from 35 to 50 AU
+      for (let i = 0; i < 40; i++) {
+        const a = (35 + Math.random() * 15) * AU;
+        const v = Math.sqrt(G * M_SUN / a);
+        const ang = Math.random() * TAU;
+        const y = (Math.random() - 0.5) * a * 0.1;
+        sim.add(new Body({
+          name: `KBO ${i+1}`, kind: 'comet',
+          mass: 1e18 * rand(20, 0.5), radius: rand(60e3, 10e3),
+          x: Math.cos(ang) * a, y, z: Math.sin(ang) * a,
+          vx: -Math.sin(ang) * v, vz: Math.cos(ang) * v,
+          composition: COMP_ICE, albedo: 0.12,
+          label: false, trailMax: 40,
+        }));
+      }
+
+      // Halley's Comet — long-period eccentric orbit starting at perihelion
+      {
+        const peri = 0.586 * AU, aSMA = 17.8 * AU;
+        const vPeri = Math.sqrt(G * M_SUN * (2/peri - 1/aSMA));
+        sim.add(new Body({
+          name: "Halley's Comet", kind: 'comet',
+          mass: 2.2e14, radius: 5.5e3,
+          x: peri, y: 0, z: 0, vx: 0, vy: 0, vz: vPeri,
+          composition: COMP_ICE, albedo: 0.04, trailMax: 300,
+        }));
       }
     },
   },
