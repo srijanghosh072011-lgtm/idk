@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+<title>Universe Sandbox — Mark 2 (NASA realism)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style-mark2.css?v=2" />
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+
+<div id="splash" class="splash">
+  <div class="splash-inner">
+    <div class="splash-mark">
+      <svg viewBox="0 0 80 80" width="64" height="64">
+        <defs>
+          <radialGradient id="splashGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FFD28A"/>
+            <stop offset="55%" stop-color="#FF923B"/>
+            <stop offset="100%" stop-color="#A23900" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <circle cx="40" cy="40" r="36" fill="url(#splashGrad)"/>
+        <circle cx="40" cy="40" r="6" fill="#FFE8B8"/>
+        <ellipse cx="40" cy="40" rx="34" ry="6" fill="none" stroke="#62E1FF" stroke-width="0.8" opacity="0.5"/>
+        <ellipse cx="40" cy="40" rx="28" ry="4" fill="none" stroke="#62E1FF" stroke-width="0.6" opacity="0.35" transform="rotate(20 40 40)"/>
+      </svg>
+    </div>
+    <h1 class="splash-title">Universe Sandbox <span style="font-size:0.5em;vertical-align:middle;padding:4px 10px;margin-left:8px;border:1px solid #62E1FF;border-radius:999px;color:#62E1FF;letter-spacing:0.15em;">MARK 2</span></h1>
+    <p class="splash-sub">NASA-grade textures · layered corona · full 3D camera (over, under, around)</p>
+    <div class="splash-bar"><div class="splash-bar-fill" id="splashFill"></div></div>
+    <div class="splash-status" id="splashStatus">Initialising…</div>
+  </div>
+</div>
+
+<canvas id="stage"></canvas>
+
+<header class="bar bar-top">
+  <div class="brand">
+    <svg class="brand-icon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+      <defs>
+        <radialGradient id="brandG" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#FFD28A"/>
+          <stop offset="60%" stop-color="#FF923B"/>
+          <stop offset="100%" stop-color="#A23900"/>
+        </radialGradient>
+      </defs>
+      <circle cx="12" cy="12" r="6" fill="url(#brandG)"/>
+      <ellipse cx="12" cy="12" rx="10" ry="2.2" fill="none" stroke="#62E1FF" stroke-width="0.7" opacity="0.85" transform="rotate(-18 12 12)"/>
+      <circle cx="20.5" cy="6.5" r="0.9" fill="#fff" opacity="0.7"/>
+      <circle cx="4" cy="18" r="0.7" fill="#fff" opacity="0.5"/>
+    </svg>
+    <div class="brand-text">
+      <div class="brand-title">Universe Sandbox</div>
+      <div class="brand-sub">3D · physics engine</div>
+    </div>
+  </div>
+
+  <div class="scenario-group">
+    <label class="lbl" for="scenarioSel">Scenario</label>
+    <div class="select-wrap">
+      <select id="scenarioSel" class="select" aria-label="Scenario"></select>
+      <svg class="chev" viewBox="0 0 12 8" width="12" height="8" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+    </div>
+    <button id="reloadBtn" class="btn ghost" title="Reload scenario" aria-label="Reload scenario">
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M4 12a8 8 0 0 1 14-5.3M20 4v5h-5M20 12a8 8 0 0 1-14 5.3M4 20v-5h5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+
+  <div class="time-group">
+    <button id="reverseBtn" class="btn icon" title="Reverse time" aria-label="Reverse time">
+      <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M11 6L4 12l7 6V6zM20 6l-7 6 7 6V6z" fill="currentColor"/></svg>
+    </button>
+    <button id="playBtn" class="btn icon primary" title="Play / Pause (Space)" aria-label="Play or pause">
+      <svg id="playIcon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 5v14l12-7z" fill="currentColor"/></svg>
+    </button>
+    <button id="stepBtn" class="btn icon" title="Step forward" aria-label="Step forward">
+      <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 6l10 6-10 6V6zM17 6h2v12h-2z" fill="currentColor"/></svg>
+    </button>
+
+    <div class="speed">
+      <input id="speedSlider" type="range" min="0" max="14" value="6" step="1" aria-label="Time speed" />
+      <span id="speedLabel" class="speed-label">1 day / s</span>
+    </div>
+  </div>
+
+  <div class="top-right">
+    <button id="helpBtn" class="btn ghost" title="Keyboard shortcuts" aria-label="Help">
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17v.01" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
+
+<aside class="bar bar-left" aria-label="Tools">
+  <div class="panel">
+    <div class="panel-h">Tools</div>
+    <div class="tool-grid">
+      <button class="tool active" data-tool="select" title="Select / inspect (S)" aria-label="Select">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l14 7-6 2-2 6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        <span>Select</span>
+      </button>
+      <button class="tool" data-tool="spawn" title="Spawn body (A) — drag for velocity" aria-label="Spawn">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span>Spawn</span>
+      </button>
+      <button class="tool" data-tool="launch" title="Launch selected (L)" aria-label="Launch">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l16-16M14 4h6v6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Launch</span>
+      </button>
+      <button class="tool" data-tool="laser" title="Laser (Z) — vaporize mass" aria-label="Laser">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21L21 3M14 3h7v7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Laser</span>
+      </button>
+      <button class="tool" data-tool="delete" title="Delete (X)" aria-label="Delete">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12M9 7V4h6v3M7 7l1 13h8l1-13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Delete</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="panel" id="spawnPanel">
+    <div class="panel-h">Spawn type</div>
+    <div class="spawn-grid">
+      <button class="spawn active" data-spawn="rock"><span class="dot dot-rock"></span><span>Rocky planet</span></button>
+      <button class="spawn" data-spawn="gas"><span class="dot dot-gas"></span><span>Gas giant</span></button>
+      <button class="spawn" data-spawn="moon"><span class="dot dot-moon"></span><span>Moon</span></button>
+      <button class="spawn" data-spawn="asteroid"><span class="dot dot-ast"></span><span>Asteroid</span></button>
+      <button class="spawn" data-spawn="comet"><span class="dot dot-comet"></span><span>Comet</span></button>
+      <button class="spawn" data-spawn="star"><span class="dot dot-star"></span><span>Star</span></button>
+      <button class="spawn" data-spawn="dwarf"><span class="dot dot-dwarf"></span><span>Red dwarf</span></button>
+      <button class="spawn" data-spawn="bh"><span class="dot dot-bh"></span><span>Black hole</span></button>
+    </div>
+    <p class="hint">Click in empty space, drag for velocity.</p>
+  </div>
+
+  <div class="panel">
+    <div class="panel-h">Display</div>
+    <label class="check"><input type="checkbox" id="showTrails" checked /><span>Orbit trails</span></label>
+    <label class="check"><input type="checkbox" id="showLabels" checked /><span>Labels</span></label>
+    <label class="check"><input type="checkbox" id="showGrid" /><span>Ecliptic grid</span></label>
+    <label class="check"><input type="checkbox" id="showVel" /><span>Velocity vectors</span></label>
+    <label class="check"><input type="checkbox" id="showBloom" checked /><span>Bloom &amp; glow</span></label>
+    <label class="check"><input type="checkbox" id="showStarfield" checked /><span>Milky Way</span></label>
+  </div>
+
+  <div class="panel">
+    <div class="panel-h">View</div>
+    <div class="range-group">
+      <label class="range-label">
+        <span>Body size</span>
+        <span id="sizeMultVal" class="range-val">1×</span>
+      </label>
+      <input type="range" id="sizeMult" min="0" max="4" step="0.01" value="0" aria-label="Body visual size multiplier" />
+      <p class="hint">Real scale → exaggerated. Try 100× to see planets clearly.</p>
+    </div>
+    <button class="btn ghost wide" id="frameAllBtn">
+      <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      Frame all
+    </button>
+    <button class="btn ghost wide" id="followBtn">
+      <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="3 3"/></svg>
+      Follow selection
+    </button>
+  </div>
+</aside>
+
+<aside class="bar bar-right" id="inspector" aria-label="Inspector">
+  <div class="panel inspect-empty" id="inspectEmpty">
+    <div class="panel-h">Inspector</div>
+    <p class="muted">Click a body in the scene to edit mass, radius, atmosphere, rotation, and watch the system respond.</p>
+    <div class="kbd-list">
+      <div class="kbd-row"><kbd>S</kbd><span>Select</span></div>
+      <div class="kbd-row"><kbd>A</kbd><span>Spawn</span></div>
+      <div class="kbd-row"><kbd>L</kbd><span>Launch</span></div>
+      <div class="kbd-row"><kbd>Z</kbd><span>Laser</span></div>
+      <div class="kbd-row"><kbd>X</kbd><span>Delete</span></div>
+      <div class="kbd-row"><kbd>Space</kbd><span>Play / pause</span></div>
+      <div class="kbd-row"><kbd>F</kbd><span>Frame all</span></div>
+      <div class="kbd-row"><kbd>R</kbd><span>Reverse</span></div>
+      <div class="kbd-row"><kbd>[ ]</kbd><span>Time speed</span></div>
+      <div class="kbd-row"><kbd>drag</kbd><span>Orbit camera</span></div>
+      <div class="kbd-row"><kbd>wheel</kbd><span>Zoom</span></div>
+      <div class="kbd-row"><kbd>r-drag</kbd><span>Pan</span></div>
+    </div>
+  </div>
+
+  <div class="panel inspect-body hidden" id="inspectBody">
+    <div class="panel-h flex">
+      <input id="bodyName" class="name-input" value="Body" aria-label="Body name" />
+      <span class="badge" id="bodyTypeBadge">planet</span>
+    </div>
+
+    <div class="badge-row">
+      <span class="badge" id="bodyStateBadge">main sequence</span>
+      <span class="badge" id="bodyZoneBadge"></span>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat"><span>Mass</span><b id="statMass">—</b></div>
+      <div class="stat"><span>Radius</span><b id="statRadius">—</b></div>
+      <div class="stat"><span>Surface T</span><b id="statTemp">—</b></div>
+      <div class="stat"><span>Surface g</span><b id="statGrav">—</b></div>
+      <div class="stat"><span>Escape v</span><b id="statEscape">—</b></div>
+      <div class="stat"><span>Density</span><b id="statDensity">—</b></div>
+      <div class="stat full"><span>Orbital period</span><b id="statPeriod">—</b></div>
+      <div class="stat full"><span>Age</span><b id="statAge">—</b></div>
+    </div>
+
+    <div class="slider-group">
+      <label class="range-label">
+        <span>Mass</span>
+        <span class="range-val" id="massVal">—</span>
+      </label>
+      <input type="range" id="massSlider" min="-3" max="6" value="0" step="0.01" />
+    </div>
+
+    <div class="slider-group">
+      <label class="range-label">
+        <span>Radius</span>
+        <span class="range-val" id="radiusVal">—</span>
+      </label>
+      <input type="range" id="radiusSlider" min="-2" max="3" value="0" step="0.01" />
+    </div>
+
+    <div class="slider-group">
+      <label class="range-label">
+        <span>Albedo</span>
+        <span class="range-val" id="albedoVal">—</span>
+      </label>
+      <input type="range" id="albedoSlider" min="0" max="1" value="0.3" step="0.01" />
+    </div>
+
+    <div class="slider-group">
+      <label class="range-label">
+        <span>Greenhouse</span>
+        <span class="range-val" id="ghVal">—</span>
+      </label>
+      <input type="range" id="ghSlider" min="0" max="0.95" value="0.2" step="0.01" />
+    </div>
+
+    <div class="slider-group">
+      <label class="range-label">
+        <span>Rotation period</span>
+        <span class="range-val" id="rotVal">—</span>
+      </label>
+      <input type="range" id="rotSlider" min="-2" max="3" value="0" step="0.01" />
+    </div>
+
+    <div class="comp-block">
+      <div class="panel-h tiny">Composition</div>
+      <div class="comp-bar" id="compBar"></div>
+      <div class="comp-legend" id="compLegend"></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn ghost" id="stopBtn">Stop motion</button>
+      <button class="btn ghost" id="circOrbitBtn">Circularize</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn ghost" id="igniteBtn">Ignite as star</button>
+      <button class="btn ghost danger" id="deleteBtn">Delete</button>
+    </div>
+  </div>
+</aside>
+
+<footer class="bar bar-bottom">
+  <div class="stat-chip"><span class="lbl">Bodies</span><b id="nBodies">0</b></div>
+  <div class="stat-chip"><span class="lbl">Sim time</span><b id="simTime">0</b></div>
+  <div class="stat-chip"><span class="lbl">Camera</span><b id="zoomLbl">—</b></div>
+  <div class="stat-chip"><span class="lbl">FPS</span><b id="fps">—</b></div>
+  <div class="stat-chip"><span class="lbl">Mass Σ</span><b id="totalMass">—</b></div>
+  <div class="event-feed" id="eventFeed" aria-live="polite"></div>
+</footer>
+
+<div id="dragHint" class="drag-hint hidden" aria-hidden="true"></div>
+
+<div id="helpOverlay" class="overlay hidden" role="dialog" aria-labelledby="helpTitle" aria-modal="true">
+  <div class="overlay-card">
+    <button class="overlay-close" id="helpClose" aria-label="Close help">
+      <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <h2 id="helpTitle">Keyboard &amp; mouse</h2>
+    <div class="help-grid">
+      <div>
+        <h3>Tools</h3>
+        <p><kbd>S</kbd> Select &amp; inspect</p>
+        <p><kbd>A</kbd> Spawn body (drag for velocity)</p>
+        <p><kbd>L</kbd> Launch selected body</p>
+        <p><kbd>Z</kbd> Laser (hold to vaporize)</p>
+        <p><kbd>X</kbd> Delete under cursor</p>
+      </div>
+      <div>
+        <h3>Time</h3>
+        <p><kbd>Space</kbd> Play / pause</p>
+        <p><kbd>R</kbd> Reverse</p>
+        <p><kbd>[</kbd> <kbd>]</kbd> Slower / faster</p>
+        <p><kbd>.</kbd> Step one frame</p>
+      </div>
+      <div>
+        <h3>Camera — full 3D</h3>
+        <p><kbd>drag</kbd> Orbit (over / under / around)</p>
+        <p><kbd>right-drag</kbd> Pan in 3D</p>
+        <p><kbd>wheel</kbd> Zoom from light-years to centimetres</p>
+        <p><kbd>F</kbd> Frame all bodies</p>
+        <p><kbd>G</kbd> Lock follow to selection</p>
+      </div>
+      <div>
+        <h3>Selection</h3>
+        <p><kbd>Click</kbd> Pick body</p>
+        <p><kbd>Esc</kbd> Deselect</p>
+        <p><kbd>Del</kbd> Remove selection</p>
+      </div>
+    </div>
+    <p class="muted small">Textures derived from NASA / Solar System Scope public-domain &amp; CC-BY imagery. Bodies are visualized at adjustable scale — use the <b>Body size</b> slider to exaggerate them.</p>
+  </div>
+</div>
+
+<script type="module" src="sim-mark2.js?v=2"></script>
+</body>
+</html>
