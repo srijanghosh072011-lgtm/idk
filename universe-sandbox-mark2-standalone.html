@@ -2259,7 +2259,7 @@ class World {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x020410);
 
-    this.camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 1e-6, 1e12);
+    this.camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.001, 1e12);
     this.camera.position.set(toScene(2 * AU), toScene(1.5 * AU), toScene(2 * AU));
     this.camera.lookAt(0, 0, 0);
 
@@ -2270,7 +2270,7 @@ class World {
     this.controls.panSpeed = 0.85;
     this.controls.zoomSpeed = 1.4;
     this.controls.zoomToCursor = true;
-    this.controls.minDistance = 0;
+    this.controls.minDistance = 0.001;
     this.controls.maxDistance = 1e11;
     // No polar lock — orbit freely above, below, around any body.
     this.controls.minPolarAngle = 0;
@@ -2700,13 +2700,17 @@ window.addEventListener('pointermove', (e) => {
 });
 
 // Scroll: if cursor is over a body, make that body the orbit pivot BEFORE OrbitControls
-// processes the zoom. This means minDistance is measured from the planet, not from
-// wherever the old target was — so you can zoom all the way to the surface.
+// processes the zoom. minDistance is set to the body's surface so you can zoom right
+// to it but not fly inside (which would render a black interior).
 canvas.addEventListener('wheel', (e) => {
   const hit = pickBody(e);
   if (hit) {
     world.controls.target.copy(bodyScenePos(hit));
+    const trueR = toScene(hit.radius) * visualMult;
+    world.controls.minDistance = Math.max(trueR * 1.02, 0.001);
     world.controls.update();
+  } else {
+    world.controls.minDistance = 0.001;
   }
 }, { passive: true, capture: true });
 
@@ -2716,7 +2720,9 @@ canvas.addEventListener('dblclick', (e) => {
   if (!hit) return;
   const sp = bodyScenePos(hit);
   const dist = world.camera.position.distanceTo(sp);
+  const trueR = toScene(hit.radius) * visualMult;
   world.controls.target.copy(sp);
+  world.controls.minDistance = Math.max(trueR * 1.02, 0.001);
   // pull camera in to ~5× body radius so it's close but not clipping
   const r = bodyVisualRadius(hit, dist);
   const dir = world.camera.position.clone().sub(sp).normalize();
