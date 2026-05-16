@@ -719,12 +719,37 @@ kbd {
   text-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
   transition: opacity 0.15s var(--ease);
 }
+/* huge: stars & black holes — most prominent */
+.label3d.huge {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255, 245, 220, 0.95);
+  padding: 3px 9px;
+  letter-spacing: 0.04em;
+}
+/* major: gas giants — clearly readable from far */
+.label3d.major {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(241, 245, 249, 0.92);
+  padding: 3px 8px;
+}
+/* tiny: moons, asteroids, comets — subtle so they don't clutter */
+.label3d.tiny {
+  font-size: 8px;
+  color: rgba(200, 215, 235, 0.5);
+  padding: 1px 4px;
+  background: rgba(8, 12, 24, 0.25);
+  border-color: rgba(255, 255, 255, 0.03);
+  letter-spacing: -0.01em;
+}
 .label3d.selected {
   color: var(--accent);
   border-color: var(--accent-strong);
   background: rgba(8, 12, 24, 0.7);
+  opacity: 1;
 }
-.label3d.hover { color: #fff; border-color: var(--panel-line-strong); }
+.label3d.hover { color: #fff; border-color: var(--panel-line-strong); opacity: 1; }
 
 /* overlay -------------------------------------------------------------- */
 .overlay {
@@ -3504,6 +3529,14 @@ function updateLabels() {
     if (proj.z < -1 || proj.z > 1) { lbl.style.display = 'none'; continue; }
     lbl.style.display = '';
     lbl.textContent = b.name;
+    // Size tier: stars/BH huge, gas giants major, moons/asteroids/comets tiny, others default
+    const tier = (b.kind === 'star' || b.kind === 'bh') ? 'huge'
+               : (b.kind === 'gas') ? 'major'
+               : (b.kind === 'moon' || b.kind === 'asteroid' || b.kind === 'comet') ? 'tiny'
+               : '';
+    lbl.classList.toggle('huge',  tier === 'huge');
+    lbl.classList.toggle('major', tier === 'major');
+    lbl.classList.toggle('tiny',  tier === 'tiny');
     lbl.classList.toggle('selected', b === selected);
     lbl.classList.toggle('hover', b === hovered && b !== selected);
     const sx = (proj.x * 0.5 + 0.5) * window.innerWidth;
