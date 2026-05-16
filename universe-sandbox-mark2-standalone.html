@@ -1681,9 +1681,9 @@ class BodyVisuals {
   constructor(scene, textures) {
     this.scene = scene;
     this.tex = textures;
-    this.sphereGeo = new THREE.SphereGeometry(1, 96, 64);
+    this.sphereGeo = new THREE.SphereGeometry(1, 192, 128);
     this.sphereGeo.userData.shared = true;
-    this.sphereGeoLow = new THREE.SphereGeometry(1, 24, 16);
+    this.sphereGeoLow = new THREE.SphereGeometry(1, 32, 20);
     this.sphereGeoLow.userData.shared = true;
   }
   build(b) {
@@ -2707,7 +2707,7 @@ canvas.addEventListener('wheel', (e) => {
   if (hit) {
     world.controls.target.copy(bodyScenePos(hit));
     const trueR = toScene(hit.radius) * visualMult;
-    world.controls.minDistance = Math.max(trueR * 1.02, 0.001);
+    world.controls.minDistance = Math.max(trueR * 1.005, 0.0001);
     world.controls.update();
   } else {
     world.controls.minDistance = 0.001;
@@ -3354,6 +3354,12 @@ function tick(now) {
   document.getElementById('nBodies').textContent = sim.bodies.length;
   document.getElementById('simTime').textContent = fmtTime(sim.time);
   const camDist = world.camera.position.distanceTo(world.controls.target);
+  // Dynamic near plane: scale with zoom so close-ups don't clip, far views don't z-fight.
+  const desiredNear = Math.max(camDist * 1e-4, 1e-5);
+  if (Math.abs(world.camera.near - desiredNear) / world.camera.near > 0.5) {
+    world.camera.near = desiredNear;
+    world.camera.updateProjectionMatrix();
+  }
   document.getElementById('zoomLbl').textContent = fmtDist(camDist * SCALE_FACTOR);
   let totalMass = 0;
   for (const b of sim.bodies) totalMass += b.mass;
