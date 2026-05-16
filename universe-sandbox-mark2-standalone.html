@@ -1095,7 +1095,10 @@ kbd {
 
     <div class="btn-row">
       <button class="btn ghost" id="stopBtn">Stop motion</button>
-      <button class="btn ghost" id="circOrbitBtn">Circularize</button>
+      <button class="btn ghost" id="circOrbitBtn" title="Auto-detect the most-pulling parent and put this body on a circular orbit around it">Circularize</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn primary wide" id="orbitPickBtn" title="Pick any body in the scene — this body will be placed on a circular orbit around it">Orbit body…</button>
     </div>
     <div class="panel-h tiny">Terraform</div>
     <div class="btn-row">
@@ -2787,6 +2790,22 @@ canvas.addEventListener('pointerdown', (e) => {
   const hit = pickBody(e);
   pendingClick.hit = hit;
 
+  // Orbit-pick mode beats every tool: next body-click becomes the parent
+  if (orbitPickFor) {
+    e.stopImmediatePropagation();
+    pendingClick = null; // don't let pointerup re-select
+    if (hit && hit !== orbitPickFor) {
+      const child = orbitPickFor;
+      if (circularizeAround(child, hit)) {
+        sim.addEvent(`${child.name} now orbits ${hit.name}`, 'good');
+      }
+    } else if (!hit) {
+      sim.addEvent('Orbit pick cancelled', 'warn');
+    }
+    exitOrbitPick();
+    return;
+  }
+
   if (tool === 'select') {
     // let OrbitControls rotate; we decide select/no-select on pointerup
     return;
@@ -2996,7 +3015,7 @@ window.addEventListener('keydown', (e) => {
   else if (k === '[') setSpeed(speedIdx - 1);
   else if (k === ']') setSpeed(speedIdx + 1);
   else if (k === '.') stepFrame();
-  else if (k === 'escape') { selected = null; updateInspector(); }
+  else if (k === 'escape') { if (orbitPickFor) exitOrbitPick(); else { selected = null; updateInspector(); } }
   else if (k === 'delete' || k === 'backspace') {
     if (selected) {
       sim.addEvent(`${selected.name} deleted`, 'warn');
@@ -3175,6 +3194,18 @@ document.getElementById('stopBtn').addEventListener('click', () => {
   selected.vel.set(0, 0, 0);
   sim.addEvent(`Stopped ${selected.name}`, 'warn');
 });
+function circularizeAround(b, parent) {
+  const sep = new THREE.Vector3().subVectors(b.pos, parent.pos);
+  const r = sep.length();
+  if (r < 1) return false;
+  const speed = Math.sqrt(G * (parent.mass + b.mass) / r);
+  // tangent in ecliptic-ish (xz) plane — fall back to a perpendicular if sep is vertical
+  const up = Math.abs(sep.y) > 0.9 * r ? new THREE.Vector3(1, 0, 0) : new THREE.Vector3(0, 1, 0);
+  const tangent = new THREE.Vector3().crossVectors(up, sep).normalize();
+  b.vel.copy(parent.vel).addScaledVector(tangent, speed);
+  return true;
+}
+
 document.getElementById('circOrbitBtn').addEventListener('click', () => {
   if (!selected) return;
   const b = selected;
@@ -3186,14 +3217,24 @@ document.getElementById('circOrbitBtn').addEventListener('click', () => {
     if (a > bestPull) { bestPull = a; parent = o; }
   }
   if (!parent) { sim.addEvent('No parent body found', 'bad'); return; }
-  const sep = new THREE.Vector3().subVectors(b.pos, parent.pos);
-  const r = sep.length();
-  const speed = Math.sqrt(G * (parent.mass + b.mass) / r);
-  // velocity tangent in ecliptic (xz) plane
-  const up = new THREE.Vector3(0, 1, 0);
-  const tangent = new THREE.Vector3().crossVectors(up, sep).normalize();
-  b.vel.copy(parent.vel).addScaledVector(tangent, speed);
-  sim.addEvent(`Circularized ${b.name} around ${parent.name}`, 'good');
+  if (circularizeAround(b, parent)) sim.addEvent(`Circularized ${b.name} around ${parent.name}`, 'good');
+});
+
+// "Orbit body…" — enter pick mode; the next body the user clicks becomes the parent
+let orbitPickFor = null;
+const orbitPickBtn = document.getElementById('orbitPickBtn');
+function exitOrbitPick() {
+  orbitPickFor = null;
+  orbitPickBtn.classList.remove('active');
+  orbitPickBtn.textContent = 'Orbit body…';
+  hideDragHint();
+}
+orbitPickBtn.addEventListener('click', () => {
+  if (!selected) return;
+  if (orbitPickFor === selected) { exitOrbitPick(); return; }
+  orbitPickFor = selected;
+  orbitPickBtn.classList.add('active');
+  orbitPickBtn.textContent = 'Click a target… (Esc to cancel)';
 });
 document.getElementById('igniteBtn').addEventListener('click', () => {
   if (!selected) return;
