@@ -468,12 +468,18 @@ const TEX_ROOT_THREE = 'https://threejs.org/examples/textures/planets/';
 const TEXTURE_URLS = {
   sun:         TEX_ROOT_JET   + 'sunmap.jpg',
   mercury:     TEX_ROOT_JET   + 'mercurymap.jpg',
+  mercuryBump: TEX_ROOT_JET   + 'mercurybump.jpg',
   venus:       TEX_ROOT_JET   + 'venusmap.jpg',
+  venusBump:   TEX_ROOT_JET   + 'venusbump.jpg',
   earth:       TEX_ROOT_THREE + 'earth_atmos_2048.jpg',
   earthClouds: TEX_ROOT_THREE + 'earth_clouds_1024.png',
   earthSpec:   TEX_ROOT_THREE + 'earth_specular_2048.jpg',
+  earthNormal: TEX_ROOT_THREE + 'earth_normal_2048.jpg',
+  earthLights: TEX_ROOT_JET   + 'earthlights1k.jpg',
   moon:        TEX_ROOT_THREE + 'moon_1024.jpg',
+  moonBump:    TEX_ROOT_JET   + 'moonbump1k.jpg',
   mars:        TEX_ROOT_JET   + 'marsmap1k.jpg',
+  marsBump:    TEX_ROOT_JET   + 'marsbump1k.jpg',
   jupiter:     TEX_ROOT_JET   + 'jupitermap.jpg',
   saturn:      TEX_ROOT_JET   + 'saturnmap.jpg',
   saturnRing:  TEX_ROOT_JET   + 'saturnringcolor.jpg',
@@ -491,11 +497,15 @@ class TextureLib {
   get(key) {
     if (!key || !TEXTURE_URLS[key]) return null;
     if (this.cache.has(key)) return this.cache.get(key);
+    // non-color data maps (normal/bump/spec) must stay linear so PBR reads true values
+    const isData = /Bump|Normal|Spec$/.test(key);
+    const space = isData ? THREE.NoColorSpace : THREE.SRGBColorSpace;
     const tex = this.loader.load(TEXTURE_URLS[key],
-      (t) => { t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; },
+      (t) => { t.colorSpace = space; t.anisotropy = 16; },
       undefined,
       () => { /* loading error — texture stays blank, material falls back to color */ });
-    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.colorSpace = space;
+    tex.anisotropy = 16;
     this.cache.set(key, tex);
     return tex;
   }
@@ -545,9 +555,9 @@ class BodyVisuals {
   constructor(scene, textures) {
     this.scene = scene;
     this.tex = textures;
-    this.sphereGeo = new THREE.SphereGeometry(1, 48, 32);
+    this.sphereGeo = new THREE.SphereGeometry(1, 96, 64);
     this.sphereGeo.userData.shared = true;
-    this.sphereGeoLow = new THREE.SphereGeometry(1, 20, 14);
+    this.sphereGeoLow = new THREE.SphereGeometry(1, 24, 16);
     this.sphereGeoLow.userData.shared = true;
   }
   build(b) {
@@ -618,11 +628,14 @@ class BodyVisuals {
       const tint = new THREE.Color(r/255, g/255, bl/255);
       const mat = new THREE.MeshBasicMaterial({ map: map || null, color: tint });
       surfaceMesh = new THREE.Mesh(geo, mat);
-      const glow = makeGlowSprite(tint.getHex(), 5, 0.95);
-      group.add(glow);
-      group.userData.glow = glow;
-      // light source attached to star
-      const light = new THREE.PointLight(tint.getHex(), 3.0, 0, 0); // no decay so distant planets still lit
+      // layered corona: a bright inner halo + a wide diffuse outer halo
+      const inner = makeGlowSprite(tint.getHex(), 5, 0.95);
+      const outer = makeGlowSprite(tint.getHex(), 12, 0.35);
+      group.add(inner); group.add(outer);
+      group.userData.glow = inner;
+      group.userData.corona = outer;
+      // light source attached to star — much stronger so planets read in PBR
+      const light = new THREE.PointLight(tint.getHex(), 8.0, 0, 0);
       group.add(light);
       group.userData.light = light;
     } else {
@@ -630,12 +643,28 @@ class BodyVisuals {
       const fallback = new THREE.Color(b.color || fallbackColor(b.kind));
       // base color is the kind's fallback — the texture multiplies on top when loaded.
       // If the texture fails or hasn't arrived yet, we still see a plausible color.
-      const mat = new THREE.MeshStandardMaterial({
+      const matOpts = {
         map: map || null,
         color: fallback,
         roughness: b.kind === 'gas' ? 0.9 : 0.85,
         metalness: 0.0,
-      });
+      };
+      // surface relief: bump for terrestrials, true normal for Earth
+      if (tk === 'mercury') { matOpts.bumpMap = this.tex.get('mercuryBump'); matOpts.bumpScale = 0.015; }
+      else if (tk === 'venus') { matOpts.bumpMap = this.tex.get('venusBump'); matOpts.bumpScale = 0.012; }
+      else if (tk === 'mars')  { matOpts.bumpMap = this.tex.get('marsBump');  matOpts.bumpScale = 0.025; }
+      else if (tk === 'moon')  { matOpts.bumpMap = this.tex.get('moonBump');  matOpts.bumpScale = 0.018; }
+      else if (tk === 'earth') {
+        matOpts.normalMap = this.tex.get('earthNormal');
+        matOpts.normalScale = new THREE.Vector2(0.6, 0.6);
+        matOpts.roughnessMap = this.tex.get('earthSpec'); // invert-effect: oceans glint
+        matOpts.metalness = 0.05;
+        matOpts.roughness = 0.95;
+        // city lights as faint emissive so night side glows
+        const lightsTex = this.tex.get('earthLights');
+        if (lightsTex) { matOpts.emissiveMap = lightsTex; matOpts.emissive = new THREE.Color(0xffd58a); matOpts.emissiveIntensity = 1.1; }
+      }
+      const mat = new THREE.MeshStandardMaterial(matOpts);
       // when texture finishes loading, bump color back to white so the texture renders untinted
       if (map) {
         const checkLoaded = () => {
@@ -1095,10 +1124,10 @@ class World {
       canvas, antialias: true, powerPreference: 'high-performance',
       logarithmicDepthBuffer: true,
     });
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2.5));
     this.renderer.setSize(window.innerWidth, window.innerHeight, false);
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.05;
+    this.renderer.toneMappingExposure = 1.15;
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
 
     this.scene = new THREE.Scene();
@@ -1114,8 +1143,11 @@ class World {
     this.controls.rotateSpeed = 0.65;
     this.controls.panSpeed = 0.85;
     this.controls.zoomSpeed = 0.95;
-    this.controls.minDistance = 0.1;
+    this.controls.minDistance = 0.001;
     this.controls.maxDistance = 1e11;
+    // No polar lock — orbit freely above, below, around any body.
+    this.controls.minPolarAngle = 0;
+    this.controls.maxPolarAngle = Math.PI;
     this.controls.mouseButtons = {
       LEFT: THREE.MOUSE.ROTATE,
       MIDDLE: THREE.MOUSE.DOLLY,
@@ -1123,7 +1155,10 @@ class World {
     };
     this.controls.screenSpacePanning = true;
 
-    this.scene.add(new THREE.AmbientLight(0xffffff, 0.18));
+    // Faint ambient so dark sides aren't pitch-black, plus a hemispheric fill
+    // tinted by the Milky Way so unlit terrain reads as in-space rather than flat-grey.
+    this.scene.add(new THREE.AmbientLight(0xffffff, 0.05));
+    this.scene.add(new THREE.HemisphereLight(0x9bb9ff, 0x1a0a18, 0.10));
 
     // load textures
     const loadMgr = new THREE.LoadingManager();
@@ -1182,7 +1217,7 @@ class World {
     // postprocessing
     this.composer = new EffectComposer(this.renderer);
     this.composer.addPass(new RenderPass(this.scene, this.camera));
-    this.bloom = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.45, 0.85, 0.15);
+    this.bloom = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.85, 0.95, 0.10);
     this.composer.addPass(this.bloom);
     this.composer.addPass(new OutputPass());
 
@@ -1214,7 +1249,7 @@ class World {
 
   setBloom(on) {
     this.bloom.enabled = on;
-    this.bloom.strength = on ? 0.45 : 0;
+    this.bloom.strength = on ? 0.85 : 0;
   }
   setSky(on) {
     this.sky.visible = on;
@@ -2013,6 +2048,11 @@ function updateBodyVisuals() {
     if (node.userData.glow) {
       const gscale = r * (b.isStar() ? 5.5 : 3.5);
       node.userData.glow.scale.setScalar(gscale);
+    }
+    if (node.userData.corona) {
+      // gentle pulse to sell the "alive" sun
+      const pulse = 1 + Math.sin(sim.time * 1e-6) * 0.04;
+      node.userData.corona.scale.setScalar(r * 14 * pulse);
     }
     if (node.userData.pick) node.userData.pick.scale.setScalar(Math.max(r * 1.2, dist * 0.005));
     if (surface) {
