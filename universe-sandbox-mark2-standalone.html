@@ -911,6 +911,10 @@ kbd {
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
         <span>Spawn</span>
       </button>
+      <button class="tool" data-tool="move" title="Move body (M) — drag to relocate" aria-label="Move">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M4 12h16M12 4l-3 3M12 4l3 3M12 20l-3-3M12 20l3-3M4 12l3-3M4 12l3 3M20 12l-3-3M20 12l-3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span>Move</span>
+      </button>
       <button class="tool" data-tool="launch" title="Launch selected (L)" aria-label="Launch">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l16-16M14 4h6v6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span>Launch</span>
@@ -939,6 +943,10 @@ kbd {
       <button class="spawn" data-spawn="bh"><span class="dot dot-bh"></span><span>Black hole</span></button>
     </div>
     <p class="hint">Click in empty space, drag for velocity.</p>
+    <label class="check" title="When checked, new body is placed on a circular orbit around the currently selected body — no drag needed.">
+      <input type="checkbox" id="orbitSelected" />
+      <span>Orbit selected body</span>
+    </label>
   </div>
 
   <div class="panel">
@@ -1063,6 +1071,19 @@ kbd {
     <div class="btn-row">
       <button class="btn ghost" id="stopBtn">Stop motion</button>
       <button class="btn ghost" id="circOrbitBtn">Circularize</button>
+    </div>
+    <div class="panel-h tiny">Terraform</div>
+    <div class="btn-row">
+      <button class="btn ghost" id="tfEarthBtn" title="Earth-like: oceans, atmosphere, clouds, habitable temperature">Make Earth-like</button>
+      <button class="btn ghost" id="tfOceansBtn" title="Add water oceans + ice composition">Add oceans</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn ghost" id="tfAtmoBtn" title="Add a thick atmosphere (raises greenhouse)">Add atmosphere</button>
+      <button class="btn ghost" id="tfStripBtn" title="Strip atmosphere — Mars/Mercury-like dry world">Strip atmosphere</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn ghost" id="tfFreezeBtn" title="Freeze: high albedo, no greenhouse, icy surface">Freeze</button>
+      <button class="btn ghost" id="tfBakeBtn" title="Bake: Venus-like runaway greenhouse">Bake (Venus)</button>
     </div>
     <div class="btn-row">
       <button class="btn ghost" id="igniteBtn">Ignite as star</button>
@@ -1350,7 +1371,27 @@ class Simulator {
   step(dtTarget) {
     if (this.paused || dtTarget === 0) return;
     const dt = this.reverse ? -dtTarget : dtTarget;
-    const n = this.substeps;
+    // Adaptive substepping: ensure no Keplerian pair advances more than ~4% of an orbit per step.
+    // This is what keeps planets from flying off at 100+ yr/s speeds — fixed substeps couldn't
+    // resolve the inner planets' tight orbits, energy drifted, and they slingshotted away.
+    const bodies = this.bodies;
+    let omegaMax = 0;
+    for (let i = 0; i < bodies.length; i++) {
+      const a = bodies[i];
+      for (let j = i + 1; j < bodies.length; j++) {
+        const b = bodies[j];
+        const dx = a.pos.x - b.pos.x, dy = a.pos.y - b.pos.y, dz = a.pos.z - b.pos.z;
+        const r2 = dx*dx + dy*dy + dz*dz;
+        if (r2 < 1e10) continue; // skip degenerate/colliding pairs
+        const r = Math.sqrt(r2);
+        const M = a.mass + b.mass;
+        const omega = Math.sqrt(G * M / (r * r * r));
+        if (omega > omegaMax) omegaMax = omega;
+      }
+    }
+    const nAdaptive = Math.ceil(Math.abs(dt) * omegaMax / 0.04);
+    let n = Math.max(this.substeps, nAdaptive);
+    n = Math.min(n, 8192); // cap to prevent UI freeze on pathological configs
     const h = dt / n;
     for (let i = 0; i < n; i++) this.integrate(h);
     this.time += dt;
@@ -2642,6 +2683,12 @@ canvas.addEventListener('pointerdown', (e) => {
     dragState = { mode: 'spawn', anchorScene: point.clone(), endScene: point.clone() };
     showSpawnGhost(point, spawnKind);
     updateDragLine(point, point);
+  } else if (tool === 'move') {
+    if (!hit) return;
+    selected = hit; updateInspector();
+    // Freeze velocity so the body sits where you place it instead of flying off
+    hit.vel.set(0, 0, 0);
+    dragState = { mode: 'move', body: hit, anchorScene: bodyScenePos(hit), endScene: bodyScenePos(hit) };
   } else if (tool === 'launch') {
     if (!hit && !selected) return;
     const body = hit || selected;
@@ -2676,6 +2723,7 @@ window.addEventListener('pointermove', (e) => {
     (hovered && tool === 'select') ? 'pointer'
     : (tool === 'spawn' || tool === 'laser') ? 'crosshair'
     : (tool === 'delete' && hovered) ? 'not-allowed'
+    : (tool === 'move' && (hovered || dragState)) ? 'grab'
     : 'default';
 
   if (!dragState) return;
@@ -2695,6 +2743,15 @@ window.addEventListener('pointermove', (e) => {
       dragState.endScene.copy(p);
       updateDragLine(start, p);
       showDragHintForLaunch(e);
+    }
+  } else if (dragState.mode === 'move') {
+    const start = dragState.anchorScene;
+    const p = projectToWorldPlane(e, start);
+    if (p) {
+      const meters = sceneToMetersV(p);
+      dragState.body.pos.set(meters.x, meters.y, meters.z);
+      dragState.body.vel.set(0, 0, 0);
+      dragState.endScene.copy(p);
     }
   }
 });
@@ -2750,15 +2807,33 @@ window.addEventListener('pointerup', (e) => {
     const preset = spawnPresets[spawnKind];
     const posMeters = sceneToMetersV(dragState.anchorScene);
     const dvMeters = sceneToMetersV(new THREE.Vector3().subVectors(dragState.endScene, dragState.anchorScene));
-    // map "screen-distance dragged" to velocity: use perspective-aware scale ~ camera distance
-    // We want |drag in units| at current zoom to map to a reasonable velocity. Use 1 unit ≈ 80 m/s.
     const k = 80;
+    let vx = dvMeters.x / SCALE_FACTOR * k;
+    let vy = dvMeters.y / SCALE_FACTOR * k;
+    let vz = dvMeters.z / SCALE_FACTOR * k;
+    // "Orbit selected" — give the new body a circular orbital velocity around the selected body
+    const orbitChk = document.getElementById('orbitSelected');
+    if (orbitChk && orbitChk.checked && selected) {
+      const parent = selected;
+      const dx = posMeters.x - parent.pos.x;
+      const dy = posMeters.y - parent.pos.y;
+      const dz = posMeters.z - parent.pos.z;
+      const r = Math.hypot(dx, dy, dz);
+      if (r > 1) {
+        const speed = Math.sqrt(G * (parent.mass + (preset.mass || 1e22)) / r);
+        // tangent in ecliptic-ish plane (cross with world up)
+        const sep = new THREE.Vector3(dx, dy, dz);
+        const up = Math.abs(sep.y) > 0.9 * r ? new THREE.Vector3(1, 0, 0) : new THREE.Vector3(0, 1, 0);
+        const tangent = new THREE.Vector3().crossVectors(up, sep).normalize();
+        vx = parent.vel.x + tangent.x * speed;
+        vy = parent.vel.y + tangent.y * speed;
+        vz = parent.vel.z + tangent.z * speed;
+      }
+    }
     const opts = {
       ...preset,
       x: posMeters.x, y: posMeters.y, z: posMeters.z,
-      vx: dvMeters.x / SCALE_FACTOR * k,
-      vy: dvMeters.y / SCALE_FACTOR * k,
-      vz: dvMeters.z / SCALE_FACTOR * k,
+      vx, vy, vz,
     };
     opts.name = preset.name + ' ' + (sim.bodies.length + 1);
     const b = new Body(opts);
@@ -2792,6 +2867,7 @@ window.addEventListener('keydown', (e) => {
   if (k === ' ') { e.preventDefault(); togglePlay(); }
   else if (k === 's') setTool('select');
   else if (k === 'a') setTool('spawn');
+  else if (k === 'm') setTool('move');
   else if (k === 'l') setTool('launch');
   else if (k === 'z') setTool('laser');
   else if (k === 'x') setTool('delete');
@@ -3023,6 +3099,82 @@ document.getElementById('deleteBtn').addEventListener('click', () => {
   sim.remove(selected);
   world.detach(selected);
   selected = null;
+  updateInspector();
+});
+
+// ============================ Terraforming ===========================
+function applyTerraform(b, mods) {
+  Object.assign(b, mods);
+  b._visualDirty = true;
+}
+document.getElementById('tfEarthBtn').addEventListener('click', () => {
+  if (!selected) return;
+  applyTerraform(selected, {
+    kind: 'rock',
+    textureKey: 'earth',
+    composition: { rock: 0.65, iron: 0.3, ice: 0.05 },
+    albedo: 0.31, greenhouse: 0.39,
+    color: '#3d6dab',
+  });
+  sim.addEvent(`${selected.name} terraformed to Earth-like`, 'good');
+  updateInspector();
+});
+document.getElementById('tfOceansBtn').addEventListener('click', () => {
+  if (!selected) return;
+  const b = selected;
+  const ice = Math.min(0.45, (b.composition.ice || 0) + 0.30);
+  const rock = Math.max(0.1, (b.composition.rock || 0.5) - 0.15);
+  const iron = Math.max(0.05, (b.composition.iron || 0.25) - 0.15);
+  applyTerraform(b, {
+    composition: { rock, iron, ice },
+    albedo: clamp(b.albedo * 0.7 + 0.06, 0.05, 0.95),
+    color: '#3a72b8',
+  });
+  sim.addEvent(`Added oceans to ${b.name}`, 'good');
+  updateInspector();
+});
+document.getElementById('tfAtmoBtn').addEventListener('click', () => {
+  if (!selected) return;
+  applyTerraform(selected, {
+    greenhouse: clamp(selected.greenhouse + 0.25, 0, 0.95),
+    albedo: clamp(selected.albedo * 0.9 + 0.05, 0.05, 0.95),
+  });
+  sim.addEvent(`Thickened atmosphere on ${selected.name}`, 'good');
+  updateInspector();
+});
+document.getElementById('tfStripBtn').addEventListener('click', () => {
+  if (!selected) return;
+  applyTerraform(selected, {
+    greenhouse: 0.0,
+    albedo: 0.12,
+    textureKey: null,
+    color: '#9a7a55',
+    composition: { rock: 0.85, iron: 0.15 },
+  });
+  sim.addEvent(`Stripped atmosphere of ${selected.name}`, 'warn');
+  updateInspector();
+});
+document.getElementById('tfFreezeBtn').addEventListener('click', () => {
+  if (!selected) return;
+  applyTerraform(selected, {
+    albedo: 0.78, greenhouse: 0.0,
+    color: '#dff3ff',
+    composition: { ice: 0.7, rock: 0.25, iron: 0.05 },
+    textureKey: null,
+  });
+  sim.addEvent(`Froze ${selected.name}`, 'warn');
+  updateInspector();
+});
+document.getElementById('tfBakeBtn').addEventListener('click', () => {
+  if (!selected) return;
+  applyTerraform(selected, {
+    kind: 'rock',
+    textureKey: 'venus',
+    albedo: 0.75, greenhouse: 0.92,
+    color: '#d6ad6b',
+    composition: { rock: 0.7, iron: 0.3 },
+  });
+  sim.addEvent(`Baked ${selected.name} into a Venus-like inferno`, 'warn');
   updateInspector();
 });
 
