@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="{Client Name} — Licensed plumbing &amp; HVAC services. Available 24/7 for emergency repairs, installations, and maintenance.">
+  <title>{Client Name} | Plumbing &amp; HVAC Services</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: { DEFAULT: '#0F172A', light: '#1E293B' },
+            slate2: '#334155',
+            ocean: { DEFAULT: '#0369A1', light: '#0284C7' },
+            cream: '#F8FAFC',
+            ink: '#020617',
+            danger: '#DC2626',
+          },
+          fontFamily: {
+            heading: ['Poppins', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Open Sans', sans-serif; color: #020617; }
+    h1,h2,h3,h4 { font-family: 'Poppins', sans-serif; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body class="bg-cream">
+
+  <!-- EMERGENCY STRIP -->
+  <div class="bg-danger text-white text-center text-sm font-semibold py-2 px-4">
+    <a href="tel:+10000000000" class="hover:underline inline-flex items-center gap-2 cursor-pointer">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+      24/7 Emergency Service — Call Now
+    </a>
+  </div>
+
+  <!-- NAV -->
+  <header class="bg-navy sticky top-0 z-50 shadow-lg">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
+      <div class="flex items-center justify-between h-16">
+        <a href="index.html" class="flex items-center gap-3 rounded focus:outline-none focus:ring-2 focus:ring-ocean focus:ring-offset-2 focus:ring-offset-navy">
+          <div class="w-8 h-8 bg-ocean rounded-lg flex items-center justify-center" aria-hidden="true">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+          </div>
+          <span class="text-white font-heading font-bold text-lg">{Client Name}</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="index.html" class="text-slate-300 hover:text-white transition-colors duration-200 text-sm font-medium">Home</a>
+          <a href="services.html" class="text-slate-300 hover:text-white transition-colors duration-200 text-sm font-medium">Services</a>
+          <a href="about.html" class="text-slate-300 hover:text-white transition-colors duration-200 text-sm font-medium">About</a>
+          <a href="contact.html" class="text-slate-300 hover:text-white transition-colors duration-200 text-sm font-medium">Contact</a>
+          <a href="tel:+10000000000" class="bg-ocean hover:bg-ocean-light text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors duration-200 inline-flex items-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-ocean-light">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+            Call Us
+          </a>
+        </div>
+        <button id="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu" class="md:hidden text-white p-2 rounded-lg hover:bg-navy-light transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-ocean">
+          <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div id="mobile-menu" class="hidden md:hidden pb-4">
+        <div class="flex flex-col gap-1 pt-2 border-t border-slate-700">
+          <a href="index.html" class="text-slate-300 hover:text-white hover:bg-navy-light px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200">Home</a>
+          <a href="services.html" class="text-slate-300 hover:text-white hover:bg-navy-light px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200">Services</a>
+          <a href="about.html" class="text-slate-300 hover:text-white hover:bg-navy-light px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200">About</a>
+          <a href="contact.html" class="text-slate-300 hover:text-white hover:bg-navy-light px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200">Contact</a>
+          <a href="tel:+10000000000" class="bg-ocean hover:bg-ocean-light text-white px-3 py-2 rounded-lg text-sm font-semibold transition-colors duration-200 inline-flex items-center gap-2 mt-2 cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+            Call Us
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="bg-navy relative overflow-hidden" aria-labelledby="hero-heading">
+      <div class="absolute inset-0 opacity-[0.03]" style="background-image:radial-gradient(circle,#fff 1px,transparent 1px);background-size:32px 32px;" aria-hidden="true"></div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 lg:py-36 relative z-10">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <div class="inline-flex items-center gap-2 bg-ocean/20 text-ocean-light border border-ocean/30 rounded-full px-4 py-1.5 text-sm font-semibold mb-6">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              Licensed &amp; Insured — Lic. SK-PL-04872
+            </div>
+            <h1 id="hero-heading" class="text-white text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
+              Fast, Reliable<br>
+              <span class="text-ocean-light">Plumbing &amp; HVAC</span><br>
+              You Can Trust
+            </h1>
+            <p class="text-slate-300 text-lg md:text-xl leading-relaxed mb-8 max-w-lg">From emergency repairs to full system installations — our certified technicians are available 24/7 to keep your home or business comfortable.</p>
+            <div class="flex flex-col sm:flex-row gap-4">
+              <a href="contact.html" class="bg-ocean hover:bg-ocean-light text-white font-semibold px-8 py-4 rounded-xl text-lg transition-colors duration-200 text-center cursor-pointer focus:outline-none focus:ring-2 focus:ring-ocean-light focus:ring-offset-2 focus:ring-offset-navy">Book a Service</a>
+              <a href="tel:+10000000000" class="border-2 border-white/30 hover:border-white text-white font-semibold px-8 py-4 rounded-xl text-lg transition-colors duration-200 text-center inline-flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-navy">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                Call Us Now
+              </a>
+            </div>
+          </div>
+          <div class="hidden lg:block">
+            <div class="rounded-2xl overflow-hidden shadow-2xl border border-slate-700 aspect-[4/3]">
+              <img src="https://placehold.co/640x480/1E293B/94A3B8?text=Your+Team+Photo" alt="Professional plumbing and HVAC technicians at work" class="w-full h-full object-cover" width="640" height="480" loading="eager">
+            </div>
+          </div>
+        </div>
+        <!-- Trust badges -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-14 pt-10 border-t border-slate-700">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-ocean/20 rounded-lg flex items-center justify-center shrink-0" aria-hidden="true">
+              <svg class="w-5 h-5 text-ocean-light" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            </div>
+            <div><p class="text-white font-semibold text-sm">Licensed &amp; Insured</p><p class="text-slate-400 text-xs">Lic. SK-PL-04872</p></div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-ocean/20 rounded-lg flex items-center justify-center shrink-0" aria-hidden="true">
+              <svg class="w-5 h-5 text-ocean-light" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div><p class="text-white font-semibold text-sm">24/7 Emergency</p><p class="text-slate-400 text-xs">Always available</p></div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-ocean/20 rounded-lg flex items-center justify-center shrink-0" aria-hidden="true">
+              <svg class="w-5 h-5 text-ocean-light" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </div>
+            <div><p class="text-white font-semibold text-sm">Same-Day Service</p><p class="text-slate-400 text-xs">Fast response</p></div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-ocean/20 rounded-lg flex items-center justify-center shrink-0" aria-hidden="true">
+              <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            </div>
+            <div><p class="text-white font-semibold text-sm">5-Star Rated</p><p class="text-slate-400 text-xs">Google Reviews</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES PREVIEW -->
+    <section class="py-20 bg-white" aria-labelledby="services-heading">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-14">
+          <p class="text-ocean font-semibold text-sm uppercase tracking-widest mb-2">What We Do</p>
+          <h2 id="services-heading" class="text-navy text-3xl md:text-4xl font-bold mb-4">Complete Home Comfort Solutions</h2>
+          <p class="text-slate-500 text-lg max-w-2xl mx-auto">Trusted expertise across plumbing, heating, cooling, and water systems — all under one roof.</p>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <a href="services.html#plumbing" class="group bg-cream hover:bg-navy rounded-2xl p-6 transition-colors duration-300 cursor-pointer block focus:outline-none focus:ring-2 focus:ring-ocean focus:ring-offset-2">
+            <div class="w-12 h-12 bg-ocean/10 group-hover:bg-ocean/30 rounded-xl flex items-center justify-center mb-4 transition-colors duration-300" aria-hidden="true">
+              <svg class="w-6 h-6 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+            </div>
+            <h3 class="text-navy group-hover:text-white font-bold text-lg mb-2 transition-colors duration-300">Plumbing</h3>
+            <p class="text-slate-500 group-hover:text-slate-300 text-sm leading-relaxed transition-colors duration-300">Repairs, installations, leak detection, drain cleaning, and more.</p>
+            <span class="inline-flex items-center gap-1 text-ocean group-hover:text-ocean-light text-sm font-semibold mt-4 transition-colors duration-300">
+              Learn more <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+          <a href="services.html#heating" class="group bg-cream hover:bg-navy rounded-2xl p-6 transition-colors duration-300 cursor-pointer block focus:outline-none focus:ring-2 focus:ring-ocean focus:ring-offset-2">
+            <div class="w-12 h-12 bg-orange-100 group-hover:bg-orange-900/30 rounded-xl flex items-center justify-center mb-4 transition-colors duration-300" aria-hidden="true">
+              <svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"/></svg>
+            </div>
+            <h3 class="text-navy group-hover:text-white font-bold text-lg mb-2 transition-colors duration-300">Heating</h3>
+            <p class="text-slate-500 group-hover:text-slate-300 text-sm leading-relaxed transition-colors duration-300">Furnace repair, boiler service, heat pump installations, and tune-ups.</p>
+            <span class="inline-flex items-center gap-1 text-ocean group-hover:text-ocean-light text-sm font-semibold mt-4 transition-colors duration-300">
+              Learn more <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+          <a href="services.html#cooling" class="group bg-cream hover:bg-navy rounded-2xl p-6 transition-colors duration-300 cursor-pointer block focus:outline-none focus:ring-2 focus:ring-ocean focus:ring-offset-2">
+            <div class="w-12 h-12 bg-blue-50 group-hover:bg-blue-900/30 rounded-xl flex items-center justify-center mb-4 transition-colors duration-300" aria-hidden="true">
+              <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1M3 12h1m16 0h1M5.636 5.636l.707.707M17.657 17.657l.707.707M5.636 18.364l.707-.707M17.657 6.343l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
+            </div>
+            <h3 class="text-navy group-hover:text-white font-bold text-lg mb-2 transition-colors duration-300">Cooling</h3>
+            <p class="text-slate-500 group-hover:text-slate-300 text-sm leading-relaxed transition-colors duration-300">AC installation, repair, and maintenance for homes and businesses.</p>
+            <span class="inline-flex items-center gap-1 text-ocean group-hover:text-ocean-light text-sm font-semibold mt-4 transition-colors duration-300">
+              Learn more <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+          <a href="services.html#water" class="group bg-cream hover:bg-navy rounded-2xl p-6 transition-colors duration-300 cursor-pointer block focus:outline-none focus:ring-2 focus:ring-ocean focus:ring-offset-2">
+            <div class="w-12 h-12 bg-cyan-50 group-hover:bg-cyan-900/30 rounded-xl flex items-center justify-center mb-4 transition-colors duration-300" aria-hidden="true">
+              <svg class="w-6 h-6 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"/></svg>
+            </div>
+            <h3 class="text-navy group-hover:text-white font-bold text-lg mb-2 transition-colors duration-300">Water Systems</h3>
+            <p class="text-slate-500 group-hover:text-slate-300 text-sm leading-relaxed transition-colors duration-300">Water heaters, softeners, filtration systems, and pipe replacement.</p>
+            <span class="inline-flex items-center gap-1 text-ocean group-hover:text-ocean-light text-sm font-semibold mt-4 transition-colors duration-300">
+              Learn more <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+        </div>
+        <div class="text-center mt-10">
+          <a href="services.html" class="inline-flex items-center gap-2 border-2 border-ocean text-ocean hover:bg-ocean hover:text-white font-semibold px-8 py-3 rounded-xl transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-ocean">
+            View All Services <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY CHOOSE US -->
+    <section class="py-20 bg-navy" aria-labelledby="why-heading">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+          <div>
+            <p class="text-ocean-light font-semibold text-sm uppercase tracking-widest mb-2">Why Choose Us</p>
+            <h2 id="why-heading" class="text-white text-3xl md:text-4xl font-bold mb-6">Decades of Experience,<br>Zero Shortcuts</h2>
+            <p class="text-slate-300 text-lg leading-relaxed mb-8">We've built our reputation on showing up on time, fixing it right the first time, and treating every customer's home like our own.</p>
+            <ul class="space-y-4">
+              <li class="flex items-start gap-3">
+                <div class="w-6 h-6 bg-ocean/20 rounded-full flex items-center justify-center mt-0.5 shrink-0" aria-hidden="true"><svg class="w-3.5 h-3.5 text-ocean-light" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div>
+                <span class="text-slate-300">Upfront, transparent pricing — no surprise fees</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <div class="w-6 h-6 bg-ocean/20 rounded-full flex items-center justify-center mt-0.5 shrink-0" aria-hidden="true"><svg class="w-3.5 h-3.5 text-ocean-light" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div>
+                <span class="text-slate-300">Fully licensed, bonded, and insured technicians</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <div class="w-6 h-6 bg-ocean/20 rounded-full flex items-center justify-center mt-0.5 shrink-0" aria-hidden="true"><svg class="w-3.5 h-3.5 text-ocean-light" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div>
+                <span class="text-slate-300">Workmanship guaranteed — we stand behind every job</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <div class="w-6 h-6 bg-ocean/20 rounded-full flex items-center justify-center mt-0.5 shrink-0" aria-hidden="true"><svg class="w-3.5 h-3.5 text-ocean-light" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div>
+                <span class="text-slate-300">Clean, respectful service — we leave your home tidy</span>
+              </li>
+            </ul>
+          </div>
+          <div class="grid grid-cols-2 gap-6">
+            <div class="bg-navy-light rounded-2xl p-6 text-center border border-slate-700">
+              <p class="text-4xl font-extrabold text-white mb-1">15+</p>
+              <p class="text-slate-400 text-sm">Years in Business</p>
+            </div>
+            <div class="bg-navy-light rounded-2xl p-6 text-center border border-slate-700">
+              <p class="text-4xl font-extrabold text-white mb-1">3,200+</p>
+              <p class="text-slate-400 text-sm">Jobs Completed</p>
+            </div>
+            <div class="bg-navy-light rounded-2xl p-6 text-center border border-slate-700">
+              <p class="text-4xl font-extrabold text-white mb-1">98%</p>
+              <p class="text-slate-400 text-sm">Customer Satisfaction</p>
+            </div>
+            <div class="bg-navy-light rounded-2xl p-6 text-center border border-slate-700">
+              <p class="text-4xl font-extrabold text-ocean-light mb-1">24/7</p>
+              <p class="text-slate-400 text-sm">Emergency Service</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="py-20 bg-cream" aria-labelledby="reviews-heading">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-14">
+          <p class="text-ocean font-semibold text-sm uppercase tracking-widest mb-2">Customer Reviews</p>
+          <h2 id="reviews-heading" class="text-navy text-3xl md:text-4xl font-bold mb-3">What Our Customers Say</h2>
+          <div class="flex items-center justify-center gap-0.5 mb-1" aria-label="5 out of 5 stars">
+            <svg class="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          </div>
+          <p class="text-slate-500 text-sm">5.0 average on Google Reviews</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+          <!-- Review 1 — REPLACE with real review -->
+          <figure class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+            <div class="flex gap-0.5 mb-4" aria-label="5 stars">
+              <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            </div>
+            <blockquote><p class="text-slate-700 leading-relaxed mb-4">"Called at 11pm with a burst pipe flooding our basement. The team arrived within an hour and had everything sorted by 2am. Absolutely incredible service."</p></blockquote>
+            <figcaption class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-navy rounded-full flex items-center justify-center text-white font-bold text-sm" aria-hidden="true">JM</div>
+              <div><p class="text-navy font-semibold text-sm">James M.</p><p class="text-slate-400 text-xs">Homeowner — via Google</p></div>
+            </figcaption>
+          </figure>
+          <!-- Review 2 — REPLACE with real review -->
+          <figure class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+            <div class="flex gap-0.5 mb-4" aria-label="5 stars">
+              <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            </div>
+            <blockquote><p class="text-slate-700 leading-relaxed mb-4">"New furnace installed before winter. The technician was on time, explained every step, and cleaned up completely. Pricing was fair with no surprises on the invoice."</p></blockquote>
+            <figcaption class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-navy rounded-full flex items-center justify-center text-white font-bold text-sm" aria-hidden="true">SR</div>
+              <div><p class="text-navy font-semibold text-sm">Sarah R.</p><p class="text-slate-400 text-xs">Homeowner — via Google</p></div>
+            </figcaption>
+          </figure>
+          <!-- Review 3 — REPLACE with real review -->
+          <figure class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+            <div class="flex gap-0.5 mb-4" aria-label="5 stars">
+              <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            </div>
+            <blockquote><p class="text-slate-700 leading-relaxed mb-4">"AC died in July. They had a technician out the same afternoon and got us back up and running fast. Professional, honest, and reasonably priced. Highly recommend!"</p></blockquote>
+            <figcaption class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-navy rounded-full flex items-center justify-center text-white font-bold text-sm" aria-hidden="true">DK</div>
+              <div><p class="text-navy font-semibold text-sm">David K.</p><p class="text-slate-400 text-xs">Business Owner — via Google</p></div>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="text-center mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="{Google-Reviews-URL}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-ocean hover:bg-ocean-light text-white font-semibold px-6 py-3 rounded-xl transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-ocean">
+            Read More Reviews <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+          <a href="{Google-Reviews-URL}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 border-2 border-ocean text-ocean hover:bg-ocean hover:text-white font-semibold px-6 py-3 rounded-xl transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-ocean">
+            Leave a Review
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-20 bg-white" aria-labelledby="faq-heading">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-14">
+          <p class="text-ocean font-semibold text-sm uppercase tracking-widest mb-2">FAQ</p>
+          <h2 id="faq-heading" class="text-navy text-3xl md:text-4xl font-bold">Common Questions</h2>
+        </div>
+        <div class="space-y-3">
+          <div class="border border-slate-200 rounded-xl overflow-hidden">
+            <button data-faq aria-expanded="false" aria-controls="faq1" class="w-full flex items-center justify-between px-6 py-4 text-left text-navy font-semibold hover:bg-cream transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-inset focus:ring-ocean">
+              Do you offer 24/7 emergency service?
+              <svg class="w-5 h-5 text-slate-400 shrink-0 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            </button>
+            <div id="faq1" hidden class="px-6 pb-4 text-slate-600 leading-relaxed">Yes — we're available around the clock, every day of the year. For emergencies, call us directly for the fastest response.</div>
+          </div>
+          <div class="border border-slate-200 rounded-xl overflow-hidden">
+            <button data-faq aria-expanded="false" aria-controls="faq2" class="w-full flex items-center justify-between px-6 py-4 text-left text-navy font-semibold hover:bg-cream transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-inset focus:ring-ocean">
+              How quickly can you respond to an emergency?
+              <svg class="w-5 h-5 text-slate-400 shrink-0 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            </button>
+            <div id="faq2" hidden class="px-6 pb-4 text-slate-600 leading-relaxed">We aim to have a technician on-site within 60–90 minutes for emergency calls in our service area. Response times may vary based on location and current demand.</div>
+          </div>
+          <div class="border border-slate-200 rounded-xl overflow-hidden">
+            <button data-faq aria-expanded="false" aria-controls="faq3" class="w-full flex items-center justify-between px-6 py-4 text-left text-navy font-semibold hover:bg-cream transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-inset focus:ring-ocean">
+              Are your technicians licensed and insured?
+              <svg class="w-5 h-5 text-slate-400 shrink-0 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            </button>
+            <div id="faq3" hidden class="px-6 pb-4 text-slate-600 leading-relaxed">Absolutely. All our technicians are fully licensed (Lic. SK-PL-04872), bonded, and insured. We carry full liability and worker's compensation coverage on every job.</div>
+          </div>
+          <div class="border border-slate-200 rounded-xl overflow-hidden">
+            <button data-faq aria-expanded="false" aria-controls="faq4" class="w-full flex items-center justify-between px-6 py-4 text-left text-navy font-semibold hover:bg-cream transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-inset focus:ring-ocean">
+              Do you offer free estimates?
+              <svg class="w-5 h-5 text-slate-400 shrink-0 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            </button>
+            <div id="faq4" hidden class="px-6 pb-4 text-slate-600 leading-relaxed">Yes, we provide free estimates for installations and non-emergency work. We give you a clear, upfront price before any work begins — no hidden fees.</div>
+          </div>
+          <div class="border border-slate-200 rounded-xl overflow-hidden">
+            <button data-faq aria-expanded="false" aria-controls="faq5" class="w-full flex items-center justify-between px-6 py-4 text-left text-navy font-semibold hover:bg-cream transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-inset focus:ring-ocean">
+              Do you offer maintenance plans?
+              <svg class="w-5 h-5 text-slate-400 shrink-0 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            </button>
+            <div id="faq5" hidden class="px-6 pb-4 text-slate-600 leading-relaxed">Yes. Our annual maintenance plans cover seasonal tune-ups for your heating and cooling systems, priority scheduling, and discounts on parts and labour. Ask us for details when you call.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA STRIP -->
+    <section class="py-16 bg-ocean" aria-labelledby="cta-heading">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 id="cta-heading" class="text-white text-3xl md:text-4xl font-bold mb-4">Ready to Get Started?</h2>
+        <p class="text-white/80 text-lg mb-8">Book a service online or call us anytime — we're here 24/7.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="contact.html" class="bg-white text-ocean hover:bg-slate-100 font-semibold px-8 py-4 rounded-xl text-lg transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-ocean">Book Online</a>
+          <a href="tel:+10000000000" class="border-2 border-white text-white hover:bg-white/10 font-semibold px-8 py-4 rounded-xl text-lg transition-colors duration-200 inline-flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-ocean">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+            Call Us Now
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-navy">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-8 h-8 bg-ocean rounded-lg flex items-center justify-center" aria-hidden="true"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg></div>
+            <span class="text-white font-heading font-bold text-lg">{Client Name}</span>
+          </div>
+          <p class="text-slate-400 text-sm leading-relaxed mb-3">Your trusted local plumbing and HVAC specialists. Licensed, insured, and available 24/7.</p>
+          <p class="text-slate-500 text-xs">Lic. SK-PL-04872</p>
+        </div>
+        <div>
+          <h3 class="text-white font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2 text-sm text-slate-400">
+            <li><a href="index.html" class="hover:text-white transition-colors duration-200">Home</a></li>
+            <li><a href="services.html" class="hover:text-white transition-colors duration-200">Services</a></li>
+            <li><a href="about.html" class="hover:text-white transition-colors duration-200">About Us</a></li>
+            <li><a href="contact.html" class="hover:text-white transition-colors duration-200">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-white font-semibold mb-4">Services</h3>
+          <ul class="space-y-2 text-sm text-slate-400">
+            <li><a href="services.html#plumbing" class="hover:text-white transition-colors duration-200">Plumbing</a></li>
+            <li><a href="services.html#heating" class="hover:text-white transition-colors duration-200">Heating</a></li>
+            <li><a href="services.html#cooling" class="hover:text-white transition-colors duration-200">Cooling / AC</a></li>
+            <li><a href="services.html#water" class="hover:text-white transition-colors duration-200">Water Systems</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-white font-semibold mb-4">Contact</h3>
+          <ul class="space-y-3 text-sm text-slate-400">
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 mt-0.5 shrink-0 text-ocean-light" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+              <a href="tel:+10000000000" class="hover:text-white transition-colors duration-200">Call Us</a>
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 mt-0.5 shrink-0 text-ocean-light" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              <a href="mailto:{Email}" class="hover:text-white transition-colors duration-200">{Email}</a>
+            </li>
+          </ul>
+          <div class="flex gap-3 mt-5">
+            <a href="#" aria-label="Facebook" class="w-9 h-9 bg-navy-light rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate2 transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-ocean">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="#" aria-label="Instagram" class="w-9 h-9 bg-navy-light rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate2 transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-ocean">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="{Google-Reviews-URL}" aria-label="Google Reviews" class="w-9 h-9 bg-navy-light rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate2 transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-ocean">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-slate-700 mt-10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <p>&copy; 2025 {Client Name}. All rights reserved.</p>
+        <div class="flex gap-6">
+          <a href="#" class="hover:text-slate-300 transition-colors duration-200">Privacy Policy</a>
+          <a href="#" class="hover:text-slate-300 transition-colors duration-200">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+    const closeIcon = document.getElementById('close-icon');
+    menuBtn.addEventListener('click', () => {
+      const open = !mobileMenu.classList.contains('hidden');
+      mobileMenu.classList.toggle('hidden');
+      menuIcon.classList.toggle('hidden', !open);
+      closeIcon.classList.toggle('hidden', open);
+      menuBtn.setAttribute('aria-expanded', String(!open));
+    });
+
+    // FAQ accordion
+    document.querySelectorAll('[data-faq]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const panel = document.getElementById(btn.getAttribute('aria-controls'));
+        const icon = btn.querySelector('svg');
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        document.querySelectorAll('[data-faq]').forEach(b => {
+          b.setAttribute('aria-expanded', 'false');
+          document.getElementById(b.getAttribute('aria-controls')).hidden = true;
+          b.querySelector('svg').style.transform = '';
+        });
+        if (!expanded) {
+          btn.setAttribute('aria-expanded', 'true');
+          panel.hidden = false;
+          icon.style.transform = 'rotate(45deg)';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
