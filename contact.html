@@ -45,13 +45,21 @@
     details > summary { list-style: none; cursor: pointer; }
     details > summary::-webkit-details-marker { display: none; }
     details[open] .faq-chevron { transform: rotate(180deg); }
+    /* Hidden scrollbar utility (used for horizontal-snap rows on mobile) */
+    .scrollbar-none::-webkit-scrollbar { display: none; }
+    .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+    /* Larger min-tap-target for inputs on mobile (prevents iOS zoom and improves a11y) */
+    @media (max-width: 640px) {
+      input, select, textarea, button { font-size: 16px; }
+    }
+    /* Sticky bottom mobile CTA shadow handled inline; this gives content extra breathing room */
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
     }
   </style>
 </head>
-<body class="antialiased">
+<body class="antialiased pb-20 lg:pb-0">
   <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:bg-brand-700 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg">Skip to content</a>
 
   <!-- START: TOP UTILITY BAR -->
@@ -117,22 +125,51 @@
   <!-- START: MOBILE MENU -->
   <div id="mobile-menu" aria-hidden="true" class="fixed inset-0 z-50 lg:hidden pointer-events-none">
     <div data-menu-close class="absolute inset-0 bg-brand-900/60 opacity-0 transition-opacity duration-200"></div>
-    <aside class="absolute right-0 top-0 h-full w-[85%] max-w-sm bg-white shadow-2xl translate-x-full transition-transform duration-300 ease-out flex flex-col">
+    <aside class="absolute right-0 top-0 h-full w-[88%] max-w-sm bg-white shadow-2xl translate-x-full transition-transform duration-300 ease-out flex flex-col">
+      <!-- Emergency banner -->
+      <a href="tel:" class="flex items-center justify-between gap-3 px-5 py-3 bg-brand-900 text-white text-sm font-semibold hover:bg-brand-700 active:bg-brand-700 transition-colors">
+        <span class="inline-flex items-center gap-2">
+          <span class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-accent-500 text-brand-900">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg>
+          </span>
+          24/7 Emergency Line
+        </span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
       <div class="flex items-center justify-between p-5 border-b border-slate-200">
         <span class="font-display font-extrabold text-lg text-brand-900">Menu</span>
-        <button type="button" data-menu-close aria-label="Close menu" class="inline-flex items-center justify-center w-10 h-10 rounded-lg hover:bg-brand-50 cursor-pointer">
+        <button type="button" data-menu-close aria-label="Close menu" class="inline-flex items-center justify-center w-11 h-11 rounded-lg hover:bg-brand-50 active:bg-brand-100 transition-colors cursor-pointer">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
-      <nav class="flex-1 p-5 space-y-1" aria-label="Mobile">
-        <a href="index.html" class="block px-4 py-3 rounded-lg text-base font-semibold text-ink-800 hover:bg-brand-50 hover:text-brand-700">Home</a>
-        <a href="services.html" class="block px-4 py-3 rounded-lg text-base font-semibold text-ink-800 hover:bg-brand-50 hover:text-brand-700">Services</a>
-        <a href="about.html" class="block px-4 py-3 rounded-lg text-base font-semibold text-ink-800 hover:bg-brand-50 hover:text-brand-700">About</a>
-        <a href="contact.html" aria-current="page" class="block px-4 py-3 rounded-lg text-base font-semibold text-brand-700 bg-brand-50">Contact</a>
+      <nav class="flex-1 p-5 space-y-1.5 overflow-y-auto" aria-label="Mobile">
+        <a href="index.html" class="flex items-center justify-between px-4 py-4 rounded-xl text-base font-semibold text-ink-900 hover:bg-brand-50 hover:text-brand-700 active:bg-brand-100 transition-colors">
+          <span>Home</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 opacity-50"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+        <a href="services.html" class="flex items-center justify-between px-4 py-4 rounded-xl text-base font-semibold text-ink-900 hover:bg-brand-50 hover:text-brand-700 active:bg-brand-100 transition-colors">
+          <span>Services</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 opacity-50"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+        <a href="about.html" class="flex items-center justify-between px-4 py-4 rounded-xl text-base font-semibold text-ink-900 hover:bg-brand-50 hover:text-brand-700 active:bg-brand-100 transition-colors">
+          <span>About</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 opacity-50"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+        <a href="contact.html" aria-current="page" class="flex items-center justify-between px-4 py-4 rounded-xl text-base font-bold text-brand-700 bg-brand-50">
+          <span>Contact</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 opacity-50"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
       </nav>
-      <div class="p-5 border-t border-slate-200 space-y-2">
-        <a href="tel:" class="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg font-semibold border-2 border-brand-700 text-brand-700 hover:bg-brand-50">Call Us</a>
-        <a href="contact.html#book" class="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg font-bold bg-accent-500 text-brand-900 hover:bg-accent-400">Book Now</a>
+      <div class="p-5 border-t border-slate-200 space-y-2.5 bg-[#F8FAFC]">
+        <a href="tel:" class="flex items-center justify-center gap-2 w-full px-4 py-3.5 rounded-xl font-bold border-2 border-brand-700 text-brand-700 hover:bg-brand-50 active:bg-brand-100 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Call Us
+        </a>
+        <a href="contact.html#book" class="flex items-center justify-center gap-2 w-full px-4 py-3.5 rounded-xl font-bold bg-accent-500 text-brand-900 hover:bg-accent-400 active:bg-accent-600 shadow-card transition-colors">
+          Book Now
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <p class="pt-1 text-center text-xs text-ink-600">Or write us — <a href="contact.html" class="text-brand-700 font-semibold underline">contact form</a></p>
       </div>
     </aside>
   </div>
@@ -164,7 +201,7 @@
     <!-- END: PAGE HERO -->
 
     <!-- START: CONTACT MAIN -->
-    <section id="book" class="bg-[#F8FAFC] py-16 md:py-24 scroll-mt-24">
+    <section id="book" class="bg-[#F8FAFC] py-12 md:py-20 lg:py-24 scroll-mt-24">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-8 lg:gap-12">
 
         <div class="lg:col-span-7">
@@ -336,7 +373,7 @@
     <!-- END: EMERGENCY STRIP -->
 
     <!-- START: MINI FAQ -->
-    <section class="bg-white py-16 md:py-20">
+    <section class="bg-white py-12 md:py-16 lg:py-20">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center">
           <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-700">
@@ -472,6 +509,22 @@
     // Current year
     var y = document.getElementById('year'); if(y) y.textContent = new Date().getFullYear();
   </script>
+
+
+  <!-- START: STICKY MOBILE CTA -->
+  <div class="lg:hidden fixed inset-x-0 bottom-0 z-40 bg-white/95 backdrop-blur border-t border-slate-200 shadow-[0_-4px_20px_-4px_rgba(10,42,110,0.15)]" style="padding-bottom: env(safe-area-inset-bottom, 0);">
+    <div class="grid grid-cols-2 gap-2 p-3">
+      <a href="tel:" class="flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl border-2 border-brand-700 text-brand-700 font-bold text-base hover:bg-brand-50 active:bg-brand-100 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Call
+      </a>
+      <a href="contact.html#book" class="flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-accent-500 text-brand-900 font-bold text-base shadow-card hover:bg-accent-400 active:bg-accent-600 transition-colors">
+        Book Now
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+  <!-- END: STICKY MOBILE CTA -->
 
 </body>
 </html>
