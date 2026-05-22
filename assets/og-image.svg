@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0A0F1E"/>
+      <stop offset="100%" stop-color="#0c1445"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e40af"/>
+      <stop offset="100%" stop-color="#0c1445"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="40" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Glow blob -->
+  <ellipse cx="600" cy="315" rx="320" ry="200" fill="#2563EB" opacity="0.08" filter="url(#glow)"/>
+
+  <!-- Logo mark -->
+  <rect x="80" y="80" width="72" height="72" rx="16" fill="url(#mark)"/>
+  <text x="116" y="131" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="32" fill="white" letter-spacing="-1">GD</text>
+
+  <!-- Wordmark -->
+  <text x="168" y="126" font-family="Arial Black, Arial, sans-serif" font-weight="800" font-size="22" fill="white">Ghosh Designs</text>
+
+  <!-- Headline -->
+  <text x="80" y="310" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="68" fill="white" letter-spacing="-2">Websites that turn</text>
+  <text x="80" y="390" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="68" fill="#2563EB" letter-spacing="-2">calls into jobs.</text>
+
+  <!-- Sub -->
+  <text x="80" y="460" font-family="Arial, sans-serif" font-weight="400" font-size="26" fill="#8899bb">Custom web design for plumbing &amp; home-service businesses.</text>
+
+  <!-- Location pill -->
+  <rect x="80" y="510" width="200" height="40" rx="20" fill="#2563EB" opacity="0.15"/>
+  <text x="180" y="536" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#6699ff">Regina, SK · Canada</text>
+
+  <!-- Price tag -->
+  <text x="1120" y="536" text-anchor="end" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="22" fill="white">From $2,500 CAD</text>
+</svg>
