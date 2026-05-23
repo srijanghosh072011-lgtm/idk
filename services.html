@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0B2A5B">
+  <meta name="description" content="Full list of plumbing and heating services from 24/7 Plumbing & Heating Ltd. in Calgary — emergency, drains, water heaters, furnace, boilers, gas fitting, renovations, commercial.">
+  <title>Our Services | 24/7 Plumbing &amp; Heating Ltd. Calgary</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231E73E8'/%3E%3Cpath fill='%23fff' d='M22 16h8c5 0 9 4 9 9v6h6v10h-6v7H22V16zm6 6v18h7c1.6 0 3-1.4 3-3V25c0-1.6-1.4-3-3-3h-7z'/%3E%3C/svg%3E">
+  <style>
+    .svc-detail {
+      display: grid; grid-template-columns: 1fr 1.2fr; gap: 48px;
+      align-items: center; padding: 56px 0; border-bottom: 1px solid var(--bb-border);
+    }
+    .svc-detail:last-of-type { border-bottom: none; }
+    .svc-detail.reverse { direction: rtl; }
+    .svc-detail.reverse > * { direction: ltr; }
+    .svc-detail .img-box {
+      aspect-ratio: 4/3; border-radius: 24px; overflow: hidden;
+      background: linear-gradient(135deg, var(--bb-blue), var(--bb-navy));
+      display: flex; align-items: center; justify-content: center;
+      position: relative; border: 1px solid var(--bb-border);
+    }
+    .svc-detail .img-box::after {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 70% 30%, rgba(56,189,248,0.35), transparent 55%),
+        radial-gradient(circle at 30% 80%, rgba(255,193,7,0.18), transparent 55%);
+    }
+    .svc-detail .img-box svg { width: 56%; color: #fff; opacity: 0.95; position: relative; z-index: 1; }
+    .svc-detail h2 { font-size: clamp(28px, 3.5vw, 38px); margin-bottom: 14px; }
+    .svc-detail p { color: var(--bb-muted); font-size: 16px; margin-bottom: 16px; }
+    .svc-detail ul { margin: 16px 0 24px; padding: 0; list-style: none; display: grid; gap: 10px; }
+    .svc-detail ul li {
+      display: flex; gap: 10px; align-items: flex-start;
+      color: var(--bb-text); font-size: 15px;
+    }
+    .svc-detail ul li svg { width: 20px; height: 20px; color: var(--bb-blue); flex-shrink: 0; margin-top: 2px; }
+    .svc-pill {
+      display: inline-block; padding: 6px 14px;
+      border-radius: 999px; background: var(--bb-light); color: var(--bb-blue);
+      font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; margin-bottom: 16px;
+    }
+    @media (max-width: 900px) {
+      .svc-detail { grid-template-columns: 1fr; gap: 28px; padding: 40px 0; }
+      .svc-detail.reverse { direction: ltr; }
+      .svc-detail .img-box { max-width: 480px; margin: 0 auto; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <div class="top-bar-inner">
+      <div class="top-bar-left">
+        <span class="top-bar-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Serving Calgary &amp; Surrounding Areas
+        </span>
+        <span class="top-bar-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Open 24 Hours · 365 Days a Year
+        </span>
+      </div>
+      <div class="top-bar-socials">
+        <span>Follow us</span>
+        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.5-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+      </div>
+    </div>
+  </div>
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-4 4-3-3-5 5 5 5 4-4M8 14l-3 3M16 4l4 4M14 2v4h4M6 22l3-3"/></svg>
+        </div>
+        <div class="brand-name">
+          <span class="row1">24/7 Plumbing &amp; Heating</span>
+          <span class="row2">Calgary · Licensed &amp; Insured</span>
+        </div>
+      </a>
+      <nav aria-label="Primary">
+        <ul class="nav-menu" id="primary-menu">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#reviews">Reviews</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#faq">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="nav-cta">
+        <a class="nav-phone" href="tel:+14035550199">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
+          (403) 555-0199
+        </a>
+        <a class="btn btn-primary" href="contact.html">Book Online</a>
+        <button class="nav-toggle" aria-label="Open menu" aria-controls="primary-menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="page-banner">
+    <div class="container-x">
+      <div class="breadcrumbs"><a href="index.html">Home</a><span class="sep">›</span><span>Services</span></div>
+      <h1>Everything Plumbing &amp; Heating. Done Right.</h1>
+      <p>From a leaky faucet to a brand-new high-efficiency furnace. Residential and commercial. 24 hours a day, 365 days a year.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-x">
+
+      <!-- Emergency -->
+      <article class="svc-detail reveal" id="emergency">
+        <div class="img-box">
+          <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M100 30v50M100 110v.01"/>
+            <circle cx="100" cy="100" r="80"/>
+          </svg>
+        </div>
+        <div>
+          <span class="svc-pill">Always Available</span>
+          <h2>24/7 Emergency Plumbing</h2>
+          <p>Burst pipes, no hot water, sewer back-ups, gushing leaks — plumbing emergencies don't keep business hours. Neither do we. A real human answers every call and we dispatch the closest tech immediately.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Burst pipe &amp; water-line repair</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Sewer back-up emergencies</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>No hot water · frozen pipe thaw</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Gas leak &amp; CO emergency response</li>
+          </ul>
+          <a class="btn btn-primary" href="tel:+14035550199">Call Emergency Line</a>
+        </div>
+      </article>
+
+      <!-- Drains -->
+      <article class="svc-detail reverse reveal" id="drains">
+        <div class="img-box">
+          <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="100" cy="100" r="70"/>
+            <circle cx="100" cy="100" r="50"/>
+            <circle cx="100" cy="100" r="30"/>
+            <circle cx="100" cy="100" r="10" fill="currentColor"/>
+          </svg>
+        </div>
+        <div>
+          <span class="svc-pill">Drain &amp; Sewer</span>
+          <h2>Drain Cleaning &amp; Sewer Services</h2>
+          <p>Slow drains, blocked toilets, recurring back-ups — we have the tools to clear it and the cameras to see why it happened. We fix the problem, not just the symptom.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>High-pressure hydro-jetting</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Sewer camera inspection</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Mainline rooter &amp; root removal</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Trenchless sewer line repair</li>
+          </ul>
+          <a class="btn btn-primary" href="contact.html">Book Drain Service</a>
+        </div>
+      </article>
+
+      <!-- Water Heaters -->
+      <article class="svc-detail reveal" id="water-heaters">
+        <div class="img-box">
+          <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="60" y="20" width="80" height="160" rx="6"/>
+            <line x1="80" y1="50" x2="120" y2="50"/>
+            <line x1="80" y1="80" x2="120" y2="80"/>
+            <circle cx="100" cy="120" r="14"/>
+            <path d="M100 134v20"/>
+          </svg>
+        </div>
+        <div>
+          <span class="svc-pill">Hot Water</span>
+          <h2>Hot Water Tanks &amp; Tankless Systems</h2>
+          <p>Same-day water heater repair and replacement. We service standard tanks, high-efficiency, hybrid heat pump, and on-demand tankless systems from every major brand.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>40, 50, 60, 75-gallon tank replacement</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Rinnai &amp; Navien tankless install</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Power-vent &amp; direct-vent systems</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Annual flush &amp; anode replacement</li>
+          </ul>
+          <a class="btn btn-primary" href="contact.html">Get Water Heater Quote</a>
+        </div>
+      </article>
+
+      <!-- Furnace -->
+      <article class="svc-detail reverse reveal" id="furnace">
+        <div class="img-box">
+          <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M100 20v40M50 50l28 28M20 100h40M50 150l28-28M150 50l-28 28M180 100h-40M150 150l-28-28M100 180v-40"/>
+            <circle cx="100" cy="100" r="28"/>
+            <circle cx="100" cy="100" r="8" fill="currentColor"/>
+          </svg>
+        </div>
+        <div>
+          <span class="svc-pill">Heating</span>
+          <h2>Furnace Repair &amp; Installation</h2>
+          <p>Calgary winters don't forgive a broken furnace. Whether yours needs an emergency repair or it's time for a high-efficiency upgrade, we'll have you warm again — fast, and at a fair price.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>24/7 emergency furnace repair</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Lennox · Carrier · Goodman · Trane</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>96%+ AFUE high-efficiency installs</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Annual tune-up &amp; safety check</li>
+          </ul>
+          <a class="btn btn-primary" href="contact.html">Furnace Service Request</a>
+        </div>
+      </article>
+
+      <!-- Boilers -->
+      <article class="svc-detail reveal" id="boilers">
+        <div class="img-box">
+          <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="40" y="40" width="120" height="120" rx="8"/>
+            <circle cx="100" cy="100" r="36"/>
+            <circle cx="100" cy="100" r="14"/>
+            <line x1="60" y1="60" x2="68" y2="68"/>
+            <line x1="140" y1="60" x2="132" y2="68"/>
+          </svg>
+        </div>
+        <div>
+          <span class="svc-pill">Hydronic Heating</span>
+          <h2>Boilers &amp; In-Floor Heating</h2>
+          <p>The most comfortable heat you can have — even, silent, and energy-efficient. We install, service and replace residential and commercial boilers, plus full in-floor hydronic systems.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>High-efficiency condensing boilers</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>In-floor PEX install for new builds &amp; renos</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Zone control &amp; smart thermostat setup</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Annual servicing &amp; pressure testing</li>
+          </ul>
+          <a class="btn btn-primary" href="contact.html">Get Boiler Quote</a>
+        </div>
+      </article>
+
+      <!-- Gas -->
+      <article class="svc-detail reverse reveal" id="gas-fitting">
+        <div class="img-box">
+          <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M110 20L60 110h40l-10 70 70-100h-40l10-60z"/>
+          </svg>
+        </div>
+        <div>
+          <span class="svc-pill">Certified Gas Fitters</span>
+          <h2>Gas Fitting &amp; Gas Line Services</h2>
+          <p>Class A &amp; B certified gas fitters for any residential or commercial gas job. From a new BBQ hookup to a full commercial gas line install — done to code, safety-tested, signed off.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>New gas line installation &amp; extension</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>BBQ · firepit · garage heater hook-ups</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Gas leak detection &amp; pressure testing</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Commercial high-pressure gas work</li>
+          </ul>
+          <a class="btn btn-primary" href="contact.html">Book Gas Fitter</a>
+        </div>
+      </article>
+
+      <!-- Renovations -->
+      <article class="svc-detail reveal" id="renovations">
+        <div class="img-box">
+          <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M30 180V80l70-50 70 50v100"/>
+            <path d="M80 180V120h40v60"/>
+          </svg>
+        </div>
+        <div>
+          <span class="svc-pill">Renovations</span>
+          <h2>Renovations &amp; New Construction</h2>
+          <p>Full plumbing for kitchen &amp; bath renovations, basement developments, additions and new builds. Permits pulled, code-stamped inspections, on time and on schedule.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Kitchen &amp; bathroom plumbing</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Basement development rough-ins</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Fixture upgrades &amp; smart-home plumbing</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>New construction whole-home plumbing</li>
+          </ul>
+          <a class="btn btn-primary" href="contact.html">Talk to a Project Manager</a>
+        </div>
+      </article>
+
+      <!-- Commercial -->
+      <article class="svc-detail reverse reveal" id="commercial">
+        <div class="img-box">
+          <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 180h160"/>
+            <rect x="40" y="60" width="60" height="120"/>
+            <rect x="110" y="100" width="50" height="80"/>
+            <line x1="55" y1="80" x2="55" y2="170"/>
+            <line x1="85" y1="80" x2="85" y2="170"/>
+            <line x1="125" y1="120" x2="125" y2="170"/>
+            <line x1="145" y1="120" x2="145" y2="170"/>
+          </svg>
+        </div>
+        <div>
+          <span class="svc-pill">Commercial</span>
+          <h2>Commercial Plumbing &amp; Heating</h2>
+          <p>Property managers, restaurants, retail, multi-unit residential, offices, industrial. Preventative maintenance contracts, scheduled servicing, and emergency response.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Preventative maintenance contracts</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Backflow testing &amp; certification</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Multi-unit boiler &amp; rooftop systems</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>24/7 priority response for clients</li>
+          </ul>
+          <a class="btn btn-primary" href="contact.html">Request Commercial Quote</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div style="padding:60px 0;">
+    <div class="cta-band reveal">
+      <div class="cta-band-inner">
+        <div>
+          <h2>Need it done today?</h2>
+          <p>Same-day service available across Calgary &amp; surrounding areas. Just give us a call.</p>
+        </div>
+        <div class="cta-band-actions">
+          <a class="btn btn-yellow" href="tel:+14035550199">Call (403) 555-0199</a>
+          <a class="btn btn-outline" href="contact.html">Book Online</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container-x">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand">
+            <div class="brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-4 4-3-3-5 5 5 5 4-4M8 14l-3 3M16 4l4 4M14 2v4h4M6 22l3-3"/></svg>
+            </div>
+            <div class="brand-name">
+              <span class="row1">24/7 Plumbing &amp; Heating</span>
+              <span class="row2">Calgary · Licensed &amp; Insured</span>
+            </div>
+          </a>
+          <p>Calgary's trusted 24-hour plumbing and heating company. Family-owned, locally operated.</p>
+          <div class="footer-socials">
+            <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.5-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a>
+            <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          </div>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <div class="footer-links">
+            <a href="services.html#emergency">Emergency Plumbing</a>
+            <a href="services.html#drains">Drain Cleaning</a>
+            <a href="services.html#water-heaters">Hot Water Tanks</a>
+            <a href="services.html#furnace">Furnace Repair</a>
+            <a href="services.html#boilers">Boilers</a>
+            <a href="services.html#gas-fitting">Gas Fitting</a>
+            <a href="services.html#commercial">Commercial</a>
+          </div>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <div class="footer-links">
+            <a href="about.html">About Us</a>
+            <a href="index.html#reviews">Reviews</a>
+            <a href="index.html#faq">FAQ</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
+            <div><strong>24/7 Phone</strong><a href="tel:+14035550199">(403) 555-0199</a></div>
+          </div>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg>
+            <div><strong>Email</strong><a href="mailto:info@247plumbingcalgary.ca">info@247plumbingcalgary.ca</a></div>
+          </div>
+          <a class="btn btn-yellow" style="margin-top:8px; width:100%;" href="contact.html">Book Online</a>
+        </div>
+      </div>
+      <div class="footer-areas">
+        <span class="label">Service Areas:</span>
+        <span class="cities">Calgary · Airdrie · Cochrane · Chestermere · Okotoks · Strathmore · Langdon · Bragg Creek · Springbank · De Winton</span>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="year">2026</span> 24/7 Plumbing &amp; Heating Ltd. · All rights reserved.</span>
+        <span><a href="#">Privacy</a> · <a href="#">Terms</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="sticky-call">
+    <a href="tel:+14035550199">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
+      Call (403) 555-0199 — 24/7
+    </a>
+  </div>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="js/main.js"></script>
+</body>
+</html>
