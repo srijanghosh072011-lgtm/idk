@@ -1463,16 +1463,17 @@
             <p class="text-white/70 text-lg max-w-xl">
               Tell us about your business in a paragraph. We'll send back a same-day reply with a rough quote and a calendar link.
             </p>
-            <form id="contact-form" class="mt-8 grid sm:grid-cols-2 gap-3">
+            <form id="contact-form" action="https://formspree.io/f/xqejygkd" method="POST" class="mt-8 grid sm:grid-cols-2 gap-3">
               <label class="sr-only" for="name">Your name</label>
-              <input id="name" type="text" required placeholder="Your name" class="rounded-full bg-white/5 border border-white/15 px-5 py-4 text-white placeholder-white/40 focus:outline-none focus:border-accent transition-colors" />
+              <input id="name" name="name" type="text" required placeholder="Your name" class="rounded-full bg-white/5 border border-white/15 px-5 py-4 text-white placeholder-white/40 focus:outline-none focus:border-accent transition-colors" />
               <label class="sr-only" for="email">Email</label>
-              <input id="email" type="email" required placeholder="Email address" class="rounded-full bg-white/5 border border-white/15 px-5 py-4 text-white placeholder-white/40 focus:outline-none focus:border-accent transition-colors" />
+              <input id="email" name="email" type="email" required placeholder="Email address" class="rounded-full bg-white/5 border border-white/15 px-5 py-4 text-white placeholder-white/40 focus:outline-none focus:border-accent transition-colors" />
               <label class="sr-only" for="msg">About your business</label>
-              <textarea id="msg" rows="4" placeholder="A quick paragraph about your business and what you need." class="sm:col-span-2 rounded-3xl bg-white/5 border border-white/15 px-5 py-4 text-white placeholder-white/40 focus:outline-none focus:border-accent transition-colors resize-none"></textarea>
-              <button type="submit" class="cursor-pointer btn-primary sm:col-span-2 inline-flex items-center justify-center gap-2 rounded-full bg-accent text-white px-6 py-4 font-medium hover:bg-white hover:text-ink transition-colors">
-                Send the brief
-                <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              <textarea id="msg" name="message" rows="4" required placeholder="A quick paragraph about your business and what you need." class="sm:col-span-2 rounded-3xl bg-white/5 border border-white/15 px-5 py-4 text-white placeholder-white/40 focus:outline-none focus:border-accent transition-colors resize-none"></textarea>
+              <div id="contact-error" class="hidden sm:col-span-2 rounded-2xl bg-red-500/10 border border-red-500/30 px-5 py-3 text-sm text-red-200"></div>
+              <button id="contact-submit" type="submit" class="cursor-pointer btn-primary sm:col-span-2 inline-flex items-center justify-center gap-2 rounded-full bg-accent text-white px-6 py-4 font-medium hover:bg-white hover:text-ink transition-colors disabled:opacity-60 disabled:cursor-not-allowed">
+                <span id="contact-submit-label">Send the brief</span>
+                <svg id="contact-submit-icon" viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
               </button>
             </form>
           </div>
@@ -1483,9 +1484,9 @@
               <div class="grid place-items-center w-14 h-14 rounded-full bg-accent/20 border border-accent/40 mb-6">
                 <svg viewBox="0 0 24 24" class="w-7 h-7 text-accent" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
               </div>
-              <h3 class="font-display text-3xl md:text-4xl font-black tracking-tightest leading-[1] mb-4">Brief sent. Thanks <span id="thanks-name" class="text-accent"></span>.</h3>
+              <h3 class="font-display text-3xl md:text-4xl font-black tracking-tightest leading-[1] mb-4">Brief received. Thanks <span id="thanks-name" class="text-accent"></span>.</h3>
               <p class="text-white/70 text-lg max-w-xl leading-relaxed">
-                We just opened your email client with the message. Hit <span class="text-white font-semibold">Send</span> there and it'll land in our inbox — we'll reply within 24 hours on weekdays.
+                Your message is in our inbox. We'll reply within <span class="text-white font-semibold">24 hours</span> on weekdays with a rough quote and a calendar link.
               </p>
               <div class="mt-8 flex flex-col sm:flex-row gap-3">
                 <button type="button" id="contact-reset" class="cursor-pointer inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 backdrop-blur px-6 py-3 text-sm font-semibold text-white hover:bg-white/10 hover:border-white/35 transition-colors">
@@ -1577,31 +1578,54 @@
   // Year
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // Contact form → mailto + thank-you state
+  // Contact form → Formspree AJAX + thank-you state
   (function setupContactForm() {
     const form  = document.getElementById('contact-form');
     const intro = document.getElementById('contact-intro');
     const thanks = document.getElementById('contact-thanks');
     const reset = document.getElementById('contact-reset');
     const thanksName = document.getElementById('thanks-name');
+    const submitBtn = document.getElementById('contact-submit');
+    const submitLabel = document.getElementById('contact-submit-label');
+    const errorBox = document.getElementById('contact-error');
     if (!form) return;
 
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
       e.preventDefault();
       const name = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const msg  = document.getElementById('msg').value.trim();
-      const subject = encodeURIComponent('New enquiry from ' + name);
-      const body = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\n' + msg);
-      window.location.href = 'mailto:srijan.ghosh072011@gmail.com?subject=' + subject + '&body=' + body;
+      errorBox.classList.add('hidden');
+      errorBox.textContent = '';
+      submitBtn.disabled = true;
+      submitLabel.textContent = 'Sending…';
 
-      thanksName.textContent = name.split(' ')[0];
-      intro.classList.add('hidden');
-      thanks.classList.remove('hidden');
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' },
+        });
+
+        if (res.ok) {
+          thanksName.textContent = name.split(' ')[0];
+          intro.classList.add('hidden');
+          thanks.classList.remove('hidden');
+          form.reset();
+        } else {
+          const data = await res.json().catch(() => ({}));
+          const msg = (data.errors && data.errors.map(e => e.message).join(', ')) || 'Something went wrong. Please email us directly at srijan.ghosh072011@gmail.com.';
+          errorBox.textContent = msg;
+          errorBox.classList.remove('hidden');
+        }
+      } catch (err) {
+        errorBox.textContent = 'Network error. Please try again, or email us directly at srijan.ghosh072011@gmail.com.';
+        errorBox.classList.remove('hidden');
+      } finally {
+        submitBtn.disabled = false;
+        submitLabel.textContent = 'Send the brief';
+      }
     });
 
     reset.addEventListener('click', function() {
-      form.reset();
       thanks.classList.add('hidden');
       intro.classList.remove('hidden');
     });
