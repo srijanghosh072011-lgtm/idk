@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://srijanghosh072011-lgtm.github.io/idk/sitemap.xml
+Sitemap: https://ghoshdesigns.ca/sitemap.xml
