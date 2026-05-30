@@ -12,11 +12,11 @@
 
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://srijanghosh072011-lgtm.github.io/idk/" />
+<meta property="og:url" content="https://ghoshdesigns.ca/" />
 <meta property="og:title" content="Ghosh Designs | Custom Plumbing Websites in Regina, SK" />
 <meta property="og:description" content="Custom websites for plumbing and home-service businesses. Based in Regina, SK. $2,500 build + $450/mo hosting." />
 <meta property="og:site_name" content="Ghosh Designs" />
-<meta property="og:image" content="https://srijanghosh072011-lgtm.github.io/idk/assets/og-image.svg" />
+<meta property="og:image" content="https://ghoshdesigns.ca/assets/og-image.svg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 
@@ -32,7 +32,7 @@
   "@type": "LocalBusiness",
   "name": "Ghosh Designs",
   "description": "Web design studio specializing in custom websites for plumbing and home-service businesses in Regina, Saskatchewan and surrounding areas.",
-  "url": "https://srijanghosh072011-lgtm.github.io/idk/",
+  "url": "https://ghoshdesigns.ca/",
   "email": "srijan.ghosh072011@gmail.com",
   "founder": {
     "@type": "Person",
@@ -86,7 +86,7 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%231e40af'/%3E%3Cstop offset='100%25' stop-color='%230c1445'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url(%23g)'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial Black%2C Arial%2C sans-serif' font-weight='900' font-size='26' fill='white' letter-spacing='-1'%3EGD%3C/text%3E%3C/svg%3E" />
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%231e40af'/%3E%3Cstop offset='100%25' stop-color='%230c1445'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url(%23g)'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial Black%2C Arial%2C sans-serif' font-weight='900' font-size='26' fill='white' letter-spacing='-1'%3EGD%3C/text%3E%3C/svg%3E" />
 <link rel="manifest" href="./manifest.json" />
-<link rel="canonical" href="https://srijanghosh072011-lgtm.github.io/idk/" />
+<link rel="canonical" href="https://ghoshdesigns.ca/" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -121,15 +121,6 @@
   }
   .blob { animation: blob 14s ease-in-out infinite; filter: blur(80px); }
 
-  @keyframes orbit-a { 0%,100% { transform: translate(0,0); } 50% { transform: translate(8px,-12px); } }
-  @keyframes orbit-b { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-10px,8px); } }
-  @keyframes orbit-c { 0%,100% { transform: translate(0,0); } 50% { transform: translate(6px,10px); } }
-  @keyframes orbit-d { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-8px,-10px); } }
-  .orbit-a { animation: orbit-a 6s ease-in-out infinite; transform-origin: center; }
-  .orbit-b { animation: orbit-b 7s ease-in-out infinite -2s; transform-origin: center; }
-  .orbit-c { animation: orbit-c 5s ease-in-out infinite -1s; transform-origin: center; }
-  .orbit-d { animation: orbit-d 8s ease-in-out infinite -3s; transform-origin: center; }
-
   /* GD logo mark */
   .logo-mark { display: inline-flex; flex-shrink: 0; width: 36px; height: 36px; }
   .logo-mark-lg { width: 40px; height: 40px; }
@@ -141,22 +132,6 @@
   .hb4 { animation: hb-pulse 6.5s ease-in-out infinite -2s; transform-box: fill-box; transform-origin: center; }
   .hb5 { animation: hb-pulse 9s ease-in-out infinite -4s; transform-box: fill-box; transform-origin: center; }
   @keyframes hb-pulse { 0%,100% { transform: scale(1); opacity: var(--op,1); } 50% { transform: scale(1.12); opacity: calc(var(--op,1) * 1.25); } }
-
-  /* Underline draw */
-  .draw-line::after {
-    content: ''; position: absolute; left: 0; bottom: 0.06em;
-    height: 0.12em; width: 100%; background: #2563EB;
-    transform: scaleX(0); transform-origin: left; transition: transform .8s cubic-bezier(.2,.7,.2,1);
-  }
-  .draw-line.in::after { transform: scaleX(1); }
-
-  /* Pipe SVG decorative pulse */
-  @keyframes drip {
-    0% { transform: translateY(-6px); opacity: 0; }
-    20% { opacity: 1; }
-    100% { transform: translateY(20px); opacity: 0; }
-  }
-  .drip { animation: drip 2.6s ease-in-out infinite; }
 
   /* Card hover */
   .card-hover { transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease, border-color .35s ease; }
@@ -170,16 +145,6 @@
   }
   .btn-primary:hover::before { transform: translateX(120%); }
 
-  /* Image tiles */
-  .img-tile { position: relative; overflow: hidden; }
-  .img-tile img { transition: transform .8s cubic-bezier(.2,.7,.2,1); }
-  .img-tile:hover img { transform: scale(1.05); }
-  .img-tile::after {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.55) 100%);
-    pointer-events: none;
-  }
-
   /* Marquee gallery */
   @keyframes scroll-gallery { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   .gallery-track { display: flex; width: max-content; animation: scroll-gallery 60s linear infinite; }
@@ -191,17 +156,9 @@
   details[open] .acc-icon { transform: rotate(45deg); }
   .acc-icon { transition: transform .3s ease; }
 
-  /* Rotating-word headline — fade swap (no clipping) */
-  #rotator {
-    display: inline-block;
-    opacity: 1;
-    transition: opacity 260ms ease;
-  }
-  #rotator.swap-out { opacity: 0; }
-
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
-    .marquee-track, .blob, .drip, .orbit-a, .orbit-b, .orbit-c, .orbit-d, .gallery-track, .hb1, .hb2, .hb3, .hb4, .hb5 { animation: none !important; }
+    .marquee-track, .blob, .gallery-track, .hb1, .hb2, .hb3, .hb4, .hb5 { animation: none !important; }
     .reveal { opacity: 1; transform: none; transition: none; }
   }
 
@@ -212,10 +169,6 @@
   a:focus-visible, button:focus-visible, summary:focus-visible {
     outline: 2px solid #2563EB; outline-offset: 3px; border-radius: 6px;
   }
-
-  /* Hide scrollbar on hero ticker */
-  .no-scrollbar::-webkit-scrollbar { display: none; }
-  .no-scrollbar { scrollbar-width: none; }
 </style>
 </head>
 <body class="overflow-x-hidden">
@@ -423,7 +376,7 @@
             </p>
             <div class="inline-flex items-center gap-2 rounded-full bg-red-600 text-white px-4 md:px-5 py-2 md:py-2.5 font-semibold text-xs md:text-sm">
               <svg viewBox="0 0 24 24" class="w-4 h-4" fill="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-              Call (602) 555-0119
+              Call (306) 555-0119
             </div>
           </div>
         </article>
@@ -476,7 +429,7 @@
               Built for <span class="text-blue-400">uptime.</span>
             </h3>
             <p class="hidden md:block text-white/70 text-sm max-w-sm mb-6 leading-relaxed">
-              Multi-property plumbing & mechanical. Licensed across 4 states. Preventative maintenance that works.
+              Multi-property plumbing & mechanical. Licensed across the Prairies. Preventative maintenance that works.
             </p>
             <div class="inline-flex items-center gap-2 rounded-full bg-blue-600 text-white px-4 md:px-5 py-2 md:py-2.5 font-semibold text-xs md:text-sm">
               Request proposal
@@ -538,7 +491,7 @@
             </p>
             <div class="inline-flex items-center gap-2 rounded-full bg-red-600 text-white px-4 md:px-5 py-2 md:py-2.5 font-semibold text-xs md:text-sm">
               <svg viewBox="0 0 24 24" class="w-4 h-4" fill="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-              Call (602) 555-0119
+              Call (306) 555-0119
             </div>
           </div>
         </article>
@@ -588,7 +541,7 @@
               Built for <span class="text-blue-400">uptime.</span>
             </h3>
             <p class="hidden md:block text-white/70 text-sm max-w-sm mb-6 leading-relaxed">
-              Multi-property plumbing & mechanical. Licensed across 4 states. Preventative maintenance that works.
+              Multi-property plumbing & mechanical. Licensed across the Prairies. Preventative maintenance that works.
             </p>
             <div class="inline-flex items-center gap-2 rounded-full bg-blue-600 text-white px-4 md:px-5 py-2 md:py-2.5 font-semibold text-xs md:text-sm">
               Request proposal
@@ -634,119 +587,6 @@
         </article>
       </div>
     </div>
-    <!-- LEGACY STACKED HEROES (hidden) -->
-    <div class="hidden">
-        <!-- Hero 1: Bold Emergency -->
-        <article class="reveal group rounded-3xl overflow-hidden border border-line bg-black text-white relative aspect-video md:aspect-[16/9] flex items-center">
-          <div class="absolute inset-0 bg-gradient-to-r from-black via-transparent to-transparent z-10"></div>
-          <div class="relative z-20 max-w-2xl px-6 md:px-12 py-8 md:py-12">
-            <div class="text-xs uppercase tracking-[0.25em] text-white/60 mb-3">24/7 Emergency Plumbing</div>
-            <h3 class="font-display text-4xl md:text-6xl font-black tracking-tightest leading-[0.95] mb-4">
-              <span class="text-red-500">Pipe burst?</span> We're 10 minutes away.
-            </h3>
-            <p class="text-white/75 text-sm md:text-base max-w-md mb-8 leading-relaxed">
-              Drain backups, water heaters, slab leaks — we dispatch immediately. $0 emergency fee for service calls.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-3">
-              <a href="#contact" class="inline-flex items-center justify-center gap-2 rounded-full bg-red-600 text-white px-6 py-3 font-semibold hover:bg-red-700 transition-colors cursor-pointer">
-                <svg viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-                Call (602) 555-0119
-              </a>
-              <span class="text-xs text-white/50 py-3">Licensed · Insured · 4.9★</span>
-            </div>
-          </div>
-          <div class="absolute right-0 top-0 w-1/3 h-full opacity-20 pointer-events-none">
-            <svg viewBox="0 0 200 200" class="w-full h-full" fill="none" stroke="currentColor" stroke-width="1">
-              <rect x="20" y="40" width="160" height="140" rx="20"/><line x1="50" y1="70" x2="150" y2="70"/><line x1="50" y1="100" x2="150" y2="100"/><circle cx="60" cy="130" r="8"/><circle cx="100" cy="130" r="8"/><circle cx="140" cy="130" r="8"/>
-            </svg>
-          </div>
-        </article>
-
-        <!-- Hero 2: Premium Heritage -->
-        <article class="reveal group rounded-3xl overflow-hidden border border-line bg-gradient-to-br from-[#FAF6F1] to-white text-ink relative aspect-video md:aspect-[16/9] flex items-center">
-          <div class="absolute inset-0 opacity-5">
-            <div class="absolute top-0 right-0 w-96 h-96 bg-amber-600 rounded-full blur-3xl"></div>
-          </div>
-          <div class="relative z-10 grid md:grid-cols-2 gap-8 w-full px-6 md:px-12 py-8 md:py-12 items-center">
-            <div>
-              <div class="text-xs uppercase tracking-[0.25em] text-muted mb-2">Since 1987</div>
-              <h3 class="font-display text-4xl md:text-5xl font-black tracking-tightest leading-[0.95] mb-4">
-                Heritage Plumbing <span class="text-amber-700">Co.</span>
-              </h3>
-              <p class="text-muted text-base leading-relaxed mb-2">
-                Three generations of residential plumbing excellence. We don't cut corners — we replace pipes.
-              </p>
-              <div class="flex gap-4 mt-6">
-                <a href="#contact" class="inline-flex items-center gap-2 text-sm font-semibold text-ink hover:text-accent transition-colors cursor-pointer">
-                  Schedule a visit
-                  <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </a>
-              </div>
-            </div>
-            <div class="hidden md:block relative h-64">
-              <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-amber-100 to-amber-50 border border-amber-200 flex items-end justify-center p-6">
-                <svg viewBox="0 0 100 120" class="w-24 h-24 text-amber-700">
-                  <circle cx="50" cy="30" r="8" fill="currentColor"/><path d="M 50 38 L 50 70" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M 35 55 L 65 55" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M 40 70 L 60 70 L 55 110 L 45 110 Z" fill="currentColor" opacity="0.5"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <!-- Hero 3: Modern Direct -->
-        <article class="reveal group rounded-3xl overflow-hidden border border-line bg-white text-ink relative aspect-video md:aspect-[16/9] flex items-center">
-          <div class="absolute inset-0 bg-gradient-to-b from-blue-50 to-transparent z-0"></div>
-          <div class="relative z-10 w-full px-6 md:px-12 py-8 md:py-12">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-              <div>
-                <div class="text-xs uppercase tracking-[0.25em] text-muted mb-3">Modern plumbing for modern homes</div>
-                <h3 class="font-display text-4xl md:text-5xl font-black tracking-tightest leading-[0.95] mb-4">
-                  Smart plumbing. <span class="text-accent">No hassle.</span>
-                </h3>
-                <p class="text-muted text-base leading-relaxed mb-8">
-                  Same-day appointments. Upfront pricing. Online booking. We treat your home like our own.
-                </p>
-                <a href="#contact" class="inline-flex items-center justify-center gap-2 rounded-full bg-accent text-white px-6 py-3 font-semibold hover:bg-blue-700 transition-colors cursor-pointer">
-                  Book online now
-                  <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </a>
-              </div>
-              <div class="hidden md:grid grid-cols-2 gap-4">
-                <div class="rounded-xl bg-blue-100 p-6 text-center"><div class="font-display text-2xl font-black text-accent mb-2">2h avg</div><div class="text-xs text-muted">Response time</div></div>
-                <div class="rounded-xl bg-blue-100 p-6 text-center"><div class="font-display text-2xl font-black text-accent mb-2">98%</div><div class="text-xs text-muted">Satisfaction</div></div>
-                <div class="rounded-xl bg-blue-100 p-6 text-center"><div class="font-display text-2xl font-black text-accent mb-2">$0</div><div class="text-xs text-muted">Callout fee</div></div>
-                <div class="rounded-xl bg-blue-100 p-6 text-center"><div class="font-display text-2xl font-black text-accent mb-2">24/7</div><div class="text-xs text-muted">Always ready</div></div>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <!-- Hero 4: Industrial/Commercial -->
-        <article class="reveal group rounded-3xl overflow-hidden border border-line bg-gradient-to-br from-slate-900 to-black text-white relative aspect-video md:aspect-[16/9] flex items-center">
-          <div class="absolute inset-0 opacity-10">
-            <svg class="w-full h-full" viewBox="0 0 1200 800" preserveAspectRatio="none">
-              <line x1="0" y1="0" x2="1200" y2="0" stroke="white" stroke-width="2"/><line x1="0" y1="200" x2="1200" y2="200" stroke="white" stroke-width="1"/><line x1="0" y1="400" x2="1200" y2="400" stroke="white" stroke-width="1"/><line x1="0" y1="600" x2="1200" y2="600" stroke="white" stroke-width="1"/><line x1="0" y1="800" x2="1200" y2="800" stroke="white" stroke-width="2"/><line x1="200" y1="0" x2="200" y2="800" stroke="white" stroke-width="1"/><line x1="400" y1="0" x2="400" y2="800" stroke="white" stroke-width="1"/><line x1="600" y1="0" x2="600" y2="800" stroke="white" stroke-width="1"/>
-            </svg>
-          </div>
-          <div class="relative z-10 w-full px-6 md:px-12 py-8 md:py-12">
-            <div class="max-w-2xl">
-              <div class="text-xs uppercase tracking-[0.2em] text-white/50 mb-3 font-mono">Commercial · HVAC + Plumbing</div>
-              <h3 class="font-display text-5xl md:text-6xl font-black tracking-tightest leading-[0.95] mb-6">
-                Built for <span class="text-blue-400">uptime.</span>
-              </h3>
-              <p class="text-white/70 text-base max-w-md mb-8 leading-relaxed">
-                Multi-property plumbing & mechanical. Licensed across 4 states. Preventative maintenance that actually works.
-              </p>
-              <div class="flex flex-col sm:flex-row gap-3">
-                <a href="#contact" class="inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 text-white px-6 py-3 font-semibold hover:bg-blue-700 transition-colors cursor-pointer">
-                  Request proposal
-                  <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        </article>
-      </div>
   </section>
   <!-- Intro / Manifesto -->
   <section class="py-28 md:py-36">
@@ -876,7 +716,7 @@
         <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 min-h-[280px]">
           <div class="font-display text-6xl md:text-7xl font-black text-accent leading-none">02</div>
           <h3 class="font-display text-xl font-extrabold tracking-tight">Design</h3>
-          <p class="text-muted leading-relaxed">High-fidelity mockups of every page, reviewed in Figma. Two rounds of revisions.</p>
+          <p class="text-muted leading-relaxed">High-fidelity mockups of every page, shared for your review. Two rounds of revisions.</p>
           <span class="mt-auto text-xs uppercase tracking-[0.2em] text-muted">Day 2 – 6</span>
         </li>
         <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 min-h-[280px]">
@@ -982,7 +822,7 @@
     </div>
   </section>
 
-  <!-- Behind the design (Figma canvas mockup) -->
+  <!-- Behind the design (design canvas mockup) -->
   <section class="py-24 md:py-32 bg-ink text-white relative overflow-hidden">
     <div aria-hidden="true" class="absolute inset-0 -z-0 opacity-40">
       <div class="blob absolute -top-40 -left-20 w-[520px] h-[520px] rounded-full bg-accent/30"></div>
@@ -1005,7 +845,7 @@
       </div>
 
       <div class="lg:col-span-7 reveal">
-        <!-- Figma-style canvas mockup -->
+        <!-- Design-tool-style canvas mockup -->
         <div class="rounded-2xl overflow-hidden border border-white/15 bg-[#1A1A1F] shadow-[0_50px_120px_-30px_rgba(0,0,0,0.6)]">
           <!-- Toolbar -->
           <div class="flex items-center gap-2 px-4 py-2.5 border-b border-white/10 bg-[#0F0F12]">
@@ -1288,7 +1128,7 @@
               <span class="font-display text-2xl font-black text-accent leading-none w-7 flex-shrink-0">01</span>
               <div>
                 <div class="font-display font-bold tracking-tight">Niche-deep research, not generic discovery</div>
-                <div class="text-sm text-muted mt-1">We study your local market and competitors before touching Figma.</div>
+                <div class="text-sm text-muted mt-1">We study your local market and competitors before the first pixel.</div>
               </div>
             </li>
             <li class="flex items-start gap-4">
@@ -1332,7 +1172,7 @@
   <section class="py-24 md:py-32 bg-paper border-y border-line">
     <div class="mx-auto max-w-7xl px-6">
       <div class="reveal max-w-3xl mb-14">
-        <div class="text-xs uppercase tracking-[0.25em] text-muted mb-4">[ 07 — Why Ghosh Designs ]</div>
+        <div class="text-xs uppercase tracking-[0.25em] text-muted mb-4">[ 06 — Why Ghosh Designs ]</div>
         <h2 class="font-display text-4xl md:text-6xl font-black tracking-tightest leading-[0.95]">
           The agency tax, <span class="italic font-medium text-accent">cancelled</span>.
         </h2>
@@ -1380,7 +1220,7 @@
   <section id="faq" class="py-24 md:py-32">
     <div class="mx-auto max-w-7xl px-6 grid md:grid-cols-12 gap-10">
       <div class="md:col-span-4 reveal">
-        <div class="text-xs uppercase tracking-[0.25em] text-muted mb-4">[ 08 — FAQ ]</div>
+        <div class="text-xs uppercase tracking-[0.25em] text-muted mb-4">[ 07 — FAQ ]</div>
         <h2 class="font-display text-4xl md:text-5xl font-black tracking-tightest leading-[0.95]">
           Honest answers, no fine print.
         </h2>
@@ -1399,7 +1239,7 @@
             <span class="font-display text-lg md:text-xl font-bold tracking-tight">What's actually included in a project?</span>
             <span class="acc-icon text-2xl text-muted">+</span>
           </summary>
-          <p class="mt-4 text-muted leading-relaxed max-w-2xl">Strategy call, custom design in Figma (every page), hand-coded build, on-page SEO, contact + lead form, click-to-call wiring, analytics, deployment, and 30 days of free post-launch tweaks.</p>
+          <p class="mt-4 text-muted leading-relaxed max-w-2xl">Strategy call, custom design for every page, hand-coded build, on-page SEO, contact + lead form, click-to-call wiring, analytics, deployment, and 30 days of free post-launch tweaks.</p>
         </details>
         <details class="group py-6">
           <summary class="flex items-center justify-between gap-6">
@@ -1434,7 +1274,7 @@
     </div>
     <div class="relative mx-auto max-w-7xl px-6">
       <div class="reveal">
-        <div class="text-xs uppercase tracking-[0.25em] text-white/60 mb-6">[ 09 — Let's build ]</div>
+        <div class="text-xs uppercase tracking-[0.25em] text-white/60 mb-6">[ 08 — Let's build ]</div>
         <h2 class="font-display text-5xl md:text-8xl font-black tracking-tightest leading-[0.9] max-w-5xl">
           Ready to make your <br/>website <span class="italic font-medium text-accent">pull its weight?</span>
         </h2>
@@ -1625,9 +1465,9 @@
         }
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-    document.querySelectorAll('.reveal, .draw-line').forEach((el) => io.observe(el));
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
   } else {
-    document.querySelectorAll('.reveal, .draw-line').forEach((el) => el.classList.add('in'));
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
   }
 
   // Hero: scale the iframe-mockup to fit its container responsively
@@ -1647,30 +1487,6 @@
     } else {
       window.addEventListener('resize', update, { passive: true });
     }
-  })();
-
-  // Hero: rotating word in headline
-  (function setupRotator() {
-    const el = document.getElementById('rotator');
-    if (!el) return;
-    const words = [
-      'book more jobs.',
-      'ring the phone.',
-      'look expensive.',
-      'pay you back.',
-      'actually convert.'
-    ];
-    let i = 0;
-    el.textContent = words[i];
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    setInterval(() => {
-      el.classList.add('swap-out');
-      setTimeout(() => {
-        i = (i + 1) % words.length;
-        el.textContent = words[i];
-        el.classList.remove('swap-out');
-      }, 280);
-    }, 2400);
   })();
 
 </script>
