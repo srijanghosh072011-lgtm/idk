@@ -1,0 +1,11 @@
+# Python cache (from the UI design skill)
+__pycache__/
+*.pyc
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+
+# Node (if ever added)
+node_modules/
