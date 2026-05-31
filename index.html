@@ -6,7 +6,378 @@
   <meta name="theme-color" content="#07090d" />
   <title>Gaffer — Football Management</title>
   <meta name="description" content="A football management career sim. Pick a club, set your tactics, run the transfer market, and sim your way through the season." />
-  <link rel="stylesheet" href="css/styles.css" />
+  <!-- SELF-CONTAINED BUILD: all CSS + JS are inlined below so this one file runs
+       anywhere with no other files needed. Edit the source in css/ and js/, then
+       regenerate with:  node build.js -->
+  <style>
+/* ============================================================================
+ * Gaffer — Football Management. Stylesheet.
+ * Design system: Dark Mode (OLED) · Fira Sans / Fira Code · club-color accent.
+ * The --club* variables are set at runtime by ui.js from the chosen club.
+ * ==========================================================================*/
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg: #07090d;
+  --surface: #0e1218;
+  --surface-2: #141a22;
+  --surface-3: #1b232e;
+  --line: rgba(255, 255, 255, .08);
+  --line-2: rgba(255, 255, 255, .15);
+  --text: #e7ecf3;
+  --text-dim: #97a3b4;
+  --text-mut: #5e6c7e;
+
+  --club: #4f8ff7;
+  --club-2: #ffffff;
+  --club-soft: #12203a;
+  --club-glow: #16243d;
+  --club-ink: #ffffff;
+
+  --elite: #f5c451;
+  --good: #5dd39e;
+  --ok: #c4cedd;
+  --low: #8593a4;
+  --win: #46c98a;
+  --draw: #e3b341;
+  --loss: #e25563;
+
+  --r-sm: 8px; --r-md: 12px; --r-lg: 16px;
+  --sp-xs: 4px; --sp-sm: 8px; --sp-md: 16px; --sp-lg: 24px; --sp-xl: 32px;
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, .35);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, .5);
+  --sans: 'Fira Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'Fira Code', ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+#app { min-height: 100vh; }
+h1, h2, h3, h4 { margin: 0; font-weight: 600; letter-spacing: -.01em; }
+.icon { display: inline-block; vertical-align: middle; flex: none; }
+.crest { display: block; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .4)); }
+.muted { color: var(--text-mut); }
+.center { text-align: center; }
+.mono, .ovr, .c-pts, .rs-score, .face-v { font-family: var(--mono); }
+
+/* ---- Buttons ------------------------------------------------------------ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font-family: var(--sans); font-size: 14px; font-weight: 600;
+  padding: 10px 18px; border-radius: var(--r-sm); border: 1px solid transparent;
+  cursor: pointer; transition: background .18s ease, border-color .18s ease, color .18s ease, transform .12s ease;
+  color: var(--text); background: var(--surface-3);
+}
+.btn:hover { background: var(--surface-2); }
+.btn:focus-visible { outline: 2px solid var(--club); outline-offset: 2px; }
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--club); color: var(--club-ink); border-color: transparent; }
+.btn-primary:hover { background: var(--club); filter: brightness(1.08); }
+.btn-secondary { background: transparent; border-color: var(--line-2); color: var(--text); }
+.btn-secondary:hover { border-color: var(--club); color: var(--club); background: transparent; }
+.btn-ghost { background: transparent; color: var(--text-dim); }
+.btn-ghost:hover { color: var(--text); background: var(--surface-2); }
+.btn-lg { padding: 14px 26px; font-size: 16px; }
+.btn-sm { padding: 6px 12px; font-size: 13px; }
+.btn-block { width: 100%; }
+.btn-meta { display: block; font-size: 11px; font-weight: 400; opacity: .8; margin-top: 2px; }
+
+.pill { display: inline-flex; align-items: center; padding: 4px 12px; background: var(--surface-3);
+  border: 1px solid var(--line); border-radius: 100px; font-size: 12px; color: var(--text-dim); font-family: var(--mono); }
+.lbl { font-size: 12px; color: var(--text-dim); display: inline-flex; align-items: center; gap: 8px; }
+.lbl.block { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+select {
+  font-family: var(--sans); font-size: 13px; color: var(--text); background: var(--surface-3);
+  border: 1px solid var(--line-2); border-radius: var(--r-sm); padding: 8px 12px; cursor: pointer;
+}
+select:focus-visible { outline: 2px solid var(--club); }
+.hint { font-size: 12.5px; color: var(--text-mut); line-height: 1.6; }
+
+/* ---- Main Menu ---------------------------------------------------------- */
+.menu-screen { position: relative; height: 100vh; overflow: hidden; display: grid; place-items: center; }
+.menu-bg { position: absolute; inset: 0; z-index: 0; }
+.menu-stadium {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(120% 80% at 50% 110%, var(--club-glow) 0%, transparent 55%),
+    radial-gradient(80% 60% at 50% 0%, #0d1622 0%, transparent 60%),
+    linear-gradient(180deg, #05070a, #0a0f16 60%, #070b11);
+}
+.menu-stadium::after {
+  content: ''; position: absolute; left: 50%; bottom: -10%; transform: translateX(-50%);
+  width: 130%; height: 55%; border-radius: 50% 50% 0 0;
+  background: repeating-linear-gradient(90deg, rgba(80,140,90,.10) 0 6%, rgba(60,110,70,.16) 6% 12%);
+  box-shadow: 0 0 120px 40px rgba(0,0,0,.6) inset;
+}
+.menu-rain { position: absolute; inset: 0; opacity: .25;
+  background-image: repeating-linear-gradient(105deg, transparent 0 22px, rgba(180,200,230,.20) 22px 23px);
+  animation: rain 0.7s linear infinite; }
+@keyframes rain { to { background-position: -60px 120px; } }
+.menu-inner { position: relative; z-index: 1; text-align: center; padding: var(--sp-xl); }
+.brand-mark { width: 64px; height: 64px; margin: 0 auto var(--sp-md); border-radius: 50%;
+  display: grid; place-items: center; color: var(--club);
+  background: var(--club-soft); border: 1px solid var(--line-2); box-shadow: var(--shadow-lg); }
+.brand-title { font-family: var(--mono); font-size: 64px; font-weight: 700; letter-spacing: .12em;
+  background: linear-gradient(180deg, #fff, #9fb3cc); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.brand-sub { color: var(--text-dim); margin: 4px 0 0; letter-spacing: .2em; font-size: 13px; text-transform: uppercase; }
+.menu-actions { display: flex; flex-direction: column; gap: 12px; margin: var(--sp-xl) auto 0; max-width: 320px; }
+.menu-foot { margin-top: var(--sp-xl); color: var(--text-mut); font-size: 12px; }
+
+/* ---- Club Selection ----------------------------------------------------- */
+.select-screen { max-width: 1200px; margin: 0 auto; padding: var(--sp-xl) var(--sp-lg) 64px; }
+.select-head { margin-bottom: var(--sp-lg); }
+.select-head h2 { font-size: 28px; margin-top: var(--sp-sm); }
+.select-head p { color: var(--text-dim); margin: 4px 0 0; }
+.club-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--sp-md); }
+.club-card {
+  text-align: left; cursor: pointer; padding: var(--sp-md); border-radius: var(--r-md);
+  background: linear-gradient(160deg, var(--cg, #131a24), var(--surface)); border: 1px solid var(--line);
+  color: var(--text); transition: border-color .18s ease, transform .12s ease, box-shadow .18s ease;
+}
+.club-card:hover { border-color: var(--ca, var(--club)); transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.club-card:focus-visible { outline: 2px solid var(--ca, var(--club)); outline-offset: 2px; }
+.club-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--sp-sm); }
+.club-card-rep .star { color: #33404f; font-size: 13px; }
+.club-card-rep .star.on { color: var(--ca, var(--club)); }
+.club-card-name { font-weight: 600; font-size: 16px; line-height: 1.2; }
+.club-card-meta { display: flex; justify-content: space-between; margin-top: 8px; font-family: var(--mono); font-size: 12px; color: var(--text-dim); }
+.club-card-stadium { margin-top: 6px; font-size: 11.5px; color: var(--text-mut); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ---- App Shell ---------------------------------------------------------- */
+.app-shell { display: grid; grid-template-columns: 232px 1fr; min-height: 100vh; }
+.sidebar { background: var(--surface); border-right: 1px solid var(--line); padding: var(--sp-md);
+  display: flex; flex-direction: column; gap: var(--sp-md); position: sticky; top: 0; height: 100vh; }
+.sidebar-club { display: flex; gap: 10px; align-items: center; padding-bottom: var(--sp-md); border-bottom: 1px solid var(--line); }
+.sidebar-club-name { font-weight: 600; font-size: 14px; line-height: 1.2; }
+.sidebar-club-sub { font-size: 11px; color: var(--text-mut); }
+.nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.nav-item { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
+  padding: 11px 12px; border-radius: var(--r-sm); border: none; background: transparent; color: var(--text-dim);
+  font-family: var(--sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: background .15s, color .15s; }
+.nav-item:hover { background: var(--surface-2); color: var(--text); }
+.nav-item.active { background: var(--club-soft); color: var(--club); }
+.nav-item.active .icon { color: var(--club); }
+.sidebar-foot { display: flex; flex-direction: column; gap: 4px; border-top: 1px solid var(--line); padding-top: var(--sp-md); }
+
+.content { min-width: 0; display: flex; flex-direction: column; }
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-md);
+  padding: 14px var(--sp-lg); border-bottom: 1px solid var(--line); background: var(--surface);
+  position: sticky; top: 0; z-index: 20; }
+.tb-left { display: flex; align-items: center; gap: var(--sp-md); }
+.tb-season { font-family: var(--mono); font-weight: 600; color: var(--club); }
+.tb-pos { font-size: 13px; color: var(--text-dim); }
+.tb-right { display: flex; align-items: center; gap: var(--sp-lg); }
+.tb-stat { text-align: right; font-size: 11px; color: var(--text-mut); }
+.tb-stat b { display: block; font-family: var(--mono); font-size: 14px; color: var(--text); font-weight: 600; }
+.tb-next { padding: 6px 14px; border-radius: var(--r-sm); background: var(--club-soft); color: var(--club);
+  font-family: var(--mono); font-weight: 600; font-size: 13px; }
+
+.view { padding: var(--sp-lg); max-width: 1200px; width: 100%; }
+.view-head { display: flex; align-items: center; gap: var(--sp-md); margin-bottom: var(--sp-lg); flex-wrap: wrap; }
+.view-head h2 { font-size: 22px; }
+.view-tools { display: flex; align-items: center; gap: 12px; margin-left: auto; flex-wrap: wrap; }
+
+/* ---- Tables ------------------------------------------------------------- */
+.table-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.data-table th { text-align: left; padding: 11px 12px; font-size: 11px; text-transform: uppercase;
+  letter-spacing: .05em; color: var(--text-mut); border-bottom: 1px solid var(--line); font-weight: 600; background: var(--surface-2); }
+.data-table td { padding: 9px 12px; border-bottom: 1px solid var(--line); }
+.data-table tbody tr:last-child td { border-bottom: none; }
+.prow { cursor: pointer; transition: background .14s; }
+.prow:hover { background: var(--surface-2); }
+.c-num { color: var(--text-mut); font-family: var(--mono); width: 34px; }
+.c-ovr, .c-pts { text-align: center; }
+.c-age, .c-pot { text-align: center; color: var(--text-dim); }
+.c-val, .c-wage { font-family: var(--mono); color: var(--text-dim); text-align: right; white-space: nowrap; }
+.pos { display: inline-block; min-width: 38px; text-align: center; font-size: 11px; font-weight: 700;
+  font-family: var(--mono); padding: 3px 6px; border-radius: 5px; }
+.pos-GK { background: rgba(243,196,81,.15); color: #f3c451; }
+.pos-DEF { background: rgba(93,211,158,.14); color: #5dd39e; }
+.pos-MID { background: rgba(96,165,250,.14); color: #7fb1ff; }
+.pos-ATT { background: rgba(226,85,99,.16); color: #ff7a86; }
+.ovr { display: inline-block; min-width: 30px; text-align: center; font-weight: 700; padding: 3px 6px; border-radius: 5px; }
+.ovr.elite { background: rgba(245,196,81,.16); color: var(--elite); }
+.ovr.good { background: rgba(93,211,158,.14); color: var(--good); }
+.ovr.ok { background: var(--surface-3); color: var(--ok); }
+.ovr.low { background: var(--surface-3); color: var(--low); }
+.cap { font-family: var(--mono); font-size: 9px; font-weight: 700; background: var(--club); color: var(--club-ink);
+  padding: 1px 4px; border-radius: 3px; margin-left: 6px; vertical-align: middle; }
+.inj { font-family: var(--mono); font-size: 10px; color: var(--loss); background: rgba(226,85,99,.12);
+  padding: 1px 5px; border-radius: 4px; margin-left: 6px; }
+.nat { font-family: var(--mono); font-size: 11px; color: var(--text-mut); }
+.bar { display: inline-block; width: 60px; height: 6px; border-radius: 4px; background: var(--surface-3); overflow: hidden; vertical-align: middle; }
+.bar-fill { display: block; height: 100%; border-radius: 4px; }
+.bar-fill.hi { background: var(--win); } .bar-fill.mid { background: var(--draw); } .bar-fill.lo { background: var(--loss); }
+
+/* ---- League table specifics --------------------------------------------- */
+.c-rank { width: 30px; text-align: center; color: var(--text-mut); font-family: var(--mono); }
+.c-club { display: flex; align-items: center; gap: 8px; font-weight: 500; }
+.league-table .c-pts { font-weight: 700; color: var(--text); }
+.league-table tr.me { background: var(--club-soft); }
+.league-table tr.me .c-club { color: var(--club); font-weight: 600; }
+.c-form { display: flex; gap: 3px; }
+.c-form span { width: 16px; height: 16px; border-radius: 3px; font-size: 9px; font-weight: 700;
+  display: inline-grid; place-items: center; font-family: var(--mono); }
+.form-W { background: rgba(70,201,138,.2); color: var(--win); }
+.form-D { background: rgba(227,179,65,.2); color: var(--draw); }
+.form-L { background: rgba(226,85,99,.2); color: var(--loss); }
+tr.zone-champ td:first-child, tr.zone-ucl td:first-child { box-shadow: inset 3px 0 0 var(--good); }
+tr.zone-uel td:first-child { box-shadow: inset 3px 0 0 #60a5fa; }
+tr.zone-rel td:first-child { box-shadow: inset 3px 0 0 var(--loss); }
+.legend { display: flex; gap: var(--sp-md); margin-top: var(--sp-md); flex-wrap: wrap; }
+.lg { font-size: 11px; color: var(--text-dim); display: flex; align-items: center; gap: 6px; }
+.lg::before { content: ''; width: 10px; height: 10px; border-radius: 3px; }
+.lg.champ::before, .lg.ucl::before { background: var(--good); }
+.lg.uel::before { background: #60a5fa; } .lg.rel::before { background: var(--loss); }
+
+/* ---- Player modal ------------------------------------------------------- */
+.player-modal { width: min(560px, 92vw); }
+.pm-head { position: relative; display: flex; align-items: center; gap: var(--sp-md); padding: var(--sp-lg);
+  border-radius: var(--r-md) var(--r-md) 0 0; border-bottom: 1px solid var(--line); }
+.pm-ovr { text-align: center; }
+.ovr-big { font-family: var(--mono); font-size: 40px; font-weight: 700; line-height: 1; display: block; }
+.pm-ovr span:last-child { font-size: 10px; color: var(--text-mut); letter-spacing: .1em; }
+.pm-id h3 { font-size: 20px; }
+.pm-sub { color: var(--text-dim); font-size: 13px; margin-top: 2px; }
+.pm-sub2 { color: var(--text-mut); font-size: 12px; margin-top: 4px; }
+.modal-x { position: absolute; top: 14px; right: 14px; background: transparent; border: none; color: var(--text-mut);
+  font-size: 18px; cursor: pointer; padding: 4px 8px; border-radius: 6px; }
+.modal-x:hover { background: var(--surface-3); color: var(--text); }
+.pm-faces { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: var(--line); }
+.face { background: var(--surface); padding: 12px 4px; text-align: center; }
+.face-v { font-size: 20px; font-weight: 700; display: block; }
+.face-v.elite { color: var(--elite); } .face-v.good { color: var(--good); } .face-v.ok { color: var(--ok); } .face-v.low { color: var(--low); }
+.face-k { font-size: 10px; color: var(--text-mut); letter-spacing: .08em; }
+.pm-section { padding: var(--sp-md) var(--sp-lg); border-top: 1px solid var(--line); }
+.pm-section h4 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-mut); margin-bottom: 10px; }
+.pm-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.kv { background: var(--surface-2); border-radius: var(--r-sm); padding: 8px 10px; }
+.kv span { font-size: 11px; color: var(--text-mut); display: block; }
+.kv b { font-family: var(--mono); font-size: 15px; }
+.traits { display: flex; flex-wrap: wrap; gap: 8px; }
+.trait { font-size: 12px; background: var(--club-soft); color: var(--club); padding: 4px 10px; border-radius: 100px; border: 1px solid var(--line-2); }
+
+/* ---- Tactics + pitch ---------------------------------------------------- */
+.tactics-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--sp-lg); align-items: start; }
+.pitch-card, .md-lineup { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); padding: var(--sp-md); }
+.pitch {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.04), transparent),
+    repeating-linear-gradient(180deg, #0f2417 0 10%, #103019 10% 20%);
+  border: 1px solid var(--line); border-radius: var(--r-sm);
+  padding: var(--sp-md) var(--sp-sm); display: flex; flex-direction: column; gap: var(--sp-md); min-height: 380px;
+}
+.pitch-row { display: flex; justify-content: center; gap: var(--sp-sm); flex-wrap: wrap; }
+.r-att { margin-top: 6px; } .r-gk { margin-top: auto; margin-bottom: 6px; }
+.chip { display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer;
+  background: rgba(7,10,14,.72); border: 1px solid var(--line-2); border-radius: var(--r-sm); padding: 6px 8px;
+  color: var(--text); min-width: 64px; transition: border-color .15s, transform .12s; }
+.chip:hover { border-color: var(--club); transform: translateY(-2px); }
+.chip-ovr { font-family: var(--mono); font-weight: 700; font-size: 13px; }
+.chip-ovr.elite { color: var(--elite); } .chip-ovr.good { color: var(--good); } .chip-ovr.ok { color: var(--ok); } .chip-ovr.low { color: var(--low); }
+.chip-name { font-size: 11px; max-width: 72px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tactic-controls { display: flex; flex-direction: column; gap: var(--sp-md); background: var(--surface);
+  border: 1px solid var(--line); border-radius: var(--r-md); padding: var(--sp-lg); }
+
+/* ---- Match Day ---------------------------------------------------------- */
+.md-fixture { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--sp-md);
+  padding: var(--sp-xl) var(--sp-lg); border-radius: var(--r-md); border: 1px solid var(--line); margin-bottom: var(--sp-lg); }
+.md-team { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.md-team-name { font-weight: 600; text-align: center; }
+.md-team-ovr { font-family: var(--mono); font-size: 12px; color: var(--text-dim); }
+.md-vs { text-align: center; color: var(--text-mut); }
+.md-vs-x { font-family: var(--mono); font-size: 24px; font-weight: 700; color: var(--text); margin: 4px 0; }
+.md-venue { font-size: 11px; }
+.md-cols { display: grid; grid-template-columns: 1.5fr 1fr; gap: var(--sp-lg); align-items: start; }
+.md-lineup h3 { font-size: 15px; margin-bottom: var(--sp-sm); }
+.md-panel { display: flex; flex-direction: column; gap: 12px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-md); padding: var(--sp-lg); }
+.md-readout { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text-dim); }
+.md-readout b { margin-left: auto; font-family: var(--mono); color: var(--text); }
+.md-readout .bar { width: 80px; }
+.empty-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); padding: var(--sp-xl); color: var(--text-dim); }
+
+/* ---- Match reveal ------------------------------------------------------- */
+.reveal { width: min(560px, 94vw); }
+.reveal-head { text-align: center; padding: var(--sp-lg); border-bottom: 1px solid var(--line); position: relative;
+  background: linear-gradient(135deg, var(--club-glow), transparent); border-radius: var(--r-md) var(--r-md) 0 0; }
+.reveal-scoreline { display: flex; align-items: center; justify-content: center; gap: var(--sp-lg); }
+.rs-team { font-weight: 700; font-size: 18px; min-width: 52px; }
+.rs-score { font-size: 40px; font-weight: 700; min-width: 120px; }
+.rs-score.pop { animation: pop .4s ease; }
+@keyframes pop { 0% { transform: scale(1); } 40% { transform: scale(1.25); color: var(--club); } 100% { transform: scale(1); } }
+.reveal-sub { color: var(--text-dim); font-size: 12.5px; margin-top: 6px; }
+.reveal-head .btn-sm { position: absolute; top: 14px; right: 14px; }
+.reveal-feed { max-height: 46vh; overflow-y: auto; padding: var(--sp-sm) var(--sp-md); display: flex; flex-direction: column; gap: 6px; min-height: 120px; }
+.feed-row { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: var(--r-sm);
+  background: var(--surface-2); font-size: 13px; animation: slidein .3s ease; }
+@keyframes slidein { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
+.feed-row.goal { background: var(--club-soft); border: 1px solid var(--line-2); }
+.feed-min { font-family: var(--mono); font-size: 11px; color: var(--text-mut); min-width: 30px; }
+.feed-ico { font-size: 14px; }
+.feed-row.goal .feed-text { font-weight: 600; }
+.feed-text { line-height: 1.4; }
+.reveal-foot { padding: var(--sp-md) var(--sp-lg) var(--sp-lg); border-top: 1px solid var(--line); }
+.reveal-stats { margin-bottom: var(--sp-md); }
+.stat-row { display: grid; grid-template-columns: 50px 1fr 50px; align-items: center; padding: 5px 0; font-size: 13px; }
+.stat-row b { font-family: var(--mono); } .stat-row b:first-child { text-align: left; } .stat-row b:last-child { text-align: right; }
+.stat-row span { text-align: center; color: var(--text-mut); font-size: 12px; }
+.motm { text-align: center; margin-top: 10px; font-size: 12px; color: var(--club); font-family: var(--mono); }
+
+/* ---- Stats -------------------------------------------------------------- */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--sp-md); }
+.stat-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden; }
+.stat-card h3 { font-size: 14px; padding: 12px var(--sp-md); border-bottom: 1px solid var(--line); background: var(--surface-2); }
+.data-table.mini td { padding: 8px var(--sp-md); }
+
+/* ---- Modal + toast ------------------------------------------------------ */
+.modal-overlay { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: var(--sp-md);
+  background: rgba(2, 4, 7, .66); backdrop-filter: blur(5px); opacity: 0; transition: opacity .2s ease; }
+.modal-overlay.show { opacity: 1; }
+.modal { background: var(--surface); border: 1px solid var(--line-2); border-radius: var(--r-md);
+  box-shadow: var(--shadow-lg); max-height: 92vh; overflow-y: auto; transform: translateY(10px); transition: transform .22s ease; }
+.modal-overlay.show .modal { transform: none; }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); z-index: 60;
+  background: var(--surface-3); border: 1px solid var(--line-2); color: var(--text); padding: 10px 18px;
+  border-radius: 100px; font-size: 13px; opacity: 0; transition: opacity .25s, transform .25s; box-shadow: var(--shadow-md); }
+.toast.show { opacity: 1; transform: translateX(-50%); }
+
+/* ---- Responsive --------------------------------------------------------- */
+@media (max-width: 900px) {
+  .app-shell { grid-template-columns: 1fr; }
+  .sidebar { position: sticky; top: 0; height: auto; flex-direction: row; align-items: center; flex-wrap: wrap;
+    border-right: none; border-bottom: 1px solid var(--line); z-index: 30; }
+  .sidebar-club { border-bottom: none; padding-bottom: 0; padding-right: var(--sp-md); }
+  .nav { flex-direction: row; flex-wrap: wrap; flex: 1; }
+  .nav-item span { display: none; }
+  .nav-item { padding: 10px; }
+  .sidebar-foot { flex-direction: row; border-top: none; padding-top: 0; }
+  .sidebar-foot .nav-item span { display: none; }
+  .tactics-grid, .md-cols { grid-template-columns: 1fr; }
+  .tb-stat { display: none; }
+}
+@media (max-width: 560px) {
+  .brand-title { font-size: 44px; }
+  .view { padding: var(--sp-md); }
+  .c-pot, .c-wage, .c-nat { display: none; }
+  .data-table th:nth-child(7), .data-table.squad-table td.c-pot { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+  .menu-rain { display: none; }
+}
+
+  </style>
 </head>
 <body>
   <div id="app"></div>
@@ -16,21 +387,2156 @@
     </div>
   </noscript>
 
-  <!-- Core models -->
-  <script src="js/core/ratings.js"></script>
-  <script src="js/core/player.js"></script>
-  <script src="js/core/club.js"></script>
-  <!-- Data -->
-  <script src="js/data/clubs.js"></script>
-  <script src="js/data/squads.js"></script>
-  <!-- Engine -->
-  <script src="js/engine/match.js"></script>
-  <script src="js/engine/league.js"></script>
-  <!-- Systems -->
-  <script src="js/save/save.js"></script>
-  <script src="js/main.js"></script>
-  <!-- UI (must load after Game is defined) -->
-  <script src="js/ui/ui.js"></script>
+<script>
+/* ============================================================================
+ * ratings.js  —  The attribute & rating engine
+ * ----------------------------------------------------------------------------
+ * Every player in the data files is stored compactly as:
+ *     [name, position, age, nationality, overall, potential]
+ *
+ * This module deterministically expands that into the full set of ~30 detailed
+ * attributes (pace, finishing, vision, tackling, ...) using position-based
+ * "archetype" profiles. Because generation is seeded by the player's name, the
+ * same player ALWAYS gets the same attributes — so we never have to store all
+ * 30 numbers per player, and saves stay tiny.
+ *
+ * It also derives: position-weighted OVR, market value, weekly wage, and traits.
+ * ==========================================================================*/
+(function (root) {
+  root.Gaffer = root.Gaffer || {};
+  var G = root.Gaffer;
+  var R = {};
+
+  // ---- Deterministic RNG ---------------------------------------------------
+  // mulberry32: tiny, fast, seedable PRNG so attribute generation is repeatable.
+  function hashString(str) {
+    var h = 1779033703 ^ str.length;
+    for (var i = 0; i < str.length; i++) {
+      h = Math.imul(h ^ str.charCodeAt(i), 3432918353);
+      h = (h << 13) | (h >>> 19);
+    }
+    return h >>> 0;
+  }
+  function mulberry32(seed) {
+    return function () {
+      seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+      var t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, Math.round(v))); }
+  R.clamp = clamp;
+
+  // ---- Position groups -----------------------------------------------------
+  // Detailed positions collapse into archetype groups that share a profile.
+  var GROUP = {
+    GK: 'GK',
+    RB: 'FB', LB: 'FB', RWB: 'FB', LWB: 'FB',
+    CB: 'CB', RCB: 'CB', LCB: 'CB',
+    CDM: 'DM',
+    CM: 'CM', RCM: 'CM', LCM: 'CM',
+    RM: 'WM', LM: 'WM',
+    CAM: 'AM', CF: 'AM',
+    RW: 'W', LW: 'W',
+    ST: 'ST'
+  };
+  R.groupOf = function (pos) { return GROUP[pos] || 'CM'; };
+
+  // Broad lines used by tactics / squad screens.
+  R.lineOf = function (pos) {
+    var g = R.groupOf(pos);
+    if (g === 'GK') return 'GK';
+    if (g === 'CB' || g === 'FB') return 'DEF';
+    if (g === 'DM' || g === 'CM' || g === 'WM') return 'MID';
+    return 'ATT'; // AM, W, ST
+  };
+
+  // The six "face" stats (FIFA-style) used for OVR + the match engine.
+  var FACES = ['pac', 'sho', 'pas', 'dri', 'def', 'phy'];
+
+  // Per-group: how each face sits relative to the player's overall, and how
+  // much each face contributes to the position-weighted OVR.
+  var PROFILE = {
+    CB: { off: { pac: -6, sho: -28, pas: -8, dri: -12, def: 7, phy: 6 },
+          w:   { pac: .10, sho: .04, pas: .12, dri: .10, def: .42, phy: .22 } },
+    FB: { off: { pac: 6, sho: -14, pas: 0, dri: 1, def: 2, phy: -1 },
+          w:   { pac: .20, sho: .05, pas: .18, dri: .17, def: .25, phy: .15 } },
+    DM: { off: { pac: -4, sho: -10, pas: 2, dri: -2, def: 6, phy: 5 },
+          w:   { pac: .09, sho: .05, pas: .22, dri: .14, def: .30, phy: .20 } },
+    CM: { off: { pac: -2, sho: -3, pas: 6, dri: 3, def: 0, phy: 0 },
+          w:   { pac: .08, sho: .12, pas: .28, dri: .22, def: .16, phy: .14 } },
+    WM: { off: { pac: 7, sho: -2, pas: 1, dri: 6, def: -8, phy: -6 },
+          w:   { pac: .22, sho: .14, pas: .20, dri: .26, def: .10, phy: .08 } },
+    AM: { off: { pac: 1, sho: 3, pas: 5, dri: 6, def: -12, phy: -5 },
+          w:   { pac: .14, sho: .22, pas: .24, dri: .25, def: .06, phy: .09 } },
+    W:  { off: { pac: 8, sho: 1, pas: 0, dri: 7, def: -11, phy: -7 },
+          w:   { pac: .22, sho: .20, pas: .18, dri: .26, def: .06, phy: .08 } },
+    ST: { off: { pac: 4, sho: 7, pas: -6, dri: 2, def: -22, phy: 2 },
+          w:   { pac: .18, sho: .34, pas: .10, dri: .20, def: .04, phy: .14 } }
+  };
+
+  // GK is its own world.
+  var GK_W = { diving: .21, handling: .21, kicking: .11, reflexes: .21, speed: .05, positioning: .21 };
+
+  // ---- OVR calculator (derives overall from the face stats) ----------------
+  R.calculateOutfieldOVR = function (faces, group) {
+    var w = (PROFILE[group] || PROFILE.CM).w;
+    var sum = 0;
+    for (var i = 0; i < FACES.length; i++) sum += faces[FACES[i]] * w[FACES[i]];
+    return Math.round(sum);
+  };
+  R.calculateGkOVR = function (gk) {
+    var sum = 0;
+    for (var k in GK_W) sum += gk[k] * GK_W[k];
+    return Math.round(sum);
+  };
+
+  // ---- Attribute generation ------------------------------------------------
+  function genGK(ovr, rng) {
+    var gk = {
+      diving: ovr + (rng() * 6 - 3),
+      handling: ovr + (rng() * 6 - 4),
+      kicking: ovr + (rng() * 10 - 8),
+      reflexes: ovr + (rng() * 6 - 3),
+      speed: ovr - 22 + (rng() * 8),
+      positioning: ovr + (rng() * 6 - 3)
+    };
+    // Shift so the weighted OVR lands exactly on the authored value.
+    var delta = ovr - R.calculateGkOVR(gk);
+    for (var k in gk) gk[k] = clamp(gk[k] + delta, 20, 99);
+    return gk;
+  }
+
+  function genOutfield(ovr, group, rng) {
+    var p = PROFILE[group] || PROFILE.CM;
+    var faces = {};
+    FACES.forEach(function (f) { faces[f] = ovr + p.off[f] + (rng() * 6 - 3); });
+    // Normalise so derived OVR == authored OVR.
+    var delta = ovr - R.calculateOutfieldOVR(faces, group);
+    FACES.forEach(function (f) { faces[f] = clamp(faces[f] + delta, 20, 99); });
+
+    function around(base, spread) { return clamp(base + (rng() * spread * 2 - spread), 10, 99); }
+    var a = {
+      faces: faces,
+      // Pace
+      acceleration: around(faces.pac, 4),
+      sprintSpeed: around(faces.pac, 4),
+      // Shooting
+      finishing: around(faces.sho + 2, 5),
+      shotPower: around(faces.sho, 6),
+      longShots: around(faces.sho - 2, 7),
+      volleys: around(faces.sho - 4, 8),
+      penalties: around(faces.sho - 1, 7),
+      positioning: around(faces.sho, 6),
+      // Passing
+      shortPass: around(faces.pas + 2, 4),
+      longPass: around(faces.pas - 1, 6),
+      vision: around(faces.pas, 6),
+      crossing: around(faces.pas - 2, 7),
+      curve: around(faces.pas - 2, 8),
+      // Dribbling
+      dribbling: around(faces.dri + 1, 4),
+      ballControl: around(faces.dri + 1, 4),
+      agility: around(faces.dri, 6),
+      balance: around(faces.dri, 7),
+      reactions: around(ovr, 5),
+      composure: around(ovr, 6),
+      // Defending
+      defAwareness: around(faces.def, 5),
+      standingTackle: around(faces.def, 5),
+      slidingTackle: around(faces.def - 3, 7),
+      interceptions: around(faces.def, 6),
+      heading: around((faces.def + faces.phy) / 2, 8),
+      // Physical
+      strength: around(faces.phy, 6),
+      stamina: around(faces.phy + 3, 6),
+      jumping: around(faces.phy, 8),
+      aggression: around(faces.phy - 2, 10)
+    };
+    return a;
+  }
+
+  // Public: expand a compact player record into full attributes (deterministic).
+  R.generate = function (name, position, ovr) {
+    var rng = mulberry32(hashString(name + '#' + position));
+    var group = R.groupOf(position);
+    if (group === 'GK') {
+      return { isGK: true, group: 'GK', gk: genGK(ovr, rng) };
+    }
+    var att = genOutfield(ovr, group, rng);
+    att.isGK = false;
+    att.group = group;
+    return att;
+  };
+
+  // ---- Match-engine rating shortcuts --------------------------------------
+  // These aggregate the detailed attributes into the handful of numbers the
+  // simulation actually cares about, by line.
+  R.attackContribution = function (att, ovr) {
+    if (att.isGK) return ovr * 0.1;
+    var f = att.faces;
+    return (f.sho * 0.45 + f.dri * 0.30 + f.pac * 0.25);
+  };
+  R.creativityContribution = function (att, ovr) {
+    if (att.isGK) return att.gk.kicking * 0.3;
+    var f = att.faces;
+    return (f.pas * 0.55 + f.dri * 0.30 + f.pac * 0.15);
+  };
+  R.defenceContribution = function (att, ovr) {
+    if (att.isGK) return ovr; // handled separately as keeper
+    var f = att.faces;
+    return (f.def * 0.6 + f.phy * 0.25 + f.pac * 0.15);
+  };
+  R.keeperRating = function (att, ovr) {
+    if (!att.isGK) return Math.max(30, ovr - 25);
+    var gk = att.gk;
+    return (gk.reflexes * 0.3 + gk.diving * 0.3 + gk.positioning * 0.25 + gk.handling * 0.15);
+  };
+
+  // ---- Economics -----------------------------------------------------------
+  // Market value (in millions of currency units). Driven by OVR (steep),
+  // age (peak ~24-27), potential headroom, and contract length.
+  R.marketValue = function (ovr, age, potential, contractYears) {
+    // Base curve: cheap squad players, very expensive elite (steep).
+    var base = Math.pow(Math.max(0, ovr - 50) / 10, 4.3) * 0.205; // millions
+    // Age factor: young & prime worth more, sharp drop after 31.
+    var ageF;
+    if (age <= 21) ageF = 1.35;
+    else if (age <= 27) ageF = 1.15;
+    else if (age <= 30) ageF = 0.9;
+    else if (age <= 32) ageF = 0.6;
+    else if (age <= 34) ageF = 0.35;
+    else ageF = 0.18;
+    // Potential headroom adds value for the young.
+    var potF = 1 + Math.max(0, (potential - ovr)) * (age < 24 ? 0.035 : 0.015);
+    // Contract: short contracts are cheaper (leverage).
+    var conF = 0.7 + Math.min(4, contractYears || 2) * 0.1;
+    var val = base * ageF * potF * conF;
+    // Round to a sensible figure.
+    if (val >= 50) return Math.round(val);
+    if (val >= 10) return Math.round(val * 2) / 2;
+    if (val >= 1) return Math.round(val * 10) / 10;
+    return Math.max(0.05, Math.round(val * 20) / 20);
+  };
+
+  // Weekly wage (in thousands). Rough mapping from OVR with an age premium.
+  R.weeklyWage = function (ovr, age) {
+    var base = Math.pow(Math.max(0, ovr - 50) / 8, 2.7) * 1.4; // thousands/week
+    var ageF = (age >= 24 && age <= 31) ? 1.15 : (age < 21 ? 0.7 : 1.0);
+    var w = base * ageF;
+    if (w >= 100) return Math.round(w / 5) * 5;
+    if (w >= 10) return Math.round(w);
+    return Math.max(1, Math.round(w));
+  };
+
+  // ---- Traits --------------------------------------------------------------
+  R.deriveTraits = function (att, ovr, position) {
+    if (att.isGK) {
+      var t = [];
+      if (att.gk.reflexes >= 85) t.push('Shot Stopper');
+      if (att.gk.kicking >= 80) t.push('Sweeper Keeper');
+      if (ovr >= 86) t.push('Leadership');
+      return t;
+    }
+    var f = att.faces, traits = [];
+    if (att.longShots >= 87) traits.push('Long Shot Taker');
+    if (f.dri >= 88) traits.push('Flair');
+    if (f.pac >= 92) traits.push('Speedster');
+    if (att.finishing >= 90) traits.push('Clinical Finisher');
+    if (f.pas >= 88 && att.vision >= 88) traits.push('Playmaker');
+    if (att.aggression >= 86 && f.def >= 82) traits.push('Aggressive');
+    if (att.crossing >= 88) traits.push('Crosser');
+    if (att.heading >= 86 && f.phy >= 82) traits.push('Aerial Threat');
+    if (ovr >= 88) traits.unshift('Leadership'); // elite players carry the team
+    return traits.slice(0, 3);
+  };
+
+  G.Ratings = R;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+/* ============================================================================
+ * player.js  —  The Player model
+ * ----------------------------------------------------------------------------
+ * Built from a compact record + the Ratings engine. Holds the live, mutable
+ * state that changes during a career: morale, fitness, injuries, form, contract,
+ * and dynamic OVR (from ageing). Static attributes come from Ratings.generate().
+ * ==========================================================================*/
+(function (root) {
+  root.Gaffer = root.Gaffer || {};
+  var G = root.Gaffer;
+  var R = G.Ratings;
+
+  var _idCounter = 1;
+
+  function Player(rec, clubId) {
+    // rec = [name, position, age, nationality, overall, potential, (shirt?)]
+    this.id = 'p' + (_idCounter++);
+    this.name = rec[0];
+    this.position = rec[1];
+    this.age = rec[2];
+    this.nationality = rec[3];
+    this.overall = rec[4];
+    this.potential = Math.max(rec[5] || rec[4], rec[4]);
+    this.shirt = rec[6] || null;
+    this.clubId = clubId || null;
+
+    this.line = R.lineOf(this.position);           // GK / DEF / MID / ATT
+    this.group = R.groupOf(this.position);          // archetype group
+    this.att = R.generate(this.name, this.position, this.overall);
+    this.traits = R.deriveTraits(this.att, this.overall, this.position);
+
+    // Live career state.
+    this.morale = 70;          // 0-100
+    this.fitness = 100;        // 0-100 (match sharpness / freshness)
+    this.form = 0;             // -5..+5 recent-form modifier
+    this.injuryDays = 0;       // days until fit
+    this.injury = null;        // description string when injured
+
+    // Contract / economics.
+    this.contractYears = rec[7] != null ? rec[7] : 3; // years remaining (default 3)
+    this.wage = R.weeklyWage(this.overall, this.age);     // thousands/week
+    this.value = R.marketValue(this.overall, this.age, this.potential, this.contractYears); // millions
+
+    // Season stats (reset each season).
+    this.stats = freshStats();
+    this.seasonHistory = [];
+  }
+
+  function freshStats() {
+    return {
+      apps: 0, goals: 0, assists: 0, cleanSheets: 0,
+      ratingSum: 0, ratingCount: 0,
+      shots: 0, tackles: 0, passesAttempted: 0, passesCompleted: 0,
+      yellow: 0, red: 0, motm: 0
+    };
+  }
+
+  Player.prototype.recalcEconomics = function () {
+    this.wage = R.weeklyWage(this.overall, this.age);
+    this.value = R.marketValue(this.overall, this.age, this.potential, this.contractYears);
+  };
+
+  Player.prototype.avgRating = function () {
+    return this.stats.ratingCount ? (this.stats.ratingSum / this.stats.ratingCount) : 0;
+  };
+  Player.prototype.passAccuracy = function () {
+    return this.stats.passesAttempted
+      ? Math.round(100 * this.stats.passesCompleted / this.stats.passesAttempted) : 0;
+  };
+
+  Player.prototype.isAvailable = function () {
+    return this.injuryDays <= 0;
+  };
+
+  // ---- Match-engine contributions -----------------------------------------
+  // Scaled by current fitness so tired players perform worse.
+  Player.prototype.attack = function () {
+    return R.attackContribution(this.att, this.overall) * this._fitScale();
+  };
+  Player.prototype.creativity = function () {
+    return R.creativityContribution(this.att, this.overall) * this._fitScale();
+  };
+  Player.prototype.defence = function () {
+    return R.defenceContribution(this.att, this.overall) * this._fitScale();
+  };
+  Player.prototype.keeper = function () {
+    return R.keeperRating(this.att, this.overall) * this._fitScale();
+  };
+  Player.prototype._fitScale = function () {
+    return 0.82 + 0.18 * (this.fitness / 100) + this.form * 0.01;
+  };
+
+  // ---- Ageing / development (called once per in-game year) -----------------
+  // 16-26: grows toward potential. 27-31: plateau. 32+: decline.
+  Player.prototype.ageOneYear = function (devModifier) {
+    this.age += 1;
+    devModifier = devModifier || 1; // youth-coach / training quality multiplier
+    var delta = 0;
+    if (this.age <= 26) {
+      var room = this.potential - this.overall;
+      if (room > 0) delta = Math.max(0, Math.round((0.18 * room + 0.4) * devModifier));
+    } else if (this.age <= 31) {
+      delta = (Math.random() < 0.25) ? 1 : 0; // slight late bloom chance
+    } else if (this.age <= 33) {
+      delta = -1;
+    } else if (this.age <= 35) {
+      delta = -2;
+    } else {
+      delta = -3;
+    }
+    this.overall = R.clamp(this.overall + delta, 30, 99);
+    // Regenerate attributes around the new overall (keeps shape via the seed).
+    this.att = R.generate(this.name, this.position, this.overall);
+    if (this.contractYears > 0) this.contractYears -= 0; // contract handled by calendar
+    this.recalcEconomics();
+    return delta;
+  };
+
+  // Should this player retire? (used by the calendar system later)
+  Player.prototype.wantsToRetire = function () {
+    if (this.age >= 40) return true;
+    if (this.age >= 36 && this.overall < 74) return true;
+    if (this.age >= 38) return Math.random() < 0.6;
+    return false;
+  };
+
+  Player.prototype.resetSeasonStats = function () {
+    if (this.stats.apps > 0) this.seasonHistory.push(this.stats);
+    this.stats = freshStats();
+  };
+
+  // Advance recovery over a number of rest days (a league round ~ 7 days).
+  // injuryRecoveryRate >1 = better physio/fitness coach (set by staff later).
+  Player.prototype.advanceDay = function (days, injuryRecoveryRate) {
+    days = days || 1;
+    if (this.injuryDays > 0) {
+      this.injuryDays -= days * (injuryRecoveryRate || 1);
+      if (this.injuryDays <= 0) { this.injuryDays = 0; this.injury = null; this.fitness = Math.max(this.fitness, 75); }
+    } else if (this.fitness < 100) {
+      this.fitness = Math.min(100, this.fitness + 4 * days);
+    }
+    // Morale drifts toward neutral-positive over time.
+    if (this.morale < 65) this.morale = Math.min(100, this.morale + Math.min(3, days));
+  };
+
+  G.Player = Player;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+/* ============================================================================
+ * club.js  —  The Club model
+ * ----------------------------------------------------------------------------
+ * Holds a squad of Player objects, club identity (colors/stadium used for UI
+ * theming), finances, and the logic to auto-pick a best XI and compute the
+ * attack / midfield / defence strengths the match engine consumes.
+ * ==========================================================================*/
+(function (root) {
+  root.Gaffer = root.Gaffer || {};
+  var G = root.Gaffer;
+
+  // Formations: each maps to the set of "lines" we need to fill.
+  // We keep it simple at the engine level (GK/DEF/MID/ATT counts); the tactics
+  // screen will expose the named shapes.
+  var FORMATIONS = {
+    '4-3-3':   { DEF: 4, MID: 3, ATT: 3 },
+    '4-4-2':   { DEF: 4, MID: 4, ATT: 2 },
+    '4-2-3-1': { DEF: 4, MID: 5, ATT: 1 },
+    '3-5-2':   { DEF: 3, MID: 5, ATT: 2 },
+    '3-4-3':   { DEF: 3, MID: 4, ATT: 3 },
+    '5-3-2':   { DEF: 5, MID: 3, ATT: 2 },
+    '4-1-4-1': { DEF: 4, MID: 5, ATT: 1 }
+  };
+  G.FORMATIONS = FORMATIONS;
+
+  function Club(data) {
+    this.id = data.id;
+    this.name = data.name;
+    this.short = data.short;          // 3-letter code
+    this.league = data.league;        // league id
+    this.playable = data.playable !== false;
+    this.colors = data.colors || { primary: '#1E40AF', secondary: '#FFFFFF' };
+    this.stadium = data.stadium || (this.name + ' Stadium');
+    this.capacity = data.capacity || 30000;
+    this.reputation = data.reputation || 60; // 0-100, drives finances & AI ambition
+
+    this.players = [];                // Player objects
+    this.formation = '4-3-3';
+    this.lineup = [];                 // array of 11 player ids (set on match day)
+
+    // Finances (millions, except wages which sum thousands/week).
+    this.transferBudget = data.transferBudget != null ? data.transferBudget : estimateBudget(this.reputation);
+    this.wageBudget = data.wageBudget != null ? data.wageBudget : Math.round(this.transferBudget * 0.6 + 30); // k/week
+    this.balance = 0;
+
+    this.captainId = null;
+  }
+
+  function estimateBudget(rep) {
+    // Rough mapping of reputation to a summer transfer kitty (millions).
+    return Math.max(10, Math.round((rep - 58) * 5.5));
+  }
+
+  Club.prototype.addPlayer = function (player) {
+    player.clubId = this.id;
+    this.players.push(player);
+  };
+
+  Club.prototype.removePlayer = function (playerId) {
+    var idx = this.players.findIndex(function (p) { return p.id === playerId; });
+    if (idx >= 0) return this.players.splice(idx, 1)[0];
+    return null;
+  };
+
+  Club.prototype.getPlayer = function (playerId) {
+    return this.players.find(function (p) { return p.id === playerId; }) || null;
+  };
+
+  Club.prototype.wageBillWeekly = function () {
+    return this.players.reduce(function (s, p) { return s + p.wage; }, 0); // thousands/week
+  };
+
+  Club.prototype.squadOVR = function () {
+    if (!this.players.length) return 0;
+    var top = this.players.slice().sort(byOVR).slice(0, 16);
+    return Math.round(top.reduce(function (s, p) { return s + p.overall; }, 0) / top.length);
+  };
+
+  function byOVR(a, b) { return b.overall - a.overall; }
+
+  // Pick the strongest available XI for the current formation.
+  Club.prototype.pickBestXI = function (formation) {
+    formation = formation || this.formation;
+    var need = FORMATIONS[formation] || FORMATIONS['4-3-3'];
+    var avail = this.players.filter(function (p) { return p.isAvailable(); });
+
+    var byLine = { GK: [], DEF: [], MID: [], ATT: [] };
+    avail.forEach(function (p) { byLine[p.line].push(p); });
+    for (var k in byLine) byLine[k].sort(byOVR);
+
+    var xi = [];
+    // Goalkeeper.
+    if (byLine.GK[0]) xi.push(byLine.GK[0]);
+    // Outfield lines.
+    ['DEF', 'MID', 'ATT'].forEach(function (line) {
+      for (var i = 0; i < need[line] && byLine[line][i]; i++) xi.push(byLine[line][i]);
+    });
+    // Fill any shortfall (e.g., injuries) with best remaining outfielders.
+    if (xi.length < 11) {
+      var used = {};
+      xi.forEach(function (p) { used[p.id] = true; });
+      var rest = avail.filter(function (p) { return !used[p.id] && p.line !== 'GK'; }).sort(byOVR);
+      for (var j = 0; xi.length < 11 && rest[j]; j++) xi.push(rest[j]);
+    }
+    this.lineup = xi.slice(0, 11).map(function (p) { return p.id; });
+    this.formation = formation;
+    return this.lineup;
+  };
+
+  Club.prototype.lineupPlayers = function () {
+    var self = this;
+    return (this.lineup || []).map(function (id) { return self.getPlayer(id); }).filter(Boolean);
+  };
+
+  // ---- Team strengths for the match engine --------------------------------
+  // Aggregates the selected XI into attack / midfield / defence / keeper ratings.
+  Club.prototype.strengths = function () {
+    var xi = this.lineupPlayers();
+    if (xi.length < 11) { this.pickBestXI(); xi = this.lineupPlayers(); }
+
+    var gk = xi.find(function (p) { return p.line === 'GK'; });
+    var def = xi.filter(function (p) { return p.line === 'DEF'; });
+    var mid = xi.filter(function (p) { return p.line === 'MID'; });
+    var att = xi.filter(function (p) { return p.line === 'ATT'; });
+
+    function avg(arr, fn) {
+      if (!arr.length) return 50;
+      return arr.reduce(function (s, p) { return s + fn(p); }, 0) / arr.length;
+    }
+
+    // Each line blends its own duty with help from neighbouring lines.
+    var attackR = 0.6 * avg(att, function (p) { return p.attack(); })
+                + 0.3 * avg(mid, function (p) { return p.attack(); })
+                + 0.1 * avg(def, function (p) { return p.attack(); });
+
+    var midfieldR = 0.55 * avg(mid, function (p) { return p.creativity(); })
+                  + 0.25 * avg(att, function (p) { return p.creativity(); })
+                  + 0.20 * avg(def, function (p) { return p.creativity(); });
+
+    var defenceR = 0.6 * avg(def, function (p) { return p.defence(); })
+                 + 0.3 * avg(mid, function (p) { return p.defence(); })
+                 + 0.1 * (gk ? gk.overall : 60);
+
+    return {
+      attack: attackR,
+      midfield: midfieldR,
+      defence: defenceR,
+      keeper: gk ? gk.keeper() : 55,
+      xi: xi
+    };
+  };
+
+  // Average fitness of the XI — feeds late-game fatigue effects.
+  Club.prototype.lineupFitness = function () {
+    var xi = this.lineupPlayers();
+    if (!xi.length) return 100;
+    return xi.reduce(function (s, p) { return s + p.fitness; }, 0) / xi.length;
+  };
+
+  G.Club = Club;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+/* ============================================================================
+ * clubs.js  —  Club identity data
+ * ----------------------------------------------------------------------------
+ * The 2025-26 Premier League (first playable league). Colors drive the UI
+ * theming; reputation drives finances and (later) AI ambition. Player ratings
+ * and values are approximations for gameplay, not official figures.
+ *
+ * Other leagues (La Liga, Serie A, Bundesliga, Ligue 1) and players-only
+ * leagues (Portugal, Saudi, MLS) are added in later data files.
+ * ==========================================================================*/
+(function (root) {
+  root.Gaffer = root.Gaffer || {};
+  var G = root.Gaffer;
+  G.DATA = G.DATA || {};
+
+  G.DATA.leagues = {
+    eng: { id: 'eng', name: 'Premier League', country: 'England', tier: 1, playable: true }
+  };
+
+  // colors: primary is the main brand color (used as the themed accent),
+  // secondary is the complementary color.
+  G.DATA.clubs = [
+    { id: 'liverpool', name: 'Liverpool', short: 'LIV', league: 'eng', reputation: 91,
+      colors: { primary: '#C8102E', secondary: '#F6EB61' }, stadium: 'Anfield', capacity: 61276 },
+    { id: 'mancity', name: 'Manchester City', short: 'MCI', league: 'eng', reputation: 92,
+      colors: { primary: '#6CABDD', secondary: '#1C2C5B' }, stadium: 'Etihad Stadium', capacity: 53400 },
+    { id: 'arsenal', name: 'Arsenal', short: 'ARS', league: 'eng', reputation: 89,
+      colors: { primary: '#EF0107', secondary: '#FFFFFF' }, stadium: 'Emirates Stadium', capacity: 60704 },
+    { id: 'chelsea', name: 'Chelsea', short: 'CHE', league: 'eng', reputation: 86,
+      colors: { primary: '#1f7ae0', secondary: '#FFFFFF' }, stadium: 'Stamford Bridge', capacity: 40341 },
+    { id: 'manutd', name: 'Manchester United', short: 'MUN', league: 'eng', reputation: 85,
+      colors: { primary: '#DA291C', secondary: '#FBE122' }, stadium: 'Old Trafford', capacity: 74310 },
+    { id: 'tottenham', name: 'Tottenham Hotspur', short: 'TOT', league: 'eng', reputation: 83,
+      colors: { primary: '#8aa1d6', secondary: '#132257' }, stadium: 'Tottenham Hotspur Stadium', capacity: 62850 },
+    { id: 'newcastle', name: 'Newcastle United', short: 'NEW', league: 'eng', reputation: 82,
+      colors: { primary: '#d4d4d4', secondary: '#241F20' }, stadium: 'St James’ Park', capacity: 52305 },
+    { id: 'astonvilla', name: 'Aston Villa', short: 'AVL', league: 'eng', reputation: 80,
+      colors: { primary: '#95BFE5', secondary: '#670E36' }, stadium: 'Villa Park', capacity: 42657 },
+    { id: 'brighton', name: 'Brighton & Hove Albion', short: 'BHA', league: 'eng', reputation: 76,
+      colors: { primary: '#0057B8', secondary: '#FFCD00' }, stadium: 'Amex Stadium', capacity: 31800 },
+    { id: 'forest', name: 'Nottingham Forest', short: 'NFO', league: 'eng', reputation: 74,
+      colors: { primary: '#DD0000', secondary: '#FFFFFF' }, stadium: 'The City Ground', capacity: 30404 },
+    { id: 'westham', name: 'West Ham United', short: 'WHU', league: 'eng', reputation: 74,
+      colors: { primary: '#7A263A', secondary: '#2DAFE5' }, stadium: 'London Stadium', capacity: 62500 },
+    { id: 'everton', name: 'Everton', short: 'EVE', league: 'eng', reputation: 73,
+      colors: { primary: '#003399', secondary: '#FFFFFF' }, stadium: 'Hill Dickinson Stadium', capacity: 52888 },
+    { id: 'palace', name: 'Crystal Palace', short: 'CRY', league: 'eng', reputation: 73,
+      colors: { primary: '#1B458F', secondary: '#C4122E' }, stadium: 'Selhurst Park', capacity: 25486 },
+    { id: 'bournemouth', name: 'AFC Bournemouth', short: 'BOU', league: 'eng', reputation: 72,
+      colors: { primary: '#DA291C', secondary: '#000000' }, stadium: 'Vitality Stadium', capacity: 11307 },
+    { id: 'brentford', name: 'Brentford', short: 'BRE', league: 'eng', reputation: 72,
+      colors: { primary: '#E30613', secondary: '#FBB800' }, stadium: 'Gtech Community Stadium', capacity: 17250 },
+    { id: 'fulham', name: 'Fulham', short: 'FUL', league: 'eng', reputation: 72,
+      colors: { primary: '#cfcfcf', secondary: '#000000' }, stadium: 'Craven Cottage', capacity: 29589 },
+    { id: 'wolves', name: 'Wolverhampton Wanderers', short: 'WOL', league: 'eng', reputation: 71,
+      colors: { primary: '#FDB913', secondary: '#231F20' }, stadium: 'Molineux', capacity: 31750 },
+    { id: 'leeds', name: 'Leeds United', short: 'LEE', league: 'eng', reputation: 68,
+      colors: { primary: '#4f8ff7', secondary: '#FFCD00' }, stadium: 'Elland Road', capacity: 37792 },
+    { id: 'burnley', name: 'Burnley', short: 'BUR', league: 'eng', reputation: 66,
+      colors: { primary: '#6C1D45', secondary: '#99D6EA' }, stadium: 'Turf Moor', capacity: 21944 },
+    { id: 'sunderland', name: 'Sunderland', short: 'SUN', league: 'eng', reputation: 66,
+      colors: { primary: '#EB172B', secondary: '#211E1F' }, stadium: 'Stadium of Light', capacity: 49000 }
+  ];
+
+  G.DATA.clubsById = {};
+  G.DATA.clubs.forEach(function (c) { G.DATA.clubsById[c.id] = c; });
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+/* ============================================================================
+ * squads.js  —  Real(ish) 2025-26 Premier League squads
+ * ----------------------------------------------------------------------------
+ * Record format: [name, position, age, nationality, overall, potential]
+ * Positions: GK RB CB LB CDM CM RM LM CAM RW LW ST
+ * Ratings/values are approximations tuned for gameplay, not official numbers.
+ * Reflects known summer-2025 transfers where available; treat as a season-start
+ * snapshot. Easy to edit — just change the numbers.
+ * ==========================================================================*/
+(function (root) {
+  root.Gaffer = root.Gaffer || {};
+  var G = root.Gaffer;
+  G.DATA = G.DATA || {};
+
+  G.DATA.squads = {
+    liverpool: [
+      ['Alisson', 'GK', 32, 'BRA', 89, 89], ['Giorgi Mamardashvili', 'GK', 24, 'GEO', 82, 86],
+      ['Jeremie Frimpong', 'RB', 24, 'NED', 82, 85], ['Conor Bradley', 'RB', 22, 'NIR', 77, 84],
+      ['Virgil van Dijk', 'CB', 34, 'NED', 89, 89], ['Ibrahima Konaté', 'CB', 26, 'FRA', 85, 87],
+      ['Milos Kerkez', 'LB', 21, 'HUN', 80, 86], ['Andrew Robertson', 'LB', 31, 'SCO', 83, 83],
+      ['Ryan Gravenberch', 'CDM', 23, 'NED', 85, 89], ['Alexis Mac Allister', 'CM', 26, 'ARG', 86, 88],
+      ['Dominik Szoboszlai', 'CM', 24, 'HUN', 84, 87], ['Curtis Jones', 'CM', 24, 'ENG', 79, 83],
+      ['Wataru Endo', 'CM', 32, 'JPN', 79, 79], ['Mohamed Salah', 'RW', 33, 'EGY', 90, 90],
+      ['Florian Wirtz', 'CAM', 22, 'GER', 87, 92], ['Cody Gakpo', 'LW', 26, 'NED', 84, 87],
+      ['Hugo Ekitike', 'ST', 23, 'FRA', 82, 88], ['Darwin Nunez', 'ST', 26, 'URU', 81, 84]
+    ],
+    mancity: [
+      ['Ederson', 'GK', 32, 'BRA', 87, 87], ['Stefan Ortega', 'GK', 32, 'GER', 79, 79],
+      ['Matheus Nunes', 'RB', 27, 'POR', 80, 82], ['Rico Lewis', 'RB', 20, 'ENG', 78, 86],
+      ['Ruben Dias', 'CB', 28, 'POR', 88, 89], ['Josko Gvardiol', 'CB', 23, 'CRO', 85, 89],
+      ['Nathan Ake', 'CB', 30, 'NED', 82, 82], ['Rayan Ait-Nouri', 'LB', 24, 'ALG', 81, 85],
+      ['Rodri', 'CDM', 29, 'ESP', 91, 91], ['Bernardo Silva', 'CM', 31, 'POR', 86, 86],
+      ['Mateo Kovacic', 'CM', 31, 'CRO', 83, 83], ['Tijjani Reijnders', 'CM', 27, 'NED', 84, 86],
+      ['Phil Foden', 'CAM', 25, 'ENG', 87, 90], ['Savinho', 'RW', 21, 'BRA', 81, 88],
+      ['Jeremy Doku', 'LW', 23, 'BEL', 83, 88], ['Rayan Cherki', 'CAM', 22, 'FRA', 82, 88],
+      ['Erling Haaland', 'ST', 25, 'NOR', 91, 93], ['Omar Marmoush', 'ST', 26, 'EGY', 83, 86]
+    ],
+    arsenal: [
+      ['David Raya', 'GK', 30, 'ESP', 86, 86], ['Kepa Arrizabalaga', 'GK', 31, 'ESP', 79, 79],
+      ['Jurrien Timber', 'RB', 24, 'NED', 83, 87], ['William Saliba', 'CB', 24, 'FRA', 87, 91],
+      ['Gabriel Magalhaes', 'CB', 28, 'BRA', 87, 88], ['Riccardo Calafiori', 'LB', 23, 'ITA', 82, 87],
+      ['Myles Lewis-Skelly', 'LB', 19, 'ENG', 78, 88], ['Declan Rice', 'CDM', 26, 'ENG', 88, 90],
+      ['Martin Zubimendi', 'CM', 26, 'ESP', 85, 88], ['Martin Odegaard', 'CM', 27, 'NOR', 88, 90],
+      ['Mikel Merino', 'CM', 29, 'ESP', 82, 83], ['Ethan Nwaneri', 'CAM', 18, 'ENG', 75, 89],
+      ['Bukayo Saka', 'RW', 24, 'ENG', 88, 92], ['Gabriel Martinelli', 'LW', 24, 'BRA', 83, 87],
+      ['Leandro Trossard', 'LW', 30, 'BEL', 82, 82], ['Viktor Gyokeres', 'ST', 27, 'SWE', 86, 88],
+      ['Kai Havertz', 'ST', 26, 'GER', 84, 86]
+    ],
+    chelsea: [
+      ['Robert Sanchez', 'GK', 28, 'ESP', 81, 83], ['Filip Jorgensen', 'GK', 23, 'DEN', 78, 84],
+      ['Reece James', 'RB', 25, 'ENG', 84, 87], ['Malo Gusto', 'RB', 22, 'FRA', 80, 86],
+      ['Levi Colwill', 'CB', 22, 'ENG', 82, 88], ['Wesley Fofana', 'CB', 24, 'FRA', 82, 87],
+      ['Marc Cucurella', 'LB', 27, 'ESP', 83, 84], ['Moises Caicedo', 'CDM', 24, 'ECU', 86, 90],
+      ['Enzo Fernandez', 'CM', 24, 'ARG', 85, 89], ['Romeo Lavia', 'CM', 21, 'BEL', 79, 86],
+      ['Cole Palmer', 'CAM', 23, 'ENG', 88, 92], ['Pedro Neto', 'RW', 25, 'POR', 82, 85],
+      ['Estevao Willian', 'RW', 18, 'BRA', 79, 91], ['Jamie Gittens', 'LW', 21, 'ENG', 79, 87],
+      ['Nicolas Jackson', 'ST', 24, 'SEN', 81, 86], ['Liam Delap', 'ST', 22, 'ENG', 80, 87],
+      ['Joao Pedro', 'ST', 23, 'BRA', 82, 87]
+    ],
+    manutd: [
+      ['Andre Onana', 'GK', 29, 'CMR', 82, 84], ['Altay Bayindir', 'GK', 27, 'TUR', 76, 78],
+      ['Noussair Mazraoui', 'RB', 27, 'MAR', 81, 83], ['Matthijs de Ligt', 'CB', 26, 'NED', 84, 86],
+      ['Lisandro Martinez', 'CB', 27, 'ARG', 84, 86], ['Leny Yoro', 'CB', 19, 'FRA', 79, 90],
+      ['Patrick Dorgu', 'LB', 21, 'DEN', 77, 85], ['Bruno Fernandes', 'CM', 31, 'POR', 87, 87],
+      ['Casemiro', 'CDM', 33, 'BRA', 81, 81], ['Manuel Ugarte', 'CM', 24, 'URU', 80, 84],
+      ['Kobbie Mainoo', 'CM', 20, 'ENG', 80, 89], ['Amad Diallo', 'RW', 23, 'CIV', 81, 87],
+      ['Bryan Mbeumo', 'RW', 26, 'CMR', 84, 86], ['Matheus Cunha', 'CAM', 26, 'BRA', 84, 86],
+      ['Mason Mount', 'CAM', 26, 'ENG', 80, 84], ['Rasmus Hojlund', 'ST', 22, 'DEN', 80, 87],
+      ['Benjamin Sesko', 'ST', 22, 'SVN', 82, 90]
+    ],
+    tottenham: [
+      ['Guglielmo Vicario', 'GK', 29, 'ITA', 84, 86], ['Antonin Kinsky', 'GK', 22, 'CZE', 77, 84],
+      ['Pedro Porro', 'RB', 26, 'ESP', 83, 85], ['Cristian Romero', 'CB', 27, 'ARG', 86, 88],
+      ['Micky van de Ven', 'CB', 24, 'NED', 84, 88], ['Kevin Danso', 'CB', 27, 'AUT', 79, 81],
+      ['Destiny Udogie', 'LB', 23, 'ITA', 81, 86], ['Rodrigo Bentancur', 'CDM', 28, 'URU', 81, 82],
+      ['Pape Matar Sarr', 'CM', 23, 'SEN', 80, 86], ['James Maddison', 'CM', 29, 'ENG', 84, 85],
+      ['Joao Palhinha', 'CDM', 30, 'POR', 83, 84], ['Brennan Johnson', 'RW', 24, 'WAL', 80, 84],
+      ['Mohammed Kudus', 'RW', 25, 'GHA', 84, 87], ['Dejan Kulusevski', 'CAM', 25, 'SWE', 84, 87],
+      ['Wilson Odobert', 'LW', 20, 'FRA', 76, 85], ['Dominic Solanke', 'ST', 28, 'ENG', 82, 83],
+      ['Richarlison', 'ST', 28, 'BRA', 80, 81]
+    ],
+    newcastle: [
+      ['Nick Pope', 'GK', 33, 'ENG', 81, 81], ['Martin Dubravka', 'GK', 36, 'SVK', 76, 76],
+      ['Tino Livramento', 'RB', 23, 'ENG', 80, 86], ['Kieran Trippier', 'RB', 35, 'ENG', 78, 78],
+      ['Sven Botman', 'CB', 25, 'NED', 82, 86], ['Fabian Schar', 'CB', 33, 'SUI', 82, 82],
+      ['Dan Burn', 'CB', 33, 'ENG', 79, 79], ['Lewis Hall', 'LB', 21, 'ENG', 78, 85],
+      ['Bruno Guimaraes', 'CDM', 28, 'BRA', 86, 88], ['Sandro Tonali', 'CM', 25, 'ITA', 84, 88],
+      ['Joelinton', 'CM', 29, 'BRA', 83, 84], ['Lewis Miley', 'CM', 19, 'ENG', 73, 85],
+      ['Anthony Gordon', 'LW', 24, 'ENG', 83, 87], ['Jacob Murphy', 'RW', 30, 'ENG', 78, 78],
+      ['Harvey Barnes', 'LW', 27, 'ENG', 79, 81], ['Alexander Isak', 'ST', 26, 'SWE', 87, 90],
+      ['Yoane Wissa', 'ST', 29, 'COD', 82, 83], ['William Osula', 'ST', 22, 'DEN', 73, 82]
+    ],
+    astonvilla: [
+      ['Emiliano Martinez', 'GK', 33, 'ARG', 85, 85], ['Marco Bizot', 'GK', 34, 'NED', 75, 75],
+      ['Matty Cash', 'RB', 28, 'POL', 79, 80], ['Ezri Konsa', 'CB', 28, 'ENG', 82, 84],
+      ['Pau Torres', 'CB', 28, 'ESP', 83, 84], ['Tyrone Mings', 'CB', 32, 'ENG', 79, 79],
+      ['Lucas Digne', 'LB', 32, 'FRA', 79, 79], ['Boubacar Kamara', 'CDM', 26, 'FRA', 83, 85],
+      ['Youri Tielemans', 'CM', 28, 'BEL', 83, 84], ['John McGinn', 'CM', 31, 'SCO', 80, 80],
+      ['Amadou Onana', 'CM', 24, 'BEL', 82, 86], ['Morgan Rogers', 'CAM', 23, 'ENG', 81, 88],
+      ['Leon Bailey', 'RW', 28, 'JAM', 80, 81], ['Emiliano Buendia', 'LW', 28, 'ARG', 78, 80],
+      ['Jacob Ramsey', 'CM', 24, 'ENG', 78, 84], ['Ollie Watkins', 'ST', 29, 'ENG', 84, 85],
+      ['Donyell Malen', 'ST', 26, 'NED', 80, 83]
+    ],
+    brighton: [
+      ['Bart Verbruggen', 'GK', 23, 'NED', 80, 86], ['Jason Steele', 'GK', 35, 'ENG', 72, 72],
+      ['Tariq Lamptey', 'RB', 25, 'GHA', 76, 78], ['Lewis Dunk', 'CB', 33, 'ENG', 80, 80],
+      ['Jan Paul van Hecke', 'CB', 25, 'NED', 80, 85], ['Igor Julio', 'CB', 27, 'BRA', 79, 81],
+      ['Pervis Estupinan', 'LB', 27, 'ECU', 81, 83], ['Carlos Baleba', 'CDM', 21, 'CMR', 82, 90],
+      ['Yasin Ayari', 'CM', 22, 'SWE', 76, 84], ['Mats Wieffer', 'CM', 26, 'NED', 78, 81],
+      ['Georginio Rutter', 'CAM', 23, 'FRA', 80, 86], ['Kaoru Mitoma', 'LW', 28, 'JPN', 83, 85],
+      ['Yankuba Minteh', 'RW', 21, 'GAM', 79, 87], ['Simon Adingra', 'RW', 23, 'CIV', 78, 85],
+      ['Evan Ferguson', 'ST', 21, 'IRL', 77, 87], ['Danny Welbeck', 'ST', 34, 'ENG', 76, 76],
+      ['Joao Pedro Brighton', 'ST', 23, 'BRA', 79, 84]
+    ],
+    forest: [
+      ['Matz Sels', 'GK', 33, 'BEL', 80, 80], ['Carlos Miguel', 'GK', 27, 'BRA', 74, 78],
+      ['Ola Aina', 'RB', 28, 'NGA', 79, 80], ['Murillo', 'CB', 23, 'BRA', 83, 88],
+      ['Nikola Milenkovic', 'CB', 28, 'SRB', 82, 83], ['Morato', 'CB', 24, 'BRA', 75, 81],
+      ['Neco Williams', 'LB', 24, 'WAL', 78, 81], ['Ibrahim Sangare', 'CDM', 28, 'CIV', 79, 81],
+      ['Elliot Anderson', 'CM', 23, 'ENG', 80, 86], ['Morgan Gibbs-White', 'CAM', 25, 'ENG', 83, 86],
+      ['Callum Hudson-Odoi', 'LW', 25, 'ENG', 79, 81], ['Dan Ndoye', 'RW', 24, 'SUI', 79, 84],
+      ['Ramon Sosa', 'LW', 24, 'PAR', 75, 81], ['Chris Wood', 'ST', 34, 'NZL', 80, 80],
+      ['Taiwo Awoniyi', 'ST', 28, 'NGA', 77, 80], ['Igor Jesus', 'ST', 24, 'BRA', 75, 80]
+    ],
+    westham: [
+      ['Alphonse Areola', 'GK', 32, 'FRA', 80, 80], ['Mads Hermansen', 'GK', 25, 'DEN', 78, 83],
+      ['Vladimir Coufal', 'RB', 33, 'CZE', 76, 76], ['Max Kilman', 'CB', 28, 'ENG', 80, 82],
+      ['Jean-Clair Todibo', 'CB', 25, 'FRA', 81, 85], ['Konstantinos Mavropanos', 'CB', 27, 'GRE', 79, 81],
+      ['Emerson Palmieri', 'LB', 31, 'ITA', 77, 77], ['Edson Alvarez', 'CDM', 27, 'MEX', 81, 83],
+      ['Tomas Soucek', 'CM', 30, 'CZE', 79, 79], ['Lucas Paqueta', 'CAM', 28, 'BRA', 82, 84],
+      ['James Ward-Prowse', 'CM', 30, 'ENG', 79, 79], ['Jarrod Bowen', 'RW', 28, 'ENG', 83, 84],
+      ['Crysencio Summerville', 'LW', 23, 'NED', 79, 85], ['Luis Guilherme', 'RW', 19, 'BRA', 72, 84],
+      ['Niclas Fullkrug', 'ST', 32, 'GER', 79, 79], ['Callum Wilson', 'ST', 33, 'ENG', 75, 75]
+    ],
+    everton: [
+      ['Jordan Pickford', 'GK', 31, 'ENG', 83, 83], ['Mark Travers', 'GK', 26, 'IRL', 73, 76],
+      ['Nathan Patterson', 'RB', 23, 'SCO', 75, 80], ['Jarrad Branthwaite', 'CB', 23, 'ENG', 82, 88],
+      ['James Tarkowski', 'CB', 32, 'ENG', 80, 80], ['Michael Keane', 'CB', 32, 'ENG', 76, 76],
+      ['Vitalii Mykolenko', 'LB', 26, 'UKR', 78, 80], ['Idrissa Gana Gueye', 'CDM', 35, 'SEN', 77, 77],
+      ['James Garner', 'CM', 24, 'ENG', 77, 82], ['Tim Iroegbunam', 'CM', 22, 'ENG', 73, 81],
+      ['Iliman Ndiaye', 'CAM', 25, 'SEN', 80, 84], ['Dwight McNeil', 'LW', 25, 'ENG', 79, 81],
+      ['Jack Harrison', 'RW', 28, 'ENG', 76, 76], ['Jesper Lindstrom', 'RW', 25, 'DEN', 77, 82],
+      ['Beto', 'ST', 27, 'GNB', 76, 79], ['Thierno Barry', 'ST', 22, 'FRA', 76, 84]
+    ],
+    palace: [
+      ['Dean Henderson', 'GK', 28, 'ENG', 80, 81], ['Walter Benitez', 'GK', 32, 'ARG', 74, 74],
+      ['Daniel Munoz', 'RB', 29, 'COL', 80, 81], ['Marc Guehi', 'CB', 25, 'ENG', 84, 87],
+      ['Maxence Lacroix', 'CB', 25, 'FRA', 80, 84], ['Chris Richards', 'CB', 25, 'USA', 78, 82],
+      ['Tyrick Mitchell', 'LB', 26, 'ENG', 78, 80], ['Adam Wharton', 'CDM', 21, 'ENG', 80, 88],
+      ['Will Hughes', 'CM', 30, 'ENG', 75, 75], ['Daichi Kamada', 'CM', 29, 'JPN', 79, 80],
+      ['Ismaila Sarr', 'RW', 27, 'SEN', 80, 83], ['Eberechi Eze', 'CAM', 27, 'ENG', 84, 87],
+      ['Jesurun Rak-Sakyi', 'RW', 22, 'ENG', 73, 82], ['Jean-Philippe Mateta', 'ST', 28, 'FRA', 82, 84],
+      ['Eddie Nketiah', 'ST', 26, 'ENG', 77, 80], ['Matheus Franca', 'CAM', 21, 'BRA', 74, 83]
+    ],
+    bournemouth: [
+      ['Djordje Petrovic', 'GK', 25, 'SRB', 79, 84], ['Will Dennis', 'GK', 25, 'ENG', 70, 73],
+      ['Adam Smith', 'RB', 34, 'ENG', 73, 73], ['Marcos Senesi', 'CB', 28, 'ARG', 80, 82],
+      ['Bafode Diakite', 'CB', 24, 'FRA', 79, 84], ['James Hill', 'CB', 23, 'ENG', 73, 79],
+      ['Adrien Truffert', 'LB', 23, 'FRA', 78, 83], ['Tyler Adams', 'CDM', 26, 'USA', 79, 82],
+      ['Lewis Cook', 'CM', 28, 'ENG', 78, 79], ['Ryan Christie', 'CM', 30, 'SCO', 76, 76],
+      ['Antoine Semenyo', 'RW', 25, 'GHA', 82, 85], ['Marcus Tavernier', 'LW', 26, 'ENG', 77, 80],
+      ['Justin Kluivert', 'RW', 26, 'NED', 79, 81], ['David Brooks', 'CAM', 28, 'WAL', 75, 76],
+      ['Evanilson', 'ST', 26, 'BRA', 81, 84], ['Enes Unal', 'ST', 28, 'TUR', 75, 76]
+    ],
+    brentford: [
+      ['Caoimhin Kelleher', 'GK', 27, 'IRL', 80, 83], ['Hakon Valdimarsson', 'GK', 24, 'ISL', 73, 79],
+      ['Aaron Hickey', 'RB', 23, 'SCO', 76, 82], ['Nathan Collins', 'CB', 24, 'IRL', 80, 84],
+      ['Ethan Pinnock', 'CB', 32, 'JAM', 78, 78], ['Kristoffer Ajer', 'CB', 27, 'NOR', 77, 79],
+      ['Rico Henry', 'LB', 28, 'ENG', 78, 80], ['Yegor Yarmoliuk', 'CDM', 21, 'UKR', 74, 83],
+      ['Vitaly Janelt', 'CM', 27, 'GER', 77, 78], ['Mathias Jensen', 'CM', 29, 'DEN', 77, 77],
+      ['Kevin Schade', 'RW', 24, 'GER', 78, 84], ['Keane Lewis-Potter', 'LW', 24, 'ENG', 76, 81],
+      ['Fabio Carvalho', 'CAM', 23, 'POR', 75, 82], ['Igor Thiago', 'ST', 24, 'BRA', 77, 84],
+      ['Gustavo Nunes', 'LW', 20, 'BRA', 72, 83], ['Dango Ouattara', 'RW', 23, 'BFA', 77, 83]
+    ],
+    fulham: [
+      ['Bernd Leno', 'GK', 33, 'GER', 81, 81], ['Benjamin Lecomte', 'GK', 34, 'FRA', 73, 73],
+      ['Kenny Tete', 'RB', 29, 'NED', 77, 77], ['Calvin Bassey', 'CB', 25, 'NGA', 80, 84],
+      ['Joachim Andersen', 'CB', 29, 'DEN', 80, 81], ['Issa Diop', 'CB', 28, 'FRA', 76, 76],
+      ['Antonee Robinson', 'LB', 28, 'USA', 81, 83], ['Sander Berge', 'CDM', 27, 'NOR', 78, 80],
+      ['Sasa Lukic', 'CM', 29, 'SRB', 77, 77], ['Tom Cairney', 'CM', 34, 'SCO', 74, 74],
+      ['Harry Wilson', 'RW', 28, 'WAL', 77, 77], ['Alex Iwobi', 'LW', 29, 'NGA', 80, 81],
+      ['Emile Smith Rowe', 'CAM', 25, 'ENG', 78, 83], ['Adama Traore', 'RW', 29, 'ESP', 76, 76],
+      ['Raul Jimenez', 'ST', 34, 'MEX', 77, 77], ['Rodrigo Muniz', 'ST', 24, 'BRA', 78, 83]
+    ],
+    wolves: [
+      ['Jose Sa', 'GK', 32, 'POR', 79, 79], ['Sam Johnstone', 'GK', 32, 'ENG', 75, 75],
+      ['Nelson Semedo', 'RB', 31, 'POR', 77, 77], ['Toti Gomes', 'CB', 26, 'POR', 78, 81],
+      ['Yerson Mosquera', 'CB', 24, 'COL', 75, 80], ['Santiago Bueno', 'CB', 26, 'URU', 76, 79],
+      ['Hugo Bueno', 'LB', 22, 'ESP', 74, 81], ['Joao Gomes', 'CDM', 24, 'BRA', 81, 85],
+      ['Andre', 'CM', 24, 'BRA', 80, 85], ['Mario Lemina', 'CM', 31, 'GAB', 78, 78],
+      ['Jean-Ricner Bellegarde', 'CAM', 27, 'FRA', 77, 79], ['Hwang Hee-chan', 'RW', 29, 'KOR', 78, 80],
+      ['Rodrigo Gomes', 'LW', 22, 'POR', 74, 81], ['Pablo Sarabia', 'RW', 33, 'ESP', 75, 75],
+      ['Jorgen Strand Larsen', 'ST', 25, 'NOR', 79, 83], ['Fer Lopez', 'CAM', 21, 'ESP', 73, 83]
+    ],
+    leeds: [
+      ['Illan Meslier', 'GK', 25, 'FRA', 77, 81], ['Lucas Perri', 'GK', 27, 'BRA', 77, 81],
+      ['Jayden Bogle', 'RB', 25, 'ENG', 75, 78], ['Joe Rodon', 'CB', 28, 'WAL', 77, 79],
+      ['Pascal Struijk', 'CB', 26, 'NED', 77, 80], ['Gabriel Gudmundsson', 'LB', 26, 'SWE', 75, 79],
+      ['Junior Firpo', 'LB', 29, 'DOM', 74, 74], ['Ethan Ampadu', 'CDM', 25, 'WAL', 78, 81],
+      ['Ao Tanaka', 'CM', 27, 'JPN', 76, 80], ['Sean Longstaff', 'CM', 27, 'ENG', 75, 76],
+      ['Daniel James', 'RW', 27, 'WAL', 76, 77], ['Wilfried Gnonto', 'LW', 21, 'ITA', 77, 84],
+      ['Brenden Aaronson', 'CAM', 24, 'USA', 75, 79], ['Largie Ramazani', 'RW', 24, 'BEL', 74, 79],
+      ['Joel Piroe', 'ST', 25, 'NED', 76, 80], ['Lukas Nmecha', 'ST', 26, 'GER', 74, 78]
+    ],
+    burnley: [
+      ['Max Weiss', 'GK', 21, 'GER', 72, 81], ['Vaclav Hladky', 'GK', 34, 'CZE', 72, 72],
+      ['Connor Roberts', 'RB', 30, 'WAL', 73, 73], ['Maxime Esteve', 'CB', 23, 'FRA', 76, 82],
+      ['Hjalmar Ekdal', 'CB', 26, 'SWE', 73, 76], ['Joe Worrall', 'CB', 28, 'ENG', 74, 75],
+      ['Quilindschy Hartman', 'LB', 23, 'NED', 75, 81], ['Josh Cullen', 'CDM', 29, 'IRL', 75, 76],
+      ['Josh Brownhill', 'CM', 29, 'ENG', 75, 76], ['Hannibal Mejbri', 'CM', 22, 'TUN', 74, 81],
+      ['Jaidon Anthony', 'RW', 25, 'ENG', 73, 77], ['Jacob Bruun Larsen', 'LW', 27, 'DEN', 73, 75],
+      ['Loum Tchaouna', 'RW', 21, 'FRA', 73, 80], ['Lyle Foster', 'ST', 25, 'RSA', 74, 79],
+      ['Zian Flemming', 'ST', 27, 'NED', 74, 77], ['Marcus Edwards', 'CAM', 26, 'ENG', 74, 77]
+    ],
+    sunderland: [
+      ['Anthony Patterson', 'GK', 25, 'ENG', 75, 80], ['Robin Roefs', 'GK', 22, 'NED', 72, 80],
+      ['Trai Hume', 'RB', 23, 'NIR', 75, 80], ['Dan Ballard', 'CB', 25, 'NIR', 75, 79],
+      ['Omar Alderete', 'CB', 28, 'PAR', 74, 76], ['Nordi Mukiele', 'CB', 27, 'FRA', 76, 79],
+      ['Reinildo Mandava', 'LB', 31, 'MOZ', 75, 75], ['Noah Sadiki', 'CDM', 20, 'BEL', 74, 83],
+      ['Granit Xhaka', 'CM', 32, 'SUI', 81, 81], ['Habib Diarra', 'CM', 21, 'SEN', 76, 84],
+      ['Enzo Le Fee', 'CAM', 25, 'FRA', 77, 81], ['Chemsdine Talbi', 'RW', 20, 'BEL', 73, 81],
+      ['Romaine Mundle', 'LW', 22, 'ENG', 73, 79], ['Bertrand Traore', 'RW', 30, 'BFA', 74, 74],
+      ['Wilson Isidor', 'ST', 25, 'FRA', 75, 79], ['Eliezer Mayenda', 'ST', 20, 'ESP', 73, 81]
+    ]
+  };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+/* ============================================================================
+ * match.js  —  The match simulation engine
+ * ----------------------------------------------------------------------------
+ * Simulates a 90'(+stoppage) match minute by minute. Each active minute a team
+ * may create a chance (weighted by attack vs the opponent's defence, tactics,
+ * home advantage and fatigue); chances may become shots, shots may become goals.
+ * Produces a final score, a timeline of highlight events, team stats, and
+ * per-player match ratings.
+ *
+ * Tuning constants live at the top so match feel is easy to adjust.
+ * ==========================================================================*/
+(function (root) {
+  root.Gaffer = root.Gaffer || {};
+  var G = root.Gaffer;
+
+  var C = {
+    BASE_CHANCE: 0.160,   // per active-minute probability of a dangerous chance
+    EDGE_K: 0.0042,       // how much an attack-vs-defence edge swings chance rate
+    CONVERT_BASE: 0.290,  // baseline probability a chance becomes a goal
+    ON_TARGET_BASE: 0.50, // baseline probability a chance is on target
+    HOME_ATT: 1.1, HOME_DEF: 1.0, HOME_POSS: 0.025,
+    STOPPAGE_MAX: 5
+  };
+
+  var DEFAULT_TACTICS = {
+    mentality: 'balanced', // attacking | balanced | defensive
+    tempo: 'normal',       // slow | normal | high
+    pressing: 'normal'     // low | normal | high
+  };
+
+  function mentalityMod(t) {
+    switch (t.mentality) {
+      case 'attacking': return { att: 4, def: -4, chance: 0.02 };
+      case 'defensive': return { att: -4, def: 5, chance: -0.03 };
+      default: return { att: 0, def: 0, chance: 0 };
+    }
+  }
+  function tempoMod(t) {
+    switch (t.tempo) {
+      case 'high': return { chance: 0.02, drain: 1.35 };
+      case 'slow': return { chance: -0.015, drain: 0.8 };
+      default: return { chance: 0, drain: 1.0 };
+    }
+  }
+
+  function rnd() { return Math.random(); }
+  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+  // Weighted random pick of a player for a given role from the XI.
+  function pickWeighted(xi, weightFn) {
+    var total = 0, weights = [];
+    for (var i = 0; i < xi.length; i++) { var w = Math.max(0.01, weightFn(xi[i])); weights.push(w); total += w; }
+    var r = rnd() * total;
+    for (var j = 0; j < xi.length; j++) { r -= weights[j]; if (r <= 0) return xi[j]; }
+    return xi[xi.length - 1];
+  }
+
+  function goalScorerWeight(p) {
+    // Strikers/attackers score most; midfielders some; defenders rarely.
+    var lineBoost = p.line === 'ATT' ? 3.0 : (p.line === 'MID' ? 1.0 : (p.line === 'DEF' ? 0.25 : 0.02));
+    return lineBoost * (p.att.isGK ? 0.01 : (p.att.finishing || 50) / 50);
+  }
+  function assistWeight(p) {
+    var lineBoost = p.line === 'MID' ? 2.4 : (p.line === 'ATT' ? 2.0 : (p.line === 'DEF' ? 0.5 : 0.02));
+    return lineBoost * (p.att.isGK ? 0.01 : ((p.att.faces ? p.att.faces.pas : 50)) / 50);
+  }
+
+  function simulateMatch(home, away, opts) {
+    opts = opts || {};
+    var ht = Object.assign({}, DEFAULT_TACTICS, opts.homeTactics || home.tactics || {});
+    var at = Object.assign({}, DEFAULT_TACTICS, opts.awayTactics || away.tactics || {});
+    var weather = opts.weather || 'clear';
+
+    var hs = home.strengths();
+    var as_ = away.strengths();
+    var hm = mentalityMod(ht), am = mentalityMod(at);
+    var htm = tempoMod(ht), atm = tempoMod(at);
+
+    // Effective strengths (apply home advantage, mentality, weather).
+    var weatherPenalty = (weather === 'rain' || weather === 'snow') ? 3 : (weather === 'fog' ? 2 : 0);
+    var hAtt = hs.attack + C.HOME_ATT + hm.att - weatherPenalty * 0.5;
+    var hDef = hs.defence + C.HOME_DEF + hm.def;
+    var aAtt = as_.attack + am.att - weatherPenalty * 0.5;
+    var aDef = as_.defence + am.def;
+
+    // Possession share from midfield battle + home tilt + tempo/pressing.
+    var hMid = hs.midfield + (ht.pressing === 'high' ? 3 : ht.pressing === 'low' ? -2 : 0);
+    var aMid = as_.midfield + (at.pressing === 'high' ? 3 : at.pressing === 'low' ? -2 : 0);
+    var pHome = clamp(hMid / (hMid + aMid) + C.HOME_POSS, 0.2, 0.8);
+
+    var state = newTeamState(home), away_s = newTeamState(away);
+    var events = [];
+    var hFitStart = home.lineupFitness(), aFitStart = away.lineupFitness();
+
+    var totalMinutes = 90;
+    for (var minute = 1; minute <= totalMinutes; minute++) {
+      // Late-game fatigue: tired teams create/defend slightly worse.
+      var fatPhase = minute > 60 ? (minute - 60) / 30 : 0;
+      var hFat = 1 - fatPhase * (1 - hFitStart / 100) * 0.25 * htm.drain;
+      var aFat = 1 - fatPhase * (1 - aFitStart / 100) * 0.25 * atm.drain;
+
+      var homeActive = rnd() < pHome;
+      if (homeActive) {
+        tryChance(minute, true, home, away, hAtt * hFat, aDef, hs.attack, as_.keeper, hm.chance + htm.chance, state, away_s, events);
+      } else {
+        tryChance(minute, false, away, home, aAtt * aFat, hDef, as_.attack, hs.keeper, am.chance + atm.chance, away_s, state, events);
+      }
+    }
+
+    // Stoppage time.
+    var stoppage = 1 + Math.floor(rnd() * C.STOPPAGE_MAX);
+    for (var s = 1; s <= stoppage; s++) {
+      var mm = 90 + s;
+      if (rnd() < pHome) tryChance(mm, true, home, away, hAtt, aDef, hs.attack, as_.keeper, hm.chance, state, away_s, events, true);
+      else tryChance(mm, false, away, home, aAtt, hDef, as_.attack, hs.keeper, am.chance, away_s, state, events, true);
+    }
+
+    // Possession percentage (with a little noise).
+    var poss = Math.round(clamp(pHome * 100 + (rnd() * 6 - 3), 25, 75));
+
+    events.sort(function (a, b) { return a.minute - b.minute; });
+
+    var result = {
+      homeId: home.id, awayId: away.id,
+      homeName: home.name, awayName: away.name,
+      homeShort: home.short, awayShort: away.short,
+      homeScore: state.goals, awayScore: away_s.goals,
+      events: events,
+      stats: {
+        possessionHome: poss, possessionAway: 100 - poss,
+        shotsHome: state.shots, shotsAway: away_s.shots,
+        sotHome: state.sot, sotAway: away_s.sot,
+        cornersHome: Math.round(state.shots * 0.4 + rnd() * 3),
+        cornersAway: Math.round(away_s.shots * 0.4 + rnd() * 3)
+      },
+      scorersHome: state.scorers,
+      scorersAway: away_s.scorers,
+      weather: weather
+    };
+
+    applyMatchRatingsAndStats(home, away, state, away_s, result);
+    return result;
+  }
+
+  function newTeamState(club) {
+    return { goals: 0, shots: 0, sot: 0, scorers: [], xi: club.lineupPlayers(), ratings: {} };
+  }
+
+  function tryChance(minute, isHome, atkClub, defClub, atkStrength, defStrength, rawAttack, keeperRating, chanceMod, atkState, defState, events, isStoppage) {
+    var edge = atkStrength - defStrength;
+    var pChance = clamp(C.BASE_CHANCE + edge * C.EDGE_K + chanceMod, 0.03, 0.32);
+    if (rnd() >= pChance) return;
+
+    atkState.shots++;
+    var shooter = pickWeighted(atkState.xi.filter(notGK), goalScorerWeight);
+
+    // Shot quality from shooter finishing vs keeper + defence.
+    var finishing = shooter.att.isGK ? 40 : (shooter.att.finishing || 55);
+    var q = clamp(0.5 + (finishing - keeperRating) / 90 + (rnd() * 0.3 - 0.15), 0.05, 0.95);
+    var onTarget = rnd() < (C.ON_TARGET_BASE + q * 0.25);
+
+    if (!onTarget) {
+      if (rnd() < 0.35) events.push(evt(minute, isHome, 'miss', shooter, null, atkClub,
+        choose(['drags it wide', 'blazes over the bar', 'sees the effort deflected behind', 'curls just past the post'])));
+      return;
+    }
+    atkState.sot++;
+
+    var pGoal = clamp(C.CONVERT_BASE * (finishing / (keeperRating * 0.55 + defStrength * 0.45)) , 0.04, 0.7);
+    if (rnd() < pGoal) {
+      atkState.goals++;
+      var assister = null;
+      if (rnd() < 0.72) {
+        var candidates = atkState.xi.filter(function (p) { return p.id !== shooter.id && notGK(p); });
+        assister = pickWeighted(candidates, assistWeight);
+      }
+      atkState.scorers.push({ id: shooter.id, name: shooter.name, minute: minute, assist: assister ? assister.name : null });
+      atkState.ratings[shooter.id] = (atkState.ratings[shooter.id] || 0) + 1.1;
+      if (assister) atkState.ratings[assister.id] = (atkState.ratings[assister.id] || 0) + 0.6;
+      events.push(evt(minute, isHome, 'goal', shooter, assister, atkClub,
+        choose(['finds the bottom corner', 'smashes it home', 'slots it past the keeper', 'heads it in', 'fires into the roof of the net'])));
+    } else {
+      // Saved.
+      var keeper = defState.xi.find(function (p) { return p.line === 'GK'; });
+      if (keeper) defState.ratings[keeper.id] = (defState.ratings[keeper.id] || 0) + 0.25;
+      if (rnd() < 0.4) events.push(evt(minute, isHome, 'save', shooter, null, atkClub,
+        choose(['but the keeper gets down well to save', 'denied by a fine save', 'the keeper tips it over'])));
+    }
+  }
+
+  function notGK(p) { return p.line !== 'GK'; }
+  function choose(arr) { return arr[Math.floor(rnd() * arr.length)]; }
+
+  function evt(minute, isHome, type, player, assister, club, phrase) {
+    var text;
+    if (type === 'goal') {
+      text = "GOAL! " + club.short + " — " + player.name + " " + phrase +
+             (assister ? " (assist: " + assister.name + ")" : "") + ".";
+    } else if (type === 'miss') {
+      text = "Chance for " + club.short + "! " + player.name + " " + phrase + ".";
+    } else if (type === 'save') {
+      text = club.short + " threaten — " + player.name + ", " + phrase + ".";
+    } else {
+      text = player.name + " — " + phrase + ".";
+    }
+    return {
+      minute: minute, type: type, side: isHome ? 'home' : 'away',
+      playerId: player.id, playerName: player.name,
+      assistName: assister ? assister.name : null, text: text
+    };
+  }
+
+  // ---- Post-match: player ratings, fitness drain, stat accrual ------------
+  function applyMatchRatingsAndStats(home, away, hState, aState, result) {
+    process(home, hState, aState.goals, hState.goals, result, true);
+    process(away, aState, hState.goals, aState.goals, result, false);
+
+    function process(club, st, concededByMe, scoredByMe, res, isHome) {
+      var xi = st.xi;
+      var teamResultMod = scoredByMe > concededByMe ? 0.4 : (scoredByMe < concededByMe ? -0.4 : 0);
+      var best = null, bestR = -1;
+      xi.forEach(function (p) {
+        var base = 6.3 + (rnd() * 0.8 - 0.4) + teamResultMod;
+        base += (st.ratings[p.id] || 0);
+        if (p.line === 'GK') {
+          base += (concededByMe === 0 ? 0.6 : -0.15 * concededByMe);
+        } else if (p.line === 'DEF') {
+          base += (concededByMe === 0 ? 0.35 : -0.12 * concededByMe);
+        }
+        var rating = clamp(base, 4.0, 10.0);
+        // Accrue season stats.
+        p.stats.apps++;
+        p.stats.ratingSum += rating; p.stats.ratingCount++;
+        var goalsThis = st.scorers.filter(function (s) { return s.id === p.id; }).length;
+        var assistsThis = st.scorers.filter(function (s) { return s.assist === p.name; }).length;
+        p.stats.goals += goalsThis;
+        p.stats.assists += assistsThis;
+        if (p.line === 'GK' && concededByMe === 0) p.stats.cleanSheets++;
+        if (p.line === 'DEF' && concededByMe === 0) p.stats.cleanSheets++;
+        // Plausible secondary stats.
+        var passes = Math.round(20 + (p.att.isGK ? 10 : (p.att.faces ? p.att.faces.pas : 50)) * 0.6 + rnd() * 15);
+        var acc = clamp((p.att.isGK ? 0.7 : ((p.att.faces ? p.att.faces.pas : 50) / 100) + 0.2) + (rnd() * 0.1 - 0.05), 0.5, 0.97);
+        p.stats.passesAttempted += passes;
+        p.stats.passesCompleted += Math.round(passes * acc);
+        p.stats.shots += goalsThis + (st.shots > 0 && p.line === 'ATT' && rnd() < 0.5 ? 1 : 0);
+        if (p.line !== 'ATT') p.stats.tackles += Math.round(rnd() * 4);
+
+        // Fitness drain for playing 90'.
+        p.fitness = clamp(p.fitness - (16 + rnd() * 10), 20, 100);
+        // Small form/morale nudge.
+        if (rating >= 7.5) { p.form = Math.min(5, p.form + 1); p.morale = Math.min(100, p.morale + 2); }
+        else if (rating < 6.0) { p.form = Math.max(-5, p.form - 1); }
+
+        res['rating_' + p.id] = Math.round(rating * 10) / 10;
+        if (rating > bestR) { bestR = rating; best = p; }
+      });
+      if (best) { best.stats.motm++; if (isHome) res.motmHome = best.name; else res.motmAway = best.name; }
+    }
+  }
+
+  G.Match = { simulate: simulateMatch, CONSTANTS: C, DEFAULT_TACTICS: DEFAULT_TACTICS };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+/* ============================================================================
+ * league.js  —  Competition: fixtures, table, leaderboards
+ * ----------------------------------------------------------------------------
+ * Generates a double round-robin schedule (everyone plays everyone home & away),
+ * maintains the league table from results, and rolls up scorer/assist/clean-sheet
+ * leaderboards across the season.
+ * ==========================================================================*/
+(function (root) {
+  root.Gaffer = root.Gaffer || {};
+  var G = root.Gaffer;
+
+  function League(id, name, clubIds) {
+    this.id = id;
+    this.name = name;
+    this.clubIds = clubIds.slice();
+    this.fixtures = [];      // array of rounds; each round = array of {home, away, played, result}
+    this.currentRound = 0;   // index into fixtures
+    this.table = {};         // clubId -> row
+    this._initTable();
+    this.generateFixtures();
+  }
+
+  League.prototype._initTable = function () {
+    var self = this;
+    this.clubIds.forEach(function (id) {
+      self.table[id] = { clubId: id, P: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0, form: [] };
+    });
+  };
+
+  // Circle method for round-robin scheduling, then mirror for the reverse half.
+  League.prototype.generateFixtures = function () {
+    var ids = this.clubIds.slice();
+    if (ids.length % 2 !== 0) ids.push(null); // bye marker
+    var n = ids.length;
+    var rounds = [];
+    var arr = ids.slice();
+
+    for (var r = 0; r < n - 1; r++) {
+      var round = [];
+      for (var i = 0; i < n / 2; i++) {
+        var a = arr[i], b = arr[n - 1 - i];
+        if (a !== null && b !== null) {
+          // Alternate home/away by round for fairness.
+          if ((r + i) % 2 === 0) round.push({ home: a, away: b, played: false, result: null });
+          else round.push({ home: b, away: a, played: false, result: null });
+        }
+      }
+      rounds.push(round);
+      // Rotate (keep first fixed).
+      var fixed = arr[0];
+      var rest = arr.slice(1);
+      rest.unshift(rest.pop());
+      arr = [fixed].concat(rest);
+    }
+
+    // Reverse fixtures (swap home/away) for the second half of the season.
+    var reverse = rounds.map(function (round) {
+      return round.map(function (m) { return { home: m.away, away: m.home, played: false, result: null }; });
+    });
+
+    this.fixtures = rounds.concat(reverse);
+  };
+
+  League.prototype.totalRounds = function () { return this.fixtures.length; };
+  League.prototype.isComplete = function () { return this.currentRound >= this.fixtures.length; };
+  League.prototype.roundFixtures = function (roundIndex) {
+    return this.fixtures[roundIndex == null ? this.currentRound : roundIndex] || [];
+  };
+
+  // Find the round + fixture for a given club (used to know "your next match").
+  League.prototype.nextFixtureFor = function (clubId) {
+    for (var r = this.currentRound; r < this.fixtures.length; r++) {
+      var fx = this.fixtures[r];
+      for (var i = 0; i < fx.length; i++) {
+        if (!fx[i].played && (fx[i].home === clubId || fx[i].away === clubId)) {
+          return { round: r, fixture: fx[i] };
+        }
+      }
+    }
+    return null;
+  };
+
+  League.prototype.recordResult = function (fixture, result) {
+    fixture.played = true;
+    fixture.result = { homeScore: result.homeScore, awayScore: result.awayScore };
+    this._applyToTable(fixture.home, fixture.away, result.homeScore, result.awayScore);
+  };
+
+  League.prototype._applyToTable = function (homeId, awayId, hs, as_) {
+    var h = this.table[homeId], a = this.table[awayId];
+    if (!h || !a) return;
+    h.P++; a.P++;
+    h.GF += hs; h.GA += as_; a.GF += as_; a.GA += hs;
+    h.GD = h.GF - h.GA; a.GD = a.GF - a.GA;
+    if (hs > as_) { h.W++; h.Pts += 3; a.L++; pushForm(h, 'W'); pushForm(a, 'L'); }
+    else if (hs < as_) { a.W++; a.Pts += 3; h.L++; pushForm(a, 'W'); pushForm(h, 'L'); }
+    else { h.D++; a.D++; h.Pts++; a.Pts++; pushForm(h, 'D'); pushForm(a, 'D'); }
+  };
+
+  function pushForm(row, r) { row.form.push(r); if (row.form.length > 5) row.form.shift(); }
+
+  // Sorted table rows (Pts, GD, GF, name).
+  League.prototype.standings = function (clubLookup) {
+    var rows = Object.keys(this.table).map(function (id) { return this.table[id]; }, this).slice();
+    rows.sort(function (a, b) {
+      if (b.Pts !== a.Pts) return b.Pts - a.Pts;
+      if (b.GD !== a.GD) return b.GD - a.GD;
+      if (b.GF !== a.GF) return b.GF - a.GF;
+      var an = clubLookup ? clubLookup(a.clubId).name : a.clubId;
+      var bn = clubLookup ? clubLookup(b.clubId).name : b.clubId;
+      return an < bn ? -1 : 1;
+    });
+    return rows;
+  };
+
+  // Build scorer/assist leaderboards from a list of all clubs' players.
+  League.leaderboards = function (clubs) {
+    var scorers = [], assists = [], cleanSheets = [];
+    clubs.forEach(function (club) {
+      club.players.forEach(function (p) {
+        if (p.stats.goals > 0) scorers.push({ name: p.name, club: club.short, value: p.stats.goals, apps: p.stats.apps });
+        if (p.stats.assists > 0) assists.push({ name: p.name, club: club.short, value: p.stats.assists, apps: p.stats.apps });
+        if (p.line === 'GK' && p.stats.cleanSheets > 0) cleanSheets.push({ name: p.name, club: club.short, value: p.stats.cleanSheets, apps: p.stats.apps });
+      });
+    });
+    function topSort(a, b) { return b.value - a.value || a.apps - b.apps; }
+    scorers.sort(topSort); assists.sort(topSort); cleanSheets.sort(topSort);
+    return { scorers: scorers.slice(0, 20), assists: assists.slice(0, 20), cleanSheets: cleanSheets.slice(0, 20) };
+  };
+
+  G.League = League;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+/* ============================================================================
+ * save.js  —  Persistence (localStorage)
+ * ----------------------------------------------------------------------------
+ * Stores serialized game state under named slots. Supports multiple save slots
+ * plus a dedicated autosave slot. Falls back to an in-memory store when
+ * localStorage is unavailable (e.g. running under node for tests).
+ * ==========================================================================*/
+(function (root) {
+  root.Gaffer = root.Gaffer || {};
+  var G = root.Gaffer;
+
+  var PREFIX = 'gaffer_save_';
+  var memFallback = {};
+
+  function store() {
+    try {
+      if (typeof localStorage !== 'undefined') return localStorage;
+    } catch (e) { /* sandboxed */ }
+    return {
+      getItem: function (k) { return memFallback[k] != null ? memFallback[k] : null; },
+      setItem: function (k, v) { memFallback[k] = v; },
+      removeItem: function (k) { delete memFallback[k]; },
+      get length() { return Object.keys(memFallback).length; },
+      key: function (i) { return Object.keys(memFallback)[i]; }
+    };
+  }
+
+  var Save = {
+    save: function (slot, state) {
+      var payload = { savedAt: Date.now(), meta: state._meta || {}, state: state };
+      try {
+        store().setItem(PREFIX + slot, JSON.stringify(payload));
+        return true;
+      } catch (e) {
+        console.error('Save failed:', e);
+        return false;
+      }
+    },
+    load: function (slot) {
+      var raw = store().getItem(PREFIX + slot);
+      if (!raw) return null;
+      try { return JSON.parse(raw); } catch (e) { return null; }
+    },
+    has: function (slot) { return store().getItem(PREFIX + slot) != null; },
+    remove: function (slot) { store().removeItem(PREFIX + slot); },
+    list: function () {
+      var s = store(), out = [];
+      for (var i = 0; i < s.length; i++) {
+        var key = s.key(i);
+        if (key && key.indexOf(PREFIX) === 0) {
+          var slot = key.slice(PREFIX.length);
+          var data = null;
+          try { data = JSON.parse(s.getItem(key)); } catch (e) {}
+          out.push({ slot: slot, savedAt: data ? data.savedAt : 0, meta: data ? data.meta : {} });
+        }
+      }
+      out.sort(function (a, b) { return b.savedAt - a.savedAt; });
+      return out;
+    }
+  };
+
+  G.Save = Save;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+/* ============================================================================
+ * main.js  —  Game controller / world state
+ * ----------------------------------------------------------------------------
+ * Builds the game world from the data files, drives the season round by round,
+ * runs the user's match in full detail (for highlights) plus the rest of the
+ * round, updates the table, recovers players, and handles save/load.
+ * The UI layer (ui.js) calls into this; this module never touches the DOM.
+ * ==========================================================================*/
+(function (root) {
+  root.Gaffer = root.Gaffer || {};
+  var G = root.Gaffer;
+
+  var Game = {
+    world: null,
+    managerClubId: null,
+    season: '2025-26',
+    seasonStartYear: 2025,
+    lastRound: null,        // { userResult, others: [results] }
+    history: { results: [] }
+  };
+
+  // ---- World construction --------------------------------------------------
+  Game.buildWorld = function () {
+    var clubs = {}, list = [];
+    G.DATA.clubs.forEach(function (cd) {
+      var club = new G.Club(cd);
+      var squad = G.DATA.squads[cd.id] || [];
+      squad.forEach(function (rec, i) {
+        var p = new G.Player(rec, cd.id);
+        p.id = cd.id + '-' + i;                 // stable, deterministic id
+        p.contractYears = 2 + (i % 4);          // 2-5 years
+        p.recalcEconomics();
+        club.addPlayer(p);
+      });
+      assignShirtsAndCaptain(club);
+      club.pickBestXI(club.formation);
+      club.tactics = Object.assign({}, G.Match.DEFAULT_TACTICS);
+      clubs[cd.id] = club;
+      list.push(club);
+    });
+
+    var leagueClubIds = list.filter(function (c) { return c.league === 'eng'; }).map(function (c) { return c.id; });
+    var league = new G.League('eng', G.DATA.leagues.eng.name, leagueClubIds);
+
+    this.world = { clubs: clubs, list: list, league: league };
+    return this.world;
+  };
+
+  function assignShirtsAndCaptain(club) {
+    // Simple shirt allocation by line, captain = highest OVR outfielder.
+    var nextByLine = { GK: 1, DEF: 2, MID: 6, ATT: 9 };
+    var used = {};
+    club.players.slice().sort(function (a, b) { return b.overall - a.overall; }).forEach(function (p) {
+      var n = nextByLine[p.line]++;
+      while (used[n]) n++;
+      used[n] = true; p.shirt = n;
+    });
+    var outfield = club.players.filter(function (p) { return p.line !== 'GK'; }).sort(function (a, b) { return b.overall - a.overall; });
+    if (outfield[0]) club.captainId = outfield[0].id;
+  }
+
+  Game.club = function (id) { return this.world.clubs[id]; };
+  Game.managerClub = function () { return this.world.clubs[this.managerClubId]; };
+  Game.league = function () { return this.world.league; };
+
+  // ---- New game ------------------------------------------------------------
+  Game.startNewGame = function (clubId) {
+    this.buildWorld();
+    this.managerClubId = clubId;
+    this.season = '2025-26';
+    this.lastRound = null;
+    this.history = { results: [] };
+    this.autosave();
+    return this.managerClub();
+  };
+
+  // ---- Fixtures ------------------------------------------------------------
+  Game.nextFixtureForManager = function () {
+    return this.world.league.nextFixtureFor(this.managerClubId);
+  };
+
+  Game.opponentInfo = function () {
+    var nf = this.nextFixtureForManager();
+    if (!nf) return null;
+    var fx = nf.fixture;
+    var isHome = fx.home === this.managerClubId;
+    var oppId = isHome ? fx.away : fx.home;
+    return { isHome: isHome, opponent: this.club(oppId), round: nf.round + 1, fixture: fx };
+  };
+
+  // Pick a random-ish but plausible weather for a match.
+  Game.rollWeather = function () {
+    var r = Math.random();
+    if (r < 0.55) return 'clear';
+    if (r < 0.75) return 'rain';
+    if (r < 0.85) return 'cloudy';
+    if (r < 0.93) return 'fog';
+    if (r < 0.98) return 'night';
+    return 'snow';
+  };
+
+  // ---- Play the current round ---------------------------------------------
+  // userOpts: { weather } ; the manager's lineup/tactics are already on the club.
+  Game.playRound = function (userOpts) {
+    userOpts = userOpts || {};
+    var league = this.world.league;
+    if (league.isComplete()) return null;
+    var roundIdx = league.currentRound;
+    var fixtures = league.roundFixtures(roundIdx);
+    var self = this;
+    var weather = userOpts.weather || this.rollWeather();
+
+    var userResult = null, others = [];
+
+    fixtures.forEach(function (fx) {
+      if (fx.played) return;
+      var home = self.club(fx.home), away = self.club(fx.away);
+      var isUser = (fx.home === self.managerClubId || fx.away === self.managerClubId);
+
+      // AI clubs always field their best XI.
+      if (fx.home !== self.managerClubId) home.pickBestXI(home.formation);
+      if (fx.away !== self.managerClubId) away.pickBestXI(away.formation);
+
+      var result = G.Match.simulate(home, away, {
+        weather: isUser ? weather : self.rollWeather(),
+        homeTactics: home.tactics, awayTactics: away.tactics
+      });
+      league.recordResult(fx, result);
+      result.round = roundIdx + 1;
+
+      if (isUser) userResult = result; else others.push(result);
+    });
+
+    // Recover everyone for next week (~7 rest days) + advance injuries/morale.
+    this.world.list.forEach(function (club) {
+      club.players.forEach(function (p) { p.advanceDay(7); });
+    });
+    // Small chance of a new injury to a manager's player who featured.
+    this.maybeInjure();
+
+    league.currentRound++;
+    this.lastRound = { userResult: userResult, others: others, weather: weather };
+    this.history.results.push({ round: roundIdx + 1, userResult: summarize(userResult), others: others.map(summarize) });
+    this.autosave();
+    return this.lastRound;
+  };
+
+  function summarize(r) {
+    if (!r) return null;
+    return { h: r.homeShort, a: r.awayShort, hs: r.homeScore, as: r.awayScore, hId: r.homeId, aId: r.awayId };
+  }
+
+  Game.maybeInjure = function () {
+    var club = this.managerClub();
+    if (!club) return;
+    var xi = club.lineupPlayers();
+    xi.forEach(function (p) {
+      if (p.isAvailable() && Math.random() < 0.012) {
+        var days = 7 + Math.floor(Math.random() * 35);
+        p.injuryDays = days;
+        p.injury = days > 28 ? 'Muscle tear' : (days > 14 ? 'Hamstring strain' : 'Knock');
+      }
+    });
+  };
+
+  // ---- Standings & stats ---------------------------------------------------
+  Game.standings = function () {
+    var self = this;
+    return this.world.league.standings(function (id) { return self.club(id); });
+  };
+  Game.leaderboards = function () {
+    var engClubs = this.world.list.filter(function (c) { return c.league === 'eng'; });
+    return G.League.leaderboards(engClubs);
+  };
+  Game.managerPosition = function () {
+    var rows = this.standings();
+    for (var i = 0; i < rows.length; i++) if (rows[i].clubId === this.managerClubId) return i + 1;
+    return null;
+  };
+
+  // ---- Save / load ---------------------------------------------------------
+  Game.serialize = function () {
+    var league = this.world.league;
+    var players = {};
+    this.world.list.forEach(function (club) {
+      club.players.forEach(function (p) {
+        players[p.id] = {
+          c: p.clubId, o: p.overall, a: p.age, f: Math.round(p.fitness), m: Math.round(p.morale),
+          fm: p.form, inj: p.injuryDays, injn: p.injury, cy: p.contractYears, s: p.stats
+        };
+      });
+    });
+    var fixturesProgress = league.fixtures.map(function (round) {
+      return round.map(function (m) { return m.played ? [1, m.result.homeScore, m.result.awayScore] : [0]; });
+    });
+    return {
+      _meta: { club: this.managerClubId, clubName: this.managerClub().name, season: this.season,
+               round: league.currentRound, pos: this.managerPosition() },
+      v: 1, managerClubId: this.managerClubId, season: this.season,
+      currentRound: league.currentRound, table: league.table,
+      fixturesProgress: fixturesProgress, players: players
+    };
+  };
+
+  Game.applyState = function (s) {
+    this.buildWorld();
+    this.managerClubId = s.managerClubId;
+    this.season = s.season || '2025-26';
+    var league = this.world.league;
+    league.currentRound = s.currentRound || 0;
+    if (s.table) league.table = s.table;
+    // Restore fixture results.
+    if (s.fixturesProgress) {
+      s.fixturesProgress.forEach(function (round, ri) {
+        round.forEach(function (m, mi) {
+          var fx = league.fixtures[ri] && league.fixtures[ri][mi];
+          if (fx && m[0] === 1) { fx.played = true; fx.result = { homeScore: m[1], awayScore: m[2] }; }
+        });
+      });
+    }
+    // Restore player dynamic state.
+    var self = this;
+    if (s.players) {
+      Object.keys(s.players).forEach(function (id) {
+        var d = s.players[id];
+        var club = self.world.clubs[d.c];
+        var p = club && club.getPlayer(id);
+        if (!p) { // search all clubs (in case of transfer)
+          for (var k in self.world.clubs) { p = self.world.clubs[k].getPlayer(id); if (p) break; }
+        }
+        if (!p) return;
+        p.overall = d.o; p.age = d.a; p.fitness = d.f; p.morale = d.m; p.form = d.fm || 0;
+        p.injuryDays = d.inj || 0; p.injury = d.injn || null; p.contractYears = d.cy;
+        if (d.s) p.stats = d.s;
+        p.att = G.Ratings.generate(p.name, p.position, p.overall);
+        p.recalcEconomics();
+      });
+    }
+    // Re-pick lineups.
+    this.world.list.forEach(function (c) { c.pickBestXI(c.formation); });
+    return true;
+  };
+
+  Game.autosave = function () { if (G.Save) G.Save.save('auto', this.serialize()); };
+  Game.saveToSlot = function (slot) { return G.Save.save(slot, this.serialize()); };
+  Game.loadFromSlot = function (slot) {
+    var data = G.Save.load(slot);
+    if (!data || !data.state) return false;
+    this.applyState(data.state);
+    return true;
+  };
+
+  G.Game = Game;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+/* ============================================================================
+ * ui.js  —  Screens, navigation, theming, rendering
+ * ----------------------------------------------------------------------------
+ * Vanilla DOM rendering (no framework, classic scripts so it runs from file://).
+ * Builds: Main Menu, Club Selection, and the in-club shell with Squad, Tactics,
+ * Match Day, League Table and Stats views. Recolors the whole UI to the chosen
+ * club via CSS variables, and reveals match highlights sequentially.
+ *
+ * Design system: Dark Mode (OLED) + Fira Sans/Code + club-color accent.
+ * ==========================================================================*/
+(function (root) {
+  root.Gaffer = root.Gaffer || {};
+  var G = root.Gaffer;
+  var Game = G.Game;
+
+  var UI = { state: { view: 'squad' } };
+  var APP;
+
+  // ---- Color utilities -----------------------------------------------------
+  var Color = {
+    rgb: function (hex) {
+      hex = hex.replace('#', '');
+      if (hex.length === 3) hex = hex.split('').map(function (c) { return c + c; }).join('');
+      return { r: parseInt(hex.slice(0, 2), 16), g: parseInt(hex.slice(2, 4), 16), b: parseInt(hex.slice(4, 6), 16) };
+    },
+    lum: function (hex) {
+      var c = Color.rgb(hex);
+      var a = [c.r, c.g, c.b].map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+      return 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2];
+    },
+    mix: function (hex, withHex, t) {
+      var a = Color.rgb(hex), b = Color.rgb(withHex);
+      var r = Math.round(a.r + (b.r - a.r) * t), g = Math.round(a.g + (b.g - a.g) * t), bl = Math.round(a.b + (b.b - a.b) * t);
+      return '#' + [r, g, bl].map(function (v) { return ('0' + v.toString(16)).slice(-2); }).join('');
+    },
+    // An accent guaranteed to be visible on a near-black background.
+    accentFor: function (hex) {
+      var l = Color.lum(hex);
+      if (l < 0.12) return Color.mix(hex, '#ffffff', 0.55);
+      if (l < 0.20) return Color.mix(hex, '#ffffff', 0.30);
+      return hex;
+    }
+  };
+
+  UI.applyTheme = function (club) {
+    var accent = Color.accentFor(club.colors.primary);
+    var sec = Color.accentFor(club.colors.secondary || '#ffffff');
+    var r = document.documentElement.style;
+    r.setProperty('--club', accent);
+    r.setProperty('--club-2', sec);
+    r.setProperty('--club-soft', Color.mix(accent, '#0a0c10', 0.78));
+    r.setProperty('--club-glow', Color.mix(accent, '#0a0c10', 0.62));
+    r.setProperty('--club-ink', Color.lum(accent) > 0.5 ? '#0a0c10' : '#ffffff');
+  };
+
+  // ---- SVG crest + icons ---------------------------------------------------
+  UI.crest = function (club, size) {
+    size = size || 40;
+    var p = club.colors.primary, s = club.colors.secondary || '#ffffff';
+    return '<svg class="crest" width="' + size + '" height="' + size + '" viewBox="0 0 48 48" aria-hidden="true">' +
+      '<path d="M24 2 L44 9 V26 C44 38 35 44 24 47 C13 44 4 38 4 26 V9 Z" fill="' + p + '" stroke="' + s + '" stroke-width="2"/>' +
+      '<path d="M24 2 L44 9 V26 C44 38 35 44 24 47 C13 44 4 38 4 26 V9 Z" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="1"/>' +
+      '<text x="24" y="29" text-anchor="middle" font-family="Fira Code, monospace" font-size="13" font-weight="700" fill="' +
+      (Color.lum(p) > 0.55 ? '#0a0c10' : '#ffffff') + '">' + club.short + '</text></svg>';
+  };
+
+  var ICONS = {
+    squad: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+    tactics: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>',
+    match: '<circle cx="12" cy="12" r="10"/><path d="M12 7v5l3 2"/>',
+    table: '<line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>',
+    stats: '<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
+    trophy: '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>',
+    home: '<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+    save: '<path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>',
+    play: '<polygon points="5 3 19 12 5 21 5 3"/>',
+    whistle: '<circle cx="12" cy="12" r="9"/><path d="M12 3v4M8 12h8"/>'
+  };
+  UI.icon = function (name, size) {
+    size = size || 18;
+    return '<svg class="icon" width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (ICONS[name] || '') + '</svg>';
+  };
+
+  // ---- Small format helpers ------------------------------------------------
+  function money(m) { // millions
+    if (m >= 1000) return '€' + (m / 1000).toFixed(2) + 'bn';
+    if (m >= 1) return '€' + (Math.round(m * 10) / 10) + 'M';
+    return '€' + Math.round(m * 1000) + 'k';
+  }
+  function wage(k) { return '€' + (k >= 1000 ? (k / 1000).toFixed(0) + 'M' : k + 'k') + '/wk'; }
+  function ovrClass(o) { return o >= 85 ? 'elite' : o >= 78 ? 'good' : o >= 70 ? 'ok' : 'low'; }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
+  function flag(nat) { return '<span class="nat" title="' + nat + '">' + nat + '</span>'; }
+  UI.money = money;
+
+  // ---- Mount / events ------------------------------------------------------
+  UI.boot = function () {
+    APP = document.getElementById('app');
+    document.addEventListener('click', UI.onClick);
+    document.addEventListener('change', UI.onChange);
+    UI.renderMenu();
+  };
+
+  UI.onClick = function (e) {
+    var t = e.target.closest('[data-action]');
+    if (!t) return;
+    var action = t.getAttribute('data-action');
+    var arg = t.getAttribute('data-arg');
+    switch (action) {
+      case 'new-game': UI.renderClubSelect(); break;
+      case 'continue': if (Game.loadFromSlot('auto')) { UI.applyTheme(Game.managerClub()); UI.enterClub(); } break;
+      case 'select-club': Game.startNewGame(arg); UI.applyTheme(Game.managerClub()); UI.enterClub(); break;
+      case 'view': UI.showView(arg); break;
+      case 'play-match': UI.playMatch(); break;
+      case 'set-formation': Game.managerClub().pickBestXI(arg); UI.showView('tactics'); break;
+      case 'open-player': UI.openPlayer(arg); break;
+      case 'close-modal': UI.closeModal(); break;
+      case 'skip-reveal': UI.revealAll && UI.revealAll(); break;
+      case 'continue-after-match': UI.closeModal(); UI.showView('matchday'); break;
+      case 'save-game': Game.saveToSlot('slot1'); UI.toast('Game saved'); break;
+      case 'back-to-menu': UI.renderMenu(); break;
+    }
+  };
+  UI.onChange = function (e) {
+    var t = e.target;
+    if (t.getAttribute('data-change') === 'formation') { Game.managerClub().pickBestXI(t.value); UI.showView('tactics'); }
+    if (t.getAttribute('data-change') === 'tactic') {
+      var club = Game.managerClub();
+      club.tactics[t.getAttribute('data-key')] = t.value;
+    }
+    if (t.getAttribute('data-change') === 'squad-sort') { UI.state.squadSort = t.value; UI.showView('squad'); }
+  };
+
+  // ---- Main Menu -----------------------------------------------------------
+  UI.renderMenu = function () {
+    document.documentElement.style.setProperty('--club', '#4f8ff7');
+    document.documentElement.style.setProperty('--club-glow', '#16243d');
+    var hasAuto = G.Save.has('auto');
+    var meta = hasAuto ? (G.Save.load('auto').meta || {}) : {};
+    APP.className = 'menu-screen';
+    APP.innerHTML =
+      '<div class="menu-bg"><div class="menu-stadium"></div><div class="menu-rain"></div></div>' +
+      '<div class="menu-inner">' +
+        '<div class="brand"><div class="brand-mark">' + UI.icon('trophy', 30) + '</div>' +
+          '<h1 class="brand-title">GAFFER</h1>' +
+          '<p class="brand-sub">Football Management — 2025/26</p></div>' +
+        '<div class="menu-actions">' +
+          (hasAuto ? '<button class="btn btn-primary btn-lg" data-action="continue">' + UI.icon('play') +
+            ' Continue<span class="btn-meta">' + esc(meta.clubName || '') + ' · ' + (meta.season || '') + '</span></button>' : '') +
+          '<button class="btn ' + (hasAuto ? 'btn-secondary' : 'btn-primary') + ' btn-lg" data-action="new-game">' + UI.icon('whistle') + ' New Career</button>' +
+        '</div>' +
+        '<p class="menu-foot">A management sim · Premier League · more leagues coming</p>' +
+      '</div>';
+  };
+
+  // ---- Club Selection ------------------------------------------------------
+  UI.renderClubSelect = function () {
+    var clubs = Game.world ? Game.world.list : null;
+    if (!clubs) { Game.buildWorld(); clubs = Game.world.list; }
+    var eng = clubs.filter(function (c) { return c.league === 'eng'; })
+      .sort(function (a, b) { return b.reputation - a.reputation; });
+    APP.className = 'select-screen';
+    var cards = eng.map(function (c) {
+      var accent = Color.accentFor(c.colors.primary);
+      return '<button class="club-card" data-action="select-club" data-arg="' + c.id + '" ' +
+        'style="--ca:' + accent + ';--cg:' + Color.mix(accent, '#0a0c10', 0.7) + '">' +
+        '<div class="club-card-top">' + UI.crest(c, 44) +
+          '<div class="club-card-rep">' + starRating(c.reputation) + '</div></div>' +
+        '<div class="club-card-name">' + esc(c.name) + '</div>' +
+        '<div class="club-card-meta">' +
+          '<span>OVR ' + c.squadOVR() + '</span><span>' + money(c.transferBudget) + '</span></div>' +
+        '<div class="club-card-stadium">' + esc(c.stadium) + ' · ' + c.capacity.toLocaleString() + '</div>' +
+        '</button>';
+    }).join('');
+    APP.innerHTML =
+      '<header class="select-head"><button class="btn btn-ghost" data-action="back-to-menu">‹ Menu</button>' +
+        '<h2>Choose your club</h2><p>Premier League 2025/26 — pick who you’ll manage.</p></header>' +
+      '<div class="club-grid">' + cards + '</div>';
+  };
+
+  function starRating(rep) {
+    var stars = Math.round((rep - 55) / 9); // ~0-5
+    stars = Math.max(1, Math.min(5, stars));
+    var out = '';
+    for (var i = 0; i < 5; i++) out += '<span class="star ' + (i < stars ? 'on' : '') + '">★</span>';
+    return out;
+  }
+
+  // ---- In-club shell -------------------------------------------------------
+  UI.enterClub = function () {
+    var club = Game.managerClub();
+    APP.className = 'app-shell';
+    var nav = [
+      ['matchday', 'Match Day', 'match'], ['squad', 'Squad', 'squad'],
+      ['tactics', 'Tactics', 'tactics'], ['table', 'Table', 'table'], ['stats', 'Stats', 'stats']
+    ].map(function (n) {
+      return '<button class="nav-item" data-action="view" data-arg="' + n[0] + '" data-nav="' + n[0] + '">' +
+        UI.icon(n[2]) + '<span>' + n[1] + '</span></button>';
+    }).join('');
+    APP.innerHTML =
+      '<aside class="sidebar">' +
+        '<div class="sidebar-club">' + UI.crest(club, 46) +
+          '<div><div class="sidebar-club-name">' + esc(club.name) + '</div>' +
+          '<div class="sidebar-club-sub">' + esc(club.stadium) + '</div></div></div>' +
+        '<nav class="nav">' + nav + '</nav>' +
+        '<div class="sidebar-foot">' +
+          '<button class="nav-item" data-action="save-game">' + UI.icon('save') + '<span>Save</span></button>' +
+          '<button class="nav-item" data-action="back-to-menu">' + UI.icon('home') + '<span>Main Menu</span></button>' +
+        '</div>' +
+      '</aside>' +
+      '<main class="content"><header class="topbar" id="topbar"></header><div class="view" id="view"></div></main>';
+    UI.showView('matchday');
+  };
+
+  UI.renderTopbar = function () {
+    var club = Game.managerClub();
+    var pos = Game.managerPosition();
+    var bar = document.getElementById('topbar');
+    if (!bar) return;
+    var nf = Game.opponentInfo();
+    bar.innerHTML =
+      '<div class="tb-left"><span class="tb-season">' + Game.season + '</span>' +
+        '<span class="tb-pos">League pos <b>' + (pos ? ordinal(pos) : '—') + '</b></span></div>' +
+      '<div class="tb-right">' +
+        '<div class="tb-stat"><span>Transfer</span><b>' + money(club.transferBudget) + '</b></div>' +
+        '<div class="tb-stat"><span>Wages</span><b>€' + Math.round(club.wageBillWeekly()) + 'k/wk</b></div>' +
+        (nf ? '<div class="tb-next">' + (nf.isHome ? 'vs ' : '@ ') + nf.opponent.short + '</div>' : '<div class="tb-next">Season over</div>') +
+      '</div>';
+  };
+
+  UI.showView = function (name) {
+    UI.state.view = name;
+    var v = document.getElementById('view');
+    if (!v) return;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-nav]'), function (n) {
+      n.classList.toggle('active', n.getAttribute('data-nav') === name);
+    });
+    UI.renderTopbar();
+    if (name === 'squad') v.innerHTML = UI.viewSquad();
+    else if (name === 'tactics') v.innerHTML = UI.viewTactics();
+    else if (name === 'matchday') v.innerHTML = UI.viewMatchday();
+    else if (name === 'table') v.innerHTML = UI.viewTable();
+    else if (name === 'stats') v.innerHTML = UI.viewStats();
+    v.scrollTop = 0;
+  };
+
+  // ---- Squad view ----------------------------------------------------------
+  UI.viewSquad = function () {
+    var club = Game.managerClub();
+    var sort = UI.state.squadSort || 'overall';
+    var lineOrder = { GK: 0, DEF: 1, MID: 2, ATT: 3 };
+    var players = club.players.slice().sort(function (a, b) {
+      if (sort === 'overall') return b.overall - a.overall;
+      if (sort === 'value') return b.value - a.value;
+      if (sort === 'age') return a.age - b.age;
+      if (sort === 'position') return (lineOrder[a.line] - lineOrder[b.line]) || (b.overall - a.overall);
+      return 0;
+    });
+    var rows = players.map(function (p) {
+      var inj = p.injuryDays > 0 ? '<span class="inj" title="' + esc(p.injury || 'Injured') + '">+' + p.injuryDays + 'd</span>' : '';
+      return '<tr class="prow" data-action="open-player" data-arg="' + p.id + '">' +
+        '<td class="c-num">' + (p.shirt || '') + '</td>' +
+        '<td class="c-pos"><span class="pos pos-' + p.line + '">' + p.position + '</span></td>' +
+        '<td class="c-name">' + esc(p.name) + ' ' + inj + (club.captainId === p.id ? '<span class="cap">C</span>' : '') + '</td>' +
+        '<td class="c-nat">' + flag(p.nationality) + '</td>' +
+        '<td class="c-age">' + p.age + '</td>' +
+        '<td class="c-ovr"><span class="ovr ' + ovrClass(p.overall) + '">' + p.overall + '</span></td>' +
+        '<td class="c-pot">' + p.potential + '</td>' +
+        '<td class="c-fit">' + fitBar(p.fitness) + '</td>' +
+        '<td class="c-val">' + money(p.value) + '</td>' +
+        '<td class="c-wage">' + wage(p.wage) + '</td></tr>';
+    }).join('');
+    return '<div class="view-head"><h2>Squad</h2>' +
+      '<div class="view-tools"><label class="lbl">Sort' +
+      '<select data-change="squad-sort"><option value="overall"' + sel(sort, 'overall') + '>Rating</option>' +
+      '<option value="position"' + sel(sort, 'position') + '>Position</option>' +
+      '<option value="age"' + sel(sort, 'age') + '>Age</option>' +
+      '<option value="value"' + sel(sort, 'value') + '>Value</option></select></label>' +
+      '<span class="pill">Squad OVR ' + club.squadOVR() + '</span><span class="pill">' + club.players.length + ' players</span></div></div>' +
+      '<div class="table-wrap"><table class="data-table squad-table"><thead><tr>' +
+      '<th>#</th><th>Pos</th><th>Name</th><th>Nat</th><th>Age</th><th>OVR</th><th>POT</th><th>Fitness</th><th>Value</th><th>Wage</th>' +
+      '</tr></thead><tbody>' + rows + '</tbody></table></div>';
+  };
+  function sel(a, b) { return a === b ? ' selected' : ''; }
+  function fitBar(f) {
+    var cls = f >= 85 ? 'hi' : f >= 60 ? 'mid' : 'lo';
+    return '<span class="bar"><span class="bar-fill ' + cls + '" style="width:' + Math.round(f) + '%"></span></span>';
+  }
+
+  // ---- Player profile (modal) ---------------------------------------------
+  UI.openPlayer = function (id) {
+    var club = Game.managerClub();
+    var p = club.getPlayer(id);
+    if (!p) return;
+    var faces = p.att.isGK
+      ? [['DIV', p.att.gk.diving], ['HAN', p.att.gk.handling], ['KIC', p.att.gk.kicking], ['REF', p.att.gk.reflexes], ['SPD', p.att.gk.speed], ['POS', p.att.gk.positioning]]
+      : [['PAC', p.att.faces.pac], ['SHO', p.att.faces.sho], ['PAS', p.att.faces.pas], ['DRI', p.att.faces.dri], ['DEF', p.att.faces.def], ['PHY', p.att.faces.phy]];
+    var faceHtml = faces.map(function (f) {
+      return '<div class="face"><span class="face-v ' + ovrClass(f[1]) + '">' + Math.round(f[1]) + '</span><span class="face-k">' + f[0] + '</span></div>';
+    }).join('');
+    var traits = p.traits.length ? p.traits.map(function (t) { return '<span class="trait">' + t + '</span>'; }).join('') : '<span class="muted">No special traits</span>';
+    var st = p.stats;
+    UI.modal(
+      '<div class="player-modal">' +
+        '<div class="pm-head" style="background:linear-gradient(135deg,var(--club-glow),transparent)">' +
+          '<div class="pm-ovr"><span class="ovr-big ' + ovrClass(p.overall) + '">' + p.overall + '</span><span>OVR</span></div>' +
+          '<div class="pm-id"><h3>' + esc(p.name) + '</h3>' +
+            '<div class="pm-sub">' + p.position + ' · ' + flag(p.nationality) + ' · ' + p.age + ' yrs · #' + (p.shirt || '-') + '</div>' +
+            '<div class="pm-sub2">Potential <b>' + p.potential + '</b> · Value <b>' + money(p.value) + '</b> · ' + wage(p.wage) + ' · ' + p.contractYears + 'y left</div>' +
+          '</div>' +
+          '<button class="modal-x" data-action="close-modal" aria-label="Close">✕</button>' +
+        '</div>' +
+        '<div class="pm-faces">' + faceHtml + '</div>' +
+        '<div class="pm-section"><h4>Condition</h4><div class="pm-grid">' +
+          kv('Fitness', Math.round(p.fitness) + '%') + kv('Morale', Math.round(p.morale) + '%') +
+          kv('Form', (p.form > 0 ? '+' : '') + p.form) + kv('Status', p.injuryDays > 0 ? esc(p.injury) + ' (' + p.injuryDays + 'd)' : 'Available') +
+        '</div></div>' +
+        '<div class="pm-section"><h4>Traits</h4><div class="traits">' + traits + '</div></div>' +
+        '<div class="pm-section"><h4>This season</h4><div class="pm-grid">' +
+          kv('Apps', st.apps) + kv('Goals', st.goals) + kv('Assists', st.assists) +
+          kv('Avg rating', st.ratingCount ? p.avgRating().toFixed(2) : '—') +
+          kv('Pass %', st.passesAttempted ? p.passAccuracy() + '%' : '—') + kv('Clean sheets', st.cleanSheets) +
+        '</div></div>' +
+      '</div>'
+    );
+  };
+  function kv(k, v) { return '<div class="kv"><span>' + k + '</span><b>' + v + '</b></div>'; }
+
+  // ---- Tactics view --------------------------------------------------------
+  UI.viewTactics = function () {
+    var club = Game.managerClub();
+    var t = club.tactics;
+    var formations = Object.keys(G.FORMATIONS).map(function (f) {
+      return '<option value="' + f + '"' + sel(club.formation, f) + '>' + f + '</option>';
+    }).join('');
+    return '<div class="view-head"><h2>Tactics</h2>' +
+      '<div class="view-tools"><label class="lbl">Formation<select data-change="formation">' + formations + '</select></label></div></div>' +
+      '<div class="tactics-grid">' +
+        '<div class="pitch-card">' + UI.pitch(club) + '</div>' +
+        '<div class="tactic-controls">' +
+          tacticSelect('Mentality', 'mentality', t.mentality, [['defensive', 'Defensive'], ['balanced', 'Balanced'], ['attacking', 'Attacking']]) +
+          tacticSelect('Tempo', 'tempo', t.tempo, [['slow', 'Slow'], ['normal', 'Normal'], ['high', 'High']]) +
+          tacticSelect('Pressing', 'pressing', t.pressing, [['low', 'Low block'], ['normal', 'Normal'], ['high', 'High press']]) +
+          '<p class="hint">Tactics affect chance creation, possession and late-game fatigue. They apply to every match until you change them.</p>' +
+        '</div>' +
+      '</div>';
+  };
+  function tacticSelect(label, key, val, opts) {
+    return '<label class="lbl block">' + label + '<select data-change="tactic" data-key="' + key + '">' +
+      opts.map(function (o) { return '<option value="' + o[0] + '"' + sel(val, o[0]) + '>' + o[1] + '</option>'; }).join('') +
+      '</select></label>';
+  }
+
+  UI.pitch = function (club) {
+    var xi = club.lineupPlayers();
+    var lines = { GK: [], DEF: [], MID: [], ATT: [] };
+    xi.forEach(function (p) { lines[p.line].push(p); });
+    function row(arr, cls) {
+      return '<div class="pitch-row ' + cls + '">' + arr.map(function (p) {
+        return '<button class="chip" data-action="open-player" data-arg="' + p.id + '">' +
+          '<span class="chip-ovr ' + ovrClass(p.overall) + '">' + p.overall + '</span>' +
+          '<span class="chip-name">' + esc(lastName(p.name)) + '</span></button>';
+      }).join('') + '</div>';
+    }
+    return '<div class="pitch">' + row(lines.ATT, 'r-att') + row(lines.MID, 'r-mid') + row(lines.DEF, 'r-def') + row(lines.GK, 'r-gk') + '</div>';
+  };
+  function lastName(n) { var parts = n.split(' '); return parts.length > 1 ? parts.slice(1).join(' ') : n; }
+
+  // ---- Match Day view ------------------------------------------------------
+  UI.viewMatchday = function () {
+    var club = Game.managerClub();
+    var info = Game.opponentInfo();
+    if (!info) {
+      return '<div class="view-head"><h2>Season Complete</h2></div>' +
+        '<div class="empty-card"><p>The ' + Game.season + ' league season is over. Final table is in the Table tab.</p></div>';
+    }
+    var opp = info.opponent;
+    var venue = info.isHome ? club : opp;
+    var avgFit = Math.round(club.lineupFitness());
+    return '<div class="view-head"><h2>Match Day</h2><span class="pill">Round ' + info.round + '</span></div>' +
+      '<div class="md-fixture" style="background:linear-gradient(135deg,var(--club-glow),#0c0f15)">' +
+        '<div class="md-team"><div class="md-crest">' + UI.crest(info.isHome ? club : opp, 64) + '</div>' +
+          '<div class="md-team-name">' + esc((info.isHome ? club : opp).name) + '</div>' +
+          '<div class="md-team-ovr">OVR ' + (info.isHome ? club : opp).squadOVR() + '</div></div>' +
+        '<div class="md-vs"><span>' + (info.isHome ? 'HOME' : 'AWAY') + '</span><div class="md-vs-x">VS</div>' +
+          '<span class="md-venue">' + esc(venue.stadium) + '</span></div>' +
+        '<div class="md-team"><div class="md-crest">' + UI.crest(info.isHome ? opp : club, 64) + '</div>' +
+          '<div class="md-team-name">' + esc((info.isHome ? opp : club).name) + '</div>' +
+          '<div class="md-team-ovr">OVR ' + (info.isHome ? opp : club).squadOVR() + '</div></div>' +
+      '</div>' +
+      '<div class="md-cols">' +
+        '<div class="md-lineup"><h3>Your XI <span class="muted">(' + club.formation + ')</span></h3>' + UI.pitch(club) +
+          '<p class="hint">Lineup is auto-picked as your strongest available XI. Change shape in Tactics.</p></div>' +
+        '<div class="md-panel">' +
+          '<div class="md-readout"><span>Avg fitness</span>' + fitBar(avgFit) + '<b>' + avgFit + '%</b></div>' +
+          '<div class="md-readout"><span>Mentality</span><b>' + cap(club.tactics.mentality) + '</b></div>' +
+          '<div class="md-readout"><span>Tempo</span><b>' + cap(club.tactics.tempo) + '</b></div>' +
+          '<button class="btn btn-primary btn-block btn-lg" data-action="play-match">' + UI.icon('play') + ' Play Match</button>' +
+        '</div>' +
+      '</div>';
+  };
+  function cap(s) { return s ? s[0].toUpperCase() + s.slice(1) : s; }
+
+  // ---- Play match + reveal -------------------------------------------------
+  UI.playMatch = function () {
+    var round = Game.playRound();
+    if (!round || !round.userResult) { UI.showView('table'); return; }
+    UI.showMatchReveal(round);
+  };
+
+  UI.showMatchReveal = function (round) {
+    var r = round.userResult;
+    var weatherLabel = { clear: 'Clear', rain: 'Rain', cloudy: 'Overcast', fog: 'Foggy', night: 'Night', snow: 'Snow' }[round.weather] || 'Clear';
+    var feedItems = r.events.filter(function (e) { return e.type === 'goal' || e.type === 'miss' || e.type === 'save'; });
+    UI.modal(
+      '<div class="reveal">' +
+        '<div class="reveal-head">' +
+          '<div class="reveal-scoreline">' +
+            '<span class="rs-team">' + esc(r.homeShort) + '</span>' +
+            '<span class="rs-score" id="rs-score">0 - 0</span>' +
+            '<span class="rs-team">' + esc(r.awayShort) + '</span>' +
+          '</div>' +
+          '<div class="reveal-sub">' + esc(r.homeName) + ' vs ' + esc(r.awayName) + ' · ' + weatherLabel + '</div>' +
+          '<button class="btn btn-ghost btn-sm" data-action="skip-reveal">Skip ▸</button>' +
+        '</div>' +
+        '<div class="reveal-feed" id="reveal-feed"></div>' +
+        '<div class="reveal-foot" id="reveal-foot" style="display:none">' +
+          '<div class="reveal-stats" id="reveal-stats"></div>' +
+          '<button class="btn btn-primary btn-block" data-action="continue-after-match">Continue ▸</button>' +
+        '</div>' +
+      '</div>', true
+    );
+    UI._runReveal(r, feedItems);
+  };
+
+  UI._runReveal = function (r, items) {
+    var feed = document.getElementById('reveal-feed');
+    var scoreEl = document.getElementById('rs-score');
+    var h = 0, a = 0, i = 0;
+    var timers = [];
+    function showItem(ev) {
+      if (ev.type === 'goal') {
+        if (ev.side === 'home') h++; else a++;
+        scoreEl.textContent = h + ' - ' + a;
+        scoreEl.classList.remove('pop'); void scoreEl.offsetWidth; scoreEl.classList.add('pop');
+      }
+      var row = document.createElement('div');
+      row.className = 'feed-row ' + ev.type + ' ' + ev.side;
+      row.innerHTML = '<span class="feed-min">' + ev.minute + "'</span>" +
+        '<span class="feed-ico">' + (ev.type === 'goal' ? '⚽' : ev.type === 'save' ? '🧤' : '✗') + '</span>' +
+        '<span class="feed-text">' + esc(ev.text) + '</span>';
+      feed.appendChild(row);
+      feed.scrollTop = feed.scrollHeight;
+    }
+    function finish() {
+      scoreEl.textContent = r.homeScore + ' - ' + r.awayScore;
+      var s = r.stats;
+      document.getElementById('reveal-stats').innerHTML =
+        statRow('Possession', s.possessionHome + '%', s.possessionAway + '%') +
+        statRow('Shots', s.shotsHome, s.shotsAway) +
+        statRow('On target', s.sotHome, s.sotAway) +
+        (r.motmHome || r.motmAway ? '<div class="motm">MOTM: ' + esc((r.homeScore >= r.awayScore ? r.motmHome : r.motmAway) || r.motmHome || r.motmAway) + '</div>' : '');
+      document.getElementById('reveal-foot').style.display = 'block';
+    }
+    UI.revealAll = function () {
+      timers.forEach(clearTimeout);
+      while (i < items.length) showItem(items[i++]);
+      finish();
+      UI.revealAll = null;
+    };
+    function step() {
+      if (i >= items.length) { finish(); return; }
+      showItem(items[i++]);
+      timers.push(setTimeout(step, 420));
+    }
+    if (items.length === 0) { finish(); }
+    else timers.push(setTimeout(step, 350));
+  };
+  function statRow(label, h, a) {
+    return '<div class="stat-row"><b>' + h + '</b><span>' + label + '</span><b>' + a + '</b></div>';
+  }
+
+  // ---- League Table view ---------------------------------------------------
+  UI.viewTable = function () {
+    var rows = Game.standings();
+    var myId = Game.managerClubId;
+    var body = rows.map(function (row, i) {
+      var club = Game.club(row.clubId);
+      var zone = i === 0 ? 'champ' : i < 4 ? 'ucl' : i < 6 ? 'uel' : i >= rows.length - 3 ? 'rel' : '';
+      var form = row.form.map(function (f) { return '<span class="form-' + f + '">' + f + '</span>'; }).join('');
+      return '<tr class="' + (row.clubId === myId ? 'me' : '') + ' zone-' + zone + '">' +
+        '<td class="c-rank">' + (i + 1) + '</td>' +
+        '<td class="c-club">' + UI.crest(club, 22) + '<span>' + esc(club.name) + '</span></td>' +
+        '<td>' + row.P + '</td><td>' + row.W + '</td><td>' + row.D + '</td><td>' + row.L + '</td>' +
+        '<td>' + row.GF + '</td><td>' + row.GA + '</td><td>' + (row.GD > 0 ? '+' : '') + row.GD + '</td>' +
+        '<td class="c-pts">' + row.Pts + '</td><td class="c-form">' + form + '</td></tr>';
+    }).join('');
+    return '<div class="view-head"><h2>' + esc(Game.league().name) + '</h2><span class="pill">Round ' + Game.league().currentRound + ' / ' + Game.league().totalRounds() + '</span></div>' +
+      '<div class="table-wrap"><table class="data-table league-table"><thead><tr>' +
+      '<th>#</th><th>Club</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Form</th>' +
+      '</tr></thead><tbody>' + body + '</tbody></table></div>' +
+      '<div class="legend"><span class="lg champ">Champion</span><span class="lg ucl">Champions League</span><span class="lg uel">Europa</span><span class="lg rel">Relegation</span></div>';
+  };
+
+  // ---- Stats view ----------------------------------------------------------
+  UI.viewStats = function () {
+    var lb = Game.leaderboards();
+    function board(title, arr, suffix) {
+      var rows = arr.slice(0, 10).map(function (e, i) {
+        return '<tr><td class="c-rank">' + (i + 1) + '</td><td>' + esc(e.name) + '</td><td class="muted">' + e.club + '</td><td class="c-pts">' + e.value + '</td></tr>';
+      }).join('') || '<tr><td colspan="4" class="muted center">No data yet — play some matches.</td></tr>';
+      return '<div class="stat-card"><h3>' + title + '</h3><table class="data-table mini"><tbody>' + rows + '</tbody></table></div>';
+    }
+    return '<div class="view-head"><h2>Statistics</h2></div>' +
+      '<div class="stats-grid">' +
+        board('Top Scorers', lb.scorers) + board('Top Assists', lb.assists) + board('Clean Sheets', lb.cleanSheets) +
+      '</div>';
+  };
+
+  // ---- Modal + toast -------------------------------------------------------
+  UI.modal = function (html, persist) {
+    UI.closeModal();
+    var o = document.createElement('div');
+    o.className = 'modal-overlay';
+    o.id = 'modal';
+    o.innerHTML = '<div class="modal" role="dialog">' + html + '</div>';
+    if (!persist) o.addEventListener('click', function (e) { if (e.target === o) UI.closeModal(); });
+    document.body.appendChild(o);
+    requestAnimationFrame(function () { o.classList.add('show'); });
+  };
+  UI.closeModal = function () { var m = document.getElementById('modal'); if (m) m.remove(); };
+  UI.toast = function (msg) {
+    var t = document.createElement('div'); t.className = 'toast'; t.textContent = msg;
+    document.body.appendChild(t);
+    requestAnimationFrame(function () { t.classList.add('show'); });
+    setTimeout(function () { t.classList.remove('show'); setTimeout(function () { t.remove(); }, 300); }, 1800);
+  };
+
+  function ordinal(n) { var s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
+
+  G.UI = UI;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -38,7 +2544,7 @@
         Gaffer.UI.boot();
       } catch (e) {
         document.getElementById('app').innerHTML =
-          '<div style="padding:40px;color:#e25563;font-family:monospace">Failed to start: ' + e.message + '</div>';
+          '<div style="padding:40px;color:#e25563;font-family:monospace;background:#07090d;min-height:100vh">Failed to start: ' + e.message + '</div>';
         console.error(e);
       }
     });

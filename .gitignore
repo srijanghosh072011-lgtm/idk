@@ -9,3 +9,7 @@ Thumbs.db
 
 # Node (if ever added)
 node_modules/
+
+# npm test tooling (jsdom for local UI tests — not part of the game)
+package.json
+package-lock.json
