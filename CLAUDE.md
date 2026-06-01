@@ -23,7 +23,7 @@
 
 ## Website
 
-**Live URL:** https://srijanghosh072011-lgtm.github.io/idk/  
+**Live URL:** https://ghoshdesigns.ca  
 **Repo:** srijanghosh072011-lgtm/idk  
 **Dev branch:** `claude/design-agency-website-oYTO9`  
 **Live branch:** `gh-pages`
@@ -48,9 +48,10 @@ The live site uses the Tailwind CDN instead of the local build. The deploy repla
 CDN_BLOCK='<script src="https:\/\/cdn.tailwindcss.com"><\/script>\n<script>\n  tailwind.config = {\n    theme: {\n      extend: {\n        fontFamily: {\n          display: ['"'"'Archivo'"'"', '"'"'system-ui'"'"', '"'"'sans-serif'"'"'],\n          sans: ['"'"'"Space Grotesk"'"'"', '"'"'system-ui'"'"', '"'"'sans-serif'"'"'],\n        },\n        colors: {\n          ink: '"'"'#0A0A0A'"'"',\n          muted: '"'"'#525252'"'"',\n          line: '"'"'#E5E5E5'"'"',\n          paper: '"'"'#FAFAFA'"'"',\n          accent: '"'"'#2563EB'"'"',\n          accentSoft: '"'"'#EFF4FF'"'"',\n        },\n        letterSpacing: {\n          tightest: '"'"'-0.05em'"'"',\n        },\n      },\n    },\n  };\n<\/script>'
 
 sed "s|<link rel=\"stylesheet\" href=\"./assets/styles.css\" />|$CDN_BLOCK|" index.html > /tmp/deploy_index.html
-git checkout gh-pages
+git checkout gh-pages && git pull origin gh-pages
 cp /tmp/deploy_index.html index.html
-git add index.html
+git show claude/design-agency-website-oYTO9:privacy.html > privacy.html
+git add index.html privacy.html
 git commit -m "Deploy: <description>"
 git push -u origin gh-pages
 git checkout claude/design-agency-website-oYTO9
@@ -91,7 +92,7 @@ git push origin claude/design-agency-website-oYTO9
 10. **Concept work** — static scrollable grid of 5 website mockup cards
 11. **Why us** — comparison table (typical agency vs. Ghosh Designs)
 12. **FAQ** — 5 collapsible questions
-13. **Contact / CTA** — form with mailto handler → thank-you state after submit, direct email link
+13. **Contact / CTA** — Formspree form (endpoint: xqejygkd) with AJAX submit → thank-you state after submit, direct email link
 14. **Footer** — GD lockup, sitemap, studio status ("Based in Regina, SK"), copyright
 
 ---
@@ -108,9 +109,9 @@ git push origin claude/design-agency-website-oYTO9
 
 ## Contact Form
 
-Uses a `mailto:` handler — on submit, opens the visitor's email client pre-filled with their name, email, and message addressed to `srijan.ghosh072011@gmail.com`. After submit, the form is replaced with a thank-you card that shows their first name, confirms the email opened, and offers "Send another" / "Back to top" buttons.
+Uses **Formspree** — form posts to `https://formspree.io/f/xqejygkd`. On success the JS hides the form and shows a thank-you card with the submitter's first name and "Send another" / "Back to top" buttons. On error, an inline error message is shown.
 
-**Limitation:** Requires visitor to have an email client configured. Future upgrade: replace with Formspree endpoint (add `action="https://formspree.io/f/XXXX"` and `method="POST"` to the form, remove the JS handler).
+**Debug:** Check submissions at https://formspree.io/forms/xqejygkd/submissions. Owner must click the Formspree confirmation email (sent after first submission) to activate delivery.
 
 ---
 
@@ -118,9 +119,11 @@ Uses a `mailto:` handler — on submit, opens the visitor's email client pre-fil
 
 - **Social proof** — no real testimonials or client work yet. Add when first client is onboarded.
 - **About section** — currently just a comparison table, no personal story.
-- **Privacy / Terms pages** — footer links go to `#` placeholders.
+- **Terms page** — footer link goes to `#` placeholder. Privacy page (`privacy.html`) is live.
 - **Social links** — Dribbble, Instagram, LinkedIn removed (no profiles yet). Add real URLs when ready.
-- **Formspree upgrade** — replace mailto form handler with Formspree for reliable delivery.
+- **Calendly** — "Book a call" nav button links to `#contact`. Wire to a Calendly URL when account is ready.
+- **HTTPS enforcement** — GitHub Pages SSL cert may take 24–48h after DNS setup; tick "Enforce HTTPS" in repo Settings → Pages once available.
+- **Formspree verification** — owner must click confirmation email triggered by first form submission.
 
 ---
 
