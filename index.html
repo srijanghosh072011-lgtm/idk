@@ -310,7 +310,7 @@
             <div id="mockup-shell" class="relative aspect-[16/10] overflow-hidden bg-white">
               <iframe
                 id="mockup-iframe"
-                src="https://raw.githack.com/srijanghosh072011-lgtm/idk/e2e09068d1e60b6a7b620db1949a85e8b52a9bb5/index.html"
+                src="your-plumbing-site.com"
                 title="Plumbing site live preview"
                 loading="lazy"
                 scrolling="no"
@@ -1311,6 +1311,7 @@
               Tell us about your business in a paragraph. We'll send back a same-day reply with a rough quote and a calendar link.
             </p>
             <form id="contact-form" action="https://formspree.io/f/xqejygkd" method="POST" class="mt-8 grid sm:grid-cols-2 gap-3">
+              <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;">
               <label class="sr-only" for="name">Your name</label>
               <input id="name" name="name" type="text" required placeholder="Your name" class="rounded-full bg-white/5 border border-white/15 px-5 py-4 text-white placeholder-white/40 focus:outline-none focus:border-accent transition-colors" />
               <label class="sr-only" for="email">Email</label>
@@ -1387,21 +1388,16 @@
       </a>
       <p class="mt-6 text-muted max-w-sm">A focused design studio based in Regina, SK — building modern websites for plumbing and home service businesses across Canada.</p>
     </div>
-    <div class="md:col-span-2">
+    <div class="md:col-span-3">
       <div class="text-xs uppercase tracking-[0.25em] text-muted mb-4">Sitemap</div>
       <ul class="space-y-2.5 text-sm">
         <li><a class="hover:text-accent transition-colors" href="#services">Services</a></li>
         <li><a class="hover:text-accent transition-colors" href="#process">Process</a></li>
         <li><a class="hover:text-accent transition-colors" href="#faq">FAQ</a></li>
+        <li><a class="hover:text-accent transition-colors" href="/privacy.html">Privacy</a></li>
       </ul>
     </div>
-    <div class="md:col-span-2">
-      <div class="text-xs uppercase tracking-[0.25em] text-muted mb-4">Legal</div>
-      <ul class="space-y-2.5 text-sm">
-        <li><a class="hover:text-accent transition-colors" href="./privacy.html">Privacy</a></li>
-      </ul>
-    </div>
-    <div class="md:col-span-2">
+    <div class="md:col-span-4">
       <div class="text-xs uppercase tracking-[0.25em] text-muted mb-4">Studio status</div>
       <div class="flex items-center gap-2 text-sm">
         <span class="relative inline-flex w-2.5 h-2.5">
