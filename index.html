@@ -309,13 +309,18 @@
               <span class="ml-auto text-[10px] text-white/30">🔒</span>
             </div>
 
-            <!-- Hero mockup image -->
+            <!-- Live preview iframe -->
             <div id="mockup-shell" class="relative aspect-[16/10] overflow-hidden bg-white">
-              <img
-                src="./assets/plumber-hero-mockup.png"
-                alt="Example plumbing website hero — Regina's Trusted Plumbing &amp; HVAC Experts"
+              <iframe
+                id="mockup-iframe"
+                src="https://raw.githack.com/srijanghosh072011-lgtm/idk/3bdab47/index.html"
+                title="Plumbing site live preview"
                 loading="lazy"
-                class="absolute top-0 left-0 w-full h-full object-cover">
+                scrolling="no"
+                sandbox="allow-scripts allow-same-origin"
+                class="absolute top-0 left-0 border-0 pointer-events-none"
+                style="width: 1440px; height: 900px; transform-origin: top left; transform: scale(0.333);">
+              </iframe>
             </div>
           </div>
 
@@ -1487,6 +1492,25 @@
   } else {
     document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
   }
+
+  // Hero: scale the iframe-mockup to fit its container responsively
+  (function setupMockupScale() {
+    const shell = document.getElementById('mockup-shell');
+    const iframe = document.getElementById('mockup-iframe');
+    if (!shell || !iframe) return;
+    const NATIVE_W = 1440;
+    function update() {
+      const w = shell.clientWidth;
+      const s = w / NATIVE_W;
+      iframe.style.transform = 'scale(' + s.toFixed(4) + ')';
+    }
+    update();
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(update).observe(shell);
+    } else {
+      window.addEventListener('resize', update, { passive: true });
+    }
+  })();
 
 </script>
 
