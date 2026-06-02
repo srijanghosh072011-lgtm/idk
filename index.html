@@ -208,12 +208,28 @@
       <a href="#about" class="hover:text-ink transition-colors">About</a>
       <a href="#faq" class="hover:text-ink transition-colors">FAQ</a>
     </div>
-    <a href="#contact" class="cursor-pointer btn-primary inline-flex items-center gap-2 rounded-full bg-ink text-white text-sm font-medium px-4 py-2 hover:bg-accent transition-colors">
-      Book a call
-      <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-    </a>
+    <div class="flex items-center gap-2">
+      <a href="#contact" class="cursor-pointer btn-primary inline-flex items-center gap-2 rounded-full bg-ink text-white text-sm font-medium px-4 py-2 hover:bg-accent transition-colors">
+        Book a call
+        <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+      <button id="nav-toggle" class="md:hidden p-2 -mr-1 rounded-xl text-ink hover:bg-line transition-colors" aria-label="Open menu" aria-expanded="false">
+        <svg id="nav-icon-open" viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        <svg id="nav-icon-close" viewBox="0 0 24 24" class="hidden w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
   </nav>
 </header>
+
+<!-- Mobile menu -->
+<div id="mobile-menu" class="hidden fixed top-[72px] left-4 right-4 z-40 rounded-2xl border border-line bg-white/95 backdrop-blur shadow-[0_20px_60px_-20px_rgba(0,0,0,0.2)] py-3 px-2">
+  <nav class="flex flex-col text-sm text-ink/80">
+    <a href="#services" class="mobile-menu-link px-4 py-3 rounded-xl hover:bg-paper hover:text-ink transition-colors">Services</a>
+    <a href="#process" class="mobile-menu-link px-4 py-3 rounded-xl hover:bg-paper hover:text-ink transition-colors">Process</a>
+    <a href="#about" class="mobile-menu-link px-4 py-3 rounded-xl hover:bg-paper hover:text-ink transition-colors">About</a>
+    <a href="#faq" class="mobile-menu-link px-4 py-3 rounded-xl hover:bg-paper hover:text-ink transition-colors">FAQ</a>
+  </nav>
+</div>
 
 <main id="top">
 
@@ -280,7 +296,7 @@
           </div>
 
           <!-- Browser mockup -->
-          <div class="relative rounded-3xl overflow-hidden border border-white/10 bg-white shadow-[0_80px_180px_-40px_rgba(0,0,0,0.7)] -rotate-6 hover:rotate-0 transition-transform duration-700 will-change-transform">
+          <div class="relative rounded-3xl overflow-hidden border border-white/10 bg-white shadow-[0_80px_180px_-40px_rgba(0,0,0,0.7)] md:-rotate-6 md:hover:rotate-0 transition-transform duration-700 will-change-transform">
             <!-- Browser chrome -->
             <div class="flex items-center gap-1.5 px-4 py-2.5 bg-[#171717] border-b border-white/10">
               <span class="w-2.5 h-2.5 rounded-full bg-white/20"></span>
@@ -715,25 +731,25 @@
       </div>
 
       <ol class="grid md:grid-cols-4 gap-px bg-line border border-line rounded-3xl overflow-hidden">
-        <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 min-h-[280px]">
+        <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 md:min-h-[280px]">
           <div class="font-display text-6xl md:text-7xl font-black text-accent leading-none">01</div>
           <h3 class="font-display text-xl font-extrabold tracking-tight">Discover</h3>
           <p class="text-muted leading-relaxed">A 30-min call. We map your services, service area, and the calls you want more of.</p>
           <span class="mt-auto text-xs uppercase tracking-[0.2em] text-muted">Day 1</span>
         </li>
-        <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 min-h-[280px]">
+        <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 md:min-h-[280px]">
           <div class="font-display text-6xl md:text-7xl font-black text-accent leading-none">02</div>
           <h3 class="font-display text-xl font-extrabold tracking-tight">Design</h3>
           <p class="text-muted leading-relaxed">High-fidelity mockups of every page, shared for your review. Two rounds of revisions.</p>
           <span class="mt-auto text-xs uppercase tracking-[0.2em] text-muted">Day 2 – 6</span>
         </li>
-        <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 min-h-[280px]">
+        <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 md:min-h-[280px]">
           <div class="font-display text-6xl md:text-7xl font-black text-accent leading-none">03</div>
           <h3 class="font-display text-xl font-extrabold tracking-tight">Build</h3>
           <p class="text-muted leading-relaxed">Hand-coded with Tailwind. 95+ Lighthouse. Fully responsive. Click-to-call wired in.</p>
           <span class="mt-auto text-xs uppercase tracking-[0.2em] text-muted">Day 7 – 12</span>
         </li>
-        <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 min-h-[280px]">
+        <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 md:min-h-[280px]">
           <div class="font-display text-6xl md:text-7xl font-black text-accent leading-none">04</div>
           <h3 class="font-display text-xl font-extrabold tracking-tight">Launch</h3>
           <p class="text-muted leading-relaxed">DNS, analytics, lead routing. Plus a 30-day post-launch tweak window — on me.</p>
@@ -1283,8 +1299,8 @@
     <div class="relative mx-auto max-w-7xl px-6">
       <div class="reveal">
         <div class="text-xs uppercase tracking-[0.25em] text-white/60 mb-6">[ 08 — Let's build ]</div>
-        <h2 class="font-display text-5xl md:text-8xl font-black tracking-tightest leading-[0.9] max-w-5xl">
-          Ready to make your <br/>website <span class="italic font-medium text-accent">pull its weight?</span>
+        <h2 class="font-display text-4xl md:text-6xl lg:text-8xl font-black tracking-tightest leading-[0.9] max-w-5xl">
+          Ready to make your website <span class="italic font-medium text-accent">pull its weight?</span>
         </h2>
       </div>
 
@@ -1336,7 +1352,7 @@
         <div class="md:col-span-5">
           <div class="rounded-3xl border border-white/15 p-8 bg-white/5 backdrop-blur">
             <div class="text-xs uppercase tracking-[0.25em] text-white/60 mb-3">Or, the fast lane</div>
-            <a href="mailto:srijan.ghosh072011@gmail.com" class="font-display text-2xl md:text-3xl font-extrabold tracking-tight hover:text-accent transition-colors block">srijan.ghosh072011@gmail.com</a>
+            <a href="mailto:srijan.ghosh072011@gmail.com" class="font-display text-lg md:text-2xl lg:text-3xl font-extrabold tracking-tight hover:text-accent transition-colors block break-all">srijan.ghosh072011@gmail.com</a>
             <div class="mt-6 pt-6 border-t border-white/10 text-sm text-white/60">
               Founding studio &mdash; accepting our first clients.<br/>
               <span class="text-white">Intake is limited.</span> Early enquiries get priority.
@@ -1417,6 +1433,7 @@
     initContactForm();
     initScrollReveal();
     initHeroMockupScale();
+    initMobileMenu();
 
     function initContactForm() {
       const form = $('contact-form');
@@ -1496,7 +1513,40 @@
       targets.forEach((el) => io.observe(el));
     }
 
-    function initHeroMockupScale() {
+    function initMobileMenu() {
+    const toggle = $('nav-toggle');
+    const menu = $('mobile-menu');
+    const iconOpen = $('nav-icon-open');
+    const iconClose = $('nav-icon-close');
+    if (!toggle || !menu) return;
+
+    const open = () => {
+      menu.classList.remove('hidden');
+      iconOpen.classList.add('hidden');
+      iconClose.classList.remove('hidden');
+      toggle.setAttribute('aria-expanded', 'true');
+    };
+    const close = () => {
+      menu.classList.add('hidden');
+      iconOpen.classList.remove('hidden');
+      iconClose.classList.add('hidden');
+      toggle.setAttribute('aria-expanded', 'false');
+    };
+
+    toggle.addEventListener('click', () => {
+      menu.classList.contains('hidden') ? open() : close();
+    });
+
+    document.querySelectorAll('.mobile-menu-link').forEach((link) => {
+      link.addEventListener('click', close);
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!menu.contains(e.target) && !toggle.contains(e.target)) close();
+    });
+  }
+
+  function initHeroMockupScale() {
       const shell = $('mockup-shell');
       const iframe = $('mockup-iframe');
       if (!shell || !iframe) return;
