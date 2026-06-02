@@ -3,9 +3,6 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-<meta http-equiv="Pragma" content="no-cache" />
-<meta http-equiv="Expires" content="0" />
 <title>Ghosh Designs | Custom Plumbing Websites in Regina, SK</title>
 <meta name="description" content="Web design studio in Regina, Saskatchewan specializing in custom websites for plumbing and home-service businesses. $2,500 builds, $450/mo hosting. No templates, no handoffs." />
 <meta name="keywords" content="web design Regina, plumbing website design, Regina web designer, Saskatchewan web design, plumber website, home service website" />
@@ -124,6 +121,13 @@
     66% { transform: translate(-20px, 20px) scale(0.95); }
   }
   .blob { animation: blob 14s ease-in-out infinite; filter: blur(80px); }
+  .blob-delayed { animation-delay: -6s; }
+
+  /* Hero iframe — rendered at 1440x900 then scaled by JS to fit container */
+  .mockup-iframe { width: 1440px; height: 900px; transform-origin: top left; transform: scale(0.333); }
+
+  /* Honeypot — visually hidden, kept tabbable-out and screen-reader-hidden */
+  .hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; }
 
   /* GD logo mark */
   .logo-mark { display: inline-flex; flex-shrink: 0; width: 36px; height: 36px; }
@@ -294,9 +298,9 @@
                 title="Plumbing site live preview"
                 loading="lazy"
                 scrolling="no"
-                sandbox="allow-scripts allow-same-origin"
-                class="absolute top-0 left-0 border-0 pointer-events-none"
-                style="width: 1440px; height: 900px; transform-origin: top left; transform: scale(0.333);">
+                sandbox="allow-scripts"
+                referrerpolicy="no-referrer"
+                class="mockup-iframe absolute top-0 left-0 border-0 pointer-events-none">
               </iframe>
             </div>
           </div>
@@ -830,7 +834,7 @@
   <section class="py-24 md:py-32 bg-ink text-white relative overflow-hidden">
     <div aria-hidden="true" class="absolute inset-0 -z-0 opacity-40">
       <div class="blob absolute -top-40 -left-20 w-[520px] h-[520px] rounded-full bg-accent/30"></div>
-      <div class="blob absolute -bottom-40 -right-20 w-[460px] h-[460px] rounded-full bg-white/5" style="animation-delay:-6s;"></div>
+      <div class="blob blob-delayed absolute -bottom-40 -right-20 w-[460px] h-[460px] rounded-full bg-white/5"></div>
     </div>
     <div class="relative mx-auto max-w-7xl px-6 grid lg:grid-cols-12 gap-12 items-center">
       <div class="lg:col-span-5 reveal">
@@ -1274,7 +1278,7 @@
   <section id="contact" class="py-24 md:py-32 bg-ink text-white relative overflow-hidden">
     <div aria-hidden="true" class="absolute inset-0 -z-0 opacity-50">
       <div class="blob absolute -top-32 -left-20 w-[500px] h-[500px] rounded-full bg-accent/40"></div>
-      <div class="blob absolute -bottom-40 -right-10 w-[460px] h-[460px] rounded-full bg-white/10" style="animation-delay: -6s;"></div>
+      <div class="blob blob-delayed absolute -bottom-40 -right-10 w-[460px] h-[460px] rounded-full bg-white/10"></div>
     </div>
     <div class="relative mx-auto max-w-7xl px-6">
       <div class="reveal">
@@ -1291,7 +1295,7 @@
               Tell us about your business in a paragraph. We'll send back a same-day reply with a rough quote and a calendar link.
             </p>
             <form id="contact-form" action="https://formspree.io/f/xqejygkd" method="POST" class="mt-8 grid sm:grid-cols-2 gap-3">
-              <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;">
+              <input type="text" name="website" autocomplete="off" tabindex="-1" aria-hidden="true" class="hp-field" />
               <label class="sr-only" for="name">Your name</label>
               <input id="name" name="name" type="text" required placeholder="Your name" class="rounded-full bg-white/5 border border-white/15 px-5 py-4 text-white placeholder-white/40 focus:outline-none focus:border-accent transition-colors" />
               <label class="sr-only" for="email">Email</label>
@@ -1398,97 +1402,119 @@
 </footer>
 
 <script>
-  // Year
-  document.getElementById('year').textContent = new Date().getFullYear();
+  (function () {
+    'use strict';
 
-  // Contact form → Formspree AJAX + thank-you state
-  (function setupContactForm() {
-    const form  = document.getElementById('contact-form');
-    const intro = document.getElementById('contact-intro');
-    const thanks = document.getElementById('contact-thanks');
-    const reset = document.getElementById('contact-reset');
-    const thanksName = document.getElementById('thanks-name');
-    const submitBtn = document.getElementById('contact-submit');
-    const submitLabel = document.getElementById('contact-submit-label');
-    const errorBox = document.getElementById('contact-error');
-    if (!form) return;
+    const FALLBACK_EMAIL = 'srijan.ghosh072011@gmail.com';
+    const HERO_NATIVE_WIDTH = 1440;
 
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const name = document.getElementById('name').value.trim();
-      errorBox.classList.add('hidden');
-      errorBox.textContent = '';
-      submitBtn.disabled = true;
-      submitLabel.textContent = 'Sending…';
+    const $ = (id) => document.getElementById(id);
 
-      try {
-        const res = await fetch(form.action, {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { 'Accept': 'application/json' },
-        });
+    // Footer year
+    const yearEl = $('year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-        if (res.ok) {
-          thanksName.textContent = name.split(' ')[0];
-          intro.classList.add('hidden');
-          thanks.classList.remove('hidden');
-          form.reset();
-        } else {
-          const data = await res.json().catch(() => ({}));
-          const msg = (data.errors && data.errors.map(e => e.message).join(', ')) || 'Something went wrong. Please email us directly at srijan.ghosh072011@gmail.com.';
-          errorBox.textContent = msg;
+    initContactForm();
+    initScrollReveal();
+    initHeroMockupScale();
+
+    function initContactForm() {
+      const form = $('contact-form');
+      if (!form) return;
+
+      const intro = $('contact-intro');
+      const thanks = $('contact-thanks');
+      const reset = $('contact-reset');
+      const thanksName = $('thanks-name');
+      const submitBtn = $('contact-submit');
+      const submitLabel = $('contact-submit-label');
+      const errorBox = $('contact-error');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Honeypot — if filled, silently succeed without sending
+        if (form.elements.website && form.elements.website.value) return;
+
+        const name = $('name').value.trim();
+        errorBox.classList.add('hidden');
+        errorBox.textContent = '';
+        submitBtn.disabled = true;
+        submitLabel.textContent = 'Sending…';
+
+        try {
+          const res = await fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { Accept: 'application/json' },
+          });
+
+          if (res.ok) {
+            thanksName.textContent = name.split(' ')[0];
+            intro.classList.add('hidden');
+            thanks.classList.remove('hidden');
+            form.reset();
+          } else {
+            const data = await res.json().catch(() => ({}));
+            const apiMsg = data.errors && data.errors.map((x) => x.message).join(', ');
+            errorBox.textContent = apiMsg || `Something went wrong. Please email us directly at ${FALLBACK_EMAIL}.`;
+            errorBox.classList.remove('hidden');
+          }
+        } catch (err) {
+          errorBox.textContent = `Network error. Please try again, or email us directly at ${FALLBACK_EMAIL}.`;
           errorBox.classList.remove('hidden');
-        }
-      } catch (err) {
-        errorBox.textContent = 'Network error. Please try again, or email us directly at srijan.ghosh072011@gmail.com.';
-        errorBox.classList.remove('hidden');
-      } finally {
-        submitBtn.disabled = false;
-        submitLabel.textContent = 'Send the brief';
-      }
-    });
-
-    reset.addEventListener('click', function() {
-      thanks.classList.add('hidden');
-      intro.classList.remove('hidden');
-    });
-  })();
-
-  // Reveal on scroll
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduced && 'IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add('in');
-          io.unobserve(e.target);
+        } finally {
+          submitBtn.disabled = false;
+          submitLabel.textContent = 'Send the brief';
         }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
-  } else {
-    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
-  }
 
-  // Hero: scale the iframe-mockup to fit its container responsively
-  (function setupMockupScale() {
-    const shell = document.getElementById('mockup-shell');
-    const iframe = document.getElementById('mockup-iframe');
-    if (!shell || !iframe) return;
-    const NATIVE_W = 1440;
-    function update() {
-      const w = shell.clientWidth;
-      const s = w / NATIVE_W;
-      iframe.style.transform = 'scale(' + s.toFixed(4) + ')';
+      reset.addEventListener('click', () => {
+        thanks.classList.add('hidden');
+        intro.classList.remove('hidden');
+      });
     }
-    update();
-    if ('ResizeObserver' in window) {
-      new ResizeObserver(update).observe(shell);
-    } else {
-      window.addEventListener('resize', update, { passive: true });
+
+    function initScrollReveal() {
+      const targets = document.querySelectorAll('.reveal');
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (reduced || !('IntersectionObserver' in window)) {
+        targets.forEach((el) => el.classList.add('in'));
+        return;
+      }
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+      targets.forEach((el) => io.observe(el));
+    }
+
+    function initHeroMockupScale() {
+      const shell = $('mockup-shell');
+      const iframe = $('mockup-iframe');
+      if (!shell || !iframe) return;
+
+      const update = () => {
+        const scale = shell.clientWidth / HERO_NATIVE_WIDTH;
+        iframe.style.transform = `scale(${scale.toFixed(4)})`;
+      };
+
+      update();
+
+      if ('ResizeObserver' in window) {
+        new ResizeObserver(update).observe(shell);
+      } else {
+        window.addEventListener('resize', update, { passive: true });
+      }
     }
   })();
-
 </script>
 
 </body>
