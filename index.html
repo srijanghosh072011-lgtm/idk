@@ -10,6 +10,7 @@
 <meta name="geo.region" content="CA-SK" />
 <meta name="geo.placename" content="Regina" />
 <meta name="google-site-verification" content="Lmga-yR_V1t5S4eRPW_gJ_ebvlcI18OseyZS4ULAQnM" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
 
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
@@ -34,7 +35,6 @@
   "name": "Ghosh Designs",
   "description": "Web design studio specializing in custom websites for plumbing and home-service businesses in Regina, Saskatchewan and surrounding areas.",
   "url": "https://ghoshdesigns.ca/",
-  "email": "srijan.ghosh072011@gmail.com",
   "founder": {
     "@type": "Person",
     "name": "Srijan Ghosh"
@@ -121,6 +121,13 @@
     66% { transform: translate(-20px, 20px) scale(0.95); }
   }
   .blob { animation: blob 14s ease-in-out infinite; filter: blur(80px); }
+  .blob-delayed { animation-delay: -6s; }
+
+  /* Hero iframe — rendered at 1440x900 then scaled by JS to fit container */
+  .mockup-iframe { width: 1440px; height: 900px; transform-origin: top left; transform: scale(0.333); }
+
+  /* Honeypot — visually hidden, kept tabbable-out and screen-reader-hidden */
+  .hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; }
 
   /* GD logo mark */
   .logo-mark { display: inline-flex; flex-shrink: 0; width: 36px; height: 36px; }
@@ -201,12 +208,28 @@
       <a href="#about" class="hover:text-ink transition-colors">About</a>
       <a href="#faq" class="hover:text-ink transition-colors">FAQ</a>
     </div>
-    <a href="#contact" class="cursor-pointer btn-primary inline-flex items-center gap-2 rounded-full bg-ink text-white text-sm font-medium px-4 py-2 hover:bg-accent transition-colors">
-      Book a call
-      <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-    </a>
+    <div class="flex items-center gap-2">
+      <a href="#contact" class="cursor-pointer btn-primary inline-flex items-center gap-2 rounded-full bg-ink text-white text-sm font-medium px-4 py-2 hover:bg-accent transition-colors">
+        Book a call
+        <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+      <button id="nav-toggle" class="md:hidden p-2 -mr-1 rounded-xl text-ink hover:bg-line transition-colors" aria-label="Open menu" aria-expanded="false">
+        <svg id="nav-icon-open" viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        <svg id="nav-icon-close" viewBox="0 0 24 24" class="hidden w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
   </nav>
 </header>
+
+<!-- Mobile menu -->
+<div id="mobile-menu" class="hidden fixed top-[72px] left-4 right-4 z-40 rounded-2xl border border-line bg-white/95 backdrop-blur shadow-[0_20px_60px_-20px_rgba(0,0,0,0.2)] py-3 px-2">
+  <nav class="flex flex-col text-sm text-ink/80">
+    <a href="#services" class="mobile-menu-link px-4 py-3 rounded-xl hover:bg-paper hover:text-ink transition-colors">Services</a>
+    <a href="#process" class="mobile-menu-link px-4 py-3 rounded-xl hover:bg-paper hover:text-ink transition-colors">Process</a>
+    <a href="#about" class="mobile-menu-link px-4 py-3 rounded-xl hover:bg-paper hover:text-ink transition-colors">About</a>
+    <a href="#faq" class="mobile-menu-link px-4 py-3 rounded-xl hover:bg-paper hover:text-ink transition-colors">FAQ</a>
+  </nav>
+</div>
 
 <main id="top">
 
@@ -273,7 +296,7 @@
           </div>
 
           <!-- Browser mockup -->
-          <div class="relative rounded-3xl overflow-hidden border border-white/10 bg-white shadow-[0_80px_180px_-40px_rgba(0,0,0,0.7)] -rotate-6 hover:rotate-0 transition-transform duration-700 will-change-transform">
+          <div class="relative rounded-3xl overflow-hidden border border-white/10 bg-white shadow-[0_80px_180px_-40px_rgba(0,0,0,0.7)] md:-rotate-6 md:hover:rotate-0 transition-transform duration-700 will-change-transform">
             <!-- Browser chrome -->
             <div class="flex items-center gap-1.5 px-4 py-2.5 bg-[#171717] border-b border-white/10">
               <span class="w-2.5 h-2.5 rounded-full bg-white/20"></span>
@@ -287,13 +310,13 @@
             <div id="mockup-shell" class="relative aspect-[16/10] overflow-hidden bg-white">
               <iframe
                 id="mockup-iframe"
-                src="https://raw.githack.com/srijanghosh072011-lgtm/idk/e2e09068d1e60b6a7b620db1949a85e8b52a9bb5/index.html"
+                src="https://raw.githack.com/srijanghosh072011-lgtm/idk/3bdab47/index.html"
                 title="Plumbing site live preview"
                 loading="lazy"
                 scrolling="no"
-                sandbox="allow-scripts allow-same-origin"
-                class="absolute top-0 left-0 border-0 pointer-events-none"
-                style="width: 1440px; height: 900px; transform-origin: top left; transform: scale(0.333);">
+                sandbox="allow-scripts"
+                referrerpolicy="no-referrer"
+                class="mockup-iframe absolute top-0 left-0 border-0 pointer-events-none">
               </iframe>
             </div>
           </div>
@@ -708,25 +731,25 @@
       </div>
 
       <ol class="grid md:grid-cols-4 gap-px bg-line border border-line rounded-3xl overflow-hidden">
-        <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 min-h-[280px]">
+        <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 md:min-h-[280px]">
           <div class="font-display text-6xl md:text-7xl font-black text-accent leading-none">01</div>
           <h3 class="font-display text-xl font-extrabold tracking-tight">Discover</h3>
           <p class="text-muted leading-relaxed">A 30-min call. We map your services, service area, and the calls you want more of.</p>
           <span class="mt-auto text-xs uppercase tracking-[0.2em] text-muted">Day 1</span>
         </li>
-        <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 min-h-[280px]">
+        <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 md:min-h-[280px]">
           <div class="font-display text-6xl md:text-7xl font-black text-accent leading-none">02</div>
           <h3 class="font-display text-xl font-extrabold tracking-tight">Design</h3>
           <p class="text-muted leading-relaxed">High-fidelity mockups of every page, shared for your review. Two rounds of revisions.</p>
           <span class="mt-auto text-xs uppercase tracking-[0.2em] text-muted">Day 2 – 6</span>
         </li>
-        <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 min-h-[280px]">
+        <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 md:min-h-[280px]">
           <div class="font-display text-6xl md:text-7xl font-black text-accent leading-none">03</div>
           <h3 class="font-display text-xl font-extrabold tracking-tight">Build</h3>
           <p class="text-muted leading-relaxed">Hand-coded with Tailwind. 95+ Lighthouse. Fully responsive. Click-to-call wired in.</p>
           <span class="mt-auto text-xs uppercase tracking-[0.2em] text-muted">Day 7 – 12</span>
         </li>
-        <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 min-h-[280px]">
+        <li class="reveal bg-white p-8 md:p-10 flex flex-col gap-5 md:min-h-[280px]">
           <div class="font-display text-6xl md:text-7xl font-black text-accent leading-none">04</div>
           <h3 class="font-display text-xl font-extrabold tracking-tight">Launch</h3>
           <p class="text-muted leading-relaxed">DNS, analytics, lead routing. Plus a 30-day post-launch tweak window — on me.</p>
@@ -827,7 +850,7 @@
   <section class="py-24 md:py-32 bg-ink text-white relative overflow-hidden">
     <div aria-hidden="true" class="absolute inset-0 -z-0 opacity-40">
       <div class="blob absolute -top-40 -left-20 w-[520px] h-[520px] rounded-full bg-accent/30"></div>
-      <div class="blob absolute -bottom-40 -right-20 w-[460px] h-[460px] rounded-full bg-white/5" style="animation-delay:-6s;"></div>
+      <div class="blob blob-delayed absolute -bottom-40 -right-20 w-[460px] h-[460px] rounded-full bg-white/5"></div>
     </div>
     <div class="relative mx-auto max-w-7xl px-6 grid lg:grid-cols-12 gap-12 items-center">
       <div class="lg:col-span-5 reveal">
@@ -1271,13 +1294,13 @@
   <section id="contact" class="py-24 md:py-32 bg-ink text-white relative overflow-hidden">
     <div aria-hidden="true" class="absolute inset-0 -z-0 opacity-50">
       <div class="blob absolute -top-32 -left-20 w-[500px] h-[500px] rounded-full bg-accent/40"></div>
-      <div class="blob absolute -bottom-40 -right-10 w-[460px] h-[460px] rounded-full bg-white/10" style="animation-delay: -6s;"></div>
+      <div class="blob blob-delayed absolute -bottom-40 -right-10 w-[460px] h-[460px] rounded-full bg-white/10"></div>
     </div>
     <div class="relative mx-auto max-w-7xl px-6">
       <div class="reveal">
         <div class="text-xs uppercase tracking-[0.25em] text-white/60 mb-6">[ 08 — Let's build ]</div>
-        <h2 class="font-display text-5xl md:text-8xl font-black tracking-tightest leading-[0.9] max-w-5xl">
-          Ready to make your <br/>website <span class="italic font-medium text-accent">pull its weight?</span>
+        <h2 class="font-display text-4xl md:text-6xl lg:text-8xl font-black tracking-tightest leading-[0.9] max-w-5xl">
+          Ready to make your website <span class="italic font-medium text-accent">pull its weight?</span>
         </h2>
       </div>
 
@@ -1288,6 +1311,7 @@
               Tell us about your business in a paragraph. We'll send back a same-day reply with a rough quote and a calendar link.
             </p>
             <form id="contact-form" action="https://formspree.io/f/xqejygkd" method="POST" class="mt-8 grid sm:grid-cols-2 gap-3">
+              <input type="text" name="website" autocomplete="off" tabindex="-1" aria-hidden="true" class="hp-field" />
               <label class="sr-only" for="name">Your name</label>
               <input id="name" name="name" type="text" required placeholder="Your name" class="rounded-full bg-white/5 border border-white/15 px-5 py-4 text-white placeholder-white/40 focus:outline-none focus:border-accent transition-colors" />
               <label class="sr-only" for="email">Email</label>
@@ -1328,7 +1352,7 @@
         <div class="md:col-span-5">
           <div class="rounded-3xl border border-white/15 p-8 bg-white/5 backdrop-blur">
             <div class="text-xs uppercase tracking-[0.25em] text-white/60 mb-3">Or, the fast lane</div>
-            <a href="mailto:srijan.ghosh072011@gmail.com" class="font-display text-2xl md:text-3xl font-extrabold tracking-tight hover:text-accent transition-colors block">srijan.ghosh072011@gmail.com</a>
+            <a href="mailto:srijan.ghosh072011@gmail.com" class="font-display text-lg md:text-2xl lg:text-3xl font-extrabold tracking-tight hover:text-accent transition-colors block break-all">srijan.ghosh072011@gmail.com</a>
             <div class="mt-6 pt-6 border-t border-white/10 text-sm text-white/60">
               Founding studio &mdash; accepting our first clients.<br/>
               <span class="text-white">Intake is limited.</span> Early enquiries get priority.
@@ -1364,21 +1388,16 @@
       </a>
       <p class="mt-6 text-muted max-w-sm">A focused design studio based in Regina, SK — building modern websites for plumbing and home service businesses across Canada.</p>
     </div>
-    <div class="md:col-span-2">
+    <div class="md:col-span-3">
       <div class="text-xs uppercase tracking-[0.25em] text-muted mb-4">Sitemap</div>
       <ul class="space-y-2.5 text-sm">
         <li><a class="hover:text-accent transition-colors" href="#services">Services</a></li>
         <li><a class="hover:text-accent transition-colors" href="#process">Process</a></li>
         <li><a class="hover:text-accent transition-colors" href="#faq">FAQ</a></li>
+        <li><a class="hover:text-accent transition-colors" href="/privacy.html">Privacy</a></li>
       </ul>
     </div>
-    <div class="md:col-span-2">
-      <div class="text-xs uppercase tracking-[0.25em] text-muted mb-4">Legal</div>
-      <ul class="space-y-2.5 text-sm">
-        <li><a class="hover:text-accent transition-colors" href="./privacy.html">Privacy</a></li>
-      </ul>
-    </div>
-    <div class="md:col-span-2">
+    <div class="md:col-span-4">
       <div class="text-xs uppercase tracking-[0.25em] text-muted mb-4">Studio status</div>
       <div class="flex items-center gap-2 text-sm">
         <span class="relative inline-flex w-2.5 h-2.5">
@@ -1399,97 +1418,159 @@
 </footer>
 
 <script>
-  // Year
-  document.getElementById('year').textContent = new Date().getFullYear();
+  (function () {
+    'use strict';
 
-  // Contact form → Formspree AJAX + thank-you state
-  (function setupContactForm() {
-    const form  = document.getElementById('contact-form');
-    const intro = document.getElementById('contact-intro');
-    const thanks = document.getElementById('contact-thanks');
-    const reset = document.getElementById('contact-reset');
-    const thanksName = document.getElementById('thanks-name');
-    const submitBtn = document.getElementById('contact-submit');
-    const submitLabel = document.getElementById('contact-submit-label');
-    const errorBox = document.getElementById('contact-error');
-    if (!form) return;
+    const FALLBACK_EMAIL = 'srijan.ghosh072011@gmail.com';
+    const HERO_NATIVE_WIDTH = 1440;
 
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const name = document.getElementById('name').value.trim();
-      errorBox.classList.add('hidden');
-      errorBox.textContent = '';
-      submitBtn.disabled = true;
-      submitLabel.textContent = 'Sending…';
+    const $ = (id) => document.getElementById(id);
 
-      try {
-        const res = await fetch(form.action, {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { 'Accept': 'application/json' },
-        });
+    // Footer year
+    const yearEl = $('year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-        if (res.ok) {
-          thanksName.textContent = name.split(' ')[0];
-          intro.classList.add('hidden');
-          thanks.classList.remove('hidden');
-          form.reset();
-        } else {
-          const data = await res.json().catch(() => ({}));
-          const msg = (data.errors && data.errors.map(e => e.message).join(', ')) || 'Something went wrong. Please email us directly at srijan.ghosh072011@gmail.com.';
-          errorBox.textContent = msg;
+    initContactForm();
+    initScrollReveal();
+    initHeroMockupScale();
+    initMobileMenu();
+
+    function initContactForm() {
+      const form = $('contact-form');
+      if (!form) return;
+
+      const intro = $('contact-intro');
+      const thanks = $('contact-thanks');
+      const reset = $('contact-reset');
+      const thanksName = $('thanks-name');
+      const submitBtn = $('contact-submit');
+      const submitLabel = $('contact-submit-label');
+      const errorBox = $('contact-error');
+
+      const formLoadedAt = Date.now();
+      const MIN_FILL_MS = 2000;
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Honeypot — if filled, silently succeed without sending
+        if (form.elements.website && form.elements.website.value) return;
+
+        // Time-based bot check — humans don't fill out forms in under 2s
+        if (Date.now() - formLoadedAt < MIN_FILL_MS) return;
+
+        const name = $('name').value.trim();
+        errorBox.classList.add('hidden');
+        errorBox.textContent = '';
+        submitBtn.disabled = true;
+        submitLabel.textContent = 'Sending…';
+
+        try {
+          const res = await fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { Accept: 'application/json' },
+          });
+
+          if (res.ok) {
+            thanksName.textContent = name.split(' ')[0];
+            intro.classList.add('hidden');
+            thanks.classList.remove('hidden');
+            form.reset();
+          } else {
+            const data = await res.json().catch(() => ({}));
+            const apiMsg = data.errors && data.errors.map((x) => x.message).join(', ');
+            errorBox.textContent = apiMsg || `Something went wrong. Please email us directly at ${FALLBACK_EMAIL}.`;
+            errorBox.classList.remove('hidden');
+          }
+        } catch (err) {
+          errorBox.textContent = `Network error. Please try again, or email us directly at ${FALLBACK_EMAIL}.`;
           errorBox.classList.remove('hidden');
-        }
-      } catch (err) {
-        errorBox.textContent = 'Network error. Please try again, or email us directly at srijan.ghosh072011@gmail.com.';
-        errorBox.classList.remove('hidden');
-      } finally {
-        submitBtn.disabled = false;
-        submitLabel.textContent = 'Send the brief';
-      }
-    });
-
-    reset.addEventListener('click', function() {
-      thanks.classList.add('hidden');
-      intro.classList.remove('hidden');
-    });
-  })();
-
-  // Reveal on scroll
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduced && 'IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add('in');
-          io.unobserve(e.target);
+        } finally {
+          submitBtn.disabled = false;
+          submitLabel.textContent = 'Send the brief';
         }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
-  } else {
-    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
+
+      reset.addEventListener('click', () => {
+        thanks.classList.add('hidden');
+        intro.classList.remove('hidden');
+      });
+    }
+
+    function initScrollReveal() {
+      const targets = document.querySelectorAll('.reveal');
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (reduced || !('IntersectionObserver' in window)) {
+        targets.forEach((el) => el.classList.add('in'));
+        return;
+      }
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+      targets.forEach((el) => io.observe(el));
+    }
+
+    function initMobileMenu() {
+    const toggle = $('nav-toggle');
+    const menu = $('mobile-menu');
+    const iconOpen = $('nav-icon-open');
+    const iconClose = $('nav-icon-close');
+    if (!toggle || !menu) return;
+
+    const open = () => {
+      menu.classList.remove('hidden');
+      iconOpen.classList.add('hidden');
+      iconClose.classList.remove('hidden');
+      toggle.setAttribute('aria-expanded', 'true');
+    };
+    const close = () => {
+      menu.classList.add('hidden');
+      iconOpen.classList.remove('hidden');
+      iconClose.classList.add('hidden');
+      toggle.setAttribute('aria-expanded', 'false');
+    };
+
+    toggle.addEventListener('click', () => {
+      menu.classList.contains('hidden') ? open() : close();
+    });
+
+    document.querySelectorAll('.mobile-menu-link').forEach((link) => {
+      link.addEventListener('click', close);
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!menu.contains(e.target) && !toggle.contains(e.target)) close();
+    });
   }
 
-  // Hero: scale the iframe-mockup to fit its container responsively
-  (function setupMockupScale() {
-    const shell = document.getElementById('mockup-shell');
-    const iframe = document.getElementById('mockup-iframe');
-    if (!shell || !iframe) return;
-    const NATIVE_W = 1440;
-    function update() {
-      const w = shell.clientWidth;
-      const s = w / NATIVE_W;
-      iframe.style.transform = 'scale(' + s.toFixed(4) + ')';
-    }
-    update();
-    if ('ResizeObserver' in window) {
-      new ResizeObserver(update).observe(shell);
-    } else {
-      window.addEventListener('resize', update, { passive: true });
+  function initHeroMockupScale() {
+      const shell = $('mockup-shell');
+      const iframe = $('mockup-iframe');
+      if (!shell || !iframe) return;
+
+      const update = () => {
+        const scale = shell.clientWidth / HERO_NATIVE_WIDTH;
+        iframe.style.transform = `scale(${scale.toFixed(4)})`;
+      };
+
+      update();
+
+      if ('ResizeObserver' in window) {
+        new ResizeObserver(update).observe(shell);
+      } else {
+        window.addEventListener('resize', update, { passive: true });
+      }
     }
   })();
-
 </script>
 
 </body>

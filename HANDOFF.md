@@ -36,12 +36,12 @@
 CDN_BLOCK='<script src="https:\/\/cdn.tailwindcss.com"><\/script>\n<script>\n  tailwind.config = {\n    theme: {\n      extend: {\n        fontFamily: {\n          display: ['"'"'Archivo'"'"', '"'"'system-ui'"'"', '"'"'sans-serif'"'"'],\n          sans: ['"'"'"Space Grotesk"'"'"', '"'"'system-ui'"'"', '"'"'sans-serif'"'"'],\n        },\n        colors: {\n          ink: '"'"'#0A0A0A'"'"',\n          muted: '"'"'#525252'"'"',\n          line: '"'"'#E5E5E5'"'"',\n          paper: '"'"'#FAFAFA'"'"',\n          accent: '"'"'#2563EB'"'"',\n          accentSoft: '"'"'#EFF4FF'"'"',\n        },\n        letterSpacing: {\n          tightest: '"'"'-0.05em'"'"',\n        },\n      },\n    },\n  };\n<\/script>'
 
 sed "s|<link rel=\"stylesheet\" href=\"./assets/styles.css\" />|$CDN_BLOCK|" index.html > /tmp/deploy_index.html
-git checkout gh-pages
-git pull origin gh-pages
+git checkout gh-pages && git pull origin gh-pages
 cp /tmp/deploy_index.html index.html
-git add index.html
+git show claude/design-agency-website-oYTO9:privacy.html > privacy.html
+git add index.html privacy.html
 git commit -m "Deploy: <description>"
-git push -u origin gh-pages
+git push origin gh-pages
 git checkout claude/design-agency-website-oYTO9
 git push origin claude/design-agency-website-oYTO9
 ```
@@ -89,7 +89,7 @@ git push origin claude/design-agency-website-oYTO9
 - [ ] **Stripe** — Once set up, a payment link or button can be added to the site.
 - [ ] **Social proof** — Add real testimonials and case study screenshots once first client is onboarded. No fake reviews.
 - [ ] **Social links** — Dribbble, Instagram, LinkedIn links are removed (footer placeholders). Add real URLs when profiles exist.
-- [ ] **Privacy / Terms pages** — Footer links go to `#`. Create real pages when ready.
+- [ ] **Terms page** — Footer link goes to `#`. Privacy page (`privacy.html`) is live.
 - [ ] **Google Analytics** — Optional. Create account at analytics.google.com, link to ghoshdesigns.ca.
 - [ ] **Local citations** — Submit to Yellow Pages Canada, Local.ca, BBB Canada with identical name/address/phone.
 
