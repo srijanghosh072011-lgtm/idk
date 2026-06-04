@@ -10,6 +10,7 @@
 <meta name="geo.region" content="CA-SK" />
 <meta name="geo.placename" content="Regina" />
 <meta name="google-site-verification" content="Lmga-yR_V1t5S4eRPW_gJ_ebvlcI18OseyZS4ULAQnM" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
 
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
@@ -34,7 +35,6 @@
   "name": "Ghosh Designs",
   "description": "Web design studio specializing in custom websites for plumbing and home-service businesses in Regina, Saskatchewan and surrounding areas.",
   "url": "https://ghoshdesigns.ca/",
-  "email": "srijan.ghosh072011@gmail.com",
   "founder": {
     "@type": "Person",
     "name": "Srijan Ghosh"
@@ -92,7 +92,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
 <script>
   tailwind.config = {
     theme: {
@@ -1470,11 +1470,17 @@
       const submitLabel = $('contact-submit-label');
       const errorBox = $('contact-error');
 
+      const formLoadedAt = Date.now();
+      const MIN_FILL_MS = 2000;
+
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         // Honeypot — if filled, silently succeed without sending
         if (form.elements.website && form.elements.website.value) return;
+
+        // Time-based bot check — humans don't fill out forms in under 2s
+        if (Date.now() - formLoadedAt < MIN_FILL_MS) return;
 
         const name = $('name').value.trim();
         errorBox.classList.add('hidden');
