@@ -1421,6 +1421,12 @@
   (function () {
     'use strict';
 
+    if (window.self !== window.top) {
+      try { window.top.location = window.self.location; } catch (e) {
+        document.documentElement.style.display = 'none';
+      }
+    }
+
     const FALLBACK_EMAIL = 'srijan.ghosh072011@gmail.com';
     const HERO_NATIVE_WIDTH = 1440;
 

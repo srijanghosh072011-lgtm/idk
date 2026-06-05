@@ -36,6 +36,8 @@ This is built for static and lightly-dynamic sites (hand-coded HTML, Tailwind, s
 - [ ] Site scores **A or higher** at [securityheaders.com](https://securityheaders.com)
 - [ ] CSP includes only the third-party domains the site actually uses (Unsplash, Google Fonts, Formspree, analytics — whatever applies)
 
+> **Note on GitHub Pages:** plain GH Pages cannot set response headers. `Content-Security-Policy: frame-ancestors` and `X-Frame-Options` are explicitly **ignored** when delivered via `<meta>` tags — browsers only honour them as real response headers. The site ships a JS frame-buster as defense-in-depth, but the proper fix is to put **Cloudflare** in front of the domain and set these headers as a Transform Rule (free tier), or migrate to Cloudflare Pages / Netlify and ship a `_headers` file.
+
 ## 5. Contact form
 
 - [ ] Form has spam protection: Cloudflare Turnstile, hCaptcha, OR a honeypot field
