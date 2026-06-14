@@ -402,6 +402,41 @@
     line-height:0;pointer-events:none;z-index:1}
   .wave-top svg{width:100%;height:100%;display:block}
 
+  /* ---------- impact photo band ---------- */
+  .photo-band{position:relative;height:34rem;overflow:hidden}
+  .photo-band img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 35%}
+  .photo-band__veil{
+    position:absolute;inset:0;
+    background:linear-gradient(105deg,rgba(10,46,62,.94) 0%,rgba(10,46,62,.72) 45%,rgba(10,46,62,.52) 100%);
+  }
+  .photo-band__body{
+    position:relative;z-index:2;height:100%;
+    max-width:66rem;margin:0 auto;padding:0 1.4rem;
+    display:flex;flex-direction:column;justify-content:center;gap:.9rem;
+  }
+  .photo-band__tag{font-size:.78rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);opacity:.9}
+  .photo-band__num{
+    font-size:clamp(5rem,11vw,9rem);font-weight:700;letter-spacing:-.05em;line-height:.95;
+    background:linear-gradient(92deg,var(--sea),var(--cyan));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .photo-band__copy{font-size:1.05rem;font-weight:300;max-width:26rem;color:rgba(255,255,255,.88);line-height:1.55}
+  .photo-band__cta{
+    display:inline-flex;align-items:center;gap:.5rem;color:var(--cyan);font-size:.85rem;font-weight:600;
+    margin-top:.4rem;transition:gap .3s var(--ease);
+  }
+  .photo-band__cta:hover{gap:.85rem}
+  .photo-band__cta svg{width:.85rem;height:.85rem}
+  @media(max-width:767px){.photo-band{height:26rem}}
+
+  /* ---------- form side enhancements ---------- */
+  .form-perks{list-style:none;display:flex;flex-direction:column;gap:.75rem;margin-top:1.4rem}
+  .form-perks li{display:flex;align-items:flex-start;gap:.75rem;font-size:.88rem;font-weight:300;color:var(--ink-60);line-height:1.45}
+  .perk-dot{width:.4rem;height:.4rem;border-radius:50%;background:var(--sea);flex-shrink:0;margin-top:.55rem}
+  .form-photo{border-radius:1.1rem;overflow:hidden;margin-top:1.8rem;aspect-ratio:4/3;box-shadow:0 20px 48px -16px rgba(0,0,0,.55)}
+  .form-photo img{width:100%;height:100%;object-fit:cover;object-position:center 30%;transition:transform .9s var(--ease)}
+  .form-photo:hover img{transform:scale(1.04)}
+
   @media(prefers-reduced-motion:reduce){
     *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
     html{scroll-behavior:auto}
@@ -601,6 +636,20 @@ function tlFix(img){img.onerror=null;img.src=TL_IMGS[img.dataset.img];}
   </div>
 </section>
 
+<!-- ================= IMPACT PHOTO BAND ================= -->
+<div class="photo-band reveal" role="figure" aria-label="Impact: 70% less returning litter on beaches Tideline has worked">
+  <img src="assets/hero-clean.webp" data-img="clean" onerror="tlFix(this)" alt="" aria-hidden="true" loading="lazy">
+  <div class="photo-band__veil" aria-hidden="true"></div>
+  <div class="photo-band__body">
+    <p class="photo-band__tag">The result</p>
+    <p class="photo-band__num">70%</p>
+    <p class="photo-band__copy">fewer pieces of returning litter on every shoreline Tideline has worked for two consecutive seasons.</p>
+    <a class="photo-band__cta" href="#form">Join a cleanup
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</div>
+
 <!-- ================= FAQ ================= -->
 <section class="section" id="faq">
   <div class="wave-top" aria-hidden="true"><svg viewBox="0 0 1440 90" preserveAspectRatio="none" style="fill:var(--sand)"><path d="M0,50 C180,90 360,12 540,38 C720,64 900,86 1080,52 C1260,22 1350,42 1440,50 L1440,90 L0,90 Z"/></svg></div>
@@ -672,6 +721,14 @@ function tlFix(img){img.onerror=null;img.src=TL_IMGS[img.dataset.img];}
       <div class="form-grid">
         <div class="form-side">
           <h3 class="h3">Tell us how you want to turn the tide.</h3>
+          <ul class="form-perks">
+            <li><span class="perk-dot" aria-hidden="true"></span>Your first cleanup is on us — gloves, grabber, bag all provided</li>
+            <li><span class="perk-dot" aria-hidden="true"></span>We log every kilogram you pull from the sand, by category</li>
+            <li><span class="perk-dot" aria-hidden="true"></span>That data becomes the policy brief that stops it at the source</li>
+          </ul>
+          <div class="form-photo">
+            <img src="assets/hero-clean.webp" data-img="clean" onerror="tlFix(this)" alt="The pristine beach worth showing up for" loading="lazy">
+          </div>
         </div>
         <form id="joinForm">
           <div class="field-row">
