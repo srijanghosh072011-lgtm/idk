@@ -187,14 +187,23 @@
   /* ---------- who we are ---------- */
   .who{display:flex;flex-direction:column;gap:2.2rem}
   .who .h2{max-width:24ch}
-  .who__cols{display:grid;grid-template-columns:1fr 1fr;gap:2.4rem;max-width:52rem}
-  .who__cols p{font-size:.95rem;font-weight:300;color:var(--ink-60)}
-  @media(max-width:767px){.who__cols{grid-template-columns:1fr}}
+  .who__split{display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:center;margin-top:.4rem}
+  .who__text{display:flex;flex-direction:column;gap:1.3rem;align-items:flex-start}
+  .who__text p{font-size:.95rem;font-weight:300;color:var(--ink-60)}
+  .who__figure{position:relative;border-radius:1.2rem;overflow:hidden;aspect-ratio:4/5;box-shadow:0 24px 60px -24px rgba(12,74,110,.55)}
+  .who__figure img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)}
+  .who__figure:hover img{transform:scale(1.04)}
+  .who__badge{position:absolute;left:1rem;bottom:1rem;display:flex;align-items:center;gap:.7rem;
+    background:rgba(255,255,255,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    border-radius:.9rem;padding:.85rem 1.1rem}
+  .who__badge strong{font-size:1.8rem;font-weight:700;letter-spacing:-.02em;color:var(--deep-2);line-height:1}
+  .who__badge span{font-size:.74rem;color:var(--ink-60);max-width:11rem}
+  @media(max-width:767px){.who__split{grid-template-columns:1fr;gap:1.8rem}.who__figure{aspect-ratio:16/10}}
 
   /* ---------- tinted sections ---------- */
   #work{background:linear-gradient(180deg,var(--paper) 0%,var(--aqua) 9rem,var(--aqua) 100%)}
-  #faq{background:var(--sand)}
-  #form{background:var(--deep);color:var(--white)}
+  #faq{background:var(--sand);position:relative}
+  #form{background:var(--deep);color:var(--white);position:relative}
   #form .sect-dot{color:rgba(255,255,255,.75)}
   #form .form-wrapper{color:var(--ink);border-color:transparent}
   #form .label-text{color:rgba(10,46,62,.5)}
@@ -239,7 +248,7 @@
   /* ---------- numbered service rows ---------- */
   .rows{margin-top:2.6rem;border-top:1px solid var(--line)}
   .row{
-    position:relative;display:grid;grid-template-columns:5rem 1fr auto;gap:1.4rem;align-items:center;
+    position:relative;display:grid;grid-template-columns:2.5rem 3rem 1fr auto;gap:1.4rem;align-items:center;
     padding:2rem .8rem;border-bottom:1px solid var(--line);
     overflow:hidden;cursor:pointer;
   }
@@ -263,7 +272,7 @@
   .row__arrows svg:first-child{margin-left:-1.35rem}
   .row:hover .row__arrows svg{transform:translateX(1.35rem)}
   @media(max-width:767px){
-    .row{grid-template-columns:3rem 1fr auto;padding:1.4rem .4rem}
+    .row{grid-template-columns:2rem 2.6rem 1fr auto;padding:1.4rem .4rem}
     .row__desc{grid-column:1/-1}
   }
 
@@ -373,6 +382,26 @@
   .up-circle:hover{background:var(--coral);border-color:var(--coral);color:var(--white);transform:translateY(-3px)}
   .up-circle svg{width:.9rem;height:.9rem}
 
+  /* ---------- imagery: faq figure, row icons, wave dividers ---------- */
+  .faq-side{display:flex;flex-direction:column}
+  .faq-figure{position:relative;border-radius:1rem;overflow:hidden;aspect-ratio:4/3;margin-top:1.6rem}
+  .faq-figure img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)}
+  .faq-figure:hover img{transform:scale(1.04)}
+  .faq-figure figcaption{position:absolute;left:0;right:0;bottom:0;padding:1.8rem 1.1rem .9rem;
+    background:linear-gradient(to top,rgba(10,46,62,.88),transparent);color:#fff;font-size:.8rem;font-weight:500}
+  @media(max-width:860px){.faq-figure{aspect-ratio:16/9}}
+
+  .row__icon{width:3rem;height:3rem;border-radius:50%;background:var(--white);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;color:var(--sea);
+    transition:background .35s var(--ease),color .35s,border-color .35s}
+  .row__icon svg{width:1.35rem;height:1.35rem}
+  .row:hover .row__icon{background:var(--sea);color:var(--white);border-color:var(--sea)}
+  @media(max-width:767px){.row__icon{width:2.4rem;height:2.4rem}.row__icon svg{width:1.1rem;height:1.1rem}}
+
+  .wave-top{position:absolute;left:0;top:0;width:100%;height:2.6rem;transform:translateY(-98%);
+    line-height:0;pointer-events:none;z-index:1}
+  .wave-top svg{width:100%;height:100%;display:block}
+
   @media(prefers-reduced-motion:reduce){
     *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
     html{scroll-behavior:auto}
@@ -446,11 +475,17 @@ function tlFix(img){img.onerror=null;img.src=TL_IMGS[img.dataset.img];}
     <div class="who">
       <div class="sect-dot reveal"><span class="dot"></span><span>Who we are</span></div>
       <h2 class="h2 reveal">Most beaches don't die of one disaster. They die of <span class="grad">a thousand small habits</span> nobody noticed.</h2>
-      <div class="who__cols">
-        <p class="reveal" data-delay="1">Tideline is a coastal conservation collective for the moment before it's too late. We organise cleanups, log every kilogram we pull off the sand, and turn that data into the local policy that stops the litter at its source.</p>
-        <p class="reveal" data-delay="2">We've seen what happens when a coastline's reality lags behind its postcard. Tourists notice. Reefs starve. Towns empty out. We close that gap — one tide, one habit, one signature at a time.</p>
+      <div class="who__split reveal" data-delay="1">
+        <div class="who__text">
+          <p>Tideline is a coastal conservation collective for the moment before it's too late. We organise cleanups, log every kilogram we pull off the sand, and turn that data into the local policy that stops the litter at its source.</p>
+          <p>We've seen what happens when a coastline's reality lags behind its postcard. Tourists notice. Reefs starve. Towns empty out. We close that gap — one tide, one habit, one signature at a time.</p>
+          <a class="btn-black" href="#form"><span>Start with one morning</span></a>
+        </div>
+        <figure class="who__figure">
+          <img src="assets/hero-clean.webp" data-img="clean" onerror="tlFix(this)" alt="A clean tropical shoreline at low tide with flowers in the foreground" loading="lazy">
+          <figcaption class="who__badge"><strong>2</strong><span>seasons is all a cared-for beach needs to bounce back</span></figcaption>
+        </figure>
       </div>
-      <a class="btn-black reveal" href="#form"><span>Start with one morning</span></a>
     </div>
   </div>
 </section>
@@ -513,6 +548,7 @@ function tlFix(img){img.onerror=null;img.src=TL_IMGS[img.dataset.img];}
       <a class="row" href="#form">
         <div class="row__bg"></div>
         <div class="row__num">01</div>
+        <div class="row__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
         <div>
           <div class="row__name">Show up to a cleanup</div>
           <div class="row__desc">Two hours, one morning, measurable results. A 30-person crew clears roughly a tonne from a single stretch of sand — and the data we log drives policy.</div>
@@ -525,6 +561,7 @@ function tlFix(img){img.onerror=null;img.src=TL_IMGS[img.dataset.img];}
       <a class="row" href="#form">
         <div class="row__bg"></div>
         <div class="row__num">02</div>
+        <div class="row__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></div>
         <div>
           <div class="row__name">Refuse single-use</div>
           <div class="row__desc">The cheapest cleanup is the bottle that never exists. One reusable bottle replaces an average of 156 plastic ones a year.</div>
@@ -537,6 +574,7 @@ function tlFix(img){img.onerror=null;img.src=TL_IMGS[img.dataset.img];}
       <a class="row" href="#form">
         <div class="row__bg"></div>
         <div class="row__num">03</div>
+        <div class="row__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
         <div>
           <div class="row__name">Back the policy</div>
           <div class="row__desc">Bag bans, deposit schemes and producer-responsibility laws cut coastal litter by up to 40% where they pass. Your signature scales further than your hands.</div>
@@ -549,6 +587,7 @@ function tlFix(img){img.onerror=null;img.src=TL_IMGS[img.dataset.img];}
       <a class="row" href="#form">
         <div class="row__bg"></div>
         <div class="row__num">04</div>
+        <div class="row__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
         <div>
           <div class="row__name">Teach one person</div>
           <div class="row__desc">Every volunteer we survey traces it back to a single conversation. Bring a friend to one cleanup and you've roughly doubled your lifetime impact.</div>
@@ -564,10 +603,17 @@ function tlFix(img){img.onerror=null;img.src=TL_IMGS[img.dataset.img];}
 
 <!-- ================= FAQ ================= -->
 <section class="section" id="faq">
+  <div class="wave-top" aria-hidden="true"><svg viewBox="0 0 1440 90" preserveAspectRatio="none" style="fill:var(--sand)"><path d="M0,50 C180,90 360,12 540,38 C720,64 900,86 1080,52 C1260,22 1350,42 1440,50 L1440,90 L0,90 Z"/></svg></div>
   <div class="container">
     <div class="sect-dot reveal"><span class="dot"></span><span>FAQ</span></div>
     <div class="faq-grid">
-      <h2 class="h2 reveal">Frequently<br>Asked Questions</h2>
+      <div class="faq-side reveal">
+        <h2 class="h2">Frequently<br>Asked Questions</h2>
+        <figure class="faq-figure">
+          <img src="assets/hero-polluted.webp" data-img="fallen" onerror="tlFix(this)" alt="A littered shoreline at dusk — the future a cleanup prevents" loading="lazy">
+          <figcaption>Every answer here ends the same way: out on the sand, with a bag in your hand.</figcaption>
+        </figure>
+      </div>
       <div class="reveal" data-delay="1">
         <div class="qna-item">
           <button class="qna-toggle" aria-expanded="false">
@@ -616,6 +662,7 @@ function tlFix(img){img.onerror=null;img.src=TL_IMGS[img.dataset.img];}
 
 <!-- ================= CONTACT FORM ================= -->
 <section class="section" id="form">
+  <div class="wave-top" aria-hidden="true"><svg viewBox="0 0 1440 90" preserveAspectRatio="none" style="fill:var(--deep)"><path d="M0,42 C200,82 420,18 640,44 C880,72 1080,84 1280,48 C1360,34 1410,42 1440,46 L1440,90 L0,90 Z"/></svg></div>
   <div class="container">
     <div class="sect-dot reveal"><span class="dot"></span><span>Your move</span></div>
     <h2 class="h2 reveal" style="margin-top:1.2rem;max-width:22ch">The right morning at the right beach <span class="grad">changes everything.</span></h2>
