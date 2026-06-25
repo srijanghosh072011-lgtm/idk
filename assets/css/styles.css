@@ -315,6 +315,9 @@ p { max-width: 68ch; }
 .service-card .more { margin-top: var(--s-4); font-family: var(--font-display); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--copper-dark); display: inline-flex; align-items: center; gap: .4rem; }
 .service-card:hover .more { gap: .7rem; }
 .service-card .more svg { width: 18px; height: 18px; transition: transform .18s ease; }
+/* photo header inside a service card — sits cleanly in the card, no double shadow */
+.service-card .svc-thumb { margin: 0 0 var(--s-4); box-shadow: none; border: 0; }
+.service-card .svc-thumb img { aspect-ratio: 16 / 9; }
 
 /* feature list with checks */
 .checks { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s-3); }
