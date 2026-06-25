@@ -1,0 +1,20 @@
+# Netlify deployment config.
+# The site is pre-built plain HTML committed at the repo root, so no build
+# step is actually required — we just publish the root. The command below
+# regenerates the HTML when the generator is present, but never fails the
+# deploy if it isn't (e.g. on a branch without build/), so the already-built
+# pages always publish. Security/caching headers live in /_headers.
+
+[build]
+  publish = "."
+  command = "python3 build/build.py || echo 'No generator on this branch — publishing pre-built HTML as-is.'"
+
+# Netlify automatically serves /404.html for unmatched routes.
+
+# Example secure endpoint for the contact/booking/quote forms.
+# Replace with a real serverless function that validates input, verifies
+# CAPTCHA, rate-limits, and emails/stores the lead. See CUSTOMIZE.md.
+# [[redirects]]
+#   from = "/api/*"
+#   to = "/.netlify/functions/:splat"
+#   status = 200
