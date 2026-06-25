@@ -162,8 +162,9 @@
   /* ---------- Mark current nav link ---------- */
   var path = location.pathname.replace(/index\.html$/, "").replace(/\/$/, "");
   document.querySelectorAll(".nav-links a").forEach(function (a) {
-    var href = a.getAttribute("href") || "";
-    var hp = href.replace(/index\.html$/, "").replace(/\/$/, "");
-    if (hp && hp !== "" && path.endsWith(hp) && hp !== "/") a.setAttribute("aria-current", "page");
+    // a.pathname is the browser-resolved absolute path, so this works whether
+    // links are relative or absolute and regardless of the mount point.
+    var ap = a.pathname.replace(/index\.html$/, "").replace(/\/$/, "");
+    if (ap && ap === path) a.setAttribute("aria-current", "page");
   });
 })();

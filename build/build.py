@@ -30,6 +30,24 @@ BASE_URL = "https://www.wascanaplumbing.ca/"
 META_RE = re.compile(r"<!--META\s*(\{.*?\})\s*-->", re.DOTALL)
 HEAD_RE = re.compile(r"<!--HEAD\s*(.*?)\s*HEAD-->", re.DOTALL)
 
+# Root-absolute links in href/src/action/poster attributes. We rewrite the
+# leading "/" to a page-relative prefix so the site works mounted at any path
+# (a domain root, OR a GitHub Pages project subpath like /idk/) without a build
+# step on the host. Protocol-relative (//), absolute (https:), tel:, mailto:
+# and #anchors all start with something other than "/" and are left untouched.
+ASSET_ATTR_RE = re.compile(r'(\b(?:href|src|action|poster)=")/(?!/)')
+
+
+def rel_prefix_for(out):
+    # Depth of the output file below the site root -> how far back to climb.
+    # "index.html" -> "./", "services/index.html" -> "../", etc.
+    depth = out.count("/")
+    return "../" * depth if depth else "./"
+
+
+def relativize(html, prefix):
+    return ASSET_ATTR_RE.sub(lambda m: m.group(1) + prefix, html)
+
 
 def read(path):
     with open(path, "r", encoding="utf-8") as fh:
@@ -70,6 +88,7 @@ def build_page(src_path, head_tpl, foot_tpl):
         .replace("{{HEAD_EXTRA}}", head_extra)
     )
     html += "\n" + body + "\n\n" + foot_tpl
+    html = relativize(html, rel_prefix_for(out))
 
     dest = os.path.join(ROOT, out)
     os.makedirs(os.path.dirname(dest) or ROOT, exist_ok=True)
