@@ -1,0 +1,13 @@
+<svg viewBox="0 0 60 60" width="240" height="240" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gd" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e40af"/>
+      <stop offset="100%" stop-color="#0c1445"/>
+    </linearGradient>
+  </defs>
+  <rect width="60" height="60" rx="14" fill="url(#gd)"/>
+  <text x="30" y="42" text-anchor="middle"
+        font-family="Archivo,system-ui,sans-serif"
+        font-weight="900" font-size="26"
+        letter-spacing="-2" fill="white">GD</text>
+</svg>
