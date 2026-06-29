@@ -241,14 +241,13 @@
   <section class="relative pt-32 md:pt-40 pb-20 md:pb-28 overflow-hidden bg-[#111110] text-white">
     <!-- Background atmospherics — quiet drafting-table surface, no aurora -->
     <div aria-hidden="true" class="pointer-events-none absolute inset-0 overflow-hidden">
-      <!-- graph-paper grid -->
-      <svg class="absolute inset-0 w-full h-full opacity-[0.05]" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <defs>
-          <pattern id="grid" width="56" height="56" patternUnits="userSpaceOnUse">
-            <path d="M 56 0 L 0 0 0 56" fill="none" stroke="#FFFFFF" stroke-width="1"/>
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#grid)" />
+      <!-- fine film grain -->
+      <svg class="absolute inset-0 w-full h-full opacity-[0.07] mix-blend-soft-light" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <filter id="heroGrain">
+          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/>
+          <feColorMatrix type="saturate" values="0"/>
+        </filter>
+        <rect width="100%" height="100%" filter="url(#heroGrain)"/>
       </svg>
       <!-- single deliberate accent rule -->
       <div class="absolute inset-x-0 bottom-32 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent"></div>
@@ -257,8 +256,7 @@
     </div>
 
     <div class="relative z-10 mx-auto max-w-7xl px-6">
-      <div class="reveal inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/5 backdrop-blur px-4 py-1.5 text-[11px] uppercase tracking-[0.22em] text-white/70 mb-10">
-        <span class="inline-block w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+      <div class="reveal inline-flex items-center rounded-full border border-white/15 bg-white/5 backdrop-blur px-4 py-1.5 text-[11px] uppercase tracking-[0.22em] text-white/70 mb-10">
         <span>Independent design studio · Plumbing &amp; home services</span>
       </div>
 
