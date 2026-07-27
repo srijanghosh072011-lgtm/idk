@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Ghosh Designs | Custom Plumbing Websites in Regina, SK</title>
-<meta name="description" content="Web design studio in Regina, Saskatchewan specializing in custom websites for plumbing and home-service businesses. $2,500 builds, $450/mo hosting. No templates, no handoffs." />
+<meta name="description" content="Web design studio in Regina, Saskatchewan specializing in custom websites for plumbing and home-service businesses. $2,500 builds, $450/mo hosting." />
 <meta name="keywords" content="web design Regina, plumbing website design, Regina web designer, Saskatchewan web design, plumber website, home service website" />
 <meta name="author" content="Srijan Ghosh, Ghosh Designs" />
 <meta name="geo.region" content="CA-SK" />
@@ -133,14 +133,6 @@
   .logo-mark { display: inline-flex; flex-shrink: 0; width: 36px; height: 36px; }
   .logo-mark-lg { width: 40px; height: 40px; }
 
-  /* Hero aurora field blobs */
-  .hb1 { animation: hb-pulse 6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
-  .hb2 { animation: hb-pulse 7s ease-in-out infinite -1.5s; transform-box: fill-box; transform-origin: center; }
-  .hb3 { animation: hb-pulse 8s ease-in-out infinite -3s; transform-box: fill-box; transform-origin: center; }
-  .hb4 { animation: hb-pulse 6.5s ease-in-out infinite -2s; transform-box: fill-box; transform-origin: center; }
-  .hb5 { animation: hb-pulse 9s ease-in-out infinite -4s; transform-box: fill-box; transform-origin: center; }
-  @keyframes hb-pulse { 0%,100% { transform: scale(1); opacity: var(--op,1); } 50% { transform: scale(1.12); opacity: calc(var(--op,1) * 1.25); } }
-
   /* Card hover */
   .card-hover { transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease, border-color .35s ease; }
   .card-hover:hover { transform: translateY(-4px); border-color: #0A0A0A; box-shadow: 0 30px 60px -30px rgba(0,0,0,.18); }
@@ -166,7 +158,7 @@
 
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
-    .marquee-track, .blob, .gallery-track, .hb1, .hb2, .hb3, .hb4, .hb5 { animation: none !important; }
+    .marquee-track, .blob, .gallery-track { animation: none !important; }
     .reveal { opacity: 1; transform: none; transition: none; }
   }
 
@@ -233,30 +225,27 @@
 
 <main id="top">
 
-  <!-- Hero — dark premium, water-toned aurora, tilted plumber-site mockup -->
-  <section class="relative pt-32 md:pt-40 pb-20 md:pb-28 overflow-hidden bg-[#0A0F1E] text-white">
+  <!-- Hero -->
+  <section class="relative pt-32 md:pt-40 pb-20 md:pb-28 overflow-hidden bg-[#111110] text-white">
     <!-- Background atmospherics -->
     <div aria-hidden="true" class="pointer-events-none absolute inset-0 overflow-hidden">
-      <!-- aurora glows -->
-      <div class="absolute -top-48 -left-32 w-[680px] h-[680px] rounded-full bg-accent/25 blur-[140px]"></div>
-      <div class="absolute top-24 right-[-12rem] w-[620px] h-[620px] rounded-full bg-cyan-500/20 blur-[150px]"></div>
-      <div class="absolute bottom-[-16rem] left-1/3 w-[560px] h-[560px] rounded-full bg-blue-600/15 blur-[150px]"></div>
-      <!-- grid -->
-      <svg class="absolute inset-0 w-full h-full opacity-[0.06]" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <!-- fine dot matrix -->
+      <svg class="absolute inset-0 w-full h-full opacity-[0.12]" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
-          <pattern id="grid" width="56" height="56" patternUnits="userSpaceOnUse">
-            <path d="M 56 0 L 0 0 0 56" fill="none" stroke="#FFFFFF" stroke-width="1"/>
+          <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
+            <circle cx="1" cy="1" r="1" fill="#FFFFFF"/>
           </pattern>
         </defs>
-        <rect width="100%" height="100%" fill="url(#grid)" />
+        <rect width="100%" height="100%" fill="url(#dots)" />
       </svg>
+      <!-- single deliberate accent rule -->
+      <div class="absolute inset-x-0 bottom-32 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent"></div>
       <!-- fade to light body -->
       <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-[#F0F5FF]"></div>
     </div>
 
     <div class="relative z-10 mx-auto max-w-7xl px-6">
       <div class="reveal inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/5 backdrop-blur px-4 py-1.5 text-[11px] uppercase tracking-[0.22em] text-white/70 mb-10">
-        <span class="inline-block w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
         <span>Independent design studio · Plumbing &amp; home services</span>
       </div>
 
@@ -283,17 +272,11 @@
           </div>
         </div>
 
-        <!-- Right: browser mockup wrapped in aurora glow field -->
+        <!-- Right: browser mockup -->
         <div class="lg:col-span-7 reveal relative lg:ml-6">
 
-          <!-- Aurora field — layered blobs behind the mockup -->
-          <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
-            <div class="hb1 absolute top-[-10%] left-[-5%]  w-[55%] h-[55%] rounded-full bg-blue-500/50   blur-[70px]"></div>
-            <div class="hb2 absolute top-[-5%]  right-[-8%] w-[48%] h-[48%] rounded-full bg-cyan-400/40   blur-[80px]"></div>
-            <div class="hb3 absolute bottom-[-8%] left-[5%]  w-[44%] h-[44%] rounded-full bg-blue-400/35   blur-[75px]"></div>
-            <div class="hb4 absolute bottom-[-5%] right-[0%]  w-[40%] h-[40%] rounded-full bg-indigo-500/30 blur-[80px]"></div>
-            <div class="hb5 absolute top-[30%]   left-[20%]  w-[60%] h-[60%] rounded-full bg-accent/25     blur-[90px]"></div>
-          </div>
+          <!-- Single restrained glow to lift the mockup off the dark -->
+          <div aria-hidden="true" class="pointer-events-none absolute inset-[8%] -z-10 rounded-full bg-accent/20 blur-[100px]"></div>
 
           <!-- Browser mockup -->
           <div class="relative rounded-3xl overflow-hidden border border-white/10 bg-white shadow-[0_80px_180px_-40px_rgba(0,0,0,0.7)] md:-rotate-6 md:hover:rotate-0 transition-transform duration-700 will-change-transform">
@@ -612,23 +595,6 @@
       </div>
     </div>
   </section>
-  <!-- Intro / Manifesto -->
-  <section class="py-28 md:py-36">
-    <div class="mx-auto max-w-7xl px-6 grid md:grid-cols-12 gap-10">
-      <div class="md:col-span-4 reveal">
-        <div class="text-xs uppercase tracking-[0.25em] text-muted mb-5">[ 01 — The pitch ]</div>
-        <h2 class="font-display text-3xl md:text-4xl font-black tracking-tight leading-[1.05]">
-          Most plumbing sites look like they were built in 2009.
-        </h2>
-      </div>
-      <div class="md:col-span-7 md:col-start-6 reveal">
-        <p class="text-xl md:text-2xl leading-snug text-ink">
-          Stock photos. Cluttered menus. A "Free Quote" form buried under three folds. Meanwhile your trucks are spotless, your team is licensed, and your reviews are five stars. <span class="text-muted">Ghosh Designs closes that gap — a website that looks as professional as the work you actually do, and turns visitors into booked jobs.</span>
-        </p>
-      </div>
-    </div>
-  </section>
-
   <!-- Services -->
   <section id="services" class="py-24 md:py-32 border-t border-line">
     <div class="mx-auto max-w-7xl px-6">
@@ -663,7 +629,7 @@
             <span class="text-xs px-3 py-1.5 rounded-full bg-white border border-line">5–8 pages</span>
             <span class="text-xs px-3 py-1.5 rounded-full bg-white border border-line">Mobile-friendly</span>
             <span class="text-xs px-3 py-1.5 rounded-full bg-white border border-line">Contact form</span>
-            <span class="text-xs px-3 py-1.5 rounded-full bg-white border border-line">Hand-coded</span>
+            <span class="text-xs px-3 py-1.5 rounded-full bg-white border border-line">Custom-coded</span>
             <span class="text-xs px-3 py-1.5 rounded-full bg-white border border-line">4–6 week delivery</span>
           </div>
           <div class="relative mt-10 pt-10 border-t border-line">
@@ -856,7 +822,7 @@
       <div class="lg:col-span-5 reveal">
         <div class="text-xs uppercase tracking-[0.25em] text-white/60 mb-5">[ Inside the studio ]</div>
         <h2 class="font-display text-4xl md:text-6xl font-black tracking-tightest leading-[0.95]">
-          No templates, no shortcuts. <span class="italic font-medium text-accent">Built from scratch.</span>
+          Custom-built. <span class="italic font-medium text-accent">Built from scratch.</span>
         </h2>
         <p class="mt-6 text-lg text-white/70 max-w-md leading-relaxed">
           Every site is built from scratch for your business, not modified off-the-shelf code. Your website is custom, fast, and built to turn calls into jobs.
@@ -1105,7 +1071,7 @@
           Small by design.<br/><span class="italic font-medium text-accent">Sharp by necessity.</span>
         </h2>
         <p class="mt-6 text-lg text-muted leading-relaxed max-w-2xl">
-          Ghosh Designs is a focused studio built for one niche: home-service businesses that need a website that actually books jobs. No account managers, no template libraries, no offshore handoffs.
+          Ghosh Designs is a focused studio built for one niche: home-service businesses that need a website that actually books jobs. No account managers, no offshore handoffs.
         </p>
       </div>
 
@@ -1120,7 +1086,7 @@
               </span>
               <div>
                 <div class="font-display font-bold tracking-tight">A plumber's site should look like the best company in town</div>
-                <div class="text-sm text-white/60 mt-1">Not a template with the logo swapped out.</div>
+                <div class="text-sm text-white/60 mt-1">A site built around your business, not a generic one.</div>
               </div>
             </li>
             <li class="flex items-start gap-4">
@@ -1213,7 +1179,7 @@
           <ul class="space-y-4 text-muted">
             <li class="flex gap-3"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-line shrink-0"></span> $8–15k starting prices</li>
             <li class="flex gap-3"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-line shrink-0"></span> 6–12 week timelines</li>
-            <li class="flex gap-3"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-line shrink-0"></span> Generic templates with your logo dropped on top</li>
+            <li class="flex gap-3"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-line shrink-0"></span> Cookie-cutter designs that look like every other site</li>
             <li class="flex gap-3"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-line shrink-0"></span> Account managers, project managers, an offshore dev — and you</li>
             <li class="flex gap-3"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-line shrink-0"></span> Mandatory monthly retainers</li>
           </ul>
@@ -1411,7 +1377,7 @@
   </div>
   <div class="border-t border-line">
     <div class="mx-auto max-w-7xl px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted">
-      <div>© <span id="year"></span> Ghosh Designs. Hand-crafted, never templated.</div>
+      <div>© <span id="year"></span> Ghosh Designs.</div>
       <div class="text-muted">Regina, SK, Canada</div>
     </div>
   </div>
