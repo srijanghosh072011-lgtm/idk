@@ -2,3 +2,6 @@ __pycache__/
 *.pyc
 .DS_Store
 node_modules/
+
+# Internal docs must not land on gh-pages — everything here is served publicly.
+SECURITY.md
